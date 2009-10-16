@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.swt"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.commands_3.5.0.I20090525-2000.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.equinox.common_3.5.1.R35x_v20090807-1100.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jface_3.5.1.M20090826-0800.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.osgi_3.5.1.R35x_v20090827.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
