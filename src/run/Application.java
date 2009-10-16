@@ -28,7 +28,7 @@ public class Application extends ApplicationWindow {
 		Menu menuBar = new Menu(shell, SWT.BAR);
 		fileMenuManager.fill(menuBar, -1);
 		shell.setMenuBar(menuBar);
-		
+		 
 		Label label = new Label(parent, SWT.CENTER);
 		label.setText("Hello, World");
 		return label;
