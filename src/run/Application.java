@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 
-import actions.NewProject;
+import actions.NewProjectAction;
 
 public class Application extends ApplicationWindow {
 
@@ -27,7 +27,7 @@ public class Application extends ApplicationWindow {
 	protected Control createContents(Composite parent) {
 		Shell shell=parent.getShell();
 		MenuManager fileMenuManager = new MenuManager("File");
-		fileMenuManager.add(new NewProject());
+		fileMenuManager.add(new NewProjectAction());
 		Menu menuBar = new Menu(shell, SWT.BAR);
 		fileMenuManager.fill(menuBar, -1);
 		shell.setMenuBar(menuBar);

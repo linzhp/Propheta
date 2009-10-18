@@ -3,8 +3,8 @@ package actions;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 
-public class NewProject extends Action {
-	public NewProject()
+public class NewProjectAction extends Action {
+	public NewProjectAction()
 	{
 		super("新建项目");
 	}
