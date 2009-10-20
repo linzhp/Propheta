@@ -2,9 +2,7 @@ package newProject;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Shell;
 
-import run.Application;
 
 public class NewProjectAction extends Action {
 	public NewProjectAction()

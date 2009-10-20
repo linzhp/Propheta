@@ -1,5 +1,6 @@
 package newProject;
 
+import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.jface.wizard.WizardSelectionPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -8,7 +9,7 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-public class TaskSelectionPage extends WizardSelectionPage {
+public class TaskSelectionPage extends WizardPage {
 	public static final String NAME="选择任务";
 
 	protected TaskSelectionPage() {
@@ -43,6 +44,7 @@ public class TaskSelectionPage extends WizardSelectionPage {
 		detailed.setText("详细估算");
 		
 		setControl(top);
+		setPageComplete(true);
 	}
 
 }

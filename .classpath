@@ -5,7 +5,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.swt"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.core.commands_3.5.0.I20090525-2000.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.equinox.common_3.5.1.R35x_v20090807-1100.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.jface_3.5.1.M20090826-0800.jar" sourcepath="/usr/local/eclipse-rcp/plugins/org.eclipse.jface.source_3.5.1.M20090826-0800.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jface_3.5.1.M20090826-0800.jar" sourcepath="/usr/local/eclipse-java/plugins/org.eclipse.jface.source_3.5.1.M20090826-0800.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.osgi_3.5.1.R35x_v20090827.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
