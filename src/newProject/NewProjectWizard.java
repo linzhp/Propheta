@@ -1,10 +1,11 @@
 package newProject;
 
+import newProject.quickEstimate.FactorPage;
+import newProject.quickEstimate.FactorValuePage;
+import newProject.quickEstimate.ResultPage;
+
 import org.eclipse.jface.wizard.Wizard;
 
-import quickEstimate.FactorPage;
-import quickEstimate.FactorValuePage;
-import quickEstimate.ResultPage;
 
 public class NewProjectWizard extends Wizard {
 

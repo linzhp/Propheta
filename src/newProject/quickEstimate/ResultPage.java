@@ -1,4 +1,4 @@
-package quickEstimate;
+package newProject.quickEstimate;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
