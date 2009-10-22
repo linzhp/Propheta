@@ -9,7 +9,7 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-public class TaskSelectionPage extends WizardPage {
+public class TaskSelectionPage extends WizardSelectionPage {
 	public static final String NAME="选择任务";
 
 	protected TaskSelectionPage() {
