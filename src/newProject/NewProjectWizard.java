@@ -1,17 +1,12 @@
 package newProject;
 
-import newProject.quickEstimate.FactorPage;
-import newProject.quickEstimate.FactorValuePage;
-import newProject.quickEstimate.ResultPage;
-import newProject.quickEstimate.QuickEstimateWizard;
-
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 
 
 public class NewProjectWizard extends Wizard {
 	public NewProjectWizard()
 	{
+		//强制设置存在back与next按钮，否则仅有的一个页面（TaskSelectionPage）中不会出现这两个按钮
 		setForcePreviousAndNextButtons(true);
 	}
 
@@ -19,9 +14,7 @@ public class NewProjectWizard extends Wizard {
 	public void addPages()
 	{
 		addPage(new TaskSelectionPage());
-//		addPage(new FactorPage());
-//		addPage(new FactorValuePage());
-//		addPage(new ResultPage());
+
 	}
 	
 	@Override

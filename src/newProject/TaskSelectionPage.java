@@ -1,6 +1,5 @@
 package newProject;
 
-//import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.jface.wizard.WizardSelectionPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -8,6 +7,8 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+
+import newProject.detailedEstimate.DetailedEstimateNode;
 import newProject.quickEstimate.QuickEstimateNode;
 
 public class TaskSelectionPage extends WizardSelectionPage {
@@ -17,7 +18,7 @@ public class TaskSelectionPage extends WizardSelectionPage {
 		super(NAME);
 		setMessage("选择一项任务");
 		setTitle("选择任务");
-		setSelectedNode(new QuickEstimateNode());
+		//setSelectedNode(new QuickEstimateNode());
 	}
 
 	@Override
@@ -38,8 +39,6 @@ public class TaskSelectionPage extends WizardSelectionPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setSelectedNode(new QuickEstimateNode());
-				getSelectedNode().toString();
-				System.out.println(getSelectedNode().getWizard().toString());
 			}
 		});
 
@@ -53,11 +52,10 @@ public class TaskSelectionPage extends WizardSelectionPage {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// setSelectedNode(new QuickEstimateNode());
-				// System.out.println(getSelectedNode().getWizard().toString());
+				setSelectedNode(new DetailedEstimateNode());
 			}
 		});
-
+		
 		setControl(top);
 		setPageComplete(true);
 	}
