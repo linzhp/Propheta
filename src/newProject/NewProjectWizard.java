@@ -10,6 +10,10 @@ import org.eclipse.jface.wizard.Wizard;
 
 
 public class NewProjectWizard extends Wizard {
+	public NewProjectWizard()
+	{
+		setForcePreviousAndNextButtons(true);
+	}
 
 	@Override
 	public void addPages()
