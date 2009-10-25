@@ -18,7 +18,6 @@ public class TaskSelectionPage extends WizardSelectionPage {
 		super(NAME);
 		setMessage("选择一项任务");
 		setTitle("选择任务");
-		//setSelectedNode(new QuickEstimateNode());
 	}
 
 	@Override
