@@ -23,6 +23,8 @@ public class TaskSelectionPage extends WizardSelectionPage {
 
 	@Override
 	public void createControl(Composite parent) {
+		setPageComplete(false);
+		
 		Composite top = new Composite(parent, NONE);
 		top.setLayout(new RowLayout(SWT.VERTICAL));
 

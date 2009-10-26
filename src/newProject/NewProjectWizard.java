@@ -19,7 +19,11 @@ public class NewProjectWizard extends Wizard {
 	
 	@Override
 	public boolean performFinish() {
-		
+		return false;
+	}
+	
+	public boolean performCancel(){
+		this.dispose();
 		return true;
 	}
 

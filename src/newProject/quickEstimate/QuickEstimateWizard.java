@@ -10,14 +10,18 @@ public class QuickEstimateWizard extends Wizard {
 		addPage(new ResultPage());
 	}
 
-	@Override
 	public boolean performFinish() {
-		// TODO Auto-generated method stub
-		return true;
+		if(this.canFinish())
+		{
+			this.dispose();
+			return true;
+		}
+		else
+			return false;
 	}
 	
-	
-	public boolean performCancel() {
+	public boolean performCancel(){
+		this.dispose();
 		return true;
 	}
 }

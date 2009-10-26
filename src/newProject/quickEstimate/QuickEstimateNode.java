@@ -14,7 +14,6 @@ public class QuickEstimateNode implements IWizardNode {
 
 	@Override
 	public Point getExtent() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
