@@ -1,4 +1,4 @@
-package newProject.quickEstimate;
+package newProject.PIEstimate;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -25,22 +25,22 @@ public class FactorPage extends WizardPage {
 		Label label = new Label(topLevel, SWT.CENTER);
 		label.setText("请选取对您项目影响最大的因子?");
 
-		button1 = new Button(topLevel, SWT.CHECK);
+		button1 = new Button(topLevel, SWT.RADIO);
 		button1.setText("业务领域");
 
-		button2 = new Button(topLevel, SWT.CHECK);
+		button2 = new Button(topLevel, SWT.RADIO);
 		button2.setText("开发类型");
 
-		button3 = new Button(topLevel, SWT.CHECK);
+		button3 = new Button(topLevel, SWT.RADIO);
 		button3.setText("语言");
 
-		button4 = new Button(topLevel, SWT.CHECK);
+		button4 = new Button(topLevel, SWT.RADIO);
 		button4.setText("项目规模");
 
-		button5 = new Button(topLevel, SWT.CHECK);
+		button5 = new Button(topLevel, SWT.RADIO);
 		button5.setText("地区");
 
-		button6 = new Button(topLevel, SWT.CHECK);
+		button6 = new Button(topLevel, SWT.RADIO);
 		button6.setText("团队规模");
 
 		setControl(topLevel);

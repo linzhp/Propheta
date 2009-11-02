@@ -1,4 +1,4 @@
-package newProject.quickEstimate;
+package newProject.PIEstimate;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -24,13 +24,13 @@ public class FactorValuePage extends WizardPage {
 		Label label = new Label(topLevel, SWT.CENTER);
 		label.setText("您所选取的因子有以下几种取值，请选取符合您项目情况的选项?");
 
-		button1 = new Button(topLevel, SWT.CHECK);
+		button1 = new Button(topLevel, SWT.RADIO);
 		button1.setText("新开发");
 
-		button2 = new Button(topLevel, SWT.CHECK);
+		button2 = new Button(topLevel, SWT.RADIO);
 		button2.setText("二次开发");
 
-		button3 = new Button(topLevel, SWT.CHECK);
+		button3 = new Button(topLevel, SWT.RADIO);
 		button3.setText("优化");
 
 		setControl(topLevel);
