@@ -1,15 +1,8 @@
 package newProject.quickEstimate;
 
-import newProject.PIEstimate.ResultPage;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.jfree.chart.JFreeChart;
-import org.jfree.experimental.chart.swt.ChartComposite;
 
 public class QuickEstimateWizard extends Wizard {
 
