@@ -3,13 +3,18 @@ package newProject.quickEstimate;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.SWT;
+import org.jfree.chart.JFreeChart;
+import org.jfree.experimental.chart.swt.ChartComposite;
+
+import run.Application;
 
 public class QuickEstimateWizard extends Wizard {
 
 	public void addPages() {
 		addPage(new SizePage());
 		addPage(new PIPage());
-		addPage(new SummaryPage());
+//		addPage(new SummaryPage());
 	}
 
 	private SizePage getSizePage() {
@@ -34,6 +39,10 @@ public class QuickEstimateWizard extends Wizard {
 
 	public boolean performFinish() {
 		if (this.canFinish()) {
+			JFreeChart jfreechart = HistogramChart.createChart(HistogramChart.createDataset(getSize(), getPIE(), getPID()));
+			ChartComposite frame = new ChartComposite(Application.getInstance().getMainContent(), SWT.NONE, jfreechart, true);
+			frame.pack();
+
 			this.dispose();
 			return true;
 		} else
@@ -45,13 +54,13 @@ public class QuickEstimateWizard extends Wizard {
 		return true;
 	}
 
-	public IWizardPage getNextPage(IWizardPage page) {
-		IWizardPage nextPage = super.getNextPage(page);
-		if (nextPage instanceof SummaryPage) {
-			SummaryPage summaryPage = (SummaryPage) nextPage;
-			summaryPage.updateData(getSize(), getPIE(), getPID());
-			return summaryPage;
-		} else
-			return nextPage;
-	}
+//	public IWizardPage getNextPage(IWizardPage page) {
+//		IWizardPage nextPage = super.getNextPage(page);
+//		if (nextPage instanceof SummaryPage) {
+//			SummaryPage summaryPage = (SummaryPage) nextPage;
+//			summaryPage.updateData(getSize(), getPIE(), getPID());
+//			return summaryPage;
+//		} else
+//			return nextPage;
+//	}
 }

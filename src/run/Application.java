@@ -4,11 +4,10 @@ import newProject.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.window.ApplicationWindow;
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 
 
 public class Application extends ApplicationWindow {
@@ -27,11 +26,8 @@ public class Application extends ApplicationWindow {
 
 	@Override
 	protected Control createContents(Composite parent) {
-		 
-		Label label = new Label(parent, SWT.CENTER);
-		label.setText("Hello, World");
-		
 		parent.setSize(1024, 768);
+		parent.setLayout(new FillLayout());
 		//parent.pack();
 		return parent;
 	}
@@ -47,7 +43,19 @@ public class Application extends ApplicationWindow {
 		return mainMenu;
 	}
 	
+	public Composite getMainContent(){
+		return (Composite)getContents();
+	}
+	
 	public static void main(String[] args) {
-		new Application().run();
+		instance = new Application();
+		instance.run();
+	}
+	
+	private static Application instance;
+	
+	public static Application getInstance()
+	{
+		return instance;
 	}
 }
