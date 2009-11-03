@@ -21,7 +21,7 @@ public class SizePage extends WizardPage {
 	}
 
 	public void createControl(Composite parent) {
-		setPageComplete(false);
+		setPageComplete(true);
 
 		Composite topLevel = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(2, false);
@@ -50,6 +50,7 @@ public class SizePage extends WizardPage {
 		//根据历史数据估算规模
 		history = new Button(topLevel, SWT.RADIO);
 		history.setText("根据数据库的历史数据得出                       ");
+		history.setSelection(true);
 		textHistory = new Text(topLevel, SWT.BORDER);	
 		textHistory.setEditable(false);
 		textHistory.setVisible(false);

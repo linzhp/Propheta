@@ -4,13 +4,15 @@ package newProject.quickEstimate;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
 import run.Application;
 
 public class QuickEstimateWizard extends Wizard {
-
+	private JFreeChart jfreechart = null;
+	private static ChartComposite frame = null;
 	public void addPages() {
 		addPage(new SizePage());
 		addPage(new PIPage());
@@ -38,11 +40,14 @@ public class QuickEstimateWizard extends Wizard {
 	}
 
 	public boolean performFinish() {
+		//System.out.println(frame.toString());
 		if (this.canFinish()) {
-			JFreeChart jfreechart = HistogramChart.createChart(HistogramChart.createDataset(getSize(), getPIE(), getPID()));
-			ChartComposite frame = new ChartComposite(Application.getInstance().getMainContent(), SWT.NONE, jfreechart, true);
-			frame.pack();
-
+			if(frame != null)
+				frame.dispose();
+			jfreechart = HistogramChart.createChart(HistogramChart.createDataset(getSize(), getPIE(), getPID()));
+			frame = new ChartComposite(Application.getInstance().getMainContent(), SWT.NONE, jfreechart, true);
+			frame.setSize(800, 600);
+		
 			this.dispose();
 			return true;
 		} else

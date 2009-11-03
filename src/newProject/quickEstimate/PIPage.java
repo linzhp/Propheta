@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.*;
 //下步工作，将scale的值与两个text绑定
 public class PIPage extends WizardPage {
 	public static final String PAGE_NAME = "PI";
-	private double piE, piD;
+	private double piE=8.9, piD=1.5;
 	public PIPage() {
 		super(PAGE_NAME, "快速估算: 生产率", null);
 
@@ -29,6 +29,7 @@ public class PIPage extends WizardPage {
 		//根据CSBSG历史数据估算规模
 		Button CSBSG = new Button(topLevel, SWT.RADIO);
 		CSBSG.setText("根据CSBSG数据库的历史数据得出                ");
+		CSBSG.setSelection(true);
 		CSBSG.addSelectionListener(new SelectionListener(){
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -36,7 +37,6 @@ public class PIPage extends WizardPage {
 			public void widgetSelected(SelectionEvent e) {
 				piE = 8.9;
 				piD = 1.5;
-				
 			}
 		});
 		
@@ -50,7 +50,6 @@ public class PIPage extends WizardPage {
 			public void widgetSelected(SelectionEvent e) {
 				piE = 1.5;
 				piD = 8.9;
-				
 			}
 		});
 		

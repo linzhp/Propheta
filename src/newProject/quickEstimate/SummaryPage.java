@@ -22,7 +22,7 @@ public class SummaryPage extends WizardPage {
 		jfreechart = HistogramChart.createChart(HistogramChart.createDataset(size, piE, piD));
 		frame = new ChartComposite(topLevel, SWT.NONE, jfreechart, true);
 		frame.pack();
-		
+
 		setControl(topLevel);
 		setPageComplete(true);
 	}

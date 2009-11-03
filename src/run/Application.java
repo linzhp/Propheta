@@ -4,14 +4,15 @@ import newProject.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.window.ApplicationWindow;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Layout;
 
 
 public class Application extends ApplicationWindow {
-
 
 	public Application() {
 		super(null);
@@ -24,12 +25,13 @@ public class Application extends ApplicationWindow {
 		Display.getCurrent().dispose();
 	}
 
-	@Override
+	//原来直接将shell返回作为content，修改后在shell里又加了一层composite，作为content
 	protected Control createContents(Composite parent) {
-		parent.setSize(1024, 768);
-		parent.setLayout(new FillLayout());
-		//parent.pack();
-		return parent;
+		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setSize(1024, 768);
+		composite.setLayout(new FillLayout());
+		
+		return composite;
 	}
 	
 	@Override
