@@ -3,7 +3,6 @@ package newProject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.wizard.WizardDialog;
 
-
 public class NewProjectAction extends Action {
 	public NewProjectAction()
 	{
@@ -12,7 +11,9 @@ public class NewProjectAction extends Action {
 	
 	@Override
 	public void run(){
-		WizardDialog wizardDlg = new WizardDialog(null, new NewProjectWizard());
+		NewProjectWizard newProjectWizard = new NewProjectWizard();
+		WizardDialog wizardDlg = new WizardDialog(null, newProjectWizard);
 		wizardDlg.open();
+		newProjectWizard.dispose();
 	}
 }

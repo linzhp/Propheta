@@ -1,4 +1,4 @@
-package newProject.quickEstimate;
+package newProject.PIEstimate;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -15,10 +15,13 @@ public class ResultPage extends WizardPage {
 	}
 
 	public void createControl(Composite parent) {
+		setPageComplete(false);
+		
 		Composite topLevel = new Composite(parent, SWT.NONE);
 		topLevel.setLayout(new FillLayout());
 		textLabel = new Label(topLevel, SWT.CENTER);
 		textLabel.setText("您项目的生产率为: 5.23 Loc/Hour");
+		
 		setControl(topLevel);
 		setPageComplete(true);
 	}

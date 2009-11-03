@@ -1,6 +1,7 @@
 package run;
 
 import newProject.NewProjectAction;
+import newProject.quickEstimate.HistogramChart;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.window.ApplicationWindow;
@@ -9,6 +10,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.jfree.chart.JFreeChart;
+import org.jfree.experimental.chart.swt.ChartComposite;
 
 
 public class Application extends ApplicationWindow {
@@ -32,7 +35,7 @@ public class Application extends ApplicationWindow {
 		label.setText("Hello, World");
 		
 		parent.setSize(1024, 768);
-//		parent.pack();
+		//parent.pack();
 		return parent;
 	}
 	
