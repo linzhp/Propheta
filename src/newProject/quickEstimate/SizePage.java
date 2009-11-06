@@ -1,9 +1,12 @@
 package newProject.quickEstimate;
 
+import org.eclipse.core.internal.runtime.DataArea;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
@@ -13,60 +16,61 @@ public class SizePage extends WizardPage {
 	public static final String PAGE_NAME = "Size";
 	private Button userInput, history;
 	private Scale scaleHistory;
-	private Text textInput, textLevel,textHistory;
+	private Text textInput, textHistory;
+	private Label textLevel;
 	private int sizeValue;
+	private StackLayout inputStack;
+	private Composite predefinedInput;
+	private Composite dataArea;
 	public SizePage() {
 		super(PAGE_NAME, "快速估算: 系统规模", null);
 
 	}
 
 	public void createControl(Composite parent) {
-		setPageComplete(true);
+		setDescription("请选择一种规模估算方式：");
 
 		Composite topLevel = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout(2, false);
-		topLevel.setLayout(layout);
-
-		Label label = new Label(topLevel, SWT.CENTER);
-		label.setText("请选择一种规模估算方式：");
-		final Label blank1 = new Label(topLevel,SWT.CENTER);
+		topLevel.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		//用户输入规模
 		userInput = new Button(topLevel, SWT.RADIO);
-		userInput.setText("用户自己输入代码行数：                      ");
-		textInput = new Text(topLevel, SWT.BORDER);	
-		textInput.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));//此处设置了文本框的align
+		userInput.setText("用户自己输入代码行数");
 		userInput.addSelectionListener(new SelectionListener(){
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				textInput.setEditable(true);
-				scaleHistory.setEnabled(false);
+				setPageComplete(true);
+				inputStack.topControl = textInput;
+				dataArea.layout();
 			}
 		});
-		
 		//根据历史数据估算规模
 		history = new Button(topLevel, SWT.RADIO);
-		history.setText("根据数据库的历史数据得出                       ");
-		history.setSelection(true);
-		textHistory = new Text(topLevel, SWT.BORDER);	
-		textHistory.setEditable(false);
-		textHistory.setVisible(false);
-		textHistory.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+		history.setText("根据数据库的历史数据得出");
 		history.addSelectionListener(new SelectionListener(){
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				textInput.setEditable(false);
-				scaleHistory.setEnabled(true);
+				setPageComplete(true);
+				inputStack.topControl = predefinedInput;
+				dataArea.layout();
 			}
 		});
-		
-		scaleHistory = new Scale(topLevel, SWT.NULL);
+
+		dataArea = new Composite(topLevel, SWT.NONE);
+		inputStack = new StackLayout();
+		dataArea.setLayout(inputStack);
+		//用户手动输入规模
+		textInput = new Text(dataArea, SWT.BORDER);	
+		//通过拖动条选择规模
+		predefinedInput = new Composite(dataArea, SWT.NONE);
+		predefinedInput.setLayout(new FillLayout(SWT.VERTICAL));
+		scaleHistory = new Scale(predefinedInput, SWT.NULL);
 		scaleHistory.setMinimum(0);
 		scaleHistory.setMaximum(1500000);
 		scaleHistory.setIncrement(1000);
@@ -77,14 +81,12 @@ public class SizePage extends WizardPage {
 				textLevel.setText(getLevel(sizeValue) + ":" + sizeValue);
 			}
 		});
-		textLevel = new Text(topLevel, SWT.BORDER);
+		textLevel = new Label(predefinedInput, SWT.BORDER);
 		//textLevel.setTabs(6);
-		textLevel.setEditable(false);
-		textLevel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
-		scaleHistory.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
+//		textLevel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
+//		scaleHistory.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
 		
 		setControl(topLevel);
-		setPageComplete(true);
 	}
 	
 	//由规模大小定义其等级，根据数据库的实际情况来,需修改数据
