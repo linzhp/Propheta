@@ -1,9 +1,14 @@
 package newProject.quickEstimate;
 
 import java.awt.Font;
+import java.io.IOException;
 import java.util.Random;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
@@ -11,6 +16,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.xy.IntervalXYDataset;
+import org.jfree.experimental.chart.swt.ChartComposite;
 
 public class HistogramChart {
 	
@@ -18,11 +24,11 @@ public class HistogramChart {
 		HistogramDataset histogramdataset = new HistogramDataset();
 		// 此处为输入的1万个点。
 		Random generator  = new Random();
-		double ad[] = new double[10000];
-		for(int i =0; i<10000; i++)
+		double[] ad = new double[10000];
+		for(int i = 0; i < 10000; i++)
 		{
 			//工作量＝规模/生产率
-			ad[i] = size/(generator.nextGaussian()* piD + piE);
+			ad[i] = size/((generator.nextGaussian()+ piE) * piD );
 		}
 		//20表示bins（即条形柱的个数）
 		histogramdataset.addSeries("", ad, 100);

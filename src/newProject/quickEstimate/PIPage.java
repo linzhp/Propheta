@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.*;
 //下步工作，将scale的值与两个text绑定
 public class PIPage extends WizardPage {
 	public static final String PAGE_NAME = "PI";
-	private double piE=8.9, piD=1.5;
+	private double piE=16.967, piD=229.3141;
 	public PIPage() {
 		super(PAGE_NAME, "快速估算: 生产率", null);
 
@@ -35,8 +35,9 @@ public class PIPage extends WizardPage {
 				widgetSelected(e);
 			}
 			public void widgetSelected(SelectionEvent e) {
-				piE = 8.9;
-				piD = 1.5;
+				piE = 16.2179;
+				piD = 229.3141;
+				
 			}
 		});
 		
@@ -48,8 +49,8 @@ public class PIPage extends WizardPage {
 				widgetSelected(e);
 			}
 			public void widgetSelected(SelectionEvent e) {
-				piE = 1.5;
-				piD = 8.9;
+				piE = 16.967;
+				piD = 547.653;
 			}
 		});
 		
