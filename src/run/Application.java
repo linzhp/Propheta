@@ -4,8 +4,6 @@ import newProject.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.window.ApplicationWindow;
-import org.eclipse.swt.SWT;
-
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -26,7 +24,8 @@ public class Application extends ApplicationWindow {
 
 	protected Control createContents(Composite parent) {
 		Composite contentArea = (Composite)super.createContents(parent);
-		contentArea.setLayout(new FillLayout());
+		contentArea.setLayout(new FillLayout());//TODO 暂时设为FillLayout
+		//TODO 以后需要时在这里加contentArea的子控件，也就是主窗口的内容
 		return contentArea;
 	}
 	

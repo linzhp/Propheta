@@ -1,7 +1,10 @@
 package newProject.quickEstimate;
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e683f08f2507965125c25b83c689c6d477405e43
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
@@ -40,16 +43,22 @@ public class QuickEstimateWizard extends Wizard {
 	}
 
 	public boolean performFinish() {
-		//System.out.println(frame.toString());
 		if (this.canFinish()) {
 			if(frame != null)
 				frame.dispose();
 			jfreechart = HistogramChart.createChart(HistogramChart.createDataset(getSize(), getPIE(), getPID()));
 			Composite displayArea = Application.getInstance().getMainContent();
+<<<<<<< HEAD
 			frame = new ChartComposite(displayArea,SWT.NONE, jfreechart, true);
 			Rectangle size = displayArea.getClientArea();
 			frame.setSize(size.width, size.height);
 			
+=======
+			frame = new ChartComposite(displayArea, SWT.NONE, jfreechart, true);
+			Rectangle size = displayArea.getClientArea();
+			frame.setSize(size.width, size.height);
+		
+>>>>>>> e683f08f2507965125c25b83c689c6d477405e43
 			this.dispose();
 			return true;
 		} else
@@ -60,4 +69,8 @@ public class QuickEstimateWizard extends Wizard {
 		this.dispose();
 		return true;
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> e683f08f2507965125c25b83c689c6d477405e43
 }
