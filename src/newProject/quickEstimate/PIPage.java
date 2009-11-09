@@ -13,6 +13,7 @@ public class PIPage extends WizardPage {
 	private double piE=16.967, piD=229.3141;
 	public PIPage() {
 		super(PAGE_NAME, "快速估算: 生产率", null);
+		setDescription("请选择一种生产率估算方式：");
 
 	}
 
@@ -23,9 +24,6 @@ public class PIPage extends WizardPage {
 		GridLayout layout = new GridLayout(1, false);
 		topLevel.setLayout(layout);
 
-		Label label = new Label(topLevel, SWT.CENTER);
-		label.setText("请选择一种生产率估算方式：");
-		
 		//根据CSBSG历史数据估算规模
 		Button CSBSG = new Button(topLevel, SWT.RADIO);
 		CSBSG.setText("根据CSBSG数据库的历史数据得出                ");
