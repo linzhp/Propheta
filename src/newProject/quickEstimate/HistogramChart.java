@@ -1,14 +1,9 @@
 package newProject.quickEstimate;
 
 import java.awt.Font;
-import java.io.IOException;
 import java.util.Random;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
@@ -16,7 +11,6 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.xy.IntervalXYDataset;
-import org.jfree.experimental.chart.swt.ChartComposite;
 
 public class HistogramChart {
 	

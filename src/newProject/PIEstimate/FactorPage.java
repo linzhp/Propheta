@@ -10,23 +10,21 @@ public class FactorPage extends WizardPage {
 	private Button button1, button2, button3, button4, button5, button6;
 
 	public FactorPage() {
-		super(PAGE_NAME, "生产率快速估算: 选取估算因子", null);
+		super(PAGE_NAME, "生产率快速估算: 估算因子", null);
 
 	}
 
 	public void createControl(Composite parent) {
-		setPageComplete(false);
+		setDescription("请选取对您项目影响最大的因子: ");
 
 		Composite topLevel = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(1, false);
 
 		topLevel.setLayout(layout);
 
-		Label label = new Label(topLevel, SWT.CENTER);
-		label.setText("请选取对您项目影响最大的因子?");
-
 		button1 = new Button(topLevel, SWT.RADIO);
 		button1.setText("业务领域");
+		button1.setSelection(true);
 
 		button2 = new Button(topLevel, SWT.RADIO);
 		button2.setText("开发类型");
