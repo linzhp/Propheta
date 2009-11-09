@@ -20,6 +20,7 @@ public class SizePage extends WizardPage {
 	private Composite dataArea;
 	public SizePage() {
 		super(PAGE_NAME, "快速估算: 系统规模", null);
+		setDescription("请选择一种规模估算方式：");
 
 	}
 
