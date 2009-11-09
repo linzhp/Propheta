@@ -25,7 +25,6 @@ public class SizePage extends WizardPage {
 	}
 
 	public void createControl(Composite parent) {
-		setDescription("请选择一种规模估算方式：");
 
 		Composite topLevel = new Composite(parent, SWT.NONE);
 //		RowLayout topLayout = new RowLayout(SWT.VERTICAL);
