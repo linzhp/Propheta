@@ -3,6 +3,8 @@ package newProject.quickEstimate;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.*;
@@ -25,6 +27,8 @@ public class SizePage extends WizardPage {
 	}
 
 	public void createControl(Composite parent) {
+		//此方法能启动canFlipToNextPage()方法,判断next按钮是否可用
+		setPageComplete(false);
 
 		Composite topLevel = new Composite(parent, SWT.NONE);
 //		RowLayout topLayout = new RowLayout(SWT.VERTICAL);
@@ -68,6 +72,11 @@ public class SizePage extends WizardPage {
 		dataArea.setBounds(30, 100, 400, 30);
 		//用户手动输入规模
 		sizeText = new Text(dataArea, SWT.BORDER);
+		sizeText.addModifyListener(new ModifyListener(){
+			public void modifyText(ModifyEvent e) {
+				setPageComplete(true);
+			}
+		});
 		//通过拖动条选择规模
 		predefinedInput = new Composite(dataArea, SWT.NONE);
 		scaleHistory = new Scale(predefinedInput, SWT.NULL);
@@ -78,6 +87,7 @@ public class SizePage extends WizardPage {
 		scaleHistory.setSize(300, 30);
 		scaleHistory.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
+				setPageComplete(true);
 				sizeValue = scaleHistory.getSelection() + scaleHistory.getMinimum();
 				textLevel.setText(getLevel(sizeValue) + ":" + sizeValue);
 			}
@@ -88,6 +98,17 @@ public class SizePage extends WizardPage {
 		
 		setControl(topLevel);
 	}
+	
+	
+	//用户来设定next按钮能否使用
+	public boolean canFlipToNextPage() {
+		try{
+			getSize();
+		}catch(NumberFormatException e){
+			return false;
+		}
+        return isPageComplete() && getNextPage() != null;
+    }
 	
 	//由规模大小定义其等级，根据数据库的实际情况来,需修改数据
 	public String getLevel(int value){

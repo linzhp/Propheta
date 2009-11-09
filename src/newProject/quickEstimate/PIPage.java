@@ -14,7 +14,6 @@ public class PIPage extends WizardPage {
 	public PIPage() {
 		super(PAGE_NAME, "快速估算: 生产率", null);
 		setDescription("请选择一种生产率估算方式：");
-
 	}
 
 	public void createControl(Composite parent) {

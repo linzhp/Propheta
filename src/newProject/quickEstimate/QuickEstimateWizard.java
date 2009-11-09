@@ -1,5 +1,6 @@
 package newProject.quickEstimate;
 
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -35,7 +36,14 @@ public class QuickEstimateWizard extends Wizard {
 	private double getPID() {
 		return getPIPage().getPID();
 	}
-
+	
+	public boolean canFinish() {
+		if (getContainer().getCurrentPage()instanceof PIPage)
+			return true;
+		else
+			return false;
+	}
+	 
 	public boolean performFinish() {
 		if (this.canFinish()) {
 			if(frame != null)
