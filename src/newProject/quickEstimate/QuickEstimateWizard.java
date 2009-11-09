@@ -44,10 +44,9 @@ public class QuickEstimateWizard extends Wizard {
 			jfreechart = HistogramChart.createChart(HistogramChart.createDataset(getSize(), getPIE(), getPID()));
 			Composite displayArea = Application.getInstance().getMainContent();
 
-			frame = new ChartComposite(displayArea,SWT.NONE, jfreechart, true);
-			Rectangle size = displayArea.getClientArea();
-			frame.setSize(size.width, size.height);
-			
+			frame = new ChartComposite(displayArea, SWT.NONE, jfreechart, true);
+			frame.setBounds(displayArea.getClientArea());
+		
 			this.dispose();
 			return true;
 		} else
