@@ -10,22 +10,19 @@ public class FactorValuePage extends WizardPage {
 	private Button button1, button2, button3;
 
 	public FactorValuePage() {
-		super(PAGE_NAME, "生产率快速估算: 选取因子取值", null);
+		super(PAGE_NAME, "生产率快速估算: 因子取值", null);
 
 	}
 
 	public void createControl(Composite parent) {
-		//ispagecomplete的默认值为true
-		setPageComplete(false);
+		setDescription("您所选取的因子有以下几种取值，请选取符合您项目情况的选项: ");
 
 		Composite topLevel = new Composite(parent, SWT.NONE);
 		topLevel.setLayout(new GridLayout(1, false));
 
-		Label label = new Label(topLevel, SWT.CENTER);
-		label.setText("您所选取的因子有以下几种取值，请选取符合您项目情况的选项?");
-
 		button1 = new Button(topLevel, SWT.RADIO);
 		button1.setText("新开发");
+		button1.setSelection(true);
 
 		button2 = new Button(topLevel, SWT.RADIO);
 		button2.setText("二次开发");

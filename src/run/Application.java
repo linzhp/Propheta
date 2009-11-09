@@ -9,7 +9,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 
-
 public class Application extends ApplicationWindow {
 
 	public Application() {
@@ -27,7 +26,6 @@ public class Application extends ApplicationWindow {
 		Composite contentArea = (Composite)super.createContents(parent);
 		contentArea.setLayout(new FillLayout());//TODO 暂时设为FillLayout
 		//TODO 以后需要时在这里加contentArea的子控件，也就是主窗口的内容
-		
 		return contentArea;
 	}
 	

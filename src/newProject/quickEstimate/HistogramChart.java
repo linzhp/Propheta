@@ -18,11 +18,11 @@ public class HistogramChart {
 		HistogramDataset histogramdataset = new HistogramDataset();
 		// 此处为输入的1万个点。
 		Random generator  = new Random();
-		double ad[] = new double[10000];
-		for(int i =0; i<10000; i++)
+		double[] ad = new double[10000];
+		for(int i = 0; i < 10000; i++)
 		{
 			//工作量＝规模/生产率
-			ad[i] = size/(generator.nextGaussian()* piD + piE);
+			ad[i] = size/((generator.nextGaussian()+ piE) * piD );
 		}
 		//20表示bins（即条形柱的个数）
 		histogramdataset.addSeries("", ad, 100);

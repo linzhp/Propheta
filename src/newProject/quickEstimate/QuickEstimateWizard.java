@@ -1,9 +1,7 @@
 package newProject.quickEstimate;
 
-
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
@@ -42,8 +40,9 @@ public class QuickEstimateWizard extends Wizard {
 		if (this.canFinish()) {
 			if(frame != null)
 				frame.dispose();
-			jfreechart = HistogramChart.createChart(HistogramChart.createDataset(getSize(), getPIE(), getPID()));
+			jfreechart = LineChart.createChart(LineChart.createDataSet(getSize(), getPIE(), getPID()));
 			Composite displayArea = Application.getInstance().getMainContent();
+
 			frame = new ChartComposite(displayArea, SWT.NONE, jfreechart, true);
 			frame.setBounds(displayArea.getClientArea());
 		
@@ -57,5 +56,4 @@ public class QuickEstimateWizard extends Wizard {
 		this.dispose();
 		return true;
 	}
-
 }
