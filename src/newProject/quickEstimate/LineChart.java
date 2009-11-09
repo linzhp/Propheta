@@ -16,8 +16,8 @@ import org.jfree.data.xy.IntervalXYDataset;
 public class LineChart {
 
 	public static JFreeChart createChart(IntervalXYDataset dataSet) {
-		JFreeChart chart = ChartFactory.createXYLineChart("工作量正态分布图",
-				"工时(Hour)", "频率", dataSet, PlotOrientation.VERTICAL,
+		JFreeChart chart = ChartFactory.createXYLineChart("工作量蒙特卡罗模拟图",
+				"工时(Hour)", "", dataSet, PlotOrientation.VERTICAL,
 				false, false, false);
 
 		// 设置了字体，才能显示中文
@@ -44,8 +44,9 @@ public class LineChart {
 		HistogramDataset histogramdataset = new HistogramDataset();
 		// 此处为输入的1万个点。
 		Random generator  = new Random();
-		double[] ad = new double[10000];
-		for(int i = 0; i < 10000; i++)
+		final int NUM_SAMPLES = 5000000;
+		double[] ad = new double[NUM_SAMPLES];
+		for(int i = 0; i < ad.length; i++)
 		{
 			//工作量＝规模/生产率
 			ad[i] = size/((generator.nextGaussian()+ piE) * piD );
