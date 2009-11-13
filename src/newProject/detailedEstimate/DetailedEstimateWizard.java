@@ -1,16 +1,12 @@
 package newProject.detailedEstimate;
 
-import newProject.PIEstimate.FactorValuePage;
-import newProject.PIEstimate.ResultPage;
-
+import newProject.PIEstimate.FactorPage;
 import org.eclipse.jface.wizard.Wizard;
 
 public class DetailedEstimateWizard extends Wizard {
 
 	public void addPages() {
-		// addPage(new FactorPage());
-		addPage(new FactorValuePage());
-		addPage(new ResultPage());
+		addPage(new FactorPage());
 	}
 
 	public boolean performFinish() {

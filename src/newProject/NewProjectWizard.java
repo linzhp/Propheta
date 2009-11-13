@@ -1,13 +1,7 @@
 package newProject;
 
-import newProject.quickEstimate.LineChart;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.jfree.experimental.chart.swt.ChartComposite;
-
-import run.Application;
 
 public class NewProjectWizard extends Wizard {
 	public NewProjectWizard() {
