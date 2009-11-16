@@ -72,7 +72,7 @@ public class QuickEstimateWizard extends Wizard {
 				// 显示生产率的中位数
 				Double median = Statistic.getMedian(arrayPI);
 				Label PImedian = new Label(resultView, SWT.NONE);
-				PImedian.setText("生产率中位数值：" + median);
+				PImedian.setText("根据生产率中位数值计算出的工作量：" + getSize()/median);
 
 				// 显示工作量的蒙特卡罗图
 				Double mean = Statistic.getMean(arrayPI);
