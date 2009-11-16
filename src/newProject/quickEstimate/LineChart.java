@@ -53,16 +53,16 @@ public class LineChart {
 		for(int i = 0; i < ad.length; i++)
 		{
 			//工作量＝规模/生产率
-			ad[i] = size/((generator.nextGaussian()+ piE) * piD );
+			ad[i] = size/((generator.nextGaussian() + piE) * piD);
 		}
-		//20表示bins（即条形柱的个数）
+		//100表示bins（即条形柱的个数）
 		histogramdataset.addSeries("", ad, 100);
 		return histogramdataset;
 	}
 	
 	public static JFreeChart createEffortChart(XYDataset dataSet) {
 		JFreeChart chart = ChartFactory.createScatterPlot("规模相近的历史项目的工作量分布",
-				"工作量(Hour)", "规模(KLOC)", dataSet, PlotOrientation.VERTICAL,
+				"规模(KLOC)", "工作量(Hour)", dataSet, PlotOrientation.VERTICAL,
 				false, false, false);
 
 		// 设置了字体，才能显示中文
@@ -88,6 +88,7 @@ public class LineChart {
 	public static XYDataset createEffortXYDataset(ArrayList<Double[]> array) {
 		XYSeries xyseries = new XYSeries("");
 		for (int i = 0; i < array.size(); i++)
+			//xyseries.add(规模, 工作量);
 			xyseries.add(array.get(i)[0], array.get(i)[1]);
 
 		XYSeriesCollection xySeriesCollection = new XYSeriesCollection();

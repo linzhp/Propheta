@@ -219,8 +219,8 @@ public class FactorPage extends WizardPage {
 				public void widgetSelected(SelectionEvent e) {
 					factorValue = comboItem.getData(comboItem.getText())
 							.toString();
-					System.out.println(factor);
-					System.out.println(factorValue);
+					//System.out.println(factor);
+					//System.out.println(factorValue);
 				}
 			});
 		}
