@@ -58,8 +58,8 @@ public class QuickEstimateWizard extends Wizard {
 			CSBSG csbsg = new CSBSG();
 			ArrayList<Double> arrayPI = csbsg.getProductivity(getSize(),
 					getFactor(), getFactorValue());
-			// 此处0.2为规模的误差范围，可调，arrayEffort:projectSize,effort
-			ArrayList<Double[]> arrayEffort = csbsg.getEffort(getSize(), 0.2);
+			// 此处0.2为规模的误差范围，可调，arraySizeEffort:projectSize,effort
+			ArrayList<Double[]> arraySizeEffort = csbsg.getEffort(getSize(), 0.2);
 			Composite displayArea = Application.getInstance().getMainContent();
 
 			if (resultView != null)
@@ -85,27 +85,33 @@ public class QuickEstimateWizard extends Wizard {
 				Double standardDeviation = Statistic.getStandardDeviation(mean,
 						arrayPI);
 				System.out.println("PI mean: " + mean);
-				System.out
-						.println("PI standardDeviation: " + standardDeviation);
+				System.out.println("PI standardDeviation: " + standardDeviation);
 				JFreeChart monteCarloChart = LineChart
 						.createMonteCarloChart(LineChart
 								.createMonteCarloDataSet(getSize(), mean,
 										standardDeviation));
 				Composite monteCarloFrame = new ChartComposite(resultView,
 						SWT.BORDER, monteCarloChart, true);
+				//页面布局
 				GridData gData = new GridData(SWT.FILL, SWT.FILL, true, true);
 				monteCarloFrame.setLayoutData(gData);
 			}
 
 			// 显示规模相近的历史项目的工作量分布
-			for (int i = 0; i < arrayEffort.size(); i++) {
-				System.out.println("size:" + arrayEffort.get(i)[0] + " effort:"
-						+ arrayEffort.get(i)[1]);
+			ArrayList<Double> arrayEffort = new ArrayList<Double>();
+			for (int i = 0; i < arraySizeEffort.size(); i++) {
+				System.out.println("size:" + arraySizeEffort.get(i)[0] + " effort:"
+						+ arraySizeEffort.get(i)[1]);
+				arrayEffort.add(arraySizeEffort.get(i)[1]);
 			}
+			Double meanEffort = Statistic.getMean(arrayEffort);
+			Double medianEffort = Statistic.getMedian(arrayEffort);
 			JFreeChart effortChart = LineChart.createEffortChart(LineChart
-					.createEffortXYDataset(arrayEffort));
+					.createEffortXYDataset(arraySizeEffort), meanEffort, medianEffort);
 			ChartComposite effortFrame = new ChartComposite(resultView,
 					SWT.BORDER, effortChart, true);
+			
+			//页面布局
 			GridData gData = new GridData(SWT.FILL, SWT.FILL, true, true);
 			effortFrame.setLayoutData(gData);
 			resultView.setBounds(displayArea.getClientArea());
