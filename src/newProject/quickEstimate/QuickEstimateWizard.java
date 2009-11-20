@@ -58,48 +58,64 @@ public class QuickEstimateWizard extends Wizard {
 			CSBSG csbsg = new CSBSG();
 			ArrayList<Double> arrayPI = csbsg.getProductivity(getSize(),
 					getFactor(), getFactorValue());
-			ArrayList<Double[]> arrayEffort = csbsg.getEffort(getSize(), 0.2);
+			// 此处0.2为规模的误差范围，可调，arraySizeEffort:projectSize,effort
+			ArrayList<Double[]> arraySizeEffort = csbsg.getEffort(getSize(), 0.2);
 			Composite displayArea = Application.getInstance().getMainContent();
 
-			if(resultView != null)
+			if (resultView != null)
 				resultView.dispose();
 			resultView = new Composite(displayArea, SWT.NONE);
 			GridLayout layout = new GridLayout(1, false);
 			layout.verticalSpacing = 10;
 			resultView.setLayout(layout);
 
-			if (arrayPI.size() != 0) {
+			if (arrayPI.size() == 0) {
+				Label noResult = new Label(resultView, SWT.SINGLE);
+				noResult.setText("没有搜索到任何相关历史数据，无法显示“生产率中位数值”与“工作量的蒙特卡罗图”");
+			} else {
 				// 显示生产率的中位数
 				Double median = Statistic.getMedian(arrayPI);
+				System.out.println("PI median: " + median);
 				Label PImedian = new Label(resultView, SWT.NONE);
-				PImedian.setText("根据生产率中位数值计算出的工作量：" + getSize()/median);
+				PImedian.setText("根据历史项目数据的生产率中位数值计算出的工作量：" + getSize()
+						/ median + " 小时");
 
 				// 显示工作量的蒙特卡罗图
 				Double mean = Statistic.getMean(arrayPI);
 				Double standardDeviation = Statistic.getStandardDeviation(mean,
 						arrayPI);
+				System.out.println("PI mean: " + mean);
+				System.out.println("PI standardDeviation: " + standardDeviation);
 				JFreeChart monteCarloChart = LineChart
 						.createMonteCarloChart(LineChart
 								.createMonteCarloDataSet(getSize(), mean,
 										standardDeviation));
 				Composite monteCarloFrame = new ChartComposite(resultView,
 						SWT.BORDER, monteCarloChart, true);
+				//页面布局
 				GridData gData = new GridData(SWT.FILL, SWT.FILL, true, true);
 				monteCarloFrame.setLayoutData(gData);
-			} else {
-				Label noResult = new Label(resultView, SWT.SINGLE);
-				noResult.setText("没有搜索到任何相关历史数据，无法显示“生产率中位数值”与“工作量的蒙特卡罗图”");
-
 			}
+
 			// 显示规模相近的历史项目的工作量分布
+			ArrayList<Double> arrayEffort = new ArrayList<Double>();
+			for (int i = 0; i < arraySizeEffort.size(); i++) {
+				System.out.println("size:" + arraySizeEffort.get(i)[0] + " effort:"
+						+ arraySizeEffort.get(i)[1]);
+				arrayEffort.add(arraySizeEffort.get(i)[1]);
+			}
+			Double meanEffort = Statistic.getMean(arrayEffort);
+			Double medianEffort = Statistic.getMedian(arrayEffort);
 			JFreeChart effortChart = LineChart.createEffortChart(LineChart
-					.createEffortXYDataset(arrayEffort));
-			ChartComposite effortFrame = new ChartComposite(resultView, SWT.BORDER,
-					effortChart, true);
+					.createEffortXYDataset(arraySizeEffort), meanEffort, medianEffort);
+			ChartComposite effortFrame = new ChartComposite(resultView,
+					SWT.BORDER, effortChart, true);
+			
+			//页面布局
 			GridData gData = new GridData(SWT.FILL, SWT.FILL, true, true);
 			effortFrame.setLayoutData(gData);
 			resultView.setBounds(displayArea.getClientArea());
-			
+
 			this.dispose();
 			return true;
 		} else

@@ -26,8 +26,8 @@ public class DataAccess {
 
 	public void insert() {
 		try {
-			System.out.println("connected!");
-			statement.execute("insert into user(uid,name) values(10,'hello')");
+			//System.out.println("connected!");
+			//statement.execute("insert into prod_BusinessArea values(10,'hello')");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.13-swt.jar" sourcepath="/home/clive/libs&amp;docs/jfreechart-1.0.13/experimental"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.13.jar"/>
 	<classpathentry kind="lib" path="lib/sqlitejdbc-v056.jar"/>
+	<classpathentry kind="lib" path="lib/commons-math-2.0.jar" sourcepath="E:/Java/Code/Estimation/lib/commons-math-2.0-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

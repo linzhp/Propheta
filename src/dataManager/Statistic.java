@@ -1,7 +1,7 @@
 package dataManager;
 
 import java.util.ArrayList;
-
+import org.apache.commons.math.stat.StatUtils;
 public class Statistic {
 
 	//给ArrayList<Double>快速排序
@@ -41,10 +41,9 @@ public class Statistic {
 	public static Double getMean(ArrayList<Double> array)
 	{
 		Double sum = 0.0;
-		
-		for(int i=0; i< array.size(); i++)
+		for(int i=0; i< array.size(); i++){
 			sum += array.get(i);
-		
+		}
 		return sum/array.size();
 	}
 	

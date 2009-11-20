@@ -46,8 +46,10 @@ public class CSBSG {
 		DataAccess dataAccess = new DataAccess();
 		ResultSet resultSet = dataAccess.query(sql);
 		try {
-			while (resultSet.next())
+			while (resultSet.next()){
 				array.add(resultSet.getDouble("productivity"));
+				System.out.println("pi: " + resultSet.getDouble("productivity"));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -55,6 +57,7 @@ public class CSBSG {
 		return array;
 	}
 
+	//返回projectSize,effort数组
 	public ArrayList<Double[]> getEffort(Double size, double percent) {
 		ArrayList<Double[]> array = new ArrayList<Double[]>();
 		
