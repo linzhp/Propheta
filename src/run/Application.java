@@ -5,11 +5,13 @@ import newProject.NewProjectAction;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.*;
 
 public class Application extends ApplicationWindow {
 
@@ -26,12 +28,49 @@ public class Application extends ApplicationWindow {
 
 	protected Control createContents(Composite parent) {
 		Composite contentArea = (Composite)super.createContents(parent);
-		contentArea.setLayout(new FillLayout());//TODO 暂时设为FillLayout
+		//contentArea.setLayout(new FillLayout());//TODO 暂时设为FillLayout
+		contentArea.setLayout(new FormLayout());//改为FormLayout hezhimin 11-20
+		
+		
+		
 		//TODO 以后需要时在这里加contentArea的子控件，也就是主窗口的内容
-		SashForm mainForm=new SashForm(parent,SWT.NO_TRIM);
-		mainForm.setOrientation(SWT.HORIZONTAL);
+		final Sash sash=new Sash(contentArea,SWT.VERTICAL);
+		FormData fd = new FormData();
+		fd.top = new FormAttachment(0, 0); // Attach to top
+		fd.bottom = new FormAttachment(100, 0); // Attach to bottom
+		fd.left = new FormAttachment(25, 0); // Attach halfway across
+		sash.setLayoutData(fd);
+		sash.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				((FormData) sash.getLayoutData()).left = new FormAttachment(0, event.x);
+			    sash.getParent().layout();		    
+			}			  
+		});
+
+
+		//composite to display the WBS
+		Composite treeArea=new Composite(contentArea,SWT.H_SCROLL|SWT.BORDER);
+		fd = new FormData();
+		fd.top = new FormAttachment(0, 0);
+		fd.bottom = new FormAttachment(100, 0);
+		fd.left = new FormAttachment(0, 0);
+		fd.right = new FormAttachment(sash, 0);
+		treeArea.setLayoutData(fd);  
 		
 		
+		
+		
+		
+		//composite to display the charts
+		Composite chartArea=new Composite(contentArea,SWT.H_SCROLL|SWT.BORDER);
+		fd = new FormData();
+		fd.top = new FormAttachment(0, 0);
+		fd.bottom = new FormAttachment(100, 0);
+		fd.left = new FormAttachment(sash, 0);
+		fd.right = new FormAttachment(100, 0);
+		chartArea.setLayoutData(fd);  
+		
+		new Label(treeArea,SWT.NATIVE).setText("chartArea");
 		
 		return contentArea;
 	}
