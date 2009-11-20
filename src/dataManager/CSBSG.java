@@ -19,7 +19,7 @@ public class CSBSG {
 		else if (projectSize > 256 && projectSize <= 1024)
 			return (new Double[] { 256.0, 1024.0 });
 		else
-			return (new Double[] { 1024.0 });
+			return (new Double[] { 1024.0, -1.0 });
 	}
 
 	public ArrayList<Double> getProductivity(Double size, String attribute,
