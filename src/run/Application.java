@@ -1,5 +1,6 @@
 package run;
 
+import gui.GUI;
 import newProject.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
@@ -7,7 +8,6 @@ import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -33,7 +33,7 @@ public class Application extends ApplicationWindow {
 		
 		
 		
-		//TODO 以后需要时在这里加contentArea的子控件，也就是主窗口的内容
+		//分栏条
 		final Sash sash=new Sash(contentArea,SWT.VERTICAL);
 		FormData fd = new FormData();
 		fd.top = new FormAttachment(0, 0); // Attach to top
@@ -58,9 +58,6 @@ public class Application extends ApplicationWindow {
 		treeArea.setLayoutData(fd);  
 		
 		
-		
-		
-		
 		//composite to display the charts
 		Composite chartArea=new Composite(contentArea,SWT.H_SCROLL|SWT.BORDER);
 		fd = new FormData();
@@ -70,7 +67,8 @@ public class Application extends ApplicationWindow {
 		fd.right = new FormAttachment(100, 0);
 		chartArea.setLayoutData(fd);  
 		
-		new Label(treeArea,SWT.NATIVE).setText("chartArea");
+	    GUI.setContentArea(contentArea);
+	    GUI.setTreeArea(treeArea);
 		
 		return contentArea;
 	}
