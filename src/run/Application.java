@@ -1,6 +1,9 @@
 package run;
 
+import entity.EstimateNode;
+import gui.ContentArea;
 import gui.GUI;
+import gui.TreeArea;
 import newProject.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
@@ -50,7 +53,7 @@ public class Application extends ApplicationWindow {
 
 
 		//composite to display the WBS
-		Composite treeArea=new Composite(mainComposite,SWT.H_SCROLL|SWT.BORDER);
+		TreeArea treeArea=new TreeArea(mainComposite,SWT.BORDER);
 		treeArea.setLayout(new FillLayout());
 		fd = new FormData();
 		fd.top = new FormAttachment(0, 0);
@@ -61,7 +64,7 @@ public class Application extends ApplicationWindow {
 		
 		
 		//composite to display the charts
-		Composite contentArea=new Composite(mainComposite,SWT.H_SCROLL|SWT.BORDER);
+		ContentArea contentArea=new ContentArea(mainComposite,SWT.BORDER);
 		contentArea.setLayout(new FillLayout());
 		fd = new FormData();
 		fd.top = new FormAttachment(0, 0);
@@ -73,7 +76,10 @@ public class Application extends ApplicationWindow {
 	    GUI.setContentArea(contentArea);
 	    GUI.setTreeArea(treeArea);
 	    
-		
+	    EstimateNode en=new EstimateNode();
+		en.setName("未命名项目");
+		GUI.getTreeArea().dispalyTree(en);
+	   		
 		return contentArea;
 	}
 	

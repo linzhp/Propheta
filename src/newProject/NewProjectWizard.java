@@ -11,6 +11,7 @@ public class NewProjectWizard extends Wizard {
 
 	@Override
 	public void addPages() {
+		addPage(new ProjectNamePage());
 		addPage(new TaskSelectionPage());
 
 	}

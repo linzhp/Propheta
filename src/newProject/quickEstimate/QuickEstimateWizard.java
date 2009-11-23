@@ -3,6 +3,7 @@ package newProject.quickEstimate;
 import gui.GUI;
 import newProject.PIEstimate.FactorPage;
 import dataManager.CSBSG;
+import entity.EstimateNode;
 
 import java.util.ArrayList;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
@@ -54,6 +55,13 @@ public class QuickEstimateWizard extends Wizard {
 
 	public boolean performFinish() {
 		if (this.canFinish()) {
+			
+			//显示tree
+			EstimateNode en=new EstimateNode();
+			en.setName("未命名项目");
+			GUI.getTreeArea().dispalyTree(en);
+			
+			
 			CSBSG csbsg = new CSBSG();
 			ArrayList<Double> arrayPI = csbsg.getProductivity(getSize(),
 					getFactor(), getFactorValue());
@@ -65,6 +73,7 @@ public class QuickEstimateWizard extends Wizard {
 			//在GUI.getContentArea()上生成显示结果的static composite：resultView
 			if (resultView != null)
 				resultView.dispose();
+			GUI.getContentArea().disposeCurrentPage();
 			resultView = new Composite(GUI.getContentArea(), SWT.NONE);
 			GridLayout layout = new GridLayout(1, false);
 			layout.verticalSpacing = 10;
