@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class CSBSG {
 	
-	private Double[] getSizeScale(Double size) {
+	private Double[] getSizeScale(double size) {
 		Double projectSize = size / 1000;
 		if (projectSize >= 0 && projectSize <= 4)
 			return (new Double[] { 0.0, 4.0 });
@@ -22,9 +22,9 @@ public class CSBSG {
 			return (new Double[] { 1024.0, -1.0 });
 	}
 
-	public ArrayList<Double> getProductivity(Double size, String attribute,
+	public ArrayList<Double> getProductivity(double size, String attribute,
 			String attributeValue) {
-		ArrayList<Double> array = new ArrayList<Double>();
+		ArrayList<Double> arrayList = new ArrayList<Double>();
 		String sql = null;
 
 		Double[] sizeScale = getSizeScale(size);
@@ -47,14 +47,14 @@ public class CSBSG {
 		ResultSet resultSet = dataAccess.query(sql);
 		try {
 			while (resultSet.next()){
-				array.add(resultSet.getDouble("productivity"));
+				arrayList.add(resultSet.getDouble("productivity"));
 				System.out.println("pi: " + resultSet.getDouble("productivity"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		dataAccess.close();
-		return array;
+		return arrayList;
 	}
 
 	//返回projectSize,effort数组
