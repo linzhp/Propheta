@@ -56,10 +56,8 @@ public class QuickEstimateWizard extends Wizard {
 	public boolean performFinish() {
 		if (this.canFinish()) {
 			
-			//显示tree
-			EstimateNode en=new EstimateNode();
-			en.setName("未命名项目");
-			GUI.getTreeArea().dispalyTree(en);
+			EstimateNode en=new EstimateNode("未命名估算项目");
+			GUI.getTreeArea().addEstimateProjet(en);
 			
 			
 			CSBSG csbsg = new CSBSG();
