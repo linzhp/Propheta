@@ -8,10 +8,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
 //下步工作，将scale的值与两个text绑定
-public class PIPage extends WizardPage {
+public class PIDataBasePage extends WizardPage {
 	public static final String PAGE_NAME = "PI";
 	private double piE=16.967, piD=229.3141;
-	public PIPage() {
+	public PIDataBasePage() {
 		super(PAGE_NAME, "快速估算: 生产率", null);
 		setDescription("请选择一种生产率估算方式：");
 	}

@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import newProject.detailedEstimate.DetailedEstimateNode;
 import newProject.quickEstimate.QuickEstimateNode;
+import newProject.sizeEstimate.SizeEstimateNode;
 
 public class TaskSelectionPage extends WizardSelectionPage {
 	public static final String NAME = "选择任务";
@@ -27,6 +28,7 @@ public class TaskSelectionPage extends WizardSelectionPage {
 		Composite top = new Composite(parent, NONE);
 		top.setLayout(new RowLayout(SWT.VERTICAL));
 
+		
 		Button quick = new Button(top, SWT.RADIO);
 		quick.setText("快速估算");
 		quick.addSelectionListener(new SelectionListener() {
@@ -54,6 +56,20 @@ public class TaskSelectionPage extends WizardSelectionPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setSelectedNode(new DetailedEstimateNode());
+			}
+		});
+		
+		Button size = new Button(top, SWT.RADIO);
+		size.setText("规模估算");
+		size.addSelectionListener(new SelectionListener() {
+
+			// 以下内容为new SelectionListener()实现
+			// 默认选择该项与选择该项（widgetSelected）的操作是一样的
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+			public void widgetSelected(SelectionEvent e) {
+				setSelectedNode(new SizeEstimateNode());
 			}
 		});
 		

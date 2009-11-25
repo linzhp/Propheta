@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.*;
 //下步工作，将scale的值与两个text绑定
 public class SizePage extends WizardPage {
 	public static final String PAGE_NAME = "Size";
+	
 	private Button userInput, history;
 	private Scale scaleHistory;
 	private Text sizeText;
@@ -38,7 +39,7 @@ public class SizePage extends WizardPage {
 
 		// 用户输入规模
 		userInput = new Button(topLevel, SWT.RADIO);
-		userInput.setText("用户自己输入代码行数");
+		userInput.setText("用户输入代码行数");
 		userInput.setBounds(10, 10, 200, 30);
 		userInput.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {

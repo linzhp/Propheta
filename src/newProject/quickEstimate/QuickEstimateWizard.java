@@ -1,7 +1,6 @@
 package newProject.quickEstimate;
 
 import gui.GUI;
-import newProject.PIEstimate.FactorPage;
 import dataManager.CSBSG;
 
 import java.util.ArrayList;
@@ -21,16 +20,16 @@ public class QuickEstimateWizard extends Wizard {
 
 	public void addPages() {
 		addPage(new SizePage());
-		addPage(new PIPage());
-		addPage(new FactorPage());
+		addPage(new PIDataBasePage());
+		addPage(new PIFactorPage());
 	}
 
 	private SizePage getSizePage() {
 		return (SizePage) getPage(SizePage.PAGE_NAME);
 	}
 
-	private FactorPage getFactorPage() {
-		return (FactorPage) getPage(FactorPage.PAGE_NAME);
+	private PIFactorPage getFactorPage() {
+		return (PIFactorPage) getPage(PIFactorPage.PAGE_NAME);
 	}
 
 	private double getSize() {
@@ -46,7 +45,7 @@ public class QuickEstimateWizard extends Wizard {
 	}
 
 	public boolean canFinish() {
-		if (getContainer().getCurrentPage() instanceof FactorPage)
+		if (getContainer().getCurrentPage() instanceof PIFactorPage)
 			return true;
 		else
 			return false;
@@ -86,8 +85,8 @@ public class QuickEstimateWizard extends Wizard {
 				// 显示工作量的蒙特卡罗图
 				System.out.println("PI mean: " + stats.getMean());
 				System.out.println("PI standardDeviation: " + stats.getStandardDeviation());
-				JFreeChart monteCarloChart = LineChart
-						.createMonteCarloChart(LineChart
+				JFreeChart monteCarloChart = Chart
+						.createMonteCarloChart(Chart
 								.createMonteCarloDataSet(getSize(), stats.getMean(),
 										stats.getStandardDeviation()));
 				Composite monteCarloFrame = new ChartComposite(resultView,
@@ -97,21 +96,28 @@ public class QuickEstimateWizard extends Wizard {
 				monteCarloFrame.setLayoutData(gData);
 			}
 
-			// 显示规模相近的历史项目的工作量分布
-			stats.clear();
-			for( int i = 0; i < arraySizeEffort.size(); i++) {
-				System.out.println("size:" + arraySizeEffort.get(i)[0] + " effort:"
-						+ arraySizeEffort.get(i)[1]);
-		        stats.addValue(arraySizeEffort.get(i)[1]);
+			if (arraySizeEffort.size() == 0) {
+				Label noEffortResult = new Label(resultView, SWT.SINGLE);
+				noEffortResult.setText("没有搜索到任何相关历史数据，无法显示“规模相近的历史项目的工作量分布”");
+			} else {
+				// 显示规模相近的历史项目的工作量分布
+				stats.clear();
+				for (int i = 0; i < arraySizeEffort.size(); i++) {
+					System.out.println("size:" + arraySizeEffort.get(i)[0]
+							+ " effort:" + arraySizeEffort.get(i)[1]);
+					stats.addValue(arraySizeEffort.get(i)[1]);
+				}
+				JFreeChart effortChart = Chart.createEffortChart(Chart
+						.createEffortXYDataset(arraySizeEffort), stats
+						.getMean(), stats.getPercentile(50));
+				ChartComposite effortFrame = new ChartComposite(resultView,
+						SWT.BORDER, effortChart, true);
+
+				// 页面布局
+				GridData gData = new GridData(SWT.FILL, SWT.FILL, true, true);
+				effortFrame.setLayoutData(gData);
 			}
-			JFreeChart effortChart = LineChart.createEffortChart(LineChart
-					.createEffortXYDataset(arraySizeEffort), stats.getMean(), stats.getPercentile(50));
-			ChartComposite effortFrame = new ChartComposite(resultView,
-					SWT.BORDER, effortChart, true);
-			
-			//页面布局
-			GridData gData = new GridData(SWT.FILL, SWT.FILL, true, true);
-			effortFrame.setLayoutData(gData);
+
 			resultView.setBounds(GUI.getContentArea().getClientArea());
 
 			this.dispose();

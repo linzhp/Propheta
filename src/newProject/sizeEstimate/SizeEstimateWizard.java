@@ -1,13 +1,15 @@
-package newProject.detailedEstimate;
+package newProject.sizeEstimate;
 
 import newProject.quickEstimate.PIFactorPage;
 
 import org.eclipse.jface.wizard.Wizard;
 
-public class DetailedEstimateWizard extends Wizard {
+public class SizeEstimateWizard extends Wizard {
 
 	public void addPages() {
-		addPage(new PIFactorPage());
+		//addPage(new PIFactorPage());
+		addPage(new COCOMOSizePage());
+		addPage(new ResultPage());
 	}
 
 	public boolean performFinish() {

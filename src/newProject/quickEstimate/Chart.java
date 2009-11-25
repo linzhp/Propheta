@@ -18,7 +18,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.HorizontalAlignment;
 
-public class LineChart {
+public class Chart {
 
 	public static JFreeChart createMonteCarloChart(IntervalXYDataset dataSet) {
 		JFreeChart chart = ChartFactory.createXYLineChart("工作量蒙特卡罗模拟图",

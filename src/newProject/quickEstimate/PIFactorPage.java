@@ -1,4 +1,4 @@
-package newProject.PIEstimate;
+package newProject.quickEstimate;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -8,14 +8,14 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
-public class FactorPage extends WizardPage {
+public class PIFactorPage extends WizardPage {
 	public static final String PAGE_NAME = "Factor";
 	private String factor = "businessArea";
 	private String factorValue = "telecom";
 	private Button[] button = new Button[5];
 	private Combo[] combo = new Combo[5];
 
-	public FactorPage() {
+	public PIFactorPage() {
 		super(PAGE_NAME, "生产率快速估算: 估算因子", null);
 
 	}
