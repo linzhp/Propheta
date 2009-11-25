@@ -4,22 +4,22 @@ import org.eclipse.swt.widgets.Composite;
 
 public class GUI {
 
-	private static Composite contentArea=null;  //content composite in the main page
-	private static Composite treeArea=null;  //tree composite to display WBS in the main page
+	private static ContentArea contentArea=null;  //content composite in the main page
+	private static TreeArea treeArea=null;  //tree composite to display WBS in the main page
 	
-	public static void setContentArea(Composite com){
+	public static void setContentArea(ContentArea com){
 		contentArea=com;
 	}
 	
-	public static Composite getContentArea(){
+	public static ContentArea getContentArea(){
 		return contentArea;
 	}
 	
-	public static void setTreeArea(Composite com){
+	public static void setTreeArea(TreeArea com){
 		treeArea=com;
 	}
 	
-	public static Composite getTreeArea(){
+	public static TreeArea getTreeArea(){
 		return treeArea;
 	}
 }

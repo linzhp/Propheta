@@ -1,6 +1,11 @@
 package run;
 
+import java.util.ArrayList;
+
+import entity.EstimateNode;
+import gui.ContentArea;
 import gui.GUI;
+import gui.TreeArea;
 import newProject.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
@@ -12,6 +17,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
 public class Application extends ApplicationWindow {
@@ -50,7 +56,8 @@ public class Application extends ApplicationWindow {
 
 
 		//composite to display the WBS
-		Composite treeArea=new Composite(mainComposite,SWT.H_SCROLL|SWT.BORDER);
+		TreeArea treeArea=new TreeArea(mainComposite,SWT.BORDER);
+		//treeArea.setLayout(new GridLayout(1, true));
 		treeArea.setLayout(new FillLayout());
 		fd = new FormData();
 		fd.top = new FormAttachment(0, 0);
@@ -61,7 +68,7 @@ public class Application extends ApplicationWindow {
 		
 		
 		//composite to display the charts
-		Composite contentArea=new Composite(mainComposite,SWT.H_SCROLL|SWT.BORDER);
+		ContentArea contentArea=new ContentArea(mainComposite,SWT.BORDER);
 		contentArea.setLayout(new FillLayout());
 		fd = new FormData();
 		fd.top = new FormAttachment(0, 0);
@@ -73,6 +80,19 @@ public class Application extends ApplicationWindow {
 	    GUI.setContentArea(contentArea);
 	    GUI.setTreeArea(treeArea);
 	    
+	    
+	    EstimateNode en=new EstimateNode("未命名项目");
+	    en.addChild(new EstimateNode("子项目1"));
+	    
+	    EstimateNode en2=new EstimateNode("子项目2");
+	    en2.addChild(new EstimateNode("子项目21"));
+	    en2.addChild(new EstimateNode("子项目22"));
+	    en.addChild(en2);
+	    en.addChild(new EstimateNode("子项目3"));
+	    
+	    GUI.getTreeArea().addEstimateProjet(en);
+		GUI.getTreeArea().dispalyTree();
+		
 		
 		return contentArea;
 	}
