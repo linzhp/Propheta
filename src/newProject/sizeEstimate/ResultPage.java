@@ -11,7 +11,8 @@ public class ResultPage extends WizardPage {
 	private Label textLabel;
 
 	public ResultPage() {
-		super(PAGE_NAME, "ResultPage", null);
+		super(PAGE_NAME, "Result Page", null);
+		setDescription("显示COCOMO规模估算结果");
 	}
 
 	public void createControl(Composite parent) {
