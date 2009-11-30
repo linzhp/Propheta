@@ -114,7 +114,7 @@ public class SizePage extends WizardPage {
 		}
 		return isPageComplete() && getNextPage() != null;
 	}
-
+	
 	// 由规模大小定义其等级，根据数据库的实际情况来,需修改数据
 	public String getLevel(int value) {
 		String level;

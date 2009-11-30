@@ -5,6 +5,8 @@ import dataManager.CSBSG;
 import entity.EstimateNode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.SWT;
@@ -33,21 +35,18 @@ public class QuickEstimateWizard extends Wizard {
 		return (PIFactorPage) getPage(PIFactorPage.PAGE_NAME);
 	}
 
-	private double getSize() {
-		return (double) getSizePage().getSize();
+	private int getSize() {
+		return getSizePage().getSize();
 	}
 
-	private String getFactor() {
-		return getFactorPage().getFactor();
-	}
-
-	private String getFactorValue() {
-		return getFactorPage().getFactorValue();
+	private HashMap<String, String> getFactors() {
+		return getFactorPage().getFactors();
 	}
 
 	public boolean canFinish() {
-		if (getContainer().getCurrentPage() instanceof PIFactorPage)
-			return true;
+		if (getContainer().getCurrentPage() instanceof PIFactorPage
+				&& getFactorPage().canFinish())
+			return true;	
 		else
 			return false;
 	}
@@ -60,8 +59,9 @@ public class QuickEstimateWizard extends Wizard {
 			
 			
 			CSBSG csbsg = new CSBSG();
-			ArrayList<Double> arrayPI = csbsg.getProductivity(getSize(),
-					getFactor(), getFactorValue());
+			HashMap<String,String> factors = getFactors();
+			factors.remove("duration");
+			ArrayList<Double> arrayPI = csbsg.getProductivity(getSize(),factors);
 			// 此处0.2为规模的误差范围，可调，arraySizeEffort:projectSize,effort
 			ArrayList<Double[]> arraySizeEffort = csbsg.getEffort(getSize(), 0.2);
 			//for the statistic of median,mean and standard deviation 
@@ -76,6 +76,10 @@ public class QuickEstimateWizard extends Wizard {
 			layout.verticalSpacing = 10;
 			resultView.setLayout(layout);
 
+			//显示同论文总结出的CSBSG公式，计算得到的结果
+			Label PI = new Label(resultView, SWT.NONE);
+			PI.setText("根据公式计算出的工作量为：" + csbsg.getEqnEffort((double)getSize(), getFactors()));
+			
 			if (arrayPI.size() == 0) {
 				Label noResult = new Label(resultView, SWT.SINGLE);
 				noResult.setText("没有搜索到任何相关历史数据，无法显示“生产率中位数值”与“工作量的蒙特卡罗图”");
@@ -92,6 +96,11 @@ public class QuickEstimateWizard extends Wizard {
 				// 显示工作量的蒙特卡罗图
 				System.out.println("PI mean: " + stats.getMean());
 				System.out.println("PI standardDeviation: " + stats.getStandardDeviation());
+				if(arrayPI.size() == 1){
+					Label noResult = new Label(resultView, SWT.SINGLE);
+					noResult.setText("没有搜索到足够的相关历史数据，无法显示工作量的蒙特卡罗图”");
+				}
+				else{
 				JFreeChart monteCarloChart = Chart
 						.createMonteCarloChart(Chart
 								.createMonteCarloDataSet(getSize(), stats.getMean(),
@@ -101,28 +110,7 @@ public class QuickEstimateWizard extends Wizard {
 				//页面布局
 				GridData gData = new GridData(SWT.FILL, SWT.FILL, true, true);
 				monteCarloFrame.setLayoutData(gData);
-			}
-
-			if (arraySizeEffort.size() == 0) {
-				Label noEffortResult = new Label(resultView, SWT.SINGLE);
-				noEffortResult.setText("没有搜索到任何相关历史数据，无法显示“规模相近的历史项目的工作量分布”");
-			} else {
-				// 显示规模相近的历史项目的工作量分布
-				stats.clear();
-				for (int i = 0; i < arraySizeEffort.size(); i++) {
-					System.out.println("size:" + arraySizeEffort.get(i)[0]
-							+ " effort:" + arraySizeEffort.get(i)[1]);
-					stats.addValue(arraySizeEffort.get(i)[1]);
 				}
-				JFreeChart effortChart = Chart.createEffortChart(Chart
-						.createEffortXYDataset(arraySizeEffort), stats
-						.getMean(), stats.getPercentile(50));
-				ChartComposite effortFrame = new ChartComposite(resultView,
-						SWT.BORDER, effortChart, true);
-
-				// 页面布局
-				GridData gData = new GridData(SWT.FILL, SWT.FILL, true, true);
-				effortFrame.setLayoutData(gData);
 			}
 
 			resultView.setBounds(GUI.getContentArea().getClientArea());
