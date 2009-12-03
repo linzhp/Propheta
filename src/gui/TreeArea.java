@@ -1,9 +1,12 @@
 package gui;
 
 import java.util.ArrayList;
+
+import newProject.NewEstimationAction;
 import newProject.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -46,7 +49,10 @@ public class TreeArea extends Composite{
 	public void addMenu(){
 		MenuManager mm = new MenuManager(null);
 		
-		mm.add(new NewProjectAction());		
+		mm.add(new NewProjectAction());	
+		mm.add(new NewEstimationAction());
+		mm.add(new AddNodeAction());
+		
 		
 		Menu menu=mm.createContextMenu(this);
 		this.treeViewer.getTree().setMenu(menu);
@@ -69,5 +75,17 @@ public class TreeArea extends Composite{
 	public void addEstimateProjet(EstimateNode en){
 		this.estimateProjects.add(en);
 		this.treeViewer.refresh();
+	}
+	
+	
+	public EstimateNode getSelectedNode(){
+		StructuredSelection se=(StructuredSelection)treeViewer.getSelection();
+		EstimateNode node=(EstimateNode)se.getFirstElement();
+		return node;
+	}
+	
+	
+	public TreeViewer getTreeViewer(){
+		return this.treeViewer;
 	}
 }

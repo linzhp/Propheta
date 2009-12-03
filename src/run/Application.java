@@ -1,7 +1,5 @@
 package run;
 
-import java.util.ArrayList;
-
 import entity.EstimateNode;
 import gui.ContentArea;
 import gui.GUI;
@@ -79,17 +77,6 @@ public class Application extends ApplicationWindow {
 	    GUI.setContentArea(contentArea);
 	    GUI.setTreeArea(treeArea);
 	    
-	    
-	    EstimateNode en=new EstimateNode("未命名项目");
-	    en.addChild(new EstimateNode("子项目1"));
-	    
-	    EstimateNode en2=new EstimateNode("子项目2");
-	    en2.addChild(new EstimateNode("子项目21"));
-	    en2.addChild(new EstimateNode("子项目22"));
-	    en.addChild(en2);
-	    en.addChild(new EstimateNode("子项目3"));
-	    
-	    GUI.getTreeArea().addEstimateProjet(en);
 		GUI.getTreeArea().dispalyTree();
 		
 		

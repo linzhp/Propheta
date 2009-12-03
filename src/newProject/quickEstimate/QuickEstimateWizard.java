@@ -53,11 +53,7 @@ public class QuickEstimateWizard extends Wizard {
 
 	public boolean performFinish() {
 		if (this.canFinish()) {
-			
-			EstimateNode en=new EstimateNode("未命名估算项目");
-			GUI.getTreeArea().addEstimateProjet(en);
-			
-			
+						
 			CSBSG csbsg = new CSBSG();
 			HashMap<String,String> factors = getFactors();
 			factors.remove("duration");
