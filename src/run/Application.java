@@ -1,7 +1,5 @@
 package run;
 
-import java.util.ArrayList;
-
 import entity.EstimateNode;
 import gui.ContentArea;
 import gui.GUI;
@@ -17,7 +15,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
 public class Application extends ApplicationWindow {

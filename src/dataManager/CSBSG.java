@@ -7,9 +7,8 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class CSBSG {
-	private HashMap<String, Double> constData = new HashMap<String, Double>();
-
-	public CSBSG() {
+	private final static HashMap<String, Double> constData = new HashMap<String, Double>();
+	static{
 		constData.put("developmentType.ReDevelopment", -0.16);
 		constData.put("developmentType.NewDevelopment", -0.46);
 		constData.put("developmentType.Enhancement", 0.0);
