@@ -57,7 +57,6 @@ public class Application extends ApplicationWindow {
 
 		//composite to display the WBS
 		TreeArea treeArea=new TreeArea(mainComposite,SWT.BORDER);
-		//treeArea.setLayout(new GridLayout(1, true));
 		treeArea.setLayout(new FillLayout());
 		fd = new FormData();
 		fd.top = new FormAttachment(0, 0);

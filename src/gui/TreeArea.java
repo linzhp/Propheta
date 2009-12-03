@@ -1,8 +1,6 @@
 package gui;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import newProject.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
@@ -52,6 +50,7 @@ public class TreeArea extends Composite{
 		
 		Menu menu=mm.createContextMenu(this);
 		this.treeViewer.getTree().setMenu(menu);
+		//this.treeViewer.getControl().setMenu(menu);
 	}
 	
 	public void dispalyTree(){
