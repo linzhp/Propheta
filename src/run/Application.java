@@ -38,17 +38,17 @@ public class Application extends ApplicationWindow {
 		
 		
 		
-		//分栏条
-		final Sash sash=new Sash(mainComposite,SWT.VERTICAL);
+		//分栏条(左右)
+		final Sash sash1=new Sash(mainComposite,SWT.VERTICAL);
 		FormData fd = new FormData();
 		fd.top = new FormAttachment(0, 0); // Attach to top
 		fd.bottom = new FormAttachment(100, 0); // Attach to bottom
 		fd.left = new FormAttachment(25, 0); // Attach halfway across
-		sash.setLayoutData(fd);
-		sash.addSelectionListener(new SelectionAdapter() {
+		sash1.setLayoutData(fd);
+		sash1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				((FormData) sash.getLayoutData()).left = new FormAttachment(0, event.x);
-			    sash.getParent().layout();		    
+				((FormData) sash1.getLayoutData()).left = new FormAttachment(0, event.x);
+			    sash1.getParent().layout();		    
 			}			  
 		});
 
@@ -60,27 +60,63 @@ public class Application extends ApplicationWindow {
 		fd.top = new FormAttachment(0, 0);
 		fd.bottom = new FormAttachment(100, 0);
 		fd.left = new FormAttachment(0, 0);
-		fd.right = new FormAttachment(sash, 0);
+		fd.right = new FormAttachment(sash1, 0);
 		treeArea.setLayoutData(fd);  
 		
 		
-		//composite to display the charts
-		ContentArea contentArea=new ContentArea(mainComposite,SWT.BORDER);
-		contentArea.setLayout(new FillLayout());
+		//composite to display the content
+		Composite rightArea=new Composite(mainComposite,SWT.NONE);
+		rightArea.setLayout(new FormLayout());
 		fd = new FormData();
 		fd.top = new FormAttachment(0, 0);
 		fd.bottom = new FormAttachment(100, 0);
-		fd.left = new FormAttachment(sash, 0);
+		fd.left = new FormAttachment(sash1, 0);
 		fd.right = new FormAttachment(100, 0);
-		contentArea.setLayoutData(fd);  
+		rightArea.setLayoutData(fd);  
 		
-	    GUI.setContentArea(contentArea);
+		//分栏条 （上下）
+		final Sash sash2=new Sash(rightArea,SWT.HORIZONTAL);
+		fd = new FormData();
+		fd.top = new FormAttachment(50, 0); // Attach to top
+		
+		fd.left = new FormAttachment(0, 0); 
+		fd.right=new FormAttachment(100,0);
+		sash2.setLayoutData(fd);
+		sash2.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				((FormData) sash2.getLayoutData()).top = new FormAttachment(0, event.y);
+			    sash2.getParent().layout();		    
+			}			  
+		});
+		
+		//右上部窗口
+		ContentArea topContentArea=new ContentArea(rightArea,SWT.BORDER);
+		topContentArea.setLayout(new FillLayout());
+		fd = new FormData();
+		fd.top = new FormAttachment(0, 0);
+		fd.bottom = new FormAttachment(sash2, 0);
+		fd.left = new FormAttachment(0, 0);
+		fd.right = new FormAttachment(100, 0);
+		topContentArea.setLayoutData(fd);  
+		
+		//右下部窗口
+		ContentArea buttomContentArea=new ContentArea(rightArea,SWT.BORDER);
+		buttomContentArea.setLayout(new FillLayout());
+		fd = new FormData();
+		fd.top = new FormAttachment(sash2, 0);
+		fd.bottom = new FormAttachment(100, 0);
+		fd.left = new FormAttachment(0, 0);
+		fd.right = new FormAttachment(100, 0);
+		buttomContentArea.setLayoutData(fd);  
+		
+		
 	    GUI.setTreeArea(treeArea);
+	    GUI.setTopContentArea(topContentArea);
+	    GUI.setButtomContentArea(buttomContentArea);
 	    
-		GUI.getTreeArea().dispalyTree();
+		GUI.getTreeArea().dispalyTree();		
 		
-		
-		return contentArea;
+		return mainComposite;
 	}
 	
 	@Override

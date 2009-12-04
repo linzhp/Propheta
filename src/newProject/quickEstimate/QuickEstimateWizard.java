@@ -66,8 +66,8 @@ public class QuickEstimateWizard extends Wizard {
 			//在GUI.getContentArea()上生成显示结果的static composite：resultView
 			if (resultView != null)
 				resultView.dispose();
-			GUI.getContentArea().disposeCurrentPage();
-			resultView = new Composite(GUI.getContentArea(), SWT.NONE);
+			GUI.getButtomContentArea().disposeCurrentPage();
+			resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
 			GridLayout layout = new GridLayout(1, false);
 			layout.verticalSpacing = 10;
 			resultView.setLayout(layout);
@@ -109,7 +109,7 @@ public class QuickEstimateWizard extends Wizard {
 				}
 			}
 
-			resultView.setBounds(GUI.getContentArea().getClientArea());
+			resultView.setBounds(GUI.getButtomContentArea().getClientArea());
 
 			this.dispose();
 			return true;
