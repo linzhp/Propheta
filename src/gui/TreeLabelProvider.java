@@ -1,5 +1,8 @@
 package gui;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
@@ -8,10 +11,35 @@ import entity.EstimateNode;
 
 public class TreeLabelProvider implements ILabelProvider {
 
+	private Image rootImage=null;
+	private Image nodeImage=null;
+	private Image leafImage=null;
+	
+	
+	public TreeLabelProvider(){
+		try {
+			rootImage=new Image(null,new FileInputStream("./icons/icon_root.gif"));
+			nodeImage=new Image(null,new FileInputStream("./icons/icon_node.gif"));
+			leafImage=new Image(null,new FileInputStream("./icons/icon_leaf.gif"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	@Override
 	public Image getImage(Object arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		EstimateNode en=(EstimateNode)arg0;
+		if(en.isRoot()){
+			return rootImage;
+		}else{
+			if(en.isLeaf()){
+				return leafImage;
+			}else{
+				return nodeImage;
+			}
+		}
 	}
 
 	@Override
@@ -28,7 +56,15 @@ public class TreeLabelProvider implements ILabelProvider {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		if(rootImage!=null){
+			rootImage.dispose();
+		}
+		if(nodeImage!=null){
+			nodeImage.dispose();
+		}
+		if(leafImage!=null){
+			leafImage.dispose();
+		}
 		
 	}
 
