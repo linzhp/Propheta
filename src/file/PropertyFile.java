@@ -125,8 +125,8 @@ public class PropertyFile {
 		}
 	}
 	
-	public static void main(String[] args){
-		System.out.println(readValue("properties\\piCSBSG.properties","EteamSize.5"));
+	/*public static void main(String[] args){
+		System.out.println(readValue("properties\\COCOMO.properties","EM.PVOL.XH"));
 
-	}
+	}*/
 }
