@@ -17,7 +17,10 @@ public class NewProjectAction extends Action {
 	public void run(){
 		InputDialog input=new InputDialog(null,"请输入项目名称","项目名称","",null);
 		if(input.open()==Window.OK){
-			GUI.getTreeArea().addEstimateProjet(new EstimateNode(input.getValue()));
+			if(!input.getValue().trim().equals("")){
+				GUI.getTreeArea().addEstimateProjet(new EstimateNode(input.getValue()));
+			}
+			
 		}
 		
 	}
