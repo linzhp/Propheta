@@ -24,7 +24,7 @@ import entity.EstimateNode;
 public class TreeArea extends Composite{
 
 	private TreeViewer treeViewer;
-	private ArrayList estimateProjects;
+	private ArrayList<EstimateNode> estimateProjects;
 	private TreeContentProvider treeContentProvider;
 	private TreeLabelProvider treeLabelProvider;
 	
@@ -41,7 +41,7 @@ public class TreeArea extends Composite{
 		this.treeViewer=new TreeViewer(this,SWT.V_SCROLL|SWT.V_SCROLL);
 		this.treeContentProvider=new TreeContentProvider();
 		this.treeLabelProvider=new TreeLabelProvider();
-		this.estimateProjects=new ArrayList();
+		this.estimateProjects=new ArrayList<EstimateNode>();
 	}
 	
 	
@@ -67,7 +67,7 @@ public class TreeArea extends Composite{
 	}
 	
 	
-	public void setEstimateProjects(ArrayList list){
+	public void setEstimateProjects(ArrayList<EstimateNode> list){
 		this.estimateProjects=list;
 	}
 	
