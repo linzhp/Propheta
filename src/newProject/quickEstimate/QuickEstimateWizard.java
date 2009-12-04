@@ -19,7 +19,6 @@ import org.jfree.experimental.chart.swt.ChartComposite;
 
 
 public class QuickEstimateWizard extends Wizard {
-	private static Composite resultView = null;
 
 	public void addPages() {
 		addPage(new SizePage());
@@ -63,11 +62,9 @@ public class QuickEstimateWizard extends Wizard {
 			//for the statistic of median,mean and standard deviation 
 			DescriptiveStatistics stats = new DescriptiveStatistics();
 			
-			//在GUI.getContentArea()上生成显示结果的static composite：resultView
-			if (resultView != null)
-				resultView.dispose();
+			//在GUI.getButtomContentArea()上生成显示结果的 composite：resultView
 			GUI.getButtomContentArea().disposeCurrentPage();
-			resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
+			Composite resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
 			GridLayout layout = new GridLayout(1, false);
 			layout.verticalSpacing = 10;
 			resultView.setLayout(layout);

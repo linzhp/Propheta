@@ -7,7 +7,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
@@ -43,7 +42,7 @@ public class COCOMOSizePage extends WizardPage {
 		inputStack = new StackLayout();
 		dataArea.setLayout(inputStack);
 		
-		// 用户手动输入新开发代码的规模
+		// 用户输入新开发代码的规模
 		createCompNew();
 		
 		// 用户输入重用代码计算公式的参数
