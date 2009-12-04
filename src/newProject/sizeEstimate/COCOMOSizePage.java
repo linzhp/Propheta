@@ -9,6 +9,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
 
 import dataManager.COCOMO;
@@ -32,11 +33,32 @@ public class COCOMOSizePage extends WizardPage {
 		setPageComplete(false);
 
 		Composite topLevel = new Composite(parent, SWT.NONE);
+		RowLayout layout = new RowLayout(SWT.VERTICAL);
+		layout.justify = true;
+		topLevel.setLayout(layout);
 
+		createRadioButtons(topLevel);
+
+		dataArea = new Composite(topLevel, SWT.NONE);
+		inputStack = new StackLayout();
+		dataArea.setLayout(inputStack);
+		
+		// 用户手动输入新开发代码的规模
+		createCompNew();
+		
+		// 用户输入重用代码计算公式的参数
+		createCompReuse();
+		
+		// 用户输入维护代码计算公式的参数
+		createCompMaintain();
+		
+		setControl(topLevel);
+	}
+
+	private void createRadioButtons(Composite topLevel) {
 		// 估算新开发的代码
 		codeNew = new Button(topLevel, SWT.RADIO);
 		codeNew.setText("新开发代码");
-		codeNew.setBounds(10, 10, 200, 20);
 		codeNew.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -78,144 +100,50 @@ public class COCOMOSizePage extends WizardPage {
 				dataArea.layout();
 			}
 		});
+	}
 
-		dataArea = new Composite(topLevel, SWT.NONE);
-		inputStack = new StackLayout();
-		dataArea.setLayout(inputStack);
-		dataArea.setBounds(30, 80, 400, 200);
-		
-		// 用户手动输入新开发代码的规模
-		compNew = new Composite(dataArea, SWT.NONE);
-		compNew.setLayout(new GridLayout(2,false));
-		Label labNewDes = new Label(compNew, SWT.NONE);
-		labNewDes.setText("请输入新开发的代码量(LOC)：");
-		textNewSize = new Text(compNew, SWT.BORDER);
-		textNewSize.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		textNewSize.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				setPageComplete(true);
-			}
-		});
-		
-		// 用户输入重用代码计算公式的参数
-		compReuse = new Composite(dataArea, SWT.NONE);
-		compReuse.setLayout(new GridLayout(2,false));
-		
-		Label labReuseSize = new Label(compReuse, SWT.NONE);
-		labReuseSize.setText("新增和修改的代码量(LOC)：");
-		textReuseSize = new Text(compReuse, SWT.BORDER);
-		textReuseSize.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				setPageComplete(true);
-			}
-		});
-	
-		Label labReuseAT = new Label(compReuse, SWT.CENTER);
-		labReuseAT.setText("自动转换的代码比例(百分值，范围1-100)：");
-		textReuseAT = new Text(compReuse, SWT.BORDER);
-		textReuseAT.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				setPageComplete(true);
-			}
-		});
-		
-		Label labReuseDM = new Label(compReuse, SWT.CENTER);
-		labReuseDM.setText("设计修改比例(百分值，范围1-100)：");
-		textReuseDM = new Text(compReuse, SWT.BORDER);
-		textReuseDM.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				setPageComplete(true);
-			}
-		});
-		
-		Label labReuseCM = new Label(compReuse, SWT.CENTER);
-		labReuseCM.setText("代码修改比例(百分值，范围1-100)：");
-		textReuseCM = new Text(compReuse, SWT.BORDER);
-		textReuseCM.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				setPageComplete(true);
-			}
-		});
-		
-		Label labReuseIM = new Label(compReuse, SWT.CENTER);
-		labReuseIM.setText("集成工作量比例(百分值，范围1-100)：");
-		textReuseIM = new Text(compReuse, SWT.BORDER);
-		textReuseIM.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				setPageComplete(true);
-			}
-		});
-		
-		Label labReuseAA = new Label(compReuse, SWT.CENTER);
-		labReuseAA.setText("代码适用程度(范围0-8，0表示完全适用)");
-		textReuseAA = new Text(compReuse, SWT.BORDER);
-		textReuseAA.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				setPageComplete(true);
-			}
-		});
-		
-		Label labReuseSU = new Label(compReuse, SWT.CENTER);
-		labReuseSU.setText("代码可理解度(范围10-50，10表示代码很好理解)：");
-		textReuseSU = new Text(compReuse, SWT.BORDER);
-		textReuseSU.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				setPageComplete(true);
-			}
-		});
-		
-		Label labReuseUNFM = new Label(compReuse, SWT.CENTER);
-		labReuseUNFM.setText("开发人员不熟悉度(范围0-1，0表示完全熟悉)：");
-		textReuseUNFM = new Text(compReuse, SWT.BORDER);
-		textReuseUNFM.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				setPageComplete(true);
-			}
-		});
-		
-		// 用户输入维护代码计算公式的参数
+	private void createCompMaintain() {
 		compMaintain = new Composite(dataArea, SWT.NONE);
 		compMaintain.setLayout(new GridLayout(2,false));
 		
-		Label labAddSize = new Label(compMaintain, SWT.NONE);
-		labAddSize.setText("新增代码量(LOC)：");
-		textAddSize = new Text(compMaintain, SWT.BORDER);
-		textAddSize.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				setPageComplete(true);
-			}
-		});
-	
-		Label labModifySize = new Label(compMaintain, SWT.CENTER);
-		labModifySize.setText("修改代码量(LOC)：");
-		textModifySize = new Text(compMaintain, SWT.BORDER);
-		textModifySize.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				setPageComplete(true);
-			}
-		});
-		
-		Label labMaintSU = new Label(compMaintain, SWT.CENTER);
-		labMaintSU.setText("代码可理解度(范围10-50，10表示代码很好理解)：");
-		textMaintSU = new Text(compMaintain, SWT.BORDER);
-		textMaintSU.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				setPageComplete(true);
-			}
-		});
-		
-		Label labMaintUNFM = new Label(compMaintain, SWT.CENTER);
-		labMaintUNFM.setText("开发人员不熟悉度(范围0-1，0表示完全熟悉)：");
-		textMaintUNFM = new Text(compMaintain, SWT.BORDER);
-		textMaintUNFM.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				setPageComplete(true);
-			}
-		});
-		
-		setControl(topLevel);
+		textAddSize = createDataField(compMaintain, "新增代码量(LOC)：");
+		textModifySize = createDataField(compMaintain, "修改代码量(LOC)：");
+		textMaintSU = createDataField(compMaintain, "代码可理解度(范围10-50，10表示代码很好理解)：");
+		textMaintUNFM = createDataField(compMaintain, "开发人员不熟悉度(范围0-1，0表示完全熟悉)：");
 	}
 
+	private void createCompReuse() {
+		compReuse = new Composite(dataArea, SWT.NONE);
+		compReuse.setLayout(new GridLayout(2,false));
+		
+		textReuseSize = createDataField(compReuse, "新增和修改的代码量(LOC)：");
+		textReuseAT = createDataField(compReuse, "自动转换的代码比例(百分值，范围1-100)：");
+		textReuseDM = createDataField(compReuse, "设计修改比例(百分值，范围1-100)：");
+		textReuseCM = createDataField(compReuse, "代码修改比例(百分值，范围1-100)：");
+		textReuseIM = createDataField(compReuse, "集成工作量比例(百分值，范围1-100)：");
+		textReuseAA = createDataField(compReuse, "代码适用程度(范围0-8，0表示完全适用)");
+		textReuseSU = createDataField(compReuse, "代码可理解度(范围10-50，10表示代码很好理解)：");
+		textReuseUNFM = createDataField(compReuse, "开发人员不熟悉度(范围0-1，0表示完全熟悉)：");
+	}
+
+	private void createCompNew() {
+		compNew = new Composite(dataArea, SWT.NONE);
+		compNew.setLayout(new GridLayout(2,false));
+		textNewSize = createDataField(compNew, "请输入新开发的代码量(LOC)：");
+	}
+
+	private Text createDataField(Composite parent, String desc){
+		Label label = new Label(parent, SWT.NONE);
+		label.setText(desc);
+		Text input = new Text(parent, SWT.BORDER);
+		input.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				setPageComplete(true);
+			}
+		});
+		return input;
+	}
+	
 	public boolean canFlipToNextPage() {
 		
 		try {

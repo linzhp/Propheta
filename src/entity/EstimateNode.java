@@ -1,20 +1,25 @@
 package entity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * the node in the tree view
  * @author Administrator
  *
  */
-public class EstimateNode {
+public class EstimateNode{
 
-	public String name=null;
-	public List children=new ArrayList();
+	private String name=null;
+	private EstimateNode parent=null;
+	private ArrayList<EstimateNode> children=new ArrayList<EstimateNode>();
 	
-	public EstimateNode(String str){
-		this.name=str;
+	public EstimateNode(String name){
+		this.name=name;
+	}
+	
+	public EstimateNode(String name, EstimateNode parent){
+		this.name=name;
+		this.parent=parent;
 	}
 	
 	
@@ -27,15 +32,58 @@ public class EstimateNode {
 		return this.name;
 	}
 	
-	public void setChildren(List list){
-		this.children =list;
+	public void setChildren(ArrayList<EstimateNode> children){
+		this.children =children;
 	}
 	
-	public List getChildren(){
+	public ArrayList<EstimateNode> getChildren(){
 		return this.children;
 	}
 	
-	public void addChild(EstimateNode en){
-		this.children.add(en);
+	public void setParent(EstimateNode parent){
+		this.parent=parent;
 	}
+	
+	public EstimateNode getParent(){
+		return this.parent;
+	}
+	
+	public void add(EstimateNode node){
+		node.setParent(this);
+		this.children.add(node);
+	}
+
+	public void removeChild(EstimateNode node){
+		this.children.remove(node);
+	}
+	
+	public boolean hasChildren() {
+		if(this.children.size()>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	
+	public boolean isLeaf() {
+		if (this.hasChildren()==false){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	
+	public boolean isRoot() {
+		if(this.parent==null){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	
+
+
 }

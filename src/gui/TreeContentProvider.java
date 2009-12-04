@@ -11,10 +11,10 @@ public class TreeContentProvider implements ITreeContentProvider{
 	
 	
 	@Override
-	public Object[] getChildren(Object arg0) {
-		if(arg0 instanceof EstimateNode){
-			EstimateNode en=(EstimateNode)arg0;
-			return en.children.toArray();
+	public Object[] getChildren(Object input) {
+		if(input instanceof EstimateNode){
+			EstimateNode en=(EstimateNode)input;
+			return en.getChildren().toArray();
 		}else{
 			return new Object[0];
 		}
@@ -22,32 +22,29 @@ public class TreeContentProvider implements ITreeContentProvider{
 	}
 
 	@Override
-	public Object getParent(Object arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object getParent(Object input) {
+		if(input instanceof EstimateNode){
+			EstimateNode en=(EstimateNode)input;
+			return en.getParent();
+		}else{
+			return null;
+		}
 	}
 
 	@Override
-	public boolean hasChildren(Object arg0) {
-		if(arg0 instanceof EstimateNode){
-			EstimateNode en=(EstimateNode)arg0;
-			if(en.getChildren().size()>0){
-				return true;
-			}else{
-				return false;
-			}
+	public boolean hasChildren(Object input) {
+		if(input instanceof EstimateNode){
+			EstimateNode en=(EstimateNode)input;
+			return en.hasChildren();
 		}else{
 			return false;
 		}
 	}
 
 	@Override
-	public Object[] getElements(Object arg0) {
-		if(arg0 instanceof EstimateNode){
-			EstimateNode en=(EstimateNode)arg0;
-			return en.children.toArray();
-		}else if(arg0 instanceof List){
-			return ((List)arg0).toArray();
+	public Object[] getElements(Object input) {
+		if(input instanceof List){
+			return ((List)input).toArray();
 		}else{
 			return new Object[0];
 		}
