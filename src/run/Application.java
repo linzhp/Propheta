@@ -1,12 +1,12 @@
 package run;
 
-import entity.EstimateNode;
 import gui.ContentArea;
 import gui.GUI;
 import gui.TreeArea;
-import newProject.NewProjectAction;
+import gui.contextMenu.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -129,6 +129,16 @@ public class Application extends ApplicationWindow {
 		return mainMenu;
 	}
 	
+	/*
+	@Override
+	protected StatusLineManager createStatusLineManager() {
+		StatusLineManager statusLineManager=new StatusLineManager();
+		statusLineManager.add(new )
+		
+		return statusLineManager;
+	}	
+	*/
+
 	public Composite getMainContent(){
 		return (Composite)getContents();
 	}

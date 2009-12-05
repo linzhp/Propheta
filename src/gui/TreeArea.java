@@ -3,16 +3,26 @@ package gui;
 import java.util.ArrayList;
 
 import newProject.NewEstimationAction;
-import newProject.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.viewers.ITreeViewerListener;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.TreeItem;
 
 import entity.EstimateNode;
+import gui.contextMenu.AddNodeAction;
+import gui.contextMenu.NewProjectAction;
+import gui.contextMenu.RemoveNodeAction;
+import gui.contextMenu.RenameNodeAction;
+import gui.tree.TreeContentProvider;
+import gui.tree.TreeLabelProvider;
 
 
 
@@ -32,7 +42,7 @@ public class TreeArea extends Composite{
 	public TreeArea(Composite parent, int style) {
 		super(parent, style);
 		initControls();
-		addMenu();
+		
 	}
 	
 	
@@ -41,29 +51,113 @@ public class TreeArea extends Composite{
 		this.treeViewer=new TreeViewer(this,SWT.V_SCROLL|SWT.V_SCROLL);
 		this.treeContentProvider=new TreeContentProvider();
 		this.treeLabelProvider=new TreeLabelProvider();
-		this.estimateProjects=new ArrayList<EstimateNode>();
+		this.estimateProjects=new ArrayList<EstimateNode>();		
+		addMenu();
 	}
 	
 	
 	//添加右键菜单
 	public void addMenu(){
-		MenuManager mm = new MenuManager(null);
-		
+		this.treeViewer.getTree().addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				
+			}
+
+			@Override
+			public void mouseDown(MouseEvent e) {
+				EstimateNode node=getSelectedNode();
+				if(node==null){
+					setNoneMenu();
+				}else{
+					if(node.isRoot()){
+						if(node.isLeaf()){
+							setRootLeafMenu();
+						}else{
+							setRootMenu();
+						}						
+					}else{
+						if(node.isLeaf()){
+							setLeafMenu();
+						}else{
+							setNodeMenu();
+						}
+					} 
+				}		
+			}
+
+			@Override
+			public void mouseUp(MouseEvent e) {
+										
+			}			
+		});
+	}
+	
+	
+	private void setNoneMenu(){
+		MenuManager mm = new MenuManager();		
 		mm.add(new NewProjectAction());	
-		mm.add(new NewEstimationAction());
+				
+		Menu menu=mm.createContextMenu(this);
+		this.treeViewer.getTree().setMenu(menu);
+	}
+	
+	
+	private void setRootMenu(){
+		MenuManager mm = new MenuManager();		
+		mm.add(new NewProjectAction());	
 		mm.add(new AddNodeAction());
-		
+		mm.add(new RemoveNodeAction());
+		mm.add(new RenameNodeAction());
 		
 		Menu menu=mm.createContextMenu(this);
 		this.treeViewer.getTree().setMenu(menu);
-		//this.treeViewer.getControl().setMenu(menu);
 	}
+	
+	
+	private void setNodeMenu(){
+		MenuManager mm = new MenuManager();		
+		mm.add(new AddNodeAction());
+		mm.add(new RemoveNodeAction());
+		mm.add(new RenameNodeAction());
+		
+		Menu menu=mm.createContextMenu(this);
+		this.treeViewer.getTree().setMenu(menu);
+	}
+	
+	
+	private void setLeafMenu(){
+		MenuManager mm = new MenuManager();		
+		mm.add(new AddNodeAction());
+		mm.add(new RemoveNodeAction());
+		mm.add(new RenameNodeAction());
+		mm.add(new Separator());
+		mm.add(new NewEstimationAction());			
+		
+		Menu menu=mm.createContextMenu(this);
+		this.treeViewer.getTree().setMenu(menu);
+	}
+	
+	private void setRootLeafMenu(){
+		MenuManager mm = new MenuManager();		
+		mm.add(new NewProjectAction());			
+		mm.add(new AddNodeAction());
+		mm.add(new RemoveNodeAction());
+		mm.add(new RenameNodeAction());
+		mm.add(new Separator());
+		mm.add(new NewEstimationAction());
+		
+		Menu menu=mm.createContextMenu(this);
+		this.treeViewer.getTree().setMenu(menu);
+	}
+	
 	
 	public void dispalyTree(){
 		
 		this.treeViewer.setContentProvider(treeContentProvider);
 		this.treeViewer.setLabelProvider(treeLabelProvider);
-		this.treeViewer.setInput(this.estimateProjects);
+		this.treeViewer.setInput(this.estimateProjects);		
 	}
 	
 	
@@ -74,6 +168,11 @@ public class TreeArea extends Composite{
 	
 	public void addEstimateProjet(EstimateNode en){
 		this.estimateProjects.add(en);
+		this.treeViewer.refresh();
+	}
+	
+	public void removeEstimateProject(EstimateNode en){
+		this.estimateProjects.remove(en);
 		this.treeViewer.refresh();
 	}
 	

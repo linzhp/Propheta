@@ -54,7 +54,15 @@ public class EstimateNode{
 	}
 
 	public void removeChild(EstimateNode node){
+		node.setParent(null);
 		this.children.remove(node);
+	}
+	
+	public void removeAllChildren(){
+		for(int i=0;i<this.children.size();i++){
+			this.children.get(i).setParent(null);
+		}
+		this.children.clear();
 	}
 	
 	public boolean hasChildren() {
