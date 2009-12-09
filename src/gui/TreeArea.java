@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import entity.EstimateNode;
 import estimation.NewEstimationAction;
-import estimation.NewProjectAction;
 import gui.contextMenu.AddNodeAction;
 import gui.contextMenu.NewProjectAction;
 import gui.contextMenu.RemoveNodeAction;
