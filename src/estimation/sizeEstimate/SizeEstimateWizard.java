@@ -1,4 +1,4 @@
-package newProject.sizeEstimate;
+package estimation.sizeEstimate;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;

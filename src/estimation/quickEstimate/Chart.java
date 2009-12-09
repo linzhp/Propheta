@@ -1,4 +1,4 @@
-package newProject.quickEstimate;
+package estimation.quickEstimate;
 
 import java.awt.Font;
 import java.util.ArrayList;

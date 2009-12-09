@@ -1,12 +1,12 @@
-package newProject.detailedEstimate;
+package estimation.sizeEstimate;
 
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardNode;
 import org.eclipse.swt.graphics.Point;
 
-public class DetailedEstimateNode implements IWizardNode {
+public class SizeEstimateNode implements IWizardNode {
 	//用实例变量，防止内存泄漏
-	private DetailedEstimateWizard wizard;
+	private SizeEstimateWizard wizard;
 
 	/**
 	 * 这个方法会被WizardSelectionPage的dispose方法自动调用，
@@ -27,7 +27,7 @@ public class DetailedEstimateNode implements IWizardNode {
 
 	public IWizard getWizard() {
 		if(wizard==null)
-			wizard=new DetailedEstimateWizard();
+			wizard=new SizeEstimateWizard();
 		return wizard;
 	}
 

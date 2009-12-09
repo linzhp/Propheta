@@ -1,4 +1,4 @@
-package newProject.quickEstimate;
+package estimation.quickEstimate;
 
 import gui.GUI;
 import dataManager.CSBSG;

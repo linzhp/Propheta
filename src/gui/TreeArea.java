@@ -2,7 +2,6 @@ package gui;
 
 import java.util.ArrayList;
 
-import newProject.NewEstimationAction;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -17,6 +16,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TreeItem;
 
 import entity.EstimateNode;
+import estimation.NewEstimationAction;
 import gui.contextMenu.AddNodeAction;
 import gui.contextMenu.NewProjectAction;
 import gui.contextMenu.RemoveNodeAction;

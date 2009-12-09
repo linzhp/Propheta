@@ -1,12 +1,12 @@
-package newProject.sizeEstimate;
+package estimation.quickEstimate;
 
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardNode;
 import org.eclipse.swt.graphics.Point;
 
-public class SizeEstimateNode implements IWizardNode {
+public class QuickEstimateNode implements IWizardNode {
 	//用实例变量，防止内存泄漏
-	private SizeEstimateWizard wizard;
+	private QuickEstimateWizard wizard;
 
 	/**
 	 * 这个方法会被WizardSelectionPage的dispose方法自动调用，
@@ -21,13 +21,15 @@ public class SizeEstimateNode implements IWizardNode {
         }
 	}
 
+	@Override
 	public Point getExtent() {
 		return null;
 	}
 
+	@Override
 	public IWizard getWizard() {
 		if(wizard==null)
-			wizard=new SizeEstimateWizard();
+			wizard=new QuickEstimateWizard();
 		return wizard;
 	}
 

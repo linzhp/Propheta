@@ -1,4 +1,4 @@
-package newProject;
+package estimation;
 
 
 import org.eclipse.jface.wizard.Wizard;

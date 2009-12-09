@@ -1,4 +1,4 @@
-package newProject;
+package estimation;
 
 import org.eclipse.jface.wizard.WizardSelectionPage;
 import org.eclipse.swt.SWT;
@@ -8,9 +8,10 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-import newProject.detailedEstimate.DetailedEstimateNode;
-import newProject.quickEstimate.QuickEstimateNode;
-import newProject.sizeEstimate.SizeEstimateNode;
+import estimation.detailedEstimate.DetailedEstimateNode;
+import estimation.quickEstimate.QuickEstimateNode;
+import estimation.sizeEstimate.SizeEstimateNode;
+
 
 public class TaskSelectionPage extends WizardSelectionPage {
 	public static final String NAME = "选择任务";

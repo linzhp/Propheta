@@ -1,4 +1,4 @@
-package newProject;
+package estimation;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.wizard.WizardDialog;

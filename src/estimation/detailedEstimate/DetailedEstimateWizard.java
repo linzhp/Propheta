@@ -1,4 +1,4 @@
-package newProject.detailedEstimate;
+package estimation.detailedEstimate;
 
 import java.util.HashMap;
 
