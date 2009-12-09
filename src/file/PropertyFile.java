@@ -125,8 +125,9 @@ public class PropertyFile {
 		}
 	}
 	
-	/*public static void main(String[] args){
-		System.out.println(readValue("properties\\COCOMO.properties","EM.PVOL.XH"));
-
-	}*/
+//	public static void main(String[] args){
+	//"properties/COCOMO.properties"中最好用“\”，而不是“\\”，因为后者只在window中适用，前者通用
+//		System.out.println(readValue("properties/COCOMO.properties","EM.PVOL.H"));
+//
+//	}
 }

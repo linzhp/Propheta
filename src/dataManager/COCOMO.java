@@ -33,20 +33,20 @@ public class COCOMO {
 		Double sumSF = 0.0;
 		Double multiEM = 1.0;
 		Double A = Double.valueOf(PropertyFile.readValue(
-				"properties\\COCOMO.properties", "A"));
+				"properties/COCOMO.properties", "A"));
 		Double B = Double.valueOf(PropertyFile.readValue(
-				"properties\\COCOMO.properties", "B"));
+				"properties/COCOMO.properties", "B"));
 		Double C = Double.valueOf(PropertyFile.readValue(
-				"properties\\COCOMO.properties", "C"));
+				"properties/COCOMO.properties", "C"));
 		Double D = Double.valueOf(PropertyFile.readValue(
-				"properties\\COCOMO.properties", "D"));
+				"properties/COCOMO.properties", "D"));
 		// 求各SF因子的和
 		String propertyKey;
 		Set<String> factors = factorsSF.keySet();
 		for (String factor : factors) {
 			propertyKey = "SF." + factor + "." + factorsSF.get(factor);
 			sumSF += Double.valueOf(PropertyFile.readValue(
-					"properties\\COCOMO.properties", propertyKey));
+					"properties/COCOMO.properties", propertyKey));
 		}
 		// 求各EM因子的乘积
 		factors = factorsEM.keySet();
@@ -54,7 +54,7 @@ public class COCOMO {
 			propertyKey = "EM." + factor.toString() + "."
 					+ factorsEM.get(factor);
 			multiEM *= Double.valueOf(PropertyFile.readValue(
-					"properties\\COCOMO.properties", propertyKey));
+					"properties/COCOMO.properties", propertyKey));
 		}
 		// 求effort
 		Double E = B + 0.01 * sumSF;
@@ -62,7 +62,7 @@ public class COCOMO {
 		// 求TDEV: Time to development
 		propertyKey = "EM.SCED." + factorsEM.get("SCED");
 		Double SCED = Double.valueOf(PropertyFile.readValue(
-				"properties\\COCOMO.properties", propertyKey));
+				"properties/COCOMO.properties", propertyKey));
 		Double TDEV = C * Math.pow((PM / SCED), (D + 0.2 * (E - B))) * SCED;
 		Double[] effort = { PM, TDEV };
 		System.out.println("A = " + A);

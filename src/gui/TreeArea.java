@@ -2,8 +2,6 @@ package gui;
 
 import java.util.ArrayList;
 
-import newProject.NewEstimationAction;
-import newProject.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -13,6 +11,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 
 import entity.EstimateNode;
+import estimation.NewEstimationAction;
+import estimation.NewProjectAction;
 
 
 

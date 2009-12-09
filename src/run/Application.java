@@ -1,10 +1,10 @@
 package run;
 
 import entity.EstimateNode;
+import estimation.NewProjectAction;
 import gui.ContentArea;
 import gui.GUI;
 import gui.TreeArea;
-import newProject.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.window.ApplicationWindow;
