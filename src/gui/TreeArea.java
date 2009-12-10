@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import entity.EstimateNode;
 import estimation.NewEstimationAction;
+import estimation.detailedEstimate.DetailedEstimationAction;
 import gui.contextMenu.AddNodeAction;
 import gui.contextMenu.NewProjectAction;
 import gui.contextMenu.RemoveNodeAction;
@@ -97,7 +98,7 @@ public class TreeArea extends Composite{
 	private void setNoneMenu(){
 		MenuManager mm = new MenuManager();		
 		mm.add(new NewProjectAction());	
-				
+		mm.add(new DetailedEstimationAction());
 		Menu menu=mm.createContextMenu(this);
 		this.treeViewer.getTree().setMenu(menu);
 	}

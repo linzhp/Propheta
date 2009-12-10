@@ -6,7 +6,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 public class NewEstimationAction extends Action {
 	public NewEstimationAction()
 	{
-		super("估算");
+		super("Wizard估算");
 	}
 	
 	@Override

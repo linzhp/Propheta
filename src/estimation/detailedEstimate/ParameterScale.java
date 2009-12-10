@@ -18,17 +18,9 @@ public class ParameterScale extends Composite {
 	private Scale scale;
 	private String name;
 	private String level = "N";
-	private final static HashMap<Integer, String> selectMap= new HashMap<Integer, String>();
-	static{
-		selectMap.put(0, "VL");
-		selectMap.put(1, "L");
-		selectMap.put(2, "N");
-		selectMap.put(3, "H");
-		selectMap.put(4, "VH");
-		selectMap.put(5, "XH");
-	}
+	private HashMap<Integer, String> selectMap= new HashMap<Integer, String>();
 
-	public ParameterScale(Composite parent, String[] labels, String[] descriptions, int currentPostion) {
+	public ParameterScale(Composite parent, String[] labels, int currentPostion) {
 		super(parent, SWT.NONE);
 		int length=labels.length;
 		GridLayout gl=new GridLayout(length,false);
@@ -36,7 +28,7 @@ public class ParameterScale extends Composite {
 		gl.verticalSpacing=0;//各元素的垂直间距
 		setLayout(gl);
 		scale=new Scale(this, SWT.NONE);
-		scale.setSize(length, 10);
+//		scale.setSize(length, 10);
 		scale.setMinimum(0);
 		scale.setMaximum(length-1);
 		scale.setIncrement(1);
@@ -44,12 +36,14 @@ public class ParameterScale extends Composite {
 		scale.setSelection(currentPostion);
 		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
 		gd.horizontalSpan=length;//水平跨度
+		gd.grabExcessHorizontalSpace = true;
+		gd.horizontalAlignment = GridData.FILL;
 		scale.setLayoutData(gd);
 		
 		for(int i=0;i<length;i++) {
 			Label label=new Label(this, SWT.SINGLE);
 			label.setText(labels[i]);
-			label.setToolTipText(descriptions[i]);
+			selectMap.put(i, labels[i]);
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
 		}
 	}
@@ -86,7 +80,7 @@ public class ParameterScale extends Composite {
 		this.name = value;
 	}
 	
-	public String getName()
+	public String getParamName()
 	{
 		return this.name;
 	}

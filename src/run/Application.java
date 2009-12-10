@@ -13,6 +13,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
@@ -93,8 +94,10 @@ public class Application extends ApplicationWindow {
 		});
 		
 		//右上部窗口
-		ContentArea topContentArea=new ContentArea(rightArea,SWT.BORDER);
+		CTabFolder topContentArea=new CTabFolder(rightArea,SWT.BORDER);
 		topContentArea.setLayout(new FillLayout());
+		topContentArea.setDragDetect(true);
+		topContentArea.setMaximizeVisible(true);
 		fd = new FormData();
 		fd.top = new FormAttachment(0, 0);
 		fd.bottom = new FormAttachment(sash2, 0);

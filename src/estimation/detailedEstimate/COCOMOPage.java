@@ -153,20 +153,20 @@ public class COCOMOPage extends WizardPage {
 	//设置SF因子的scale控件
 	private void initialScaleSF(int index, String name)
 	{
-		scalesSF[index] = new ParameterScale(composite,labels,descriptions,2);
+		scalesSF[index] = new ParameterScale(composite,descriptions,2);
 		scalesSF[index].setName(name);
 	}
 	//设置EM因子的scale控件
 	private void initialScaleEM(int index, String name)
 	{
-		scalesEM[index] = new ParameterScale(composite,labels,descriptions,2);
+		scalesEM[index] = new ParameterScale(composite,descriptions,2);
 		scalesEM[index].setName(name);
 	}
 	
 	public HashMap<String, String> getFactorsSF() {
 		for(ParameterScale scale: scalesSF)
 		{
-			factorsSF.put(scale.getName(), scale.getLevel());
+			factorsSF.put(scale.getParamName(), scale.getLevel());
 			
 		}
 		return factorsSF;
@@ -175,7 +175,7 @@ public class COCOMOPage extends WizardPage {
 	public HashMap<String, String> getFactorsEM() {
 		for(ParameterScale scale: scalesEM)
 		{
-			factorsEM.put(scale.getName(), scale.getLevel());
+			factorsEM.put(scale.getParamName(), scale.getLevel());
 		}
 		return factorsEM;
 	}

@@ -12,5 +12,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.13.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/sqlitejdbc-v056.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-math-2.0.jar" sourcepath="E:/Java/Code/Estimation/lib/commons-math-2.0-sources.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.ui.forms_3.4.1.v20090714_35x.jar" sourcepath="lib/org.eclipse.ui.forms.source_3.4.1.v20090714_35x.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
