@@ -1,16 +1,11 @@
 package run;
 
-import entity.EstimateNode;
-import gui.ContentArea;
-import gui.GUI;
-import gui.TreeArea;
 import gui.ContentArea;
 import gui.GUI;
 import gui.TreeArea;
 import gui.contextMenu.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -32,9 +27,20 @@ public class Application extends ApplicationWindow {
 	public void run() {
 		setBlockOnOpen(true);
 		open();
+	}
+	
+	private void dispose(){
+		GUI.getToolkit().dispose();
 		Display.getCurrent().dispose();
 	}
 
+	public static void main(String[] args) {
+		instance = new Application();
+		instance.run();
+		instance.dispose();
+	}
+	
+	@Override
 	protected Control createContents(Composite parent) {
 		Composite mainComposite = (Composite)super.createContents(parent);
 		//contentArea.setLayout(new FillLayout());//TODO 暂时设为FillLayout
@@ -148,11 +154,6 @@ public class Application extends ApplicationWindow {
 
 	public Composite getMainContent(){
 		return (Composite)getContents();
-	}
-	
-	public static void main(String[] args) {
-		instance = new Application();
-		instance.run();
 	}
 	
 	private static Application instance;

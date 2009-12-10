@@ -1,7 +1,8 @@
 package estimation.detailedEstimate;
 
+import gui.GUI;
+
 import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionListener;
@@ -10,6 +11,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 
 
@@ -28,6 +30,8 @@ public class ParameterScale extends Composite {
 		gl.verticalSpacing=0;//各元素的垂直间距
 		setLayout(gl);
 		scale=new Scale(this, SWT.NONE);
+		FormToolkit toolkit = GUI.getToolkit();
+		scale.setBackground(toolkit.getColors().getBackground());
 //		scale.setSize(length, 10);
 		scale.setMinimum(0);
 		scale.setMaximum(length-1);

@@ -5,7 +5,7 @@ import gui.GUI;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 public class DetailedEstimationAction extends Action implements
 		ISelectionChangedListener {
@@ -22,7 +22,7 @@ public class DetailedEstimationAction extends Action implements
 
 	@Override
 	public void run(){
-		CTabFolder folder = GUI.getTopContentArea();
-		new COCOMOParameters(folder);
+		ScrolledForm form = GUI.createNewParamTab("详细估算");
+		new COCOMOParameters(form);
 	}
 }

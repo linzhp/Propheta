@@ -1,46 +1,33 @@
 package estimation.detailedEstimate;
 
+import gui.GUI;
+
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
-import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
-/**
- * CTabItem的文档中有这么一句：IMPORTANT: This class is not intended to be subclassed.
- * @author clive
- *
- */
-public class COCOMOParameters extends CTabItem{
+public class COCOMOParameters{
 	private FormToolkit toolkit;
 	private ScrolledForm form;
 
-	public COCOMOParameters(CTabFolder parent){
-		super(parent, SWT.CLOSE);
-		setText("详细估算");
+	public COCOMOParameters(ScrolledForm form){
+		this.form = form;
+		toolkit = GUI.getToolkit();
+		Composite parent = form.getBody();
+		parent.setLayout(new ColumnLayout());
+		createSize(parent);
+		createScaleFactors(parent);
+		createEffortMultipliers(parent);
 
-		toolkit = new FormToolkit(parent.getDisplay());
-		form = toolkit.createScrolledForm(parent);
-		Composite toplevel = form.getBody();
-		toplevel.setLayout(new ColumnLayout());
-		
-		createSize(toplevel);
-		createScaleFactors(toplevel);
-		createEffortMultipliers(toplevel);
-
-		setControl(form);
 //		toolkit.dispose();
 	}
 	
@@ -85,10 +72,5 @@ public class COCOMOParameters extends CTabItem{
 		
 	}
 	
-	@Override
-	public void dispose(){
-		toolkit.dispose();
-		super.dispose();
-	}
 }
 
