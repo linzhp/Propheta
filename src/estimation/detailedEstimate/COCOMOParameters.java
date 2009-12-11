@@ -3,8 +3,12 @@ package estimation.detailedEstimate;
 import gui.GUI;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
@@ -18,15 +22,17 @@ import org.eclipse.ui.forms.widgets.Section;
 public class COCOMOParameters{
 	private FormToolkit toolkit;
 	private ScrolledForm form;
+	private String[] levels;
 
 	public COCOMOParameters(ScrolledForm form){
 		this.form = form;
 		toolkit = GUI.getToolkit();
+		levels = new String[] {"极低","很低","低","正常","高","很高","极高"};
 		Composite parent = form.getBody();
 		parent.setLayout(new ColumnLayout());
 		createSize(parent);
-		createScaleFactors(parent);
 		createEffortMultipliers(parent);
+		createScaleFactors(parent);
 
 //		toolkit.dispose();
 	}
@@ -41,9 +47,8 @@ public class COCOMOParameters{
 		return pane;		
 	}
 	
-	public Composite createScaleFactors(Composite parent){
+	public void createScaleFactors(Composite parent){
 		String[] sfs = {"PREC","FLEX","RESL","TEAM","PMAT"};
-		String[] levels={"很低","低","正常","高","很高","极高"};
 		Section section = toolkit.createSection(parent,
 				Section.DESCRIPTION | ExpandableComposite.TWISTIE
 						| ExpandableComposite.TITLE_BAR);
@@ -54,22 +59,80 @@ public class COCOMOParameters{
 			}
 		});
 		section.setText("比例因子");
-		Composite pane = toolkit.createComposite(section);
-		pane.setLayout(new GridLayout(2, false));
-		for(String sf:sfs){
-			toolkit.createLabel(pane, sf);
-			ParameterScale scale = new ParameterScale(pane, levels, 2);
+		Composite sectionClient = toolkit.createComposite(section);
+		buildSectionContent(sfs, sectionClient);
+		
+		section.setClient(sectionClient);
+	}
+	
+	public void createEffortMultipliers(Composite parent){
+		Composite radioArea = toolkit.createComposite(parent);
+		radioArea.setLayout(new RowLayout(SWT.HORIZONTAL));
+		Button earlyDesignRadio = toolkit.createButton(radioArea, "前期设计", SWT.RADIO);
+		Button postArchRadio = toolkit.createButton(radioArea, "后体系结构", SWT.RADIO);
+		
+		String[] sectionNames = {"产品因素","平台因素","人员因素","项目因素"};
+		int numSections = sectionNames.length;
+		StackLayout[] layouts = new StackLayout[numSections];
+		Composite[] earlyDesignFactors = new Composite[numSections];
+		Composite[] postArchFactors = new Composite[numSections];
+		//初始化各个小节
+		for(int i=0;i<numSections;i++){
+			Section section = toolkit.createSection(parent, 
+					Section.DESCRIPTION | ExpandableComposite.TWISTIE| ExpandableComposite.TITLE_BAR);
+			section.setText(sectionNames[i]);
+			Composite sectionClient = toolkit.createComposite(section);
+			layouts[i] = new StackLayout();
+			sectionClient.setLayout(layouts[i]);
+			earlyDesignFactors[i] = postArchFactors[i] = toolkit.createComposite(sectionClient);
+			section.setClient(sectionClient);
+		}
+		//两种模式切换，为了充分利用ColumnLayout的特性，所有section都是form的孩子，Stack之间的切换只能在section内部
+		addListenerTo(earlyDesignRadio, layouts, earlyDesignFactors);
+		addListenerTo(postArchRadio, layouts, postArchFactors);
+		earlyDesignRadio.setSelection(true);
+		
+		String[][] earlyDesignDrivers = {{"RCPX","RUSE"},{"PDIF"},{"PERS","PREX"},{"FCIL","SCED"}};
+		String[][] postArchDrivers = {{}};
+		
+		fillSections(earlyDesignDrivers, earlyDesignFactors);
+	}
+	
+	private void fillSections(String[][] drivers, Composite[] sections){
+		for(int i=0;i<sections.length;i++){
+			buildSectionContent(drivers[i], sections[i]);
+		}
+	}
+	
+	private void buildSectionContent(String[] drivers, Composite parent){
+		parent.setLayout(new GridLayout(2, false));
+		for(String d:drivers){
+			toolkit.createLabel(parent, d);
+			ParameterScale scale = new ParameterScale(parent, levels, 2);
 			toolkit.adapt(scale);
 		}
 		
-		section.setClient(pane);
-		return section;
 	}
-	
-	public Composite createEffortMultipliers(Composite parent){
-		Composite pane = toolkit.createComposite(parent);
-		return pane;
-		
+
+	private void addListenerTo(Button radio,
+			final StackLayout[] layouts, final Composite[] factorsPane) {
+		radio.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				for(int i=0;i<layouts.length;i++){
+					layouts[i].topControl = factorsPane[i]; 
+					factorsPane[i].getParent().layout();
+				}
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+				
+			}
+		});
 	}
 	
 }
