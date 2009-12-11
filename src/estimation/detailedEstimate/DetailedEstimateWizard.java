@@ -51,9 +51,7 @@ public class DetailedEstimateWizard extends Wizard {
 			Double size = (double)getSize();
 			Double[] effort = COCOMO.getModuleEffortTime(size, factorsSF, factorsEM);
 			
-			//在GUI.getButtomContentArea()上生成显示结果的composite：resultView
-			GUI.getButtomContentArea().disposeCurrentPage();
-			Composite resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
+			Composite resultView = GUI.createNewResultTab("详细估算结果");
 			GridLayout layout = new GridLayout(1, false);
 			layout.verticalSpacing = 10;
 			resultView.setLayout(layout);
