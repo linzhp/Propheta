@@ -44,9 +44,12 @@ public class COCOMO {
 		String propertyKey;
 		Set<String> factors = factorsSF.keySet();
 		for (String factor : factors) {
+			
 			propertyKey = "SF." + factor + "." + factorsSF.get(factor);
+			System.out.println(propertyKey);
 			sumSF += Double.valueOf(PropertyFile.readValue(
 					"properties/COCOMO.properties", propertyKey));
+			System.out.println(propertyKey);
 		}
 		// 求各EM因子的乘积
 		factors = factorsEM.keySet();

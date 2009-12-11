@@ -21,30 +21,26 @@ import org.jfree.experimental.chart.swt.ChartComposite;
 public class QuickEstimateWizard extends Wizard {
 
 	public void addPages() {
-		addPage(new SizePage());
-		addPage(new PIDataBasePage());
-		addPage(new PIFactorPage());
+		addPage(new PIPage());
 	}
 
-	private SizePage getSizePage() {
-		return (SizePage) getPage(SizePage.PAGE_NAME);
-	}
+	
 
-	private PIFactorPage getFactorPage() {
-		return (PIFactorPage) getPage(PIFactorPage.PAGE_NAME);
+	private PIPage getPIPage() {
+		return (PIPage) getPage(PIPage.PAGE_NAME);
 	}
 
 	private int getSize() {
-		return getSizePage().getSize();
+		return getPIPage().getSize();
 	}
 
 	private HashMap<String, String> getFactors() {
-		return getFactorPage().getFactors();
+		return getPIPage().getFactors();
 	}
 
 	public boolean canFinish() {
-		if (getContainer().getCurrentPage() instanceof PIFactorPage
-				&& getFactorPage().canFinish())
+		if (getContainer().getCurrentPage() instanceof PIPage
+				&& getPIPage().canFinish())
 			return true;	
 		else
 			return false;
