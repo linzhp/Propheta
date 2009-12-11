@@ -62,9 +62,7 @@ public class QuickEstimateWizard extends Wizard {
 			//for the statistic of median,mean and standard deviation 
 			DescriptiveStatistics stats = new DescriptiveStatistics();
 			
-			//在GUI.getButtomContentArea()上生成显示结果的 composite：resultView
-			GUI.getButtomContentArea().disposeCurrentPage();
-			Composite resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
+			Composite resultView = GUI.createNewResultTab("快速估算结果");
 			GridLayout layout = new GridLayout(1, false);
 			layout.verticalSpacing = 10;
 			resultView.setLayout(layout);

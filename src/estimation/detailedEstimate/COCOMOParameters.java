@@ -67,10 +67,14 @@ public class COCOMOParameters{
 	}
 	
 	public void createEffortMultipliers(Composite parent){
-		Composite radioArea = toolkit.createComposite(parent);
-		radioArea.setLayout(new RowLayout(SWT.HORIZONTAL));
-		Button earlyDesignRadio = toolkit.createButton(radioArea, "前期设计", SWT.RADIO);
-		Button postArchRadio = toolkit.createButton(radioArea, "后体系结构", SWT.RADIO);
+		Composite buttonArea = toolkit.createComposite(parent);
+		RowLayout layout = new RowLayout(SWT.HORIZONTAL);
+		layout.spacing = 20;
+		buttonArea.setLayout(layout);
+		Button earlyDesignRadio = toolkit.createButton(buttonArea, "前期设计", SWT.RADIO);
+		Button postArchRadio = toolkit.createButton(buttonArea, "后体系结构", SWT.RADIO);
+		Button ok = toolkit.createButton(buttonArea, "确定", SWT.PUSH);
+		ok.setEnabled(false);
 		
 		String[] sectionNames = {"产品因素","平台因素","人员因素","项目因素"};
 		int numSections = sectionNames.length;
@@ -90,9 +94,8 @@ public class COCOMOParameters{
 			section.setClient(sectionClient);
 		}
 		//两种模式切换，为了充分利用ColumnLayout的特性，所有section都是form的孩子，Stack之间的切换只能在section内部
-		earlyDesignRadio.addSelectionListener(new RadioListener(earlyDesignFactors, layouts));
-		postArchRadio.addSelectionListener(new RadioListener(postArchFactors, layouts));
-		postArchRadio.setSelection(true);
+		earlyDesignRadio.addSelectionListener(new RadioListener(earlyDesignFactors, layouts,ok));
+		postArchRadio.addSelectionListener(new RadioListener(postArchFactors, layouts,ok));
 		
 		String[][] earlyDesignDrivers = {{"RCPX","RUSE"},{"PDIF"},{"PERS","PREX"},{"FCIL","SCED"}};
 		String[][] postArchDrivers = {{"RELY","DATA","CPLX","RUSE","DOCU"},{"TIME","STOR","PVOL"},
@@ -119,12 +122,14 @@ public class COCOMOParameters{
 	}
 
 	private final class RadioListener implements SelectionListener {
-		private final Composite[] factorsPane;
-		private final StackLayout[] layouts;
+		private Composite[] factorsPane;
+		private StackLayout[] layouts;
+		private Button ok;
 
-		private RadioListener(Composite[] factorsPane, StackLayout[] layouts) {
+		private RadioListener(Composite[] factorsPane, StackLayout[] layouts, Button ok) {
 			this.factorsPane = factorsPane;
 			this.layouts = layouts;
+			this.ok = ok;
 		}
 
 		@Override
@@ -132,6 +137,7 @@ public class COCOMOParameters{
 			for(int i=0;i<layouts.length;i++){
 				layouts[i].topControl = factorsPane[i]; 
 				factorsPane[i].getParent().layout();
+				ok.setEnabled(true);
 			}
 			
 		}

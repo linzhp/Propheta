@@ -9,12 +9,16 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabFolder2Adapter;
+import org.eclipse.swt.custom.CTabFolderEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
 public class Application extends ApplicationWindow {
@@ -22,6 +26,7 @@ public class Application extends ApplicationWindow {
 	public Application() {
 		super(null);
 		addMenuBar();
+		
 	}
 
 	public void run() {
@@ -43,7 +48,6 @@ public class Application extends ApplicationWindow {
 	@Override
 	protected Control createContents(Composite parent) {
 		Composite mainComposite = (Composite)super.createContents(parent);
-		//contentArea.setLayout(new FillLayout());//TODO 暂时设为FillLayout
 		mainComposite.setLayout(new FormLayout());//改为FormLayout hezhimin 11-20
 		
 		
@@ -76,50 +80,71 @@ public class Application extends ApplicationWindow {
 		
 		//composite to display the content
 		Composite rightArea=new Composite(mainComposite,SWT.NONE);
-		rightArea.setLayout(new FormLayout());
+		rightArea.setLayout(new GridLayout(1, false));
 		fd = new FormData();
 		fd.top = new FormAttachment(0, 0);
 		fd.bottom = new FormAttachment(100, 0);
 		fd.left = new FormAttachment(sash1, 0);
 		fd.right = new FormAttachment(100, 0);
 		rightArea.setLayoutData(fd);  
-		
-		//分栏条 （上下）
-		final Sash sash2=new Sash(rightArea,SWT.HORIZONTAL);
-		fd = new FormData();
-		fd.top = new FormAttachment(50, 0); // Attach to top
-		
-		fd.left = new FormAttachment(0, 0); 
-		fd.right=new FormAttachment(100,0);
-		sash2.setLayoutData(fd);
-		sash2.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-				((FormData) sash2.getLayoutData()).top = new FormAttachment(0, event.y);
-			    sash2.getParent().layout();		    
-			}			  
+				
+		topContentArea = new CTabFolder(rightArea,SWT.BORDER);
+		topContentArea.setDragDetect(true);
+		topContentArea.setSimple(false);
+		topContentArea.setMaximizeVisible(true);
+		topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		topContentArea.addCTabFolder2Listener(new CTabFolder2Adapter(){
+			@Override
+			public void maximize(CTabFolderEvent event) {
+				topContentArea.setMaximized(true);
+				buttomContentArea.setMinimized(true);
+				buttomContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+				topContentArea.getParent().layout(true);
+			}
+
+			@Override
+			public void restore(CTabFolderEvent event) {
+				topContentArea.setMaximized(false);
+				buttomContentArea.setMinimized(false);
+				buttomContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+				topContentArea.getParent().layout(true);
+				
+			}
 		});
 		
-		//右上部窗口
-		CTabFolder topContentArea=new CTabFolder(rightArea,SWT.BORDER);
-		topContentArea.setLayout(new FillLayout());
-		topContentArea.setDragDetect(true);
-		topContentArea.setMaximizeVisible(true);
-		fd = new FormData();
-		fd.top = new FormAttachment(0, 0);
-		fd.bottom = new FormAttachment(sash2, 0);
-		fd.left = new FormAttachment(0, 0);
-		fd.right = new FormAttachment(100, 0);
-		topContentArea.setLayoutData(fd);  
-		
-		//右下部窗口
-		ContentArea buttomContentArea=new ContentArea(rightArea,SWT.BORDER);
-		buttomContentArea.setLayout(new FillLayout());
-		fd = new FormData();
-		fd.top = new FormAttachment(sash2, 0);
-		fd.bottom = new FormAttachment(100, 0);
-		fd.left = new FormAttachment(0, 0);
-		fd.right = new FormAttachment(100, 0);
-		buttomContentArea.setLayoutData(fd);  
+		//TODO 分栏条 （上下）：让它可以移动
+		final Sash sash2=new Sash(rightArea,SWT.HORIZONTAL);
+//		sash2.addSelectionListener(new SelectionAdapter() {
+//			public void widgetSelected(SelectionEvent event) {
+//				((FormData) sash2.getLayoutData()).top = new FormAttachment(0, event.y);
+//			    sash2.getParent().layout();		    
+//			}			  
+//		});
+
+		buttomContentArea = new CTabFolder(rightArea,SWT.BORDER);
+		buttomContentArea.setDragDetect(true);
+		buttomContentArea.setSimple(false);
+		buttomContentArea.setMaximizeVisible(true);
+		buttomContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		buttomContentArea.addCTabFolder2Listener(new CTabFolder2Adapter(){
+			@Override
+			public void maximize(CTabFolderEvent event) {
+				buttomContentArea.setMaximized(true);
+				topContentArea.setMinimized(true);
+				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+				buttomContentArea.getParent().layout(true);
+			}
+
+			@Override
+			public void restore(CTabFolderEvent event) {
+				buttomContentArea.setMaximized(false);
+				topContentArea.setMinimized(false);
+				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+				buttomContentArea.getParent().layout(true);
+				
+			}
+		});
+
 		
 		
 	    GUI.setTreeArea(treeArea);
@@ -157,6 +182,8 @@ public class Application extends ApplicationWindow {
 	}
 	
 	private static Application instance;
+	private CTabFolder topContentArea;
+	private CTabFolder buttomContentArea;
 	
 	public static Application getInstance()
 	{
