@@ -20,6 +20,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 public class COCOMOParameters{
+
 	private FormToolkit toolkit;
 	private ScrolledForm form;
 	private String[] levels;
@@ -84,17 +85,20 @@ public class COCOMOParameters{
 			Composite sectionClient = toolkit.createComposite(section);
 			layouts[i] = new StackLayout();
 			sectionClient.setLayout(layouts[i]);
-			earlyDesignFactors[i] = postArchFactors[i] = toolkit.createComposite(sectionClient);
+			earlyDesignFactors[i] = toolkit.createComposite(sectionClient);
+			postArchFactors[i] = toolkit.createComposite(sectionClient);
 			section.setClient(sectionClient);
 		}
 		//两种模式切换，为了充分利用ColumnLayout的特性，所有section都是form的孩子，Stack之间的切换只能在section内部
-		addListenerTo(earlyDesignRadio, layouts, earlyDesignFactors);
-		addListenerTo(postArchRadio, layouts, postArchFactors);
-		earlyDesignRadio.setSelection(true);
+		earlyDesignRadio.addSelectionListener(new RadioListener(earlyDesignFactors, layouts));
+		postArchRadio.addSelectionListener(new RadioListener(postArchFactors, layouts));
+		postArchRadio.setSelection(true);
 		
 		String[][] earlyDesignDrivers = {{"RCPX","RUSE"},{"PDIF"},{"PERS","PREX"},{"FCIL","SCED"}};
-		String[][] postArchDrivers = {{}};
+		String[][] postArchDrivers = {{"RELY","DATA","CPLX","RUSE","DOCU"},{"TIME","STOR","PVOL"},
+				{"ACAP","PCAP","PCON","APEX","PLEX","LTEX"},{"TOOL","SITE","SCED"}};
 		
+		fillSections(postArchDrivers, postArchFactors);
 		fillSections(earlyDesignDrivers, earlyDesignFactors);
 	}
 	
@@ -114,26 +118,29 @@ public class COCOMOParameters{
 		
 	}
 
-	private void addListenerTo(Button radio,
-			final StackLayout[] layouts, final Composite[] factorsPane) {
-		radio.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				for(int i=0;i<layouts.length;i++){
-					layouts[i].topControl = factorsPane[i]; 
-					factorsPane[i].getParent().layout();
-				}
-				
+	private final class RadioListener implements SelectionListener {
+		private final Composite[] factorsPane;
+		private final StackLayout[] layouts;
+
+		private RadioListener(Composite[] factorsPane, StackLayout[] layouts) {
+			this.factorsPane = factorsPane;
+			this.layouts = layouts;
+		}
+
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			for(int i=0;i<layouts.length;i++){
+				layouts[i].topControl = factorsPane[i]; 
+				factorsPane[i].getParent().layout();
 			}
 			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-				
-			}
-		});
+		}
+
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+			
+		}
 	}
-	
 }
 
