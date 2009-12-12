@@ -18,7 +18,7 @@ public class COCOMOResults {
 	
 	public void show()
 	{
-		Double[] effort = COCOMO.getModuleEffortTime(parameters.getSize(), 
+		Double[] effort = COCOMO.getModuleEffortTime(parameters.getEstimatedSize(), 
 				parameters.getScaleFactors(), 
 				parameters.getEffortMultipliers());
 		

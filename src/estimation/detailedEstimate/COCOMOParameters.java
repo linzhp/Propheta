@@ -1,9 +1,8 @@
 package estimation.detailedEstimate;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import gui.GUI;
+import gui.ParameterArea;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -16,37 +15,33 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
-import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
-public class COCOMOParameters{
+public class COCOMOParameters extends ParameterArea{
 
-	private FormToolkit toolkit;
-	private ScrolledForm form;
-	private String[] levels = {"XL","VL","L","N","H","VH","XH"};
-	private HashMap<String, ParameterScale> scales = new HashMap<String, ParameterScale>();
-	private String[] scaleFactors = {"PREC","FLEX","RESL","TEAM","PMAT"};
+	private static String[] levels = {"XL","VL","L","N","H","VH","XH"};
+	private HashMap<String, ParameterScale> scales;
+	private String[] scaleFactors;
 	private String[][] earlyDesignDrivers;
 	private String[][] postArchDrivers;
 	private Button earlyDesignRadio;
 	private Button postArchRadio;
 	private Spinner sizeSpinner;
 
-	public COCOMOParameters(ScrolledForm form){
-		this.form = form;
-		toolkit = GUI.getToolkit();
-		Composite parent = form.getBody();
-		parent.setLayout(new ColumnLayout());
-		createSize(parent);
-		createEffortMultipliers(parent);
-		createScaleFactors(parent);
-
+	public COCOMOParameters(Composite parent){
+		super(parent);
 	}
 	
-	public double getSize()
+	@Override
+	protected void createContents(Composite parent) {
+		createSize(parent);
+		createScaleFactors(parent);
+		createEffortMultipliers(parent);
+	}
+	
+	
+	public double getEstimatedSize()
 	{
 		return sizeSpinner.getSelection();
 	}
@@ -101,6 +96,7 @@ public class COCOMOParameters{
 		});
 		section.setText("比例因子");
 		Composite sectionClient = toolkit.createComposite(section);
+		scaleFactors = new String[]{"PREC","FLEX","RESL","TEAM","PMAT"};
 		buildSectionContent(scaleFactors, sectionClient);
 		
 		section.setClient(sectionClient);
@@ -166,6 +162,7 @@ public class COCOMOParameters{
 	
 	private void buildSectionContent(String[] drivers, Composite parent){
 		parent.setLayout(new GridLayout(2, false));
+		scales = new HashMap<String, ParameterScale>();
 		for(String d:drivers){
 			toolkit.createLabel(parent, d);
 			ParameterScale scale = new ParameterScale(parent, levels, 3);
@@ -202,5 +199,6 @@ public class COCOMOParameters{
 			
 		}
 	}
+
 }
 
