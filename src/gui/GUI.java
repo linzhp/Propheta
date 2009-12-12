@@ -1,5 +1,7 @@
 package gui;
 
+import gui.tree.TreeArea;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;

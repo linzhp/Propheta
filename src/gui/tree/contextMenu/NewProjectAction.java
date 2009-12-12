@@ -1,4 +1,4 @@
-package gui.contextMenu;
+package gui.tree.contextMenu;
 
 import entity.EstimateNode;
 import gui.GUI;

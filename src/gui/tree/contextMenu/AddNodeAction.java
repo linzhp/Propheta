@@ -1,10 +1,11 @@
-package gui;
+package gui.tree.contextMenu;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.window.Window;
 
 import entity.EstimateNode;
+import gui.GUI;
 
 public class AddNodeAction extends Action{
 
@@ -17,7 +18,6 @@ public class AddNodeAction extends Action{
 		InputDialog input=new InputDialog(null,"请输入节点名称","节点名称","",null);
 		if(input.open()==Window.OK){
 			EstimateNode newNode=new EstimateNode(input.getValue());
-			newNode.setParent(node);
 			node.add(newNode);
 			GUI.getTreeArea().getTreeViewer().refresh();
 			if(GUI.getTreeArea().getTreeViewer().getExpandedState(node)==false){

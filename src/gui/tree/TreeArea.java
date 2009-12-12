@@ -1,4 +1,4 @@
-package gui;
+package gui.tree;
 
 import java.util.ArrayList;
 
@@ -17,12 +17,10 @@ import org.eclipse.swt.widgets.TreeItem;
 import entity.EstimateNode;
 import estimation.NewEstimationAction;
 import estimation.detailedEstimate.DetailedEstimationAction;
-import gui.contextMenu.AddNodeAction;
-import gui.contextMenu.NewProjectAction;
-import gui.contextMenu.RemoveNodeAction;
-import gui.contextMenu.RenameNodeAction;
-import gui.tree.TreeContentProvider;
-import gui.tree.TreeLabelProvider;
+import gui.tree.contextMenu.AddNodeAction;
+import gui.tree.contextMenu.NewProjectAction;
+import gui.tree.contextMenu.RemoveNodeAction;
+import gui.tree.contextMenu.RenameNodeAction;
 
 
 

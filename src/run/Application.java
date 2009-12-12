@@ -1,8 +1,8 @@
 package run;
 
 import gui.GUI;
-import gui.TreeArea;
-import gui.contextMenu.NewProjectAction;
+import gui.tree.TreeArea;
+import gui.tree.contextMenu.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.window.ApplicationWindow;
