@@ -1,5 +1,8 @@
 package estimation.detailedEstimate;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import gui.GUI;
 
 import org.eclipse.swt.SWT;
@@ -23,36 +26,73 @@ public class COCOMOParameters{
 
 	private FormToolkit toolkit;
 	private ScrolledForm form;
-	private String[] levels;
+	private String[] levels = {"XL","VL","L","N","H","VH","XH"};
+	private HashMap<String, ParameterScale> scales = new HashMap<String, ParameterScale>();
+	private String[] scaleFactors = {"PREC","FLEX","RESL","TEAM","PMAT"};
+	private String[][] earlyDesignDrivers;
+	private String[][] postArchDrivers;
+	private Button earlyDesignRadio;
+	private Button postArchRadio;
+	private Spinner sizeSpinner;
 
 	public COCOMOParameters(ScrolledForm form){
 		this.form = form;
 		toolkit = GUI.getToolkit();
-		levels = new String[] {"极低","很低","低","正常","高","很高","极高"};
 		Composite parent = form.getBody();
 		parent.setLayout(new ColumnLayout());
 		createSize(parent);
 		createEffortMultipliers(parent);
 		createScaleFactors(parent);
 
-//		toolkit.dispose();
 	}
 	
-	public Composite createSize(Composite parent){
+	public double getSize()
+	{
+		return sizeSpinner.getSelection();
+	}
+	
+	public HashMap<String, String> getScaleFactors()
+	{
+		HashMap<String, String> result = new HashMap<String, String>();
+		for(String sf : scaleFactors)
+		{
+			result.put(sf, scales.get(sf).getLevel());
+		}
+		return result;
+	}
+	
+	public HashMap<String, String> getEffortMultipliers()
+	{
+		HashMap<String, String> result = new HashMap<String, String>();
+		if(earlyDesignRadio.getSelection()){
+			for(String[] section : earlyDesignDrivers){
+				for(String s : section){
+					result.put(s, scales.get(s).getLevel());
+				}
+			}
+		}else if(earlyDesignRadio.getSelection()){
+			for(String[] section : earlyDesignDrivers){
+				for(String s : section){
+					result.put(s, scales.get(s).getLevel());
+				}
+			}
+		}
+		return result;
+	}
+	
+	private Composite createSize(Composite parent){
 		Composite pane = toolkit.createComposite(parent);
 		pane.setLayout(new RowLayout(SWT.HORIZONTAL));
 		toolkit.createLabel(pane, "规模（SLOC）：");
-		Spinner spinner = new Spinner(pane, SWT.BORDER);
-		spinner.setMaximum(Spinner.LIMIT);
-		spinner.setSelection(1000);
+		sizeSpinner = new Spinner(pane, SWT.BORDER);
+		sizeSpinner.setMaximum(Spinner.LIMIT);
+		sizeSpinner.setSelection(1000);
 		return pane;		
 	}
 	
-	public void createScaleFactors(Composite parent){
-		String[] sfs = {"PREC","FLEX","RESL","TEAM","PMAT"};
+	private void createScaleFactors(Composite parent){
 		Section section = toolkit.createSection(parent,
-				Section.DESCRIPTION | ExpandableComposite.TWISTIE
-						| ExpandableComposite.TITLE_BAR);
+				ExpandableComposite.TWISTIE| ExpandableComposite.TITLE_BAR);
 		section.addExpansionListener(new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
@@ -61,22 +101,35 @@ public class COCOMOParameters{
 		});
 		section.setText("比例因子");
 		Composite sectionClient = toolkit.createComposite(section);
-		buildSectionContent(sfs, sectionClient);
+		buildSectionContent(scaleFactors, sectionClient);
 		
 		section.setClient(sectionClient);
 	}
 	
-	public void createEffortMultipliers(Composite parent){
+	private void createEffortMultipliers(Composite parent){
 		Composite buttonArea = toolkit.createComposite(parent);
 		RowLayout layout = new RowLayout(SWT.HORIZONTAL);
 		layout.spacing = 20;
 		buttonArea.setLayout(layout);
-		Button earlyDesignRadio = toolkit.createButton(buttonArea, "前期设计", SWT.RADIO);
-		Button postArchRadio = toolkit.createButton(buttonArea, "后体系结构", SWT.RADIO);
+		earlyDesignRadio = toolkit.createButton(buttonArea, "前期设计", SWT.RADIO);
+		postArchRadio = toolkit.createButton(buttonArea, "后体系结构", SWT.RADIO);
 		Button ok = toolkit.createButton(buttonArea, "确定", SWT.PUSH);
 		ok.setEnabled(false);
+		ok.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
 		
-		String[] sectionNames = {"产品因素","平台因素","人员因素","项目因素"};
+		String[] sectionNames = {"工作量乘数：产品因素","工作量乘数：平台因素","工作量乘数：人员因素","工作量乘数：项目因素"};
 		int numSections = sectionNames.length;
 		StackLayout[] layouts = new StackLayout[numSections];
 		Composite[] earlyDesignFactors = new Composite[numSections];
@@ -84,7 +137,7 @@ public class COCOMOParameters{
 		//初始化各个小节
 		for(int i=0;i<numSections;i++){
 			Section section = toolkit.createSection(parent, 
-					Section.DESCRIPTION | ExpandableComposite.TWISTIE| ExpandableComposite.TITLE_BAR);
+					Section.TWISTIE | ExpandableComposite.TITLE_BAR);
 			section.setText(sectionNames[i]);
 			Composite sectionClient = toolkit.createComposite(section);
 			layouts[i] = new StackLayout();
@@ -97,8 +150,8 @@ public class COCOMOParameters{
 		earlyDesignRadio.addSelectionListener(new RadioListener(earlyDesignFactors, layouts,ok));
 		postArchRadio.addSelectionListener(new RadioListener(postArchFactors, layouts,ok));
 		
-		String[][] earlyDesignDrivers = {{"RCPX","RUSE"},{"PDIF"},{"PERS","PREX"},{"FCIL","SCED"}};
-		String[][] postArchDrivers = {{"RELY","DATA","CPLX","RUSE","DOCU"},{"TIME","STOR","PVOL"},
+		earlyDesignDrivers = new String[][] {{"RCPX","RUSE"},{"PDIF"},{"PERS","PREX"},{"FCIL","SCED"}};
+		postArchDrivers = new String[][] {{"RELY","DATA","CPLX","RUSE","DOCU"},{"TIME","STOR","PVOL"},
 				{"ACAP","PCAP","PCON","APEX","PLEX","LTEX"},{"TOOL","SITE","SCED"}};
 		
 		fillSections(postArchDrivers, postArchFactors);
@@ -115,8 +168,9 @@ public class COCOMOParameters{
 		parent.setLayout(new GridLayout(2, false));
 		for(String d:drivers){
 			toolkit.createLabel(parent, d);
-			ParameterScale scale = new ParameterScale(parent, levels, 2);
+			ParameterScale scale = new ParameterScale(parent, levels, 3);
 			toolkit.adapt(scale);
+			scales.put(d, scale);
 		}
 		
 	}
