@@ -70,8 +70,8 @@ public class COCOMOParameters{
 					result.put(s, scales.get(s).getLevel());
 				}
 			}
-		}else if(earlyDesignRadio.getSelection()){
-			for(String[] section : earlyDesignDrivers){
+		}else if(postArchRadio.getSelection()){
+			for(String[] section : postArchDrivers){
 				for(String s : section){
 					result.put(s, scales.get(s).getLevel());
 				}
@@ -119,8 +119,8 @@ public class COCOMOParameters{
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
-				
+				COCOMOResults results = new COCOMOResults(COCOMOParameters.this);
+				results.show();
 			}
 			
 			@Override
