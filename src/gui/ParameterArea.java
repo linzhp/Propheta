@@ -17,10 +17,8 @@ public abstract class ParameterArea extends Composite{
 		form.setText("估算参数设置");
 		Composite body = form.getBody();
 		body.setLayout(new ColumnLayout());
-		createContents(body);
 	}
 	
-	protected abstract void createContents(Composite parent);
 	
 	@Override
 	public void dispose(){
