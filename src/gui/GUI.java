@@ -48,19 +48,13 @@ public class GUI {
 	}
 	
 	public static CTabItem createNewTab(String title, Composite content){
-		CTabItem tab = new CTabItem((CTabFolder)content.getParent(), SWT.CLOSE);
+		CTabFolder folder = (CTabFolder)content.getParent();
+		CTabItem tab = new CTabItem(folder, SWT.CLOSE);
 		tab.setText(title);
 		tab.setControl(content);
-		topContentArea.setFocus();
+		folder.setSelection(tab);
+		folder.setFocus();
 		return tab;
 	}
 	
-	public static Composite createNewResultTab(String title){
-		CTabItem tab = new CTabItem(buttomContentArea, SWT.CLOSE);
-		Composite content = getToolkit().createComposite(buttomContentArea);
-		tab.setText(title);
-		tab.setControl(content);
-		buttomContentArea.setFocus();
-		return content;
-	}
 }

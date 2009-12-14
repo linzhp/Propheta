@@ -22,7 +22,7 @@ public class COCOMOResults {
 				parameters.getScaleFactors(), 
 				parameters.getEffortMultipliers());
 		
-		Composite resultView = GUI.createNewResultTab("详细估算结果");
+		Composite resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
 		GridLayout layout = new GridLayout(1, false);
 		layout.verticalSpacing = 10;
 		resultView.setLayout(layout);
@@ -31,8 +31,8 @@ public class COCOMOResults {
 		Label result = new Label(resultView, SWT.NONE);
 		result.setText("根据公式计算出   PM为：" + effort[0].intValue()+ "(人/月)\n"+
 				"\t\t TDEV为：" + effort[1].intValue()+"(月)");
-		
-		resultView.setBounds(GUI.getButtomContentArea().getClientArea());
+		GUI.createNewTab("详细估算结果", resultView);
+//		resultView.setBounds(GUI.getButtomContentArea().getClientArea());
 
 	}
 }

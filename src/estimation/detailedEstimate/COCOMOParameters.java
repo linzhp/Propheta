@@ -28,11 +28,13 @@ public class COCOMOParameters extends ParameterArea{
 	private Button earlyDesignRadio;
 	private Button postArchRadio;
 	private Spinner sizeSpinner;
+	private Button ok;
 
 	public COCOMOParameters(Composite parent){
 		super(parent);
 		scales = new HashMap<String, ParameterScale>();
 		createSize(form.getBody());
+		createButtonArea(form.getBody());
 		createScaleFactors(form.getBody());
 		createEffortMultipliers(form.getBody());
 	}
@@ -99,27 +101,6 @@ public class COCOMOParameters extends ParameterArea{
 	}
 	
 	private void createEffortMultipliers(Composite parent){
-		Composite buttonArea = toolkit.createComposite(parent);
-		RowLayout layout = new RowLayout(SWT.HORIZONTAL);
-		layout.spacing = 20;
-		buttonArea.setLayout(layout);
-		earlyDesignRadio = toolkit.createButton(buttonArea, "前期设计", SWT.RADIO);
-		postArchRadio = toolkit.createButton(buttonArea, "后体系结构", SWT.RADIO);
-		Button ok = toolkit.createButton(buttonArea, "确定", SWT.PUSH);
-		ok.setEnabled(false);
-		ok.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				COCOMOResults results = new COCOMOResults(COCOMOParameters.this);
-				results.show();
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-		});
 		
 		String[] sectionNames = {"工作量乘数：产品因素","工作量乘数：平台因素","工作量乘数：人员因素","工作量乘数：项目因素"};
 		int numSections = sectionNames.length;
@@ -139,8 +120,8 @@ public class COCOMOParameters extends ParameterArea{
 			section.setClient(sectionClient);
 		}
 		//两种模式切换，为了充分利用ColumnLayout的特性，所有section都是form的孩子，Stack之间的切换只能在section内部
-		earlyDesignRadio.addSelectionListener(new RadioListener(earlyDesignFactors, layouts,ok));
-		postArchRadio.addSelectionListener(new RadioListener(postArchFactors, layouts,ok));
+		earlyDesignRadio.addSelectionListener(new RadioListener(earlyDesignFactors, layouts));
+		postArchRadio.addSelectionListener(new RadioListener(postArchFactors, layouts));
 		
 		earlyDesignDrivers = new String[][] {{"RCPX","RUSE"},{"PDIF"},{"PERS","PREX"},{"FCIL","SCED"}};
 		postArchDrivers = new String[][] {{"RELY","DATA","CPLX","RUSE","DOCU"},{"TIME","STOR","PVOL"},
@@ -148,6 +129,30 @@ public class COCOMOParameters extends ParameterArea{
 		
 		fillSections(postArchDrivers, postArchFactors);
 		fillSections(earlyDesignDrivers, earlyDesignFactors);
+	}
+
+	private void createButtonArea(Composite parent) {
+		Composite buttonArea = toolkit.createComposite(parent);
+		RowLayout layout = new RowLayout(SWT.HORIZONTAL);
+		layout.spacing = 20;
+		buttonArea.setLayout(layout);
+		earlyDesignRadio = toolkit.createButton(buttonArea, "前期设计", SWT.RADIO);
+		postArchRadio = toolkit.createButton(buttonArea, "后体系结构", SWT.RADIO);
+		ok = toolkit.createButton(buttonArea, "确定", SWT.PUSH);
+		ok.setEnabled(false);
+		ok.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				COCOMOResults results = new COCOMOResults(COCOMOParameters.this);
+				results.show();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
 	}
 	
 	private void fillSections(String[][] drivers, Composite[] sections){
@@ -170,12 +175,10 @@ public class COCOMOParameters extends ParameterArea{
 	private final class RadioListener implements SelectionListener {
 		private Composite[] factorsPane;
 		private StackLayout[] layouts;
-		private Button ok;
 
-		private RadioListener(Composite[] factorsPane, StackLayout[] layouts, Button ok) {
+		private RadioListener(Composite[] factorsPane, StackLayout[] layouts) {
 			this.factorsPane = factorsPane;
 			this.layouts = layouts;
-			this.ok = ok;
 		}
 
 		@Override

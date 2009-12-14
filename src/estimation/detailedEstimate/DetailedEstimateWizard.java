@@ -51,7 +51,7 @@ public class DetailedEstimateWizard extends Wizard {
 			Double size = (double)getSize();
 			Double[] effort = COCOMO.getModuleEffortTime(size, factorsSF, factorsEM);
 			
-			Composite resultView = GUI.createNewResultTab("详细估算结果");
+			Composite resultView = GUI.getButtomContentArea();
 			GridLayout layout = new GridLayout(1, false);
 			layout.verticalSpacing = 10;
 			resultView.setLayout(layout);
@@ -62,7 +62,8 @@ public class DetailedEstimateWizard extends Wizard {
 					"\t\t TDEV为：" + effort[1].intValue()+"(月)");
 			
 			resultView.setBounds(GUI.getButtomContentArea().getClientArea());
-
+			GUI.createNewTab("详细估算结果", resultView);
+			
 			this.dispose();
 			return true;
 		} else
