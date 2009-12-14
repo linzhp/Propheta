@@ -13,6 +13,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -33,6 +34,7 @@ public class QuickEstimate extends ParameterArea{
 	// 规模估算变量
 	private Group groupSize;
 	private StackLayout sizeStack;
+	private Composite comSizeSpinner;
 	private Composite comSizeScale;
 	private Composite sizeDataArea;
 	private Button userInput, history;
@@ -57,15 +59,11 @@ public class QuickEstimate extends ParameterArea{
 	private Button ok;
 	public QuickEstimate(Composite parent){
 		super(parent);
-	}
-	
-	@Override
-	protected void createContents(Composite parent) {
-		createSize(parent);
-		createFactors(parent);
+		createSize(form.getBody());
+		createFactors(form.getBody());
 		
-		Button ok = toolkit.createButton(parent, "确定", SWT.PUSH);
-		ok.setEnabled(false);
+		Button ok = toolkit.createButton(form.getBody(), "确定", SWT.PUSH);
+		ok.setEnabled(true);
 		ok.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				QuickEstimateResults results = new QuickEstimateResults(QuickEstimate.this);
@@ -184,7 +182,8 @@ public class QuickEstimate extends ParameterArea{
 		sizeDataArea.setLayout(sizeStack);
 
 		// 用户手动输入规模
-		Composite comSizeSpinner = toolkit.createComposite(sizeDataArea);
+		comSizeSpinner = toolkit.createComposite(sizeDataArea);
+		comSizeSpinner.setLayout(new RowLayout(SWT.HORIZONTAL));
 		toolkit.createLabel(comSizeSpinner, "规模（SLOC）：");
 		sizeSpinner = new Spinner(comSizeSpinner, SWT.BORDER);
 		sizeSpinner.setMaximum(Spinner.LIMIT);
