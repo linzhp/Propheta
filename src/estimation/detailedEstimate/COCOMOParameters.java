@@ -31,15 +31,11 @@ public class COCOMOParameters extends ParameterArea{
 
 	public COCOMOParameters(Composite parent){
 		super(parent);
+		scales = new HashMap<String, ParameterScale>();
+		createSize(form.getBody());
+		createScaleFactors(form.getBody());
+		createEffortMultipliers(form.getBody());
 	}
-	
-	@Override
-	protected void createContents(Composite parent) {
-		createSize(parent);
-		createScaleFactors(parent);
-		createEffortMultipliers(parent);
-	}
-	
 	
 	public double getEstimatedSize()
 	{
@@ -162,7 +158,6 @@ public class COCOMOParameters extends ParameterArea{
 	
 	private void buildSectionContent(String[] drivers, Composite parent){
 		parent.setLayout(new GridLayout(2, false));
-		scales = new HashMap<String, ParameterScale>();
 		for(String d:drivers){
 			toolkit.createLabel(parent, d);
 			ParameterScale scale = new ParameterScale(parent, levels, 3);
