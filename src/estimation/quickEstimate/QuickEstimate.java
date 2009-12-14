@@ -2,10 +2,10 @@ package estimation.quickEstimate;
 
 import java.util.HashMap;
 
-import estimation.detailedEstimate.COCOMOParameters;
-import estimation.detailedEstimate.COCOMOResults;
+import gui.GUI;
 import gui.ParameterArea;
 
+import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
@@ -13,14 +13,12 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -39,7 +37,6 @@ public class QuickEstimate extends ParameterArea{
 	private Composite sizeDataArea;
 	private Button userInput, history;
 	private Scale scaleHistory;
-	private Text sizeText;
 	private Spinner sizeSpinner;
 	private Label textLevel;
 	private int sizeValue;
@@ -54,25 +51,14 @@ public class QuickEstimate extends ParameterArea{
 	private HashMap<String, String> factors = new HashMap<String, String>();
 	private Button btnTeamSize, btnDuration, btnDevType, btnLanguage, btnBusArea ;
 	private Combo cmbDevType, cmbLanguage, cmbBusArea;
-	private Text textTeamSize, textDuration;
+	private Spinner spnTeamSize, spnDuration;
 
 	private Button ok;
 	public QuickEstimate(Composite parent){
 		super(parent);
+		
 		createSize(form.getBody());
 		createFactors(form.getBody());
-		
-		Button ok = toolkit.createButton(form.getBody(), "确定", SWT.PUSH);
-		ok.setEnabled(true);
-		ok.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				QuickEstimateResults results = new QuickEstimateResults(QuickEstimate.this);
-				results.show();
-			}
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-		});
 	}
 	
 	public HashMap<String, String> getFactors() {
@@ -101,13 +87,7 @@ public class QuickEstimate extends ParameterArea{
 		return true;
 	}
 	
-	public void setOK()
-	{
-		if(canFinish())
-			ok.setEnabled(true);
-		else 
-			ok.setEnabled(false);
-	}
+	
 
 	// 由规模大小定义其等级，根据数据库的实际情况来,需修改数据
 	public String getLevel(int value) {
@@ -135,12 +115,29 @@ public class QuickEstimate extends ParameterArea{
 	
 	private Composite createSize(Composite parent){
 		Composite pane = toolkit.createComposite(parent);
-		pane.setLayout(new GridLayout(1, false));
+		GridLayout paneLayout = new GridLayout(1, false);
+		paneLayout.verticalSpacing = 20;
+		pane.setLayout(paneLayout);
+		
+		Button ok = toolkit.createButton(pane, "确定", SWT.PUSH);
+		ok.setEnabled(true);
+		ok.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				QuickEstimateResults results = new QuickEstimateResults(QuickEstimate.this);
+				results.show();
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
 		
 		groupSize = new Group(pane, SWT.NONE);
-		groupSize.setText("规模估算");
-		groupSize.setLayout(new GridLayout(1, false));
+		groupSize.setText("规模参数");
+		GridLayout groupLayout = new GridLayout(1, false);
+		groupLayout.marginTop = 10;
+		groupSize.setLayout(groupLayout);
 		groupSize.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		groupSize.setBackground(toolkit.getColors().getBackground());
 		
 		createSizeButton();
 		createSizeDataArea();
@@ -155,7 +152,7 @@ public class QuickEstimate extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				// 将text sizeText置顶
-				sizeStack.topControl = sizeText;
+				sizeStack.topControl = comSizeSpinner;
 				sizeDataArea.layout();
 			}
 		});
@@ -194,6 +191,7 @@ public class QuickEstimate extends ParameterArea{
 		comSizeScale = toolkit.createComposite(sizeDataArea);
 		comSizeScale.setLayout(new GridLayout(2, false));
 		scaleHistory = new Scale(comSizeScale, SWT.NULL);
+		scaleHistory.setBackground(toolkit.getColors().getBackground());
 		scaleHistory.setMinimum(0);
 		scaleHistory.setMaximum(1500000);
 		scaleHistory.setIncrement(1000);
@@ -208,7 +206,7 @@ public class QuickEstimate extends ParameterArea{
 			}
 		});
 		scaleHistory.setSelection(100);
-		textLevel = new Label(comSizeScale, SWT.NONE);
+		textLevel = toolkit.createLabel(comSizeScale, "", SWT.NONE);
 		textLevel.setSize(100, 30);
 	}
 
@@ -217,11 +215,14 @@ public class QuickEstimate extends ParameterArea{
 		pane.setLayout(new GridLayout(1, false));
 		
 		groupFactor = new Group(pane, SWT.NONE);
-		groupFactor.setText("生产率估算");
-		groupFactor.setLayout(new GridLayout(1, false));
+		groupFactor.setText("生产率参数");
+		GridLayout groupLayout = new GridLayout(1, false);
+		groupLayout.marginTop = 10;
+		groupFactor.setLayout(groupLayout);
 		// 设置宽度，使其与外部的控件一样长
 		groupFactor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
+		groupFactor.setBackground(toolkit.getColors().getBackground());
+		
 		createFactorButton();
 		createFactorDataArea();
 		return pane;
@@ -276,23 +277,24 @@ public class QuickEstimate extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnTeamSize.getSelection()) {
-					textTeamSize.setVisible(true);
+					spnTeamSize.setVisible(true);
+					factors.put("teamSize", spnTeamSize.getText());
 				} else {
-					textTeamSize.setVisible(false);
+					spnTeamSize.setVisible(false);
 					factors.remove("teamSize");
 				}
-				setOK();
 			}
 		});
-		textTeamSize = toolkit.createText(comCSBSG, "5", SWT.BORDER);
-		textTeamSize.addModifyListener(new ModifyListener() {
+		
+		spnTeamSize = new Spinner(comCSBSG, SWT.BORDER);
+		spnTeamSize.setMaximum(Spinner.LIMIT);
+		spnTeamSize.setSelection(5);
+		spnTeamSize.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				factors.put("teamSize", textTeamSize.getText());
-				setOK();
+				factors.put("teamSize", spnTeamSize.getText());
 			}
-
 		});
-		textTeamSize.setVisible(false);
+		spnTeamSize.setVisible(false);
 	}
 
 	private void createDurationItem() {
@@ -302,23 +304,24 @@ public class QuickEstimate extends ParameterArea{
 				widgetSelected(e);
 			}
 			public void widgetSelected(SelectionEvent e) {
-				if (btnDuration.getSelection())
-					textDuration.setVisible(true);
-				else {
-					textDuration.setVisible(false);
+				if (btnDuration.getSelection()){
+					spnDuration.setVisible(true);
+					factors.put("duration", spnDuration.getText());
+				}else {
+					spnDuration.setVisible(false);
 					factors.remove("duration");
 				}
-				setOK();
 			}
 		});
-		textDuration = toolkit.createText(comCSBSG, "180", SWT.BORDER);
-		textDuration.addModifyListener(new ModifyListener() {
+		spnDuration = new Spinner(comCSBSG, SWT.BORDER);
+		spnDuration.setMaximum(Spinner.LIMIT);
+		spnDuration.setSelection(180);
+		spnDuration.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				factors.put("duration", textDuration.getText());
-				setOK();
+				factors.put("duration", spnDuration.getText());
 			}
 		});
-		textDuration.setVisible(false);
+		spnDuration.setVisible(false);
 	}
 
 	private void createDevTypeItem() {
@@ -345,9 +348,8 @@ public class QuickEstimate extends ParameterArea{
 		cmbDevType.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				String key = cmbDevType.getText();
-				factors
-						.put("developmentType", cmbDevType.getData(key)
-								.toString());
+				factors.put("developmentType", cmbDevType.getData(key)
+						.toString());
 			}
 		});
 	}

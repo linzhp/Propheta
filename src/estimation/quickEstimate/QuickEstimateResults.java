@@ -27,15 +27,16 @@ public class QuickEstimateResults {
 	public void show()
 	{
 		
-		Composite resultView = GUI.createNewResultTab("快速估算结果");
+		Composite resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
 		GridLayout layout = new GridLayout(1, false);
 		layout.verticalSpacing = 10;
 		resultView.setLayout(layout);
 
 		CSBSG csbsg = new CSBSG();
+		//此处factors为指向quickEstimate.getFactors()的指针，factors的改变会影响
 		HashMap<String,String> factors = quickEstimate.getFactors();
 		int projectSize = quickEstimate.getEstimatedSize();
-		factors.remove("duration");
+		System.out.println("projectSize = " + projectSize);
 		ArrayList<Double> arrayPI = csbsg.getProductivity(projectSize,factors);
 		// 此处0.2为规模的误差范围，可调，arraySizeEffort:projectSize,effort
 		ArrayList<Double[]> arraySizeEffort = csbsg.getEffort(projectSize, 0.2);
@@ -44,8 +45,7 @@ public class QuickEstimateResults {
 		
 		//显示同论文总结出的CSBSG公式，计算得到的结果
 		Label PI = new Label(resultView, SWT.NONE);
-		PI.setText("根据公式计算出的工作量为：" + csbsg.getEqnEffort((double)projectSize, quickEstimate.getFactors()));
-		
+		PI.setText("根据公式计算出的工作量为：" + csbsg.getEqnEffort((double)projectSize, factors));
 		if (arrayPI.size() == 0) {
 			Label noResult = new Label(resultView, SWT.SINGLE);
 			noResult.setText("没有搜索到任何相关历史数据，无法显示“生产率中位数值”与“工作量的蒙特卡罗图”");
@@ -79,6 +79,6 @@ public class QuickEstimateResults {
 			}
 		}
 		
-		resultView.setBounds(GUI.getButtomContentArea().getClientArea());
+		GUI.createNewTab("快速估算结果", resultView);
 	}
 }

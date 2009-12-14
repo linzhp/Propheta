@@ -67,7 +67,7 @@ public class CSBSG {
 		else
 			sql = "select productivity from csbsg where projectSize>="
 					+ minSize;
-
+		
 		Set<String> factorSet = factors.keySet();
 		for (String factor : factorSet) {
 			if (factor != "duration")
@@ -126,13 +126,11 @@ public class CSBSG {
 		Double teamSize, duration, lnEffort;
 		if (factors.containsKey("teamSize")) {
 			teamSize = Double.parseDouble(factors.get("teamSize").toString());
-			factors.remove("teamSize");
 		} else
 			// 用户未输入团队规模时，取默认值5
 			teamSize = 5.0;
 		if (factors.containsKey("duration")) {
 			duration = Double.parseDouble(factors.get("duration").toString());
-			factors.remove("duration");
 		} else
 			// 用户未输入项目周期时，取默认值180天
 			duration = 180.0;
@@ -142,9 +140,12 @@ public class CSBSG {
 				+ 0.55 * Math.log(duration) + 0.31;
 		Set<String> keys = factors.keySet();
 		for (String key : keys) {
-			lnEffort += constData.get(key + "." + factors.get(key));
-			System.out.println(key + "." + factors.get(key));
+			if(key != "teamSize" && key != "duration"){
+				lnEffort += constData.get(key + "." + factors.get(key));
+				System.out.println(key + "." + factors.get(key));
+			}
 		}
+		System.out.println("duration = " + duration);
 		return Math.exp(lnEffort);
 	}
 
