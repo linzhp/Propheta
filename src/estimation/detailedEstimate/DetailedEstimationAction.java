@@ -5,7 +5,7 @@ import gui.GUI;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.swt.widgets.Composite;
 
 public class DetailedEstimationAction extends Action implements
 		ISelectionChangedListener {
@@ -22,7 +22,7 @@ public class DetailedEstimationAction extends Action implements
 
 	@Override
 	public void run(){
-		ScrolledForm form = GUI.createNewParamTab("详细估算");
-		new COCOMOParameters(form);
+		Composite content = new COCOMOParameters(GUI.getTopContentArea());
+		GUI.createNewTab("详细估算", content);		
 	}
 }

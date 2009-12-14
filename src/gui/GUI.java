@@ -1,12 +1,13 @@
 package gui;
 
+import gui.tree.TreeArea;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 
 public class GUI {
@@ -46,13 +47,12 @@ public class GUI {
 		return toolkit;
 	}
 	
-	public static ScrolledForm createNewParamTab(String title){
-		CTabItem tab = new CTabItem(topContentArea, SWT.CLOSE);
-		ScrolledForm form = getToolkit().createScrolledForm(topContentArea);
+	public static CTabItem createNewTab(String title, Composite content){
+		CTabItem tab = new CTabItem((CTabFolder)content.getParent(), SWT.CLOSE);
 		tab.setText(title);
-		tab.setControl(form);
+		tab.setControl(content);
 		topContentArea.setFocus();
-		return form;
+		return tab;
 	}
 	
 	public static Composite createNewResultTab(String title){

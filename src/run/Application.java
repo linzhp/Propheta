@@ -1,9 +1,8 @@
 package run;
 
-import gui.ContentArea;
 import gui.GUI;
-import gui.TreeArea;
-import gui.contextMenu.NewProjectAction;
+import gui.tree.TreeArea;
+import gui.tree.contextMenu.NewProjectAction;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.window.ApplicationWindow;
@@ -26,15 +25,14 @@ public class Application extends ApplicationWindow {
 	public Application() {
 		super(null);
 		addMenuBar();
-		
 	}
 
 	public void run() {
 		setBlockOnOpen(true);
 		open();
 	}
-	
-	private void dispose(){
+
+	private void dispose() {
 		GUI.getToolkit().dispose();
 		Display.getCurrent().dispose();
 	}
@@ -44,16 +42,20 @@ public class Application extends ApplicationWindow {
 		instance.run();
 		instance.dispose();
 	}
-	
+
+	@Override
+	public void configureShell(Shell shell) {
+		super.configureShell(shell);
+		shell.setText("Propheta");
+	}
+
 	@Override
 	protected Control createContents(Composite parent) {
-		Composite mainComposite = (Composite)super.createContents(parent);
-		mainComposite.setLayout(new FormLayout());//改为FormLayout hezhimin 11-20
-		
-		
-		
-		//分栏条(左右)
-		final Sash sash1=new Sash(mainComposite,SWT.VERTICAL);
+		Composite mainComposite = (Composite) super.createContents(parent);
+		mainComposite.setLayout(new FormLayout());// 改为FormLayout hezhimin 11-20
+
+		// 分栏条(左右)
+		final Sash sash1 = new Sash(mainComposite, SWT.VERTICAL);
 		FormData fd = new FormData();
 		fd.top = new FormAttachment(0, 0); // Attach to top
 		fd.bottom = new FormAttachment(100, 0); // Attach to bottom
@@ -61,44 +63,45 @@ public class Application extends ApplicationWindow {
 		sash1.setLayoutData(fd);
 		sash1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				((FormData) sash1.getLayoutData()).left = new FormAttachment(0, event.x);
-			    sash1.getParent().layout();		    
-			}			  
+				((FormData) sash1.getLayoutData()).left = new FormAttachment(0,
+						event.x);
+				sash1.getParent().layout();
+			}
 		});
 
-
-		//composite to display the WBS
-		TreeArea treeArea=new TreeArea(mainComposite,SWT.BORDER);
+		// composite to display the WBS
+		TreeArea treeArea = new TreeArea(mainComposite, SWT.BORDER);
 		treeArea.setLayout(new FillLayout());
 		fd = new FormData();
 		fd.top = new FormAttachment(0, 0);
 		fd.bottom = new FormAttachment(100, 0);
 		fd.left = new FormAttachment(0, 0);
 		fd.right = new FormAttachment(sash1, 0);
-		treeArea.setLayoutData(fd);  
-		
-		
-		//composite to display the content
-		Composite rightArea=new Composite(mainComposite,SWT.NONE);
+		treeArea.setLayoutData(fd);
+
+		// composite to display the content
+		Composite rightArea = new Composite(mainComposite, SWT.NONE);
 		rightArea.setLayout(new GridLayout(1, false));
 		fd = new FormData();
 		fd.top = new FormAttachment(0, 0);
 		fd.bottom = new FormAttachment(100, 0);
 		fd.left = new FormAttachment(sash1, 0);
 		fd.right = new FormAttachment(100, 0);
-		rightArea.setLayoutData(fd);  
-				
-		topContentArea = new CTabFolder(rightArea,SWT.BORDER);
+		rightArea.setLayoutData(fd);
+
+		topContentArea = new CTabFolder(rightArea, SWT.BORDER);
 		topContentArea.setDragDetect(true);
 		topContentArea.setSimple(false);
 		topContentArea.setMaximizeVisible(true);
-		topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		topContentArea.addCTabFolder2Listener(new CTabFolder2Adapter(){
+		topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				true));
+		topContentArea.addCTabFolder2Listener(new CTabFolder2Adapter() {
 			@Override
 			public void maximize(CTabFolderEvent event) {
 				topContentArea.setMaximized(true);
 				buttomContentArea.setMinimized(true);
-				buttomContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+				buttomContentArea.setLayoutData(new GridData(SWT.FILL,
+						SWT.FILL, true, false));
 				topContentArea.getParent().layout(true);
 			}
 
@@ -106,32 +109,26 @@ public class Application extends ApplicationWindow {
 			public void restore(CTabFolderEvent event) {
 				topContentArea.setMaximized(false);
 				buttomContentArea.setMinimized(false);
-				buttomContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+				buttomContentArea.setLayoutData(new GridData(SWT.FILL,
+						SWT.FILL, true, true));
 				topContentArea.getParent().layout(true);
-				
+
 			}
 		});
-		
-		//TODO 分栏条 （上下）：让它可以移动
-		final Sash sash2=new Sash(rightArea,SWT.HORIZONTAL);
-//		sash2.addSelectionListener(new SelectionAdapter() {
-//			public void widgetSelected(SelectionEvent event) {
-//				((FormData) sash2.getLayoutData()).top = new FormAttachment(0, event.y);
-//			    sash2.getParent().layout();		    
-//			}			  
-//		});
 
-		buttomContentArea = new CTabFolder(rightArea,SWT.BORDER);
+		buttomContentArea = new CTabFolder(rightArea, SWT.BORDER);
 		buttomContentArea.setDragDetect(true);
 		buttomContentArea.setSimple(false);
 		buttomContentArea.setMaximizeVisible(true);
-		buttomContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		buttomContentArea.addCTabFolder2Listener(new CTabFolder2Adapter(){
+		buttomContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				true));
+		buttomContentArea.addCTabFolder2Listener(new CTabFolder2Adapter() {
 			@Override
 			public void maximize(CTabFolderEvent event) {
 				buttomContentArea.setMaximized(true);
 				topContentArea.setMinimized(true);
-				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
+						true, false));
 				buttomContentArea.getParent().layout(true);
 			}
 
@@ -139,54 +136,50 @@ public class Application extends ApplicationWindow {
 			public void restore(CTabFolderEvent event) {
 				buttomContentArea.setMaximized(false);
 				topContentArea.setMinimized(false);
-				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
+						true, true));
 				buttomContentArea.getParent().layout(true);
-				
+
 			}
 		});
 
-		
-		
-	    GUI.setTreeArea(treeArea);
-	    GUI.setTopContentArea(topContentArea);
-	    GUI.setButtomContentArea(buttomContentArea);
-	    
-		GUI.getTreeArea().dispalyTree();		
-		
+		GUI.setTreeArea(treeArea);
+		GUI.setTopContentArea(topContentArea);
+		GUI.setButtomContentArea(buttomContentArea);
+
+		GUI.getTreeArea().dispalyTree();
+
 		return mainComposite;
 	}
-	
+
 	@Override
-	protected MenuManager createMenuManager(){
+	protected MenuManager createMenuManager() {
 		MenuManager mainMenu = new MenuManager(null);
-		//File Menu
+		// File Menu
 		MenuManager fileMenuManager = new MenuManager("文件");
 		fileMenuManager.add(new NewProjectAction());
-		
+
 		mainMenu.add(fileMenuManager);
 		return mainMenu;
 	}
-	
-	/*
-	@Override
-	protected StatusLineManager createStatusLineManager() {
-		StatusLineManager statusLineManager=new StatusLineManager();
-		statusLineManager.add(new )
-		
-		return statusLineManager;
-	}	
-	*/
 
-	public Composite getMainContent(){
-		return (Composite)getContents();
+	/*
+	 * @Override protected StatusLineManager createStatusLineManager() {
+	 * StatusLineManager statusLineManager=new StatusLineManager();
+	 * statusLineManager.add(new )
+	 * 
+	 * return statusLineManager; }
+	 */
+
+	public Composite getMainContent() {
+		return (Composite) getContents();
 	}
-	
+
 	private static Application instance;
 	private CTabFolder topContentArea;
 	private CTabFolder buttomContentArea;
-	
-	public static Application getInstance()
-	{
+
+	public static Application getInstance() {
 		return instance;
 	}
 }

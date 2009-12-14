@@ -52,27 +52,10 @@ public class ParameterScale extends Composite {
 		}
 	}
 	
-	public int getSelection(){
-		return scale.getSelection();
-	}
-	
 	public String getLevel()
 	{
-		level = selectMap.get(getSelection());
+		level = selectMap.get(scale.getSelection());
 		return level;
-	}
-	/**
-	 * @return the scale
-	 */
-	public Scale getScale() {
-		return scale;
-	}
-
-	/**
-	 * @param scale the scale to set
-	 */
-	public void setScale(Scale scale) {
-		this.scale = scale;
 	}
 
 	public void addSelectionListener (SelectionListener listener) {

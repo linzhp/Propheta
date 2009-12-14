@@ -1,4 +1,4 @@
-package gui.contextMenu;
+package gui.tree.contextMenu;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.InputDialog;
@@ -6,6 +6,7 @@ import org.eclipse.jface.window.Window;
 
 import entity.EstimateNode;
 import gui.GUI;
+import gui.tree.TreeArea;
 
 public class AddNodeAction extends Action{
 
@@ -14,14 +15,15 @@ public class AddNodeAction extends Action{
 	}
 	
 	public void run(){
-		EstimateNode node=GUI.getTreeArea().getSelectedNode();
-		InputDialog input=new InputDialog(null,"请输入节点名称","节点名称","",null);
+		TreeArea treeArea = GUI.getTreeArea();
+		EstimateNode node=treeArea.getSelectedNode();
+		InputDialog input=new InputDialog(treeArea.getShell(),"请输入节点名称","节点名称","",null);
 		if(input.open()==Window.OK){
 			EstimateNode newNode=new EstimateNode(input.getValue());
 			node.add(newNode);
-			GUI.getTreeArea().getTreeViewer().refresh();
-			if(GUI.getTreeArea().getTreeViewer().getExpandedState(node)==false){
-				GUI.getTreeArea().getTreeViewer().setExpandedState(node, true);
+			treeArea.getTreeViewer().refresh();
+			if(treeArea.getTreeViewer().getExpandedState(node)==false){
+				treeArea.getTreeViewer().setExpandedState(node, true);
 			}
 		}
 	}
