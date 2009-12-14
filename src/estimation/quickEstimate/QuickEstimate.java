@@ -19,6 +19,7 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -53,6 +54,7 @@ public class QuickEstimate extends ParameterArea{
 	private Combo cmbDevType, cmbLanguage, cmbBusArea;
 	private Text textTeamSize, textDuration;
 
+	private Button ok;
 	public QuickEstimate(Composite parent){
 		super(parent);
 	}
@@ -100,6 +102,14 @@ public class QuickEstimate extends ParameterArea{
 			}
 		return true;
 	}
+	
+	public void setOK()
+	{
+		if(canFinish())
+			ok.setEnabled(true);
+		else 
+			ok.setEnabled(false);
+	}
 
 	// 由规模大小定义其等级，根据数据库的实际情况来,需修改数据
 	public String getLevel(int value) {
@@ -127,13 +137,13 @@ public class QuickEstimate extends ParameterArea{
 	
 	private Composite createSize(Composite parent){
 		Composite pane = toolkit.createComposite(parent);
-		pane.setLayout(new RowLayout(SWT.HORIZONTAL));
+		pane.setLayout(new GridLayout(1, false));
 		
 		groupSize = new Group(pane, SWT.NONE);
 		groupSize.setText("规模估算");
 		groupSize.setLayout(new GridLayout(1, false));
 		groupSize.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
+		
 		createSizeButton();
 		createSizeDataArea();
 		return pane;		
@@ -205,7 +215,7 @@ public class QuickEstimate extends ParameterArea{
 
 	private Composite createFactors(Composite parent) {
 		Composite pane = toolkit.createComposite(parent);
-		pane.setLayout(new RowLayout(SWT.HORIZONTAL));
+		pane.setLayout(new GridLayout(1, false));
 		
 		groupFactor = new Group(pane, SWT.NONE);
 		groupFactor.setText("生产率估算");
@@ -266,20 +276,20 @@ public class QuickEstimate extends ParameterArea{
 				widgetSelected(e);
 			}
 			public void widgetSelected(SelectionEvent e) {
-				//setPageComplete(true);
 				if (btnTeamSize.getSelection()) {
 					textTeamSize.setVisible(true);
 				} else {
 					textTeamSize.setVisible(false);
 					factors.remove("teamSize");
 				}
+				setOK();
 			}
 		});
 		textTeamSize = toolkit.createText(comCSBSG, "5", SWT.BORDER);
 		textTeamSize.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				//setPageComplete(true);
 				factors.put("teamSize", textTeamSize.getText());
+				setOK();
 			}
 
 		});
@@ -293,20 +303,20 @@ public class QuickEstimate extends ParameterArea{
 				widgetSelected(e);
 			}
 			public void widgetSelected(SelectionEvent e) {
-				//setPageComplete(true);
 				if (btnDuration.getSelection())
 					textDuration.setVisible(true);
 				else {
 					textDuration.setVisible(false);
 					factors.remove("duration");
 				}
+				setOK();
 			}
 		});
 		textDuration = toolkit.createText(comCSBSG, "180", SWT.BORDER);
 		textDuration.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				//setPageComplete(true);
 				factors.put("duration", textDuration.getText());
+				setOK();
 			}
 		});
 		textDuration.setVisible(false);
