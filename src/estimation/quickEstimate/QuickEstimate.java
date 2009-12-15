@@ -2,10 +2,8 @@ package estimation.quickEstimate;
 
 import java.util.HashMap;
 
-import gui.GUI;
 import gui.ParameterArea;
 
-import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
@@ -25,7 +23,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.widgets.Text;
 
 public class QuickEstimate extends ParameterArea{
 
@@ -53,7 +50,6 @@ public class QuickEstimate extends ParameterArea{
 	private Combo cmbDevType, cmbLanguage, cmbBusArea;
 	private Spinner spnTeamSize, spnDuration;
 
-	private Button ok;
 	public QuickEstimate(Composite parent){
 		super(parent);
 		
@@ -64,30 +60,6 @@ public class QuickEstimate extends ParameterArea{
 	public HashMap<String, String> getFactors() {
 		return factors;
 	}
-
-	public boolean canFinish() {
-		if (btnCSBSG.getSelection())
-			try {
-				if (factors.containsKey("teamSize"))
-					Integer.parseInt(factors.get("teamSize"));
-				if (factors.containsKey("duration"))
-					Integer.parseInt(factors.get("duration"));
-			} catch (NumberFormatException e) {
-				return false;
-			}
-		else
-			try {
-				if (factors.containsKey("teamSize"))
-					Integer.parseInt(factors.get("teamSize"));
-				if (factors.containsKey("duration"))
-					Integer.parseInt(factors.get("duration"));
-			} catch (NumberFormatException e) {
-				return false;
-			}
-		return true;
-	}
-	
-	
 
 	// 由规模大小定义其等级，根据数据库的实际情况来,需修改数据
 	public String getLevel(int value) {
@@ -331,9 +303,11 @@ public class QuickEstimate extends ParameterArea{
 				widgetSelected(e);
 			}
 			public void widgetSelected(SelectionEvent e) {
-				if (btnDevType.getSelection())
+				if (btnDevType.getSelection()){
 					cmbDevType.setVisible(true);
-				else {
+					factors.put("developmentType", cmbDevType.getData(cmbDevType.getText())
+							.toString());
+				}else {
 					cmbDevType.setVisible(false);
 					factors.remove("developmentType");
 				}
@@ -344,11 +318,11 @@ public class QuickEstimate extends ParameterArea{
 		cmbDevType.setData("新开发", "NewDevelopment");
 		cmbDevType.setData("二次开发", "ReDevelopment");
 		cmbDevType.setData("优化", "Enhancement");
+		cmbDevType.select(0);
 		cmbDevType.setVisible(false);
 		cmbDevType.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				String key = cmbDevType.getText();
-				factors.put("developmentType", cmbDevType.getData(key)
+				factors.put("developmentType", cmbDevType.getData(cmbDevType.getText())
 						.toString());
 			}
 		});
@@ -362,10 +336,13 @@ public class QuickEstimate extends ParameterArea{
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				if (btnLanguage.getSelection())
+				if (btnLanguage.getSelection()){
 					cmbLanguage.setVisible(true);
-				else
+					factors.put("language", cmbLanguage.getData(cmbLanguage.getText()).toString());
+				}else{
 					cmbLanguage.setVisible(false);
+					factors.remove("language");
+				}
 			}
 		});
 		String[] texts = { "ASP", "C#", "VB", "JAVA", "C++", "C", "COBOL" };
@@ -375,11 +352,11 @@ public class QuickEstimate extends ParameterArea{
 		for (int i = 0; i < texts.length; i++) {
 			cmbLanguage.setData(texts[i], values[i]);
 		}
+		cmbLanguage.select(0);
 		cmbLanguage.setVisible(false);
 		cmbLanguage.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				String key = cmbLanguage.getText();
-				factors.put("language", cmbLanguage.getData(key).toString());
+				factors.put("language", cmbLanguage.getData(cmbLanguage.getText()).toString());
 			}
 		});
 	}
@@ -392,10 +369,13 @@ public class QuickEstimate extends ParameterArea{
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				if (btnBusArea.getSelection())
+				if (btnBusArea.getSelection()){
 					cmbBusArea.setVisible(true);
-				else
+					factors.put("businessArea", cmbBusArea.getData(cmbBusArea.getText()).toString());
+				}else{
 					cmbBusArea.setVisible(false);
+					factors.remove("businessArea");
+				}
 			}
 		});
 		String[] texts = { "电信", "金融", "零售业", "保险", "交通运输", "传媒", "卫生保健",
@@ -408,19 +388,13 @@ public class QuickEstimate extends ParameterArea{
 		for (int i = 0; i < texts.length; i++) {
 			cmbBusArea.setData(texts[i], values[i]);
 		}
+		cmbBusArea.select(0);
 		cmbBusArea.setVisible(false);
 		cmbBusArea.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				String key = cmbBusArea.getText();
-				factors.put("businessArea", cmbBusArea.getData(key).toString());
+				factors.put("businessArea", cmbBusArea.getData(cmbBusArea.getText()).toString());
 			}
 		});
 	}
-
-	
-
-
-
-
 }
 
