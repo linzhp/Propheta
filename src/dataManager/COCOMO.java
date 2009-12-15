@@ -29,7 +29,7 @@ public class COCOMO {
 
 	// 模块工作量计算公式
 	public static Double[] getModuleEffortTime(Double size,
-			HashMap<String, String> factorsSF, HashMap<String, String> factorsEM) {
+			HashMap<String, String> factorsSF, HashMap<String, String> factorsEM, String EMtype) {
 		Double sumSF = 0.0;
 		Double multiEM = 1.0;
 		Double A = Double.valueOf(PropertyFile.readValue(
@@ -54,7 +54,7 @@ public class COCOMO {
 		// 求各EM因子的乘积
 		factors = factorsEM.keySet();
 		for (Object factor : factors) {
-			propertyKey = "EM." + factor.toString() + "."
+			propertyKey = EMtype + "." + "EM." + factor.toString() + "."
 					+ factorsEM.get(factor);
 			multiEM *= Double.valueOf(PropertyFile.readValue(
 					"properties/COCOMO.properties", propertyKey));
@@ -63,7 +63,7 @@ public class COCOMO {
 		Double E = B + 0.01 * sumSF;
 		Double PM = A * Math.pow((size / 1000), E) * multiEM;
 		// 求TDEV: Time to development
-		propertyKey = "EM.SCED." + factorsEM.get("SCED");
+		propertyKey = EMtype + "." + "EM.SCED." + factorsEM.get("SCED");
 		Double SCED = Double.valueOf(PropertyFile.readValue(
 				"properties/COCOMO.properties", propertyKey));
 		Double TDEV = C * Math.pow((PM / SCED), (D + 0.2 * (E - B))) * SCED;

@@ -49,7 +49,7 @@ public class DetailedEstimateWizard extends Wizard {
 			HashMap<String,String> factorsSF = getFactorsSF();
 			HashMap<String,String> factorsEM = getFactorsEM();
 			Double size = (double)getSize();
-			Double[] effort = COCOMO.getModuleEffortTime(size, factorsSF, factorsEM);
+			Double[] effort = COCOMO.getModuleEffortTime(size, factorsSF, factorsEM, "Post");
 			
 			Composite resultView = GUI.getButtomContentArea();
 			GridLayout layout = new GridLayout(1, false);

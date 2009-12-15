@@ -20,7 +20,7 @@ public class COCOMOResults {
 	{
 		Double[] effort = COCOMO.getModuleEffortTime(parameters.getEstimatedSize(), 
 				parameters.getScaleFactors(), 
-				parameters.getEffortMultipliers());
+				parameters.getEffortMultipliers(), parameters.getEMtype());
 		
 		Composite resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
 		GridLayout layout = new GridLayout(1, false);

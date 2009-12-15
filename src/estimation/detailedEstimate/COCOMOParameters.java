@@ -73,6 +73,14 @@ public class COCOMOParameters extends ParameterArea{
 		return result;
 	}
 	
+	public String getEMtype()
+	{
+		if (earlyDesignRadio.getSelection())
+			return "Early";
+		else
+			return "Post";
+	}
+	
 	private Composite createSize(Composite parent){
 		Composite pane = toolkit.createComposite(parent);
 		pane.setLayout(new RowLayout(SWT.HORIZONTAL));
