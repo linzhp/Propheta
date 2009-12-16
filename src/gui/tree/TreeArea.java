@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.action.SubMenuManager;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -96,9 +97,11 @@ public class TreeArea extends Composite{
 	private void setNoneMenu(){
 		MenuManager mm = new MenuManager();		
 		mm.add(new NewProjectAction());	
-		mm.add(new QuickEstimateAction());
-		mm.add(new DetailedEstimationAction());
-		mm.add(new COCOMOSizeAction());
+		MenuManager smm_estimate=new MenuManager("估算");
+		smm_estimate.add(new QuickEstimateAction());
+		smm_estimate.add(new DetailedEstimationAction());
+		smm_estimate.add(new COCOMOSizeAction());
+		mm.add(smm_estimate);
 		Menu menu=mm.createContextMenu(this);
 		this.treeViewer.getTree().setMenu(menu);
 	}
