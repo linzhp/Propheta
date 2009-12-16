@@ -163,23 +163,23 @@ public class QuickEstimate extends ParameterArea{
 		comSizeScale = toolkit.createComposite(sizeDataArea);
 		comSizeScale.setLayout(new GridLayout(2, false));
 		scaleHistory = new Scale(comSizeScale, SWT.NULL);
-		scaleHistory.setBackground(toolkit.getColors().getBackground());
+//		scaleHistory.setBackground(toolkit.getColors().getBackground());
+		toolkit.adapt(scaleHistory, true, true);
 		scaleHistory.setMinimum(0);
 		scaleHistory.setMaximum(1500000);
 		scaleHistory.setIncrement(1000);
 		scaleHistory.setPageIncrement(300000);
-		scaleHistory.setSize(300, 30);
+		scaleHistory.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		scaleHistory.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				sizeValue = scaleHistory.getSelection()
 						+ scaleHistory.getMinimum();
 				textLevel.setText(getLevel(sizeValue) + ":" + sizeValue);
-				textLevel.getParent().layout();
 			}
 		});
 		scaleHistory.setSelection(100);
 		textLevel = toolkit.createLabel(comSizeScale, "", SWT.NONE);
-		textLevel.setSize(100, 30);
+		textLevel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 	}
 
 	private Composite createFactors(Composite parent) {
