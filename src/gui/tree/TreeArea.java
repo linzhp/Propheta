@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.action.SubMenuManager;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -14,7 +13,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 
 import entity.EstimateNode;
-import estimation.NewEstimationAction;
 import estimation.detailedEstimate.DetailedEstimationAction;
 import estimation.quickEstimate.QuickEstimateAction;
 import estimation.sizeEstimate.COCOMOSizeAction;

@@ -5,6 +5,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.forms.widgets.*;
 
+
 public abstract class ParameterArea extends Composite{
 	protected FormToolkit toolkit;
 	protected ScrolledForm form;
