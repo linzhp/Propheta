@@ -16,7 +16,6 @@ import entity.EstimateNode;
 import estimation.NewEstimationAction;
 import estimation.detailedEstimate.DetailedEstimationAction;
 import estimation.quickEstimate.QuickEstimateAction;
-import estimation.sizeEstimate.COCOMOSizeAction;
 import gui.tree.contextMenu.AddNodeAction;
 import gui.tree.contextMenu.NewProjectAction;
 import gui.tree.contextMenu.RemoveNodeAction;
@@ -98,7 +97,7 @@ public class TreeArea extends Composite{
 		mm.add(new NewProjectAction());	
 		mm.add(new QuickEstimateAction());
 		mm.add(new DetailedEstimationAction());
-		mm.add(new COCOMOSizeAction());
+		//mm.add(new COCOMOSizeAction());
 		Menu menu=mm.createContextMenu(this);
 		this.treeViewer.getTree().setMenu(menu);
 	}
