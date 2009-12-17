@@ -340,8 +340,8 @@ public class PIPage extends WizardPage {
 					combo[2].setVisible(false);
 			}
 		});
-		String[] texts = { "电信", "金融", "零售业", "保险", "交通运输", "传媒", "卫生保健",
-				"制造业", "公共管理", "能源" };
+		String[] texts = { "电信", "金融", "流通", "保险", "交通", "媒体", "卫生",
+				"制造", "政府", "能源" };
 		String[] values = { "Telecom", "Finance", "Retail", "General",
 				"Transport", "Media", "HealthCare", "Manufacturing",
 				"PublicAdmin", "Energy" };

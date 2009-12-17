@@ -37,10 +37,8 @@ public class COCOMOSize extends ParameterArea{
 		//生成三个可选按钮
 		createRadioButtons(comSize);
 		//生成确定按钮
-		GridData gd = new GridData();
-		gd.horizontalAlignment = SWT.CENTER;
 		Button ok = toolkit.createButton(comSize, "确定", SWT.PUSH);
-		ok.setLayoutData(gd);
+		ok.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
 		ok.setEnabled(true);
 		ok.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
@@ -53,7 +51,7 @@ public class COCOMOSize extends ParameterArea{
 		});
 		
 		//生成参数输入区
-		gd = new GridData();
+		GridData gd = new GridData();
 		gd.horizontalSpan = 4;
 		dataArea = toolkit.createComposite(comSize);
 		dataArea.setLayoutData(gd);
