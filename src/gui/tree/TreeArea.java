@@ -13,7 +13,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 
 import entity.EstimateNode;
-import estimation.NewEstimationAction;
 import estimation.detailedEstimate.DetailedEstimationAction;
 import estimation.quickEstimate.QuickEstimateAction;
 import estimation.sizeEstimate.COCOMOSizeAction;
@@ -36,6 +35,15 @@ public class TreeArea extends Composite{
 	private TreeContentProvider treeContentProvider;
 	private TreeLabelProvider treeLabelProvider;
 	
+	//menus
+	NewProjectAction newProjectAction=new NewProjectAction();
+	AddNodeAction addNodeAction=new AddNodeAction();
+	RemoveNodeAction removeNodeAction=new RemoveNodeAction();
+	RenameNodeAction renameNodeAction=new RenameNodeAction();
+	MenuManager menuManager_estimation=new MenuManager("估算");
+	QuickEstimateAction quickEstimateAction=new QuickEstimateAction();
+	DetailedEstimationAction detailedEstimationAction=new DetailedEstimationAction();
+	COCOMOSizeAction cOCOMOSizeAction=new COCOMOSizeAction();
 	
 	public TreeArea(Composite parent, int style) {
 		super(parent, style);
@@ -55,7 +63,23 @@ public class TreeArea extends Composite{
 	
 	
 	//添加右键菜单
-	public void addMenu(){
+	public void addMenu(){		
+		MenuManager mm = new MenuManager();		
+		mm.add(newProjectAction);	
+		mm.add(addNodeAction);
+		mm.add(removeNodeAction);
+		mm.add(renameNodeAction);
+		mm.add(new Separator());
+		menuManager_estimation.add(quickEstimateAction);
+		menuManager_estimation.add(detailedEstimationAction);
+		menuManager_estimation.add(cOCOMOSizeAction);
+		mm.add(menuManager_estimation);
+		Menu menu=mm.createContextMenu(this);
+		this.treeViewer.getTree().setMenu(menu);
+		
+		//设置初始状态
+		setNoneMenu();
+		
 		this.treeViewer.getTree().addMouseListener(new MouseListener(){
 
 			@Override
@@ -86,70 +110,67 @@ public class TreeArea extends Composite{
 			}
 
 			@Override
-			public void mouseUp(MouseEvent e) {
-										
-			}			
+			public void mouseUp(MouseEvent e) {}		
 		});
 	}
 	
 	
 	private void setNoneMenu(){
-		MenuManager mm = new MenuManager();		
-		mm.add(new NewProjectAction());	
-		mm.add(new QuickEstimateAction());
-		mm.add(new DetailedEstimationAction());
-		mm.add(new COCOMOSizeAction());
-		Menu menu=mm.createContextMenu(this);
-		this.treeViewer.getTree().setMenu(menu);
+		newProjectAction.setEnabled(true);
+		addNodeAction.setEnabled(false);
+		removeNodeAction.setEnabled(false);
+		renameNodeAction.setEnabled(false);
+		menuManager_estimation.setVisible(true);
+		quickEstimateAction.setEnabled(false);
+		detailedEstimationAction.setEnabled(false);
+		cOCOMOSizeAction.setEnabled(false);
 	}
 	
 	
 	private void setRootMenu(){
-		MenuManager mm = new MenuManager();		
-		mm.add(new NewProjectAction());	
-		mm.add(new AddNodeAction());
-		mm.add(new RemoveNodeAction());
-		mm.add(new RenameNodeAction());
-		
-		Menu menu=mm.createContextMenu(this);
-		this.treeViewer.getTree().setMenu(menu);
+		newProjectAction.setEnabled(true);
+		addNodeAction.setEnabled(true);
+		removeNodeAction.setEnabled(true);
+		renameNodeAction.setEnabled(true);
+		menuManager_estimation.setVisible(false);
+		quickEstimateAction.setEnabled(false);
+		detailedEstimationAction.setEnabled(false);
+		cOCOMOSizeAction.setEnabled(false);
 	}
 	
 	
 	private void setNodeMenu(){
-		MenuManager mm = new MenuManager();		
-		mm.add(new AddNodeAction());
-		mm.add(new RemoveNodeAction());
-		mm.add(new RenameNodeAction());
-		
-		Menu menu=mm.createContextMenu(this);
-		this.treeViewer.getTree().setMenu(menu);
+		newProjectAction.setEnabled(false);
+		addNodeAction.setEnabled(true);
+		removeNodeAction.setEnabled(true);
+		renameNodeAction.setEnabled(true);
+		menuManager_estimation.setVisible(false);
+		quickEstimateAction.setEnabled(false);
+		detailedEstimationAction.setEnabled(false);
+		cOCOMOSizeAction.setEnabled(false);
 	}
 	
 	
 	private void setLeafMenu(){
-		MenuManager mm = new MenuManager();		
-		mm.add(new AddNodeAction());
-		mm.add(new RemoveNodeAction());
-		mm.add(new RenameNodeAction());
-		mm.add(new Separator());
-		mm.add(new NewEstimationAction());			
-		
-		Menu menu=mm.createContextMenu(this);
-		this.treeViewer.getTree().setMenu(menu);
+		newProjectAction.setEnabled(false);
+		addNodeAction.setEnabled(true);
+		removeNodeAction.setEnabled(true);
+		renameNodeAction.setEnabled(true);
+		menuManager_estimation.setVisible(true);
+		quickEstimateAction.setEnabled(true);
+		detailedEstimationAction.setEnabled(true);
+		cOCOMOSizeAction.setEnabled(true);
 	}
 	
 	private void setRootLeafMenu(){
-		MenuManager mm = new MenuManager();		
-		mm.add(new NewProjectAction());			
-		mm.add(new AddNodeAction());
-		mm.add(new RemoveNodeAction());
-		mm.add(new RenameNodeAction());
-		mm.add(new Separator());
-		mm.add(new NewEstimationAction());
-		
-		Menu menu=mm.createContextMenu(this);
-		this.treeViewer.getTree().setMenu(menu);
+		newProjectAction.setEnabled(true);
+		addNodeAction.setEnabled(true);
+		removeNodeAction.setEnabled(true);
+		renameNodeAction.setEnabled(true);
+		menuManager_estimation.setVisible(true);
+		quickEstimateAction.setEnabled(true);
+		detailedEstimationAction.setEnabled(true);
+		cOCOMOSizeAction.setEnabled(true);
 	}
 	
 	
