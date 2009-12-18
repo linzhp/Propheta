@@ -123,7 +123,7 @@ public class TreeArea extends Composite{
 		menuManager_estimation.setVisible(true);
 		quickEstimateAction.setEnabled(false);
 		detailedEstimationAction.setEnabled(false);
-		cOCOMOSizeAction.setEnabled(false);
+		cOCOMOSizeAction.setEnabled(false);		
 	}
 	
 	
@@ -195,6 +195,17 @@ public class TreeArea extends Composite{
 	public void removeEstimateProject(EstimateNode en){
 		this.estimateProjects.remove(en);
 		this.treeViewer.refresh();
+	}
+	
+	public boolean isEstimateProjectExist(String projectName){
+		boolean isExist=false;
+		for(int i=0;i<this.estimateProjects.size();i++){
+			if(this.estimateProjects.get(i).getName().equalsIgnoreCase(projectName)){
+				isExist=true;
+				break;
+			}
+		}
+		return isExist;
 	}
 	
 	
