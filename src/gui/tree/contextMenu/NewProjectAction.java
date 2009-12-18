@@ -34,9 +34,12 @@ public class NewProjectAction extends Action {
 			if(projectName.length()==0){
 				return "请输入项目名称";
 			}else{
-				
+				if(GUI.getTreeArea().isEstimateProjectExist(projectName)==true){
+					return "已存在名称为 "+projectName+"  的项目!";
+				}else{
+					return null;
+				}
 			}
-			return null;
 		}
 	}
 	

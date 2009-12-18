@@ -186,17 +186,19 @@ public class TreeArea extends Composite{
 		this.estimateProjects=list;
 	}
 	
-	
+	//新增项目
 	public void addEstimateProjet(EstimateNode en){
 		this.estimateProjects.add(en);
 		this.treeViewer.refresh();
 	}
 	
+	//删除项目
 	public void removeEstimateProject(EstimateNode en){
 		this.estimateProjects.remove(en);
 		this.treeViewer.refresh();
 	}
 	
+	//判断是否存在同名项目（项目名称不考虑大小写）
 	public boolean isEstimateProjectExist(String projectName){
 		boolean isExist=false;
 		for(int i=0;i<this.estimateProjects.size();i++){
@@ -209,6 +211,7 @@ public class TreeArea extends Composite{
 	}
 	
 	
+	//获取树中当前选择的节点
 	public EstimateNode getSelectedNode(){
 		StructuredSelection se=(StructuredSelection)treeViewer.getSelection();
 		EstimateNode node=(EstimateNode)se.getFirstElement();
