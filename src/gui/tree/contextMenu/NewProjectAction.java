@@ -17,7 +17,7 @@ public class NewProjectAction extends Action {
 	
 	@Override
 	public void run(){
-		InputDialog input=new InputDialog(null,"请输入项目名称","项目名称","",new ProjectNameValidator());
+		InputDialog input=new InputDialog(null,"新建项目","项目名称","",new ProjectNameValidator());
 		if(input.open()==Window.OK){
 			EstimateNode node=new EstimateNode(input.getValue().trim());
 			GUI.getTreeArea().addEstimateProjet(node);
@@ -26,14 +26,20 @@ public class NewProjectAction extends Action {
 		
 	}
 	
-	
+	//项目名称验证
 	class ProjectNameValidator implements IInputValidator {
 		@Override
 		public String isValid(String text) {
-			if(text.trim().length()==0){
-				return "!!!";
+			String projectName=text.trim();
+			if(projectName.length()==0){
+				return "请输入项目名称";
+			}else{
+				if(GUI.getTreeArea().isEstimateProjectExist(projectName)==true){
+					return "已存在名称为 "+projectName+"  的项目!";
+				}else{
+					return null;
+				}
 			}
-			return null;
 		}
 	}
 	
