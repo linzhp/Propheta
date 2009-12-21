@@ -26,7 +26,7 @@ public class QuickEstimate extends ParameterArea{
 	private GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 	
 	// CSBSG变量
-	Button btnCSBSG;
+	private Button btnCSBSG;
 	private Composite comCSBSG;
 	private HashMap<String, String> CSBSGFactors = new HashMap<String, String>();
 	private Button btnCSBSGTeamSize, btnCSBSGDuration, btnCSBSGDevType, btnCSBSGLanguage, btnCSBSGBusArea ;
@@ -34,9 +34,13 @@ public class QuickEstimate extends ParameterArea{
 	private Spinner spnCSBSGTeamSize, spnCSBSGDuration, spnCSBSGSize;
 	
 	// ISBSG变量
-	Button btnISBSG;
+	private Button btnISBSG;
 	private Composite comISBSG;
 	private HashMap<String, String> ISBSGFactors = new HashMap<String, String>();
+	private Button btnISBSGTeamSize, btnISBSGDevType, btnISBSGDevTech, btnISBSGDevPlat, btnISBSGLanType;
+	private Combo cmbISBSGDevType, cmbISBSGDevTech, cmbISBSGDevPlat, cmbISBSGLanType;
+	private Spinner spnISBSGTeamSize, spnISBSGSize;
+	
 
 	public QuickEstimate(Composite parent){
 		super(parent);
@@ -136,7 +140,7 @@ public class QuickEstimate extends ParameterArea{
 	{
 		GridLayout layout = new GridLayout(2, false);
 		layout.verticalSpacing = 8;
-		layout.horizontalSpacing = 30;
+		layout.horizontalSpacing = 15;
 		comCSBSG = toolkit.createComposite(factorDataArea);
 		comCSBSG.setLayout(layout);
 		createCSBSGSizeItem();
@@ -151,15 +155,22 @@ public class QuickEstimate extends ParameterArea{
 	{
 		GridLayout layout = new GridLayout(2, false);
 		layout.verticalSpacing = 8;
-		layout.horizontalSpacing = 30;
+		layout.horizontalSpacing = 15;
 		comISBSG = toolkit.createComposite(factorDataArea);
 		comISBSG.setLayout(layout);
+		createISBSGSizeItem();
+		createISBSGTeamSizeItem();
+		createISBSGDevTypeItem();
+		createISBSGDevTechItem();
+		createISBSGDevPlatItem();
+		createISBSGLanTypeItem();
 	}
 	
 	private void createCSBSGSizeItem()
 	{
 		toolkit.createLabel(comCSBSG, "规模（SLOC）：");
 		spnCSBSGSize = new Spinner(comCSBSG, SWT.BORDER);
+		spnCSBSGSize.setLayoutData(gd);
 		spnCSBSGSize.setMaximum(Spinner.LIMIT);
 		spnCSBSGSize.setSelection(1000);
 	}
@@ -182,6 +193,7 @@ public class QuickEstimate extends ParameterArea{
 		});
 		
 		spnCSBSGTeamSize = new Spinner(comCSBSG, SWT.BORDER);
+		spnCSBSGTeamSize.setLayoutData(gd);
 		spnCSBSGTeamSize.setMaximum(Spinner.LIMIT);
 		spnCSBSGTeamSize.setSelection(5);
 		spnCSBSGTeamSize.addModifyListener(new ModifyListener() {
@@ -209,6 +221,7 @@ public class QuickEstimate extends ParameterArea{
 			}
 		});
 		spnCSBSGDuration = new Spinner(comCSBSG, SWT.BORDER);
+		spnCSBSGDuration.setLayoutData(gd);
 		spnCSBSGDuration.setMaximum(Spinner.LIMIT);
 		spnCSBSGDuration.setSelection(180);
 		spnCSBSGDuration.addModifyListener(new ModifyListener() {
@@ -236,12 +249,14 @@ public class QuickEstimate extends ParameterArea{
 				}
 			}
 		});
+		String[] texts = { "新开发", "二次开发", "优化", "其它" };
+		String[] values = { "NewDevelopment", "ReDevelopment", "Enhancement", "Other" };
 		cmbCSBSGDevType = new Combo(comCSBSG, SWT.READ_ONLY);
 		cmbCSBSGDevType.setLayoutData(gd);
-		cmbCSBSGDevType.setItems(new String[] { "新开发", "二次开发", "优化" });
-		cmbCSBSGDevType.setData("新开发", "NewDevelopment");
-		cmbCSBSGDevType.setData("二次开发", "ReDevelopment");
-		cmbCSBSGDevType.setData("优化", "Enhancement");
+		cmbCSBSGDevType.setItems(texts);
+		for (int i = 0; i < texts.length; i++) {
+			cmbCSBSGDevType.setData(texts[i], values[i]);
+		}
 		cmbCSBSGDevType.select(0);
 		cmbCSBSGDevType.setVisible(false);
 		cmbCSBSGDevType.addSelectionListener(new SelectionAdapter() {
@@ -319,6 +334,187 @@ public class QuickEstimate extends ParameterArea{
 		cmbCSBSGBusArea.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				CSBSGFactors.put("businessArea", cmbCSBSGBusArea.getData(cmbCSBSGBusArea.getText()).toString());
+			}
+		});
+	}
+	
+	private void createISBSGSizeItem()
+	{
+		toolkit.createLabel(comISBSG, "规模（功能点数）：");
+		spnISBSGSize = new Spinner(comISBSG, SWT.BORDER);
+		spnISBSGSize.setLayoutData(gd);
+		spnISBSGSize.setMaximum(Spinner.LIMIT);
+		spnISBSGSize.setSelection(200);
+	}
+	
+	private void createISBSGTeamSizeItem()
+	{
+		btnISBSGTeamSize = toolkit.createButton(comISBSG, "团队规模（人）：", SWT.CHECK);
+		btnISBSGTeamSize.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+			public void widgetSelected(SelectionEvent e) {
+				if (btnISBSGTeamSize.getSelection()) {
+					spnISBSGTeamSize.setVisible(true);
+					ISBSGFactors.put("teamSize", spnISBSGTeamSize.getText());
+				} else {
+					spnISBSGTeamSize.setVisible(false);
+					ISBSGFactors.remove("teamSize");
+				}
+			}
+		});
+		
+		spnISBSGTeamSize = new Spinner(comISBSG, SWT.BORDER);
+		spnISBSGTeamSize.setMaximum(Spinner.LIMIT);
+		spnISBSGTeamSize.setLayoutData(gd);
+		spnISBSGTeamSize.setSelection(5);
+		spnISBSGTeamSize.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				ISBSGFactors.put("teamSize", spnISBSGTeamSize.getText());
+			}
+		});
+		spnISBSGTeamSize.setVisible(false);
+	}
+	
+	private void createISBSGDevTypeItem(){
+		btnISBSGDevType = toolkit.createButton(comISBSG, "开发类型：", SWT.CHECK);
+		btnISBSGDevType.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+			public void widgetSelected(SelectionEvent e) {
+				if (btnISBSGDevType.getSelection()){
+					cmbISBSGDevType.setVisible(true);
+					ISBSGFactors.put("developmentType", cmbISBSGDevType.getData(cmbISBSGDevType.getText())
+							.toString());
+				}else {
+					cmbISBSGDevType.setVisible(false);
+					ISBSGFactors.remove("developmentType");
+				}
+			}
+		});
+		String[] texts = { "新开发", "二次开发", "优化", "其它" };
+		String[] values = { "NewDevelopment", "ReDevelopment", "Enhancement", "Other" };
+		cmbISBSGDevType = new Combo(comISBSG, SWT.READ_ONLY);
+		cmbISBSGDevType.setLayoutData(gd);
+		cmbISBSGDevType.setItems(texts);
+		for (int i = 0; i < texts.length; i++) {
+			cmbISBSGDevType.setData(texts[i], values[i]);
+		}
+		cmbISBSGDevType.select(0);
+		cmbISBSGDevType.setVisible(false);
+		cmbISBSGDevType.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				ISBSGFactors.put("developmentType", cmbISBSGDevType.getData(cmbISBSGDevType.getText())
+						.toString());
+			}
+		});
+	}
+	private void createISBSGDevTechItem(){
+		btnISBSGDevTech = toolkit.createButton(comISBSG, "开发技术： ", SWT.CHECK);
+		btnISBSGDevTech.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+			public void widgetSelected(SelectionEvent e) {
+				if (btnISBSGDevTech.getSelection()){
+					cmbISBSGDevTech.setVisible(true);
+					ISBSGFactors.put("developmentTechniques", cmbISBSGDevTech.getData(cmbISBSGDevTech.getText()).toString());
+				}else{
+					cmbISBSGDevTech.setVisible(false);
+					ISBSGFactors.remove("developmentTechniques");
+				}
+			}
+		});
+		String[] texts = { "面向对象分析设计", "事件建模", "业务领域建模", "回归测试", "面向对象与事件建模",
+				"回归测试与业务领域建模" };
+		String[] values = {
+				"Object Oriented Analysis;Object Oriented Design",
+				"Event Modelling",
+				"Business Area Modelling",
+				"Regression Testing",
+				"Object Oriented Analysis;Object Oriented Design;Event Modelling",
+				"Regression Testing;Business Area Modelling" };
+		cmbISBSGDevTech = new Combo(comISBSG, SWT.READ_ONLY);
+		cmbISBSGDevTech.setLayoutData(gd);
+		cmbISBSGDevTech.setItems(texts);
+		for (int i = 0; i < texts.length; i++) {
+			cmbISBSGDevTech.setData(texts[i], values[i]);
+		}
+		cmbISBSGDevTech.select(0);
+		cmbISBSGDevTech.setVisible(false);
+		cmbISBSGDevTech.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				ISBSGFactors.put("developmentTechniques", cmbISBSGDevTech.getData(cmbISBSGDevTech.getText()).toString());
+			}
+		});
+	}
+	private void createISBSGDevPlatItem(){
+		btnISBSGDevPlat = toolkit.createButton(comISBSG, "开发平台：", SWT.CHECK);
+		btnISBSGDevPlat.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+			public void widgetSelected(SelectionEvent e) {
+				if (btnISBSGDevPlat.getSelection()){
+					cmbISBSGDevPlat.setVisible(true);
+					ISBSGFactors.put("developmentPlatform", cmbISBSGDevPlat.getData(cmbISBSGDevPlat.getText())
+							.toString());
+				}else {
+					cmbISBSGDevPlat.setVisible(false);
+					ISBSGFactors.remove("developmentPlatform");
+				}
+			}
+		});
+		String[] texts = { "大型机", "中型机", "个人计算机", "混合" };
+		String[] values = { "MF", "MR", "PC", "Multi" };
+		cmbISBSGDevPlat = new Combo(comISBSG, SWT.READ_ONLY);
+		cmbISBSGDevPlat.setLayoutData(gd);
+		cmbISBSGDevPlat.setItems(texts);
+		for (int i = 0; i < texts.length; i++) {
+			cmbISBSGDevPlat.setData(texts[i], values[i]);
+		}
+		cmbISBSGDevPlat.select(0);
+		cmbISBSGDevPlat.setVisible(false);
+		cmbISBSGDevPlat.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				ISBSGFactors.put("developmentPlatform", cmbISBSGDevPlat.getData(cmbISBSGDevPlat.getText())
+						.toString());
+			}
+		});
+	}
+	private void createISBSGLanTypeItem(){
+		btnISBSGLanType = toolkit.createButton(comISBSG, "语言类型：", SWT.CHECK);
+		btnISBSGLanType.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+			public void widgetSelected(SelectionEvent e) {
+				if (btnISBSGLanType.getSelection()){
+					cmbISBSGLanType.setVisible(true);
+					ISBSGFactors.put("languageType", cmbISBSGLanType.getData(cmbISBSGLanType.getText())
+							.toString());
+				}else {
+					cmbISBSGLanType.setVisible(false);
+					ISBSGFactors.remove("languageType");
+				}
+			}
+		});
+		String[] texts = { "第二代语言", "第三代语言", "第四代语言", "应用代" };
+		String[] values = { "2GL", "3GL", "4GL", "ApG" };
+		cmbISBSGLanType = new Combo(comISBSG, SWT.READ_ONLY);
+		cmbISBSGLanType.setLayoutData(gd);
+		cmbISBSGLanType.setItems(texts);
+		for (int i = 0; i < texts.length; i++) {
+			cmbISBSGLanType.setData(texts[i], values[i]);
+		}
+		cmbISBSGLanType.select(0);
+		cmbISBSGLanType.setVisible(false);
+		cmbISBSGLanType.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				ISBSGFactors.put("languageType", cmbISBSGLanType.getData(cmbISBSGLanType.getText())
+						.toString());
 			}
 		});
 	}

@@ -12,6 +12,7 @@ public class CSBSG {
 		constData.put("developmentType.ReDevelopment", -0.16);
 		constData.put("developmentType.NewDevelopment", -0.46);
 		constData.put("developmentType.Enhancement", 0.0);
+		constData.put("developmentType.Other", 0.0);
 
 		constData.put("businessArea.Telecom", 0.32);
 		constData.put("businessArea.Transport", -0.13);
