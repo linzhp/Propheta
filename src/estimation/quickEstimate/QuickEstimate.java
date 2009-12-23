@@ -34,6 +34,8 @@ public class QuickEstimate extends ParameterArea{
 	private Spinner spnCSBSGTeamSize, spnCSBSGDuration, spnCSBSGSize;
 	
 	// ISBSG变量
+	
+	
 	private Button btnISBSG;
 	private Composite comISBSG;
 	private HashMap<String, String> ISBSGFactors = new HashMap<String, String>();
@@ -48,6 +50,7 @@ public class QuickEstimate extends ParameterArea{
 	}
 	public String getDataType()
 	{
+		
 		if(btnCSBSG.getSelection())
 			return "csbsg";
 		else
