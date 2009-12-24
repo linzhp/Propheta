@@ -29,10 +29,9 @@ public class COCOMOResults {
 
 		//显示同论文总结出的CSBSG公式，计算得到的结果
 		Label result = new Label(resultView, SWT.NONE);
-		result.setText("根据公式计算出   PM为：" + effort[0].intValue()+ "(人/月)\n"+
-				"\t\t TDEV为：" + effort[1].intValue()+"(月)");
+		result.setText("根据公式计算出   PM为：" + effort[0].intValue()+ "(人.月)\n\n"+
+				"\t\t TDEV为：" + effort[1].intValue()+"(月)\n\n" + "\t\t 平均所需开发人员为：" + (int)((effort[0]/effort[1])+1));
 		GUI.createNewTab("详细估算结果", resultView);
-//		resultView.setBounds(GUI.getButtomContentArea().getClientArea());
 
 	}
 }
