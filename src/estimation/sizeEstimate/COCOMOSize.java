@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
-import dataManager.COCOMO;
+import dataManager.dataEntities.COCOMO;
 
 public class COCOMOSize extends ParameterArea{
 

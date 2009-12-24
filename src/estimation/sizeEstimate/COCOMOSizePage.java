@@ -11,7 +11,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
 
-import dataManager.COCOMO;
+import dataManager.dataEntities.COCOMO;
 
 public class COCOMOSizePage extends WizardPage {
 	public static final String PAGE_NAME = "COCOMOSize";

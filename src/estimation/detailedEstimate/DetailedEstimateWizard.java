@@ -8,7 +8,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import dataManager.COCOMO;
+import dataManager.dataEntities.COCOMO;
 import entity.EstimateNode;
 import gui.GUI;
 

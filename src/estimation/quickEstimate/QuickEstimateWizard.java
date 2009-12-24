@@ -1,7 +1,7 @@
 package estimation.quickEstimate;
 
 import gui.GUI;
-import dataManager.CSBSG;
+import dataManager.dataEntities.CSBSG;
 import entity.EstimateNode;
 
 import java.util.ArrayList;

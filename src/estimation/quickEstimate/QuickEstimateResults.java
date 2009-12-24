@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Label;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
-import dataManager.CSBSG;
+import dataManager.dataEntities.CSBSG;
 
 public class QuickEstimateResults {
 	private QuickEstimate quickEstimate;

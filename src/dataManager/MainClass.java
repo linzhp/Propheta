@@ -6,11 +6,13 @@ import java.util.ArrayList;
 
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
+import dataManager.dataAccess.DBAccess;
+
 public class MainClass {
 
 	public static void main(String args[]){
 		ArrayList<Integer> array = new ArrayList<Integer>();
-		DataAccess da= new DataAccess();
+		DBAccess da= new DBAccess();
 		ResultSet rs = da.query("select duration,count(*) from csbsg group by duration order by count(*) asc");
 		try {
 			while (rs.next()){

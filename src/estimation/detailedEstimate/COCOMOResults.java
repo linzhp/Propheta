@@ -7,7 +7,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import dataManager.COCOMO;
+import dataManager.dataEntities.COCOMO;
 
 public class COCOMOResults {
 	private COCOMOParameters parameters;
