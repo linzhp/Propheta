@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public class EstimateNode{
 
+	private int id=0;
 	private String name=null;
 	private EstimateNode parent=null;
 	private ArrayList<EstimateNode> children=new ArrayList<EstimateNode>();
@@ -22,6 +23,14 @@ public class EstimateNode{
 		this.parent=parent;
 	}
 	
+	
+	public void setId(int id){
+		this.id=id;
+	}
+	
+	public int getId(){
+		return this.id;
+	}
 	
 	public void setName(String str){
 		this.name=str;
