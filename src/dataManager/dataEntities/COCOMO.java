@@ -30,8 +30,7 @@ public class COCOMO {
 	// 模块工作量计算公式
 	public static Double[] getModuleEffortTime(Double size,
 			HashMap<String, String> factorsSF, HashMap<String, String> factorsEM, String EMtype) {
-		Double sumSF = 0.0;
-		Double multiEM = 1.0;
+		//搜索A、B、C、D值
 		Double A = Double.valueOf(PropertyFile.readValue(
 				"properties/COCOMO.properties", "A"));
 		Double B = Double.valueOf(PropertyFile.readValue(
@@ -41,6 +40,74 @@ public class COCOMO {
 		Double D = Double.valueOf(PropertyFile.readValue(
 				"properties/COCOMO.properties", "D"));
 		// 求各SF因子的和
+		Double sumSF = getSumSF(factorsSF);
+		// 求各EM因子的乘积
+		Double multiEM = getMultiEM(factorsEM, EMtype);
+		// 求effort
+		Double E = B + 0.01 * sumSF;
+		Double PM = A * Math.pow((size / 1000), E) * multiEM;
+		// 求TDEV: Time to development
+		String propertyKey = EMtype + "." + "EM.SCED." + factorsEM.get("SCED");
+		Double SCED = Double.valueOf(PropertyFile.readValue(
+				"properties/COCOMO.properties", propertyKey));
+		Double TDEV = C * Math.pow((PM / SCED), (D + 0.2 * (E - B))) * SCED;
+		
+		Double[] effort = { PM, TDEV };
+		
+		System.out.println("sumSF = " + sumSF);
+		System.out.println("multiEM = " + multiEM);
+		System.out.println("SCED = " + SCED);
+		System.out.println("PM = " + PM);
+		System.out.println("TDEV = " + TDEV);
+		
+		return effort;
+	}
+
+	//一级集成工作量计算公式
+	public static Double[] getIntegratedEffortTime(Double[] sizes,
+			HashMap<String, String> factorsSF, HashMap<String, String> factorsEM, String EMtype) {
+		//搜索A、B、C、D值
+		Double A = Double.valueOf(PropertyFile.readValue(
+				"properties/COCOMO.properties", "A"));
+		Double B = Double.valueOf(PropertyFile.readValue(
+				"properties/COCOMO.properties", "B"));
+		Double C = Double.valueOf(PropertyFile.readValue(
+				"properties/COCOMO.properties", "C"));
+		Double D = Double.valueOf(PropertyFile.readValue(
+				"properties/COCOMO.properties", "D"));
+		// 求各SF因子的和
+		Double sumSF = getSumSF(factorsSF);
+		// 求各EM因子的乘积
+		Double multiEM = getMultiEM(factorsEM, EMtype);
+		// 求effort
+		Double E = B + 0.01 * sumSF;
+		String propertyKey = EMtype + "." + "EM.SCED." + factorsEM.get("SCED");
+		Double SCED = Double.valueOf(PropertyFile.readValue(
+				"properties/COCOMO.properties", propertyKey));
+		Double sumSize = 0.0;
+		for(Double size: sizes)
+			sumSize += size;
+		Double PMBasic = A * Math.pow((sumSize / 1000), E) * SCED;
+		Double PM = 0.0;
+		for(Double size: sizes)
+			PM += PMBasic * (size/sumSize)* (multiEM/SCED);
+		// 求TDEV: Time to development
+		Double TDEV = C * Math.pow((PM / SCED), (D + 0.2 * (E - B))) * SCED;
+		
+		Double[] effort = { PM, TDEV };
+		
+		System.out.println("sumSF = " + sumSF);
+		System.out.println("multiEM = " + multiEM);
+		System.out.println("SCED = " + SCED);
+		System.out.println("PM = " + PM);
+		System.out.println("TDEV = " + TDEV);
+		
+		return effort;
+	}
+	//求各SF因子的和
+	private static Double getSumSF(HashMap<String, String> factorsSF)
+	{
+		Double sumSF = 0.0;
 		String propertyKey;
 		Set<String> factors = factorsSF.keySet();
 		for (String factor : factors) {
@@ -51,36 +118,20 @@ public class COCOMO {
 					"properties/COCOMO.properties", propertyKey));
 			System.out.println(propertyKey);
 		}
-		// 求各EM因子的乘积
-		factors = factorsEM.keySet();
+		return sumSF;
+	}
+	// 求各EM因子的乘积
+	private static Double getMultiEM(HashMap<String, String> factorsEM, String EMtype)
+	{
+		Double multiEM = 1.0;
+		String propertyKey;
+		Set<String> factors = factorsEM.keySet();
 		for (Object factor : factors) {
 			propertyKey = EMtype + "." + "EM." + factor.toString() + "."
 					+ factorsEM.get(factor);
 			multiEM *= Double.valueOf(PropertyFile.readValue(
 					"properties/COCOMO.properties", propertyKey));
 		}
-		// 求effort
-		Double E = B + 0.01 * sumSF;
-		Double PM = A * Math.pow((size / 1000), E) * multiEM;
-		// 求TDEV: Time to development
-		propertyKey = EMtype + "." + "EM.SCED." + factorsEM.get("SCED");
-		Double SCED = Double.valueOf(PropertyFile.readValue(
-				"properties/COCOMO.properties", propertyKey));
-		Double TDEV = C * Math.pow((PM / SCED), (D + 0.2 * (E - B))) * SCED;
-		Double[] effort = { PM, TDEV };
-		System.out.println("A = " + A);
-		System.out.println("B = " + B);
-		System.out.println("C = " + C);
-		System.out.println("D = " + D);
-		System.out.println("E = " + E);
-		System.out.println("sumSF = " + sumSF);
-		System.out.println("multiEM = " + multiEM);
-		System.out.println("SCED = " + SCED);
-		System.out.println("PM = " + PM);
-		System.out.println("TDEV = " + TDEV);
-		return effort;
+		return multiEM;
 	}
-
-	//一级集成工作量计算公式
-	//public static
 }

@@ -9,7 +9,9 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -36,6 +38,7 @@ public class ParameterScale extends Composite {
 		scale.setMinimum(0);
 		scale.setMaximum(length-1);
 		scale.setIncrement(1);
+		
 		scale.setPageIncrement(1);
 		scale.setSelection(currentPostion);
 		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
@@ -58,8 +61,18 @@ public class ParameterScale extends Composite {
 		return level;
 	}
 
+	public int getIndex()
+	{
+		return scale.getSelection();
+	}
+	
 	public void addSelectionListener (SelectionListener listener) {
 		scale.addSelectionListener(listener);
+	}
+	
+	public void addListener(Listener listener)
+	{
+		scale.addListener(SWT.Selection, listener);
 	}
 	
 	public void setName(String value)

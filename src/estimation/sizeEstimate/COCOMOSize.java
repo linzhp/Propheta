@@ -112,8 +112,8 @@ public class COCOMOSize extends ParameterArea{
 		compMaintain = toolkit.createComposite(dataArea);
 		compMaintain.setLayout(new GridLayout(2,false));
 		
-		textAddSize = createDataField(compMaintain, "新增代码量(LOC)：", 1000, 0, Spinner.LIMIT, 0);
-		textModifySize = createDataField(compMaintain, "修改代码量(LOC)：", 1000, 0, Spinner.LIMIT, 0);
+		textAddSize = createDataField(compMaintain, "新增代码量(LOC)：", 0, 0, Spinner.LIMIT, 0);
+		textModifySize = createDataField(compMaintain, "修改代码量(LOC)：", 0, 0, Spinner.LIMIT, 0);
 		textMaintSU = createDataField(compMaintain, "代码可理解度(范围10-50，10表示代码很好理解)：", 10, 10, 50, 0);
 		textMaintUNFM = createDataField(compMaintain, "开发人员不熟悉度(范围0-1，0表示完全熟悉)：", 0, 0, 10, 1);
 	}
@@ -122,7 +122,7 @@ public class COCOMOSize extends ParameterArea{
 		compReuse = toolkit.createComposite(dataArea);
 		compReuse.setLayout(new GridLayout(2,false));
 		
-		textReuseSize = createDataField(compReuse, "新增和修改的代码量(LOC)：", 1000, 0, Spinner.LIMIT, 0);
+		textReuseSize = createDataField(compReuse, "新增和修改的代码量(LOC)：", 0, 0, Spinner.LIMIT, 0);
 		textReuseAT = createDataField(compReuse, "自动转换的代码比例(百分值，范围1-100)：", 0, 0, 100, 0);
 		textReuseDM = createDataField(compReuse, "设计修改比例(百分值，范围1-100)：", 0, 0, 100, 0);
 		textReuseCM = createDataField(compReuse, "代码修改比例(百分值，范围1-100)：", 0, 0, 100, 0);
@@ -135,7 +135,7 @@ public class COCOMOSize extends ParameterArea{
 	private void createCompNew() {
 		compNew = toolkit.createComposite(dataArea);
 		compNew.setLayout(new GridLayout(2,false));
-		textNewSize = createDataField(compNew, "请输入新开发的代码量(LOC)：", 1000, 0, Spinner.LIMIT, 0);
+		textNewSize = createDataField(compNew, "请输入新开发的代码量(LOC)：", 0, 0, Spinner.LIMIT, 0);
 	}
 
 	private Spinner createDataField(Composite parent, String desc, int selection, int minimum, int maximum, int digits ){
@@ -152,30 +152,28 @@ public class COCOMOSize extends ParameterArea{
 	}
 
 	public int getEstimatedSize() {
+		int estimatedSize = 0;
 		
-		if (codeNew.getSelection())
-			return Integer.parseInt(textNewSize.getText());
-		else if(codeReuse.getSelection())
-		{
-			Double SLOC =  Double.parseDouble(textReuseSize.getText());
-			Double AT = Double.parseDouble(textReuseAT.getText());
-			Double DM = Double.parseDouble(textReuseDM.getText());
-			Double CM = Double.parseDouble(textReuseCM.getText());
-			Double IM = Double.parseDouble(textReuseIM.getText());
-			Double AA = Double.parseDouble(textReuseAA.getText());
-			Double SU = Double.parseDouble(textReuseSU.getText());
-			Double UNFM = Double.parseDouble(textReuseUNFM.getText());
-			return COCOMO.getReuseSize(SLOC, AT, DM, CM, IM, AA, SU, UNFM);
-		}
-		else
-		{
-			Double addSLOC =  Double.parseDouble(textAddSize.getText());
-			Double modifySLOC = Double.parseDouble(textModifySize.getText());
-			Double SU = Double.parseDouble(textMaintSU.getText());
-			Double UNFM = Double.parseDouble(textMaintUNFM.getText());
-			return COCOMO.getMaintainSize(addSLOC, modifySLOC, SU, UNFM);
-		}
-			
+		// new code
+		estimatedSize += Integer.parseInt(textNewSize.getText());
+		// reuse code
+		Double SLOC = Double.parseDouble(textReuseSize.getText());
+		Double AT = Double.parseDouble(textReuseAT.getText());
+		Double DM = Double.parseDouble(textReuseDM.getText());
+		Double CM = Double.parseDouble(textReuseCM.getText());
+		Double IM = Double.parseDouble(textReuseIM.getText());
+		Double AA = Double.parseDouble(textReuseAA.getText());
+		Double SU = Double.parseDouble(textReuseSU.getText());
+		Double UNFM = Double.parseDouble(textReuseUNFM.getText());
+		estimatedSize += COCOMO.getReuseSize(SLOC, AT, DM, CM, IM, AA, SU, UNFM);
+		// maintain code
+		Double addSLOC = Double.parseDouble(textAddSize.getText());
+		Double modifySLOC = Double.parseDouble(textModifySize.getText());
+		SU = Double.parseDouble(textMaintSU.getText());
+		UNFM = Double.parseDouble(textMaintUNFM.getText());
+		estimatedSize += COCOMO.getMaintainSize(addSLOC, modifySLOC, SU, UNFM);
+		
+		return estimatedSize;
 	}
 }
 

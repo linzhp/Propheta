@@ -3,7 +3,7 @@ package estimation.quickEstimate;
 import java.util.HashMap;
 
 import gui.ParameterArea;
-
+import estimation.detailedEstimate.ParameterScale;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
@@ -16,6 +16,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 
 public class QuickEstimate extends ParameterArea{
@@ -23,11 +26,13 @@ public class QuickEstimate extends ParameterArea{
 	//公共变量
 	private Composite factorDataArea;
 	private StackLayout factorStack;
-	private GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+	private GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 	
 	// CSBSG变量
-	private Button btnCSBSG;
+	private Button btnCSBSG, btnUserInput,btnScaleSize;
 	private Composite comCSBSG;
+	private Label labelCSBSGSize;
+	private ParameterScale CSizeScale;
 	private HashMap<String, String> CSBSGFactors = new HashMap<String, String>();
 	private Button btnCSBSGTeamSize, btnCSBSGDuration, btnCSBSGDevType, btnCSBSGLanguage, btnCSBSGBusArea ;
 	private Combo cmbCSBSGDevType, cmbCSBSGLanguage, cmbCSBSGBusArea;
@@ -66,7 +71,10 @@ public class QuickEstimate extends ParameterArea{
 	
 	public int getCSBSGSize()
 	{
-		return spnCSBSGSize.getSelection();
+		if(btnUserInput.getSelection())
+			return spnCSBSGSize.getSelection();
+		else
+			return Integer.parseInt(labelCSBSGSize.getText());
 	}
 	
 //	public int getISBSGSize()
@@ -86,7 +94,7 @@ public class QuickEstimate extends ParameterArea{
 		
 		//生成确定按钮
 		Button ok = toolkit.createButton(comEstimation, "确定", SWT.PUSH);
-		ok.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+		ok.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
 		ok.setEnabled(true);
 		ok.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
@@ -146,12 +154,9 @@ public class QuickEstimate extends ParameterArea{
 		layout.horizontalSpacing = 15;
 		comCSBSG = toolkit.createComposite(factorDataArea);
 		comCSBSG.setLayout(layout);
+		
+		createCSBSGOtherItem();
 		createCSBSGSizeItem();
-		createCSBSGTeamSizeItem();
-		createCSBSGDurationItem();
-		createCSBSGDevTypeItem();
-		createCSBSGLanguageItem();
-		createCSBSGBusAreaItem();
 	}
 	
 	private void createComISBSG()
@@ -171,15 +176,72 @@ public class QuickEstimate extends ParameterArea{
 	
 	private void createCSBSGSizeItem()
 	{
-		toolkit.createLabel(comCSBSG, "规模（SLOC）：");
-		spnCSBSGSize = new Spinner(comCSBSG, SWT.BORDER);
+		Composite comSize = toolkit.createComposite(comCSBSG);
+		comSize.setLayout(new GridLayout(2, false));
+		
+		Label labelSize = toolkit.createLabel(comSize, "规模（SLOC）：");
+		toolkit.createLabel(comSize, null);
+		
+		btnUserInput = toolkit.createButton(comSize, "用户输入", SWT.RADIO);
+		btnUserInput.addSelectionListener(new SelectionListener(){
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+			public void widgetSelected(SelectionEvent e) {
+				spnCSBSGSize.setVisible(true);
+				CSizeScale.setVisible(false);
+				labelCSBSGSize.setVisible(false);
+			}
+		});
+		btnUserInput.setSelection(true);
+		
+		spnCSBSGSize = new Spinner(comSize, SWT.BORDER);
 		spnCSBSGSize.setLayoutData(gd);
 		spnCSBSGSize.setMaximum(Spinner.LIMIT);
 		spnCSBSGSize.setSelection(1000);
+		
+		btnScaleSize = toolkit.createButton(comSize, "参考历史数据", SWT.RADIO);
+		btnScaleSize.addSelectionListener(new SelectionListener(){
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+			public void widgetSelected(SelectionEvent e) {
+				CSizeScale.setVisible(true);
+				labelCSBSGSize.setVisible(true);
+				spnCSBSGSize.setVisible(false);
+			}
+		});
+		labelCSBSGSize = toolkit.createLabel(comSize,"64000",SWT.BORDER);
+		labelCSBSGSize.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+		labelCSBSGSize.setVisible(false);
+		
+		GridData interGd = new GridData();
+		interGd.horizontalSpan = 2;
+		
+		String[] levels = {"XL","VL","L","N","H","VH","XH"};
+		CSizeScale = new ParameterScale(comSize, levels, 3);
+		CSizeScale.setLayoutData(interGd);
+		CSizeScale.setVisible(false);
+		CSizeScale.addListener(new Listener() {
+			public void handleEvent(Event event) {
+				int sizeValue = CSizeScale.getIndex();
+				labelCSBSGSize.setText("" + (int)Math.pow(4, sizeValue)*1000);
+				labelCSBSGSize.getParent().layout();
+			}
+		});
 	}
-
-	private void createCSBSGTeamSizeItem() {
-		btnCSBSGTeamSize = toolkit.createButton(comCSBSG, "团队规模（人）：", SWT.CHECK);
+	private void createCSBSGOtherItem()
+	{
+		Composite comCSBSGOther = toolkit.createComposite(comCSBSG);
+		comCSBSGOther.setLayout(new GridLayout(2, false));
+		createCSBSGTeamSizeItem(comCSBSGOther);
+		createCSBSGDurationItem(comCSBSGOther);
+		createCSBSGDevTypeItem(comCSBSGOther);
+		createCSBSGLanguageItem(comCSBSGOther);
+		createCSBSGBusAreaItem(comCSBSGOther);
+	}
+	private void createCSBSGTeamSizeItem(Composite parent) {
+		btnCSBSGTeamSize = toolkit.createButton(parent, "团队规模（人）：", SWT.CHECK);
 		btnCSBSGTeamSize.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -195,8 +257,8 @@ public class QuickEstimate extends ParameterArea{
 			}
 		});
 		
-		spnCSBSGTeamSize = new Spinner(comCSBSG, SWT.BORDER);
-		spnCSBSGTeamSize.setLayoutData(gd);
+		spnCSBSGTeamSize = new Spinner(parent, SWT.BORDER);
+		//spnCSBSGTeamSize.setLayoutData(gd);
 		spnCSBSGTeamSize.setMaximum(Spinner.LIMIT);
 		spnCSBSGTeamSize.setSelection(5);
 		spnCSBSGTeamSize.addModifyListener(new ModifyListener() {
@@ -207,8 +269,8 @@ public class QuickEstimate extends ParameterArea{
 		spnCSBSGTeamSize.setVisible(false);
 	}
 
-	private void createCSBSGDurationItem() {
-		btnCSBSGDuration = toolkit.createButton(comCSBSG, "项目周期（天）：", SWT.CHECK);
+	private void createCSBSGDurationItem(Composite parent) {
+		btnCSBSGDuration = toolkit.createButton(parent, "项目周期（天）：", SWT.CHECK);
 		btnCSBSGDuration.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -223,7 +285,7 @@ public class QuickEstimate extends ParameterArea{
 				}
 			}
 		});
-		spnCSBSGDuration = new Spinner(comCSBSG, SWT.BORDER);
+		spnCSBSGDuration = new Spinner(parent, SWT.BORDER);
 		spnCSBSGDuration.setLayoutData(gd);
 		spnCSBSGDuration.setMaximum(Spinner.LIMIT);
 		spnCSBSGDuration.setSelection(180);
@@ -235,8 +297,8 @@ public class QuickEstimate extends ParameterArea{
 		spnCSBSGDuration.setVisible(false);
 	}
 
-	private void createCSBSGDevTypeItem() {
-		btnCSBSGDevType = toolkit.createButton(comCSBSG, "开发类型：", SWT.CHECK);
+	private void createCSBSGDevTypeItem(Composite parent) {
+		btnCSBSGDevType = toolkit.createButton(parent, "开发类型：", SWT.CHECK);
 		btnCSBSGDevType.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -254,7 +316,7 @@ public class QuickEstimate extends ParameterArea{
 		});
 		String[] texts = { "新开发", "二次开发", "优化", "其它" };
 		String[] values = { "NewDevelopment", "ReDevelopment", "Enhancement", "Other" };
-		cmbCSBSGDevType = new Combo(comCSBSG, SWT.READ_ONLY);
+		cmbCSBSGDevType = new Combo(parent, SWT.READ_ONLY);
 		cmbCSBSGDevType.setLayoutData(gd);
 		cmbCSBSGDevType.setItems(texts);
 		for (int i = 0; i < texts.length; i++) {
@@ -270,8 +332,8 @@ public class QuickEstimate extends ParameterArea{
 		});
 	}
 
-	private void createCSBSGLanguageItem() {
-		btnCSBSGLanguage = toolkit.createButton(comCSBSG, "语言：", SWT.CHECK);
+	private void createCSBSGLanguageItem(Composite parent) {
+		btnCSBSGLanguage = toolkit.createButton(parent, "语言：", SWT.CHECK);
 		btnCSBSGLanguage.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -289,7 +351,7 @@ public class QuickEstimate extends ParameterArea{
 		});
 		String[] texts = { "ASP", "C#", "VB", "JAVA", "C++", "C", "COBOL" };
 		String[] values = { "ASP", "C#", "VB", "Java", "C++", "C", "Cobol" };
-		cmbCSBSGLanguage = new Combo(comCSBSG, SWT.READ_ONLY);
+		cmbCSBSGLanguage = new Combo(parent, SWT.READ_ONLY);
 		cmbCSBSGLanguage.setLayoutData(gd);
 		cmbCSBSGLanguage.setItems(texts);
 		for (int i = 0; i < texts.length; i++) {
@@ -304,8 +366,8 @@ public class QuickEstimate extends ParameterArea{
 		});
 	}
 
-	private void createCSBSGBusAreaItem() {
-		btnCSBSGBusArea = toolkit.createButton(comCSBSG, "业务领域： ", SWT.CHECK);
+	private void createCSBSGBusAreaItem(Composite parent) {
+		btnCSBSGBusArea = toolkit.createButton(parent, "业务领域： ", SWT.CHECK);
 		btnCSBSGBusArea.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -326,7 +388,7 @@ public class QuickEstimate extends ParameterArea{
 		String[] values = { "Telecom", "Finance", "Retail", "General",
 				"Transport", "Media", "HealthCare", "Manufacturing",
 				"PublicAdmin", "Energy" };
-		cmbCSBSGBusArea = new Combo(comCSBSG, SWT.READ_ONLY);
+		cmbCSBSGBusArea = new Combo(parent, SWT.READ_ONLY);
 		cmbCSBSGBusArea.setLayoutData(gd);
 		cmbCSBSGBusArea.setItems(texts);
 		for (int i = 0; i < texts.length; i++) {

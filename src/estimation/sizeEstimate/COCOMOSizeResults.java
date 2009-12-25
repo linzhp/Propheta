@@ -27,7 +27,7 @@ public class COCOMOSizeResults {
 
 		
 		Label result = new Label(resultView, SWT.NONE);
-		result.setText("COCOMO估算出的规模为：" + projectSize + " 行代码");
+		result.setText("新开发、重用、修改的代码量总和为：" + projectSize + " 行代码");
 		GUI.createNewTab("COCOMO规模估算结果", resultView);
 //		resultView.setBounds(GUI.getButtomContentArea().getClientArea());
 
