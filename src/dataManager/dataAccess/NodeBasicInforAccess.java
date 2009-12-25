@@ -3,6 +3,8 @@ package dataManager.dataAccess;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -74,9 +76,46 @@ public class NodeBasicInforAccess {
 	 * 获取所有节点信息
 	 * @return
 	 */
-	public ArrayList<NodeBasicInformation> getAllNodes(){
-		return null;
-		
+	public ArrayList<NodeBasicInformation> getAllNodes(){	
+		ArrayList<NodeBasicInformation> nodes=new ArrayList<NodeBasicInformation>();
+		try {
+			String sqlString="select nodeID,parentID,name,description,businessArea," +
+				"SLOC,functionPoints,developmentType,language,languageType,developmentPlatform," +
+				"developmentTechniques,teamSize,duration,estEffort,estPDR,estProducttivity," +
+				"estPM,estPersons,cocomoEM,cocomoSCED,isRoot " +
+				"from nodeBasicInfo";
+			ResultSet rs=statement.executeQuery(sqlString);
+			while(rs.next()){
+				NodeBasicInformation node=new NodeBasicInformation();
+				node.setNodeID(rs.getInt("nodeID"));
+				node.setParentID(rs.getInt("parentID"));
+				node.setName(rs.getString("name"));
+				node.setDescription(rs.getString("description"));
+				node.setBusinessArea(rs.getString("businessArea"));
+				node.setSLOC(rs.getInt("SLOC"));
+				node.setFunctionPoints(rs.getInt("functionPoints"));
+				node.setDevelopmentType(rs.getString("developmentType"));
+				node.setLanguage(rs.getString("language"));
+				node.setLanguageType(rs.getString("languageType"));
+				node.setDevelopmentPlatform(rs.getString("developmentPlatform"));
+				node.setDevelopmentTechniques(rs.getString("developmentTechniques"));
+				node.setTeamSize(rs.getDouble("teamSize"));
+				node.setDuration(rs.getInt("duration"));
+				node.setEstEffort(rs.getDouble("estEffort"));
+				node.setEstPDR(rs.getDouble("estPDR"));
+				node.setEstProductivity(rs.getDouble("estProducttivity"));
+				node.setEstPM(rs.getDouble("estPM"));
+				node.setEstPersons(rs.getInt("estPersons"));
+				//node.setEstOthersInfo
+				node.setCocomoEM(rs.getDouble("cocomoEM"));
+				node.setCocomoSCED(rs.getDouble("cocomoSCED"));
+				node.setIsRoot(rs.getBoolean("isRoot"));
+				nodes.add(node);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();			
+		}	
+		return nodes;
 	}
 	
 	
@@ -85,8 +124,45 @@ public class NodeBasicInforAccess {
 	 * @return
 	 */
 	public ArrayList<NodeBasicInformation> getAllRootNodes(){
-		return null;
-		
+		ArrayList<NodeBasicInformation> rootNodes=new ArrayList<NodeBasicInformation>();
+		try {
+			String sqlString="select nodeID,parentID,name,description,businessArea," +
+				"SLOC,functionPoints,developmentType,language,languageType,developmentPlatform," +
+				"developmentTechniques,teamSize,duration,estEffort,estPDR,estProducttivity," +
+				"estPM,estPersons,cocomoEM,cocomoSCED,isRoot " +
+				"from nodeBasicInfo where isRoot=true";
+			ResultSet rs=statement.executeQuery(sqlString);
+			while(rs.next()){
+				NodeBasicInformation node=new NodeBasicInformation();
+				node.setNodeID(rs.getInt("nodeID"));
+				node.setParentID(rs.getInt("parentID"));
+				node.setName(rs.getString("name"));
+				node.setDescription(rs.getString("description"));
+				node.setBusinessArea(rs.getString("businessArea"));
+				node.setSLOC(rs.getInt("SLOC"));
+				node.setFunctionPoints(rs.getInt("functionPoints"));
+				node.setDevelopmentType(rs.getString("developmentType"));
+				node.setLanguage(rs.getString("language"));
+				node.setLanguageType(rs.getString("languageType"));
+				node.setDevelopmentPlatform(rs.getString("developmentPlatform"));
+				node.setDevelopmentTechniques(rs.getString("developmentTechniques"));
+				node.setTeamSize(rs.getDouble("teamSize"));
+				node.setDuration(rs.getInt("duration"));
+				node.setEstEffort(rs.getDouble("estEffort"));
+				node.setEstPDR(rs.getDouble("estPDR"));
+				node.setEstProductivity(rs.getDouble("estProducttivity"));
+				node.setEstPM(rs.getDouble("estPM"));
+				node.setEstPersons(rs.getInt("estPersons"));
+				//node.setEstOthersInfo
+				node.setCocomoEM(rs.getDouble("cocomoEM"));
+				node.setCocomoSCED(rs.getDouble("cocomoSCED"));
+				node.setIsRoot(rs.getBoolean("isRoot"));
+				rootNodes.add(node);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();			
+		}	
+		return rootNodes;
 	}
 	
 	
@@ -96,6 +172,45 @@ public class NodeBasicInforAccess {
 	 * @return
 	 */
 	public NodeBasicInformation getNodeByID(int nodeID){
+		try {
+			String sqlString="select nodeID,parentID,name,description,businessArea," +
+				"SLOC,functionPoints,developmentType,language,languageType,developmentPlatform," +
+				"developmentTechniques,teamSize,duration,estEffort,estPDR,estProducttivity," +
+				"estPM,estPersons,cocomoEM,cocomoSCED,isRoot " +
+				"from nodeBasicInfo where nodeID="+nodeID;
+			ResultSet rs=statement.executeQuery(sqlString);
+			if(rs.next()){
+				NodeBasicInformation node=new NodeBasicInformation();
+				node.setNodeID(rs.getInt("nodeID"));
+				node.setParentID(rs.getInt("parentID"));
+				node.setName(rs.getString("name"));
+				node.setDescription(rs.getString("description"));
+				node.setBusinessArea(rs.getString("businessArea"));
+				node.setSLOC(rs.getInt("SLOC"));
+				node.setFunctionPoints(rs.getInt("functionPoints"));
+				node.setDevelopmentType(rs.getString("developmentType"));
+				node.setLanguage(rs.getString("language"));
+				node.setLanguageType(rs.getString("languageType"));
+				node.setDevelopmentPlatform(rs.getString("developmentPlatform"));
+				node.setDevelopmentTechniques(rs.getString("developmentTechniques"));
+				node.setTeamSize(rs.getDouble("teamSize"));
+				node.setDuration(rs.getInt("duration"));
+				node.setEstEffort(rs.getDouble("estEffort"));
+				node.setEstPDR(rs.getDouble("estPDR"));
+				node.setEstProductivity(rs.getDouble("estProducttivity"));
+				node.setEstPM(rs.getDouble("estPM"));
+				node.setEstPersons(rs.getInt("estPersons"));
+				//node.setEstOthersInfo
+				node.setCocomoEM(rs.getDouble("cocomoEM"));
+				node.setCocomoSCED(rs.getDouble("cocomoSCED"));
+				node.setIsRoot(rs.getBoolean("isRoot"));
+				return node;
+			}else{
+				return null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();			
+		}	
 		return null;
 	}
 	
@@ -106,16 +221,90 @@ public class NodeBasicInforAccess {
 	 * @return
 	 */
 	public ArrayList<NodeBasicInformation> getNodesByParentID(int parentID){
-		return null;
+		ArrayList<NodeBasicInformation> childNodes=new ArrayList<NodeBasicInformation>();
+		try {
+			String sqlString="select nodeID,parentID,name,description,businessArea," +
+				"SLOC,functionPoints,developmentType,language,languageType,developmentPlatform," +
+				"developmentTechniques,teamSize,duration,estEffort,estPDR,estProducttivity," +
+				"estPM,estPersons,cocomoEM,cocomoSCED,isRoot " +
+				"from nodeBasicInfo where parentID="+parentID;
+			ResultSet rs=statement.executeQuery(sqlString);
+			while(rs.next()){
+				NodeBasicInformation node=new NodeBasicInformation();
+				node.setNodeID(rs.getInt("nodeID"));
+				node.setParentID(rs.getInt("parentID"));
+				node.setName(rs.getString("name"));
+				node.setDescription(rs.getString("description"));
+				node.setBusinessArea(rs.getString("businessArea"));
+				node.setSLOC(rs.getInt("SLOC"));
+				node.setFunctionPoints(rs.getInt("functionPoints"));
+				node.setDevelopmentType(rs.getString("developmentType"));
+				node.setLanguage(rs.getString("language"));
+				node.setLanguageType(rs.getString("languageType"));
+				node.setDevelopmentPlatform(rs.getString("developmentPlatform"));
+				node.setDevelopmentTechniques(rs.getString("developmentTechniques"));
+				node.setTeamSize(rs.getDouble("teamSize"));
+				node.setDuration(rs.getInt("duration"));
+				node.setEstEffort(rs.getDouble("estEffort"));
+				node.setEstPDR(rs.getDouble("estPDR"));
+				node.setEstProductivity(rs.getDouble("estProducttivity"));
+				node.setEstPM(rs.getDouble("estPM"));
+				node.setEstPersons(rs.getInt("estPersons"));
+				//node.setEstOthersInfo
+				node.setCocomoEM(rs.getDouble("cocomoEM"));
+				node.setCocomoSCED(rs.getDouble("cocomoSCED"));
+				node.setIsRoot(rs.getBoolean("isRoot"));
+				childNodes.add(node);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();			
+		}	
+		return childNodes;
 	}
 	
 	
 	/**
 	 * 插入节点
-	 * @param node 节点
+	 * @param node
+	 * @return 插入节点的ID
 	 */
-	public void insertNode(NodeBasicInformation node){
-		
+	public int insertNode(NodeBasicInformation node){
+		try{
+			String sqlString="insert into nodeBasicInfo (parentID,name,description,businessArea," +
+				"SLOC,functionPoints,developmentType,language,languageType,developmentPlatform," +
+				"developmentTechniques,teamSize,duration,estEffort,estPDR,estProducttivity," +
+				"estPM,estPersons,cocomoEM,cocomoSCED,isRoot) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			PreparedStatement preStatement=connection.prepareStatement(sqlString, Statement.RETURN_GENERATED_KEYS);
+			preStatement.setInt(1, node.getParentID());
+			preStatement.setString(2, node.getName());
+			preStatement.setString(3, node.getDescription());
+			preStatement.setString(4, node.getBusinessArea());
+			preStatement.setInt(5, node.getSLOC());
+			preStatement.setInt(6, node.getFunctionPoints());
+			preStatement.setString(7, node.getDevelopmentType());
+			preStatement.setString(8, node.getLanguage());
+			preStatement.setString(9, node.getLanguageType());
+			preStatement.setString(10, node.getDevelopmentPlatform());
+			preStatement.setString(11, node.getDevelopmentTechniques());
+			preStatement.setDouble(12, node.getTeamSize());
+			preStatement.setInt(13, node.getDuration());
+			preStatement.setDouble(14, node.getEstEffort());
+			preStatement.setDouble(15, node.getEstPDR());
+			preStatement.setDouble(16, node.getEstProductivity());
+			preStatement.setDouble(17, node.getEstPM());
+			preStatement.setInt(18, node.getEstPersons());
+			preStatement.setDouble(19, node.getCocomoEM());
+			preStatement.setDouble(20, node.getCocomoSCED());
+			preStatement.setBoolean(21, node.getIsRoot());
+			
+			preStatement.execute();
+			ResultSet rs=preStatement.getGeneratedKeys();
+			rs.next();
+			return rs.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();			
+		}	
+		return -1;
 	}
 	
 	
