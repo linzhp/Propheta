@@ -110,7 +110,31 @@ public class NodeBasicInforAccess {
 	}
 	
 	
+	/**
+	 * 插入节点
+	 * @param node 节点
+	 */
+	public void insertNode(NodeBasicInformation node){
+		
+	}
 	
+	
+	/**
+	 * 更新节点信息(节点ID不可变)
+	 * @param node
+	 */
+	public void updateNode(NodeBasicInformation node){
+		
+	}
+	
+	
+	/**
+	 * 获取下一节点ID（下一节点ID=数据库中节点ID最大值+1）
+	 * @return
+	 */
+	public int getNextNodeID(){
+		return 0;
+	}
 	
 	
 }

@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Label;
 
 import dataManager.dataEntities.COCOMO;
 import entity.EstimateNode;
+import entity.EstimationProjects;
 import gui.GUI;
 
 public class DetailedEstimateWizard extends Wizard {
@@ -44,7 +45,7 @@ public class DetailedEstimateWizard extends Wizard {
 	public boolean performFinish() {
 		if (this.canFinish()) {
 			EstimateNode en=new EstimateNode("未命名估算项目");
-			GUI.getTreeArea().addEstimateProjet(en);
+			EstimationProjects.addEstimateProjet(en);
 			
 			HashMap<String,String> factorsSF = getFactorsSF();
 			HashMap<String,String> factorsEM = getFactorsEM();

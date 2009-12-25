@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 
 import entity.EstimateNode;
+import entity.EstimationProjects;
 import estimation.detailedEstimate.DetailedEstimationAction;
 import estimation.quickEstimate.QuickEstimateAction;
 import estimation.sizeEstimate.COCOMOSizeAction;
@@ -20,7 +21,6 @@ import gui.tree.contextMenu.AddNodeAction;
 import gui.tree.contextMenu.NewProjectAction;
 import gui.tree.contextMenu.RemoveNodeAction;
 import gui.tree.contextMenu.RenameNodeAction;
-
 
 
 /**
@@ -31,7 +31,6 @@ import gui.tree.contextMenu.RenameNodeAction;
 public class TreeArea extends Composite{
 
 	private TreeViewer treeViewer;
-	private ArrayList<EstimateNode> estimateProjects;
 	private TreeContentProvider treeContentProvider;
 	private TreeLabelProvider treeLabelProvider;
 	
@@ -56,8 +55,7 @@ public class TreeArea extends Composite{
 	public void initControls(){
 		this.treeViewer=new TreeViewer(this,SWT.V_SCROLL|SWT.V_SCROLL);
 		this.treeContentProvider=new TreeContentProvider();
-		this.treeLabelProvider=new TreeLabelProvider();
-		this.estimateProjects=new ArrayList<EstimateNode>();		
+		this.treeLabelProvider=new TreeLabelProvider();		
 		addMenu();
 	}
 	
@@ -174,44 +172,20 @@ public class TreeArea extends Composite{
 	}
 	
 	
-	public void dispalyTree(){
-		
+	/**
+	 * 显示树结构(估算项目结构拆分)
+	 */
+	public void dispalyTree(){		
 		this.treeViewer.setContentProvider(treeContentProvider);
 		this.treeViewer.setLabelProvider(treeLabelProvider);
-		this.treeViewer.setInput(this.estimateProjects);		
+		this.treeViewer.setInput(EstimationProjects.getEstimateProjects());		
 	}
 	
 	
-	public void setEstimateProjects(ArrayList<EstimateNode> list){
-		this.estimateProjects=list;
-	}
-	
-	//新增项目
-	public void addEstimateProjet(EstimateNode en){
-		this.estimateProjects.add(en);
-		this.treeViewer.refresh();
-	}
-	
-	//删除项目
-	public void removeEstimateProject(EstimateNode en){
-		this.estimateProjects.remove(en);
-		this.treeViewer.refresh();
-	}
-	
-	//判断是否存在同名项目（项目名称不考虑大小写）
-	public boolean isEstimateProjectExist(String projectName){
-		boolean isExist=false;
-		for(int i=0;i<this.estimateProjects.size();i++){
-			if(this.estimateProjects.get(i).getName().equalsIgnoreCase(projectName)){
-				isExist=true;
-				break;
-			}
-		}
-		return isExist;
-	}
-	
-	
-	//获取树中当前选择的节点
+	/**
+	 * 获取树中当前选择的节点
+	 * @return
+	 */
 	public EstimateNode getSelectedNode(){
 		StructuredSelection se=(StructuredSelection)treeViewer.getSelection();
 		EstimateNode node=(EstimateNode)se.getFirstElement();
