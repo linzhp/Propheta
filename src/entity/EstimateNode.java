@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class EstimateNode{
 
-	private int id=0;
+	private int id=-1;
 	private String name=null;
 	private EstimateNode parent=null;
 	private ArrayList<EstimateNode> children=new ArrayList<EstimateNode>();
@@ -93,7 +93,7 @@ public class EstimateNode{
 
 	
 	public boolean isRoot() {
-		if(this.parent==null){
+		if(this.parent.equals(this)){
 			return true;
 		}else{
 			return false;

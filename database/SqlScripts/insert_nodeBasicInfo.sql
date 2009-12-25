@@ -1,0 +1,1 @@
+insert into nodeBasicInfo (parentID,name,description,businessArea,SLOC,functionPoints,developmentType,[language],languageType,developmentPlatform,developmentTechniques,teamSize,duration,estEffort,estPDR,estProductivity,estPM,estPersons,cocomoEM,cocomoSCED,isRoot) values (1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0)
