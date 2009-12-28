@@ -1,8 +1,10 @@
 package run;
 
+import entity.EstimationProjects;
 import gui.GUI;
 import gui.tree.TreeArea;
 import gui.tree.contextMenu.NewProjectAction;
+import gui.tree.contextMenu.SaveEstimationProjectsAction;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.window.ApplicationWindow;
@@ -33,11 +35,17 @@ public class Application extends ApplicationWindow {
 	}
 
 	private void dispose() {
+				
 		GUI.getToolkit().dispose();
 		Display.getCurrent().dispose();
 	}
 
 	public static void main(String[] args) {
+		
+		//初始化估算项目集合(读取数据库中的估算项目信息)
+		EstimationProjects.readEstimateProjects();
+		/**我们可以做个类似Eclipse的启动界面，显示读取的进度**/
+				
 		instance = new Application();
 		instance.run();
 		instance.dispose();
@@ -158,6 +166,7 @@ public class Application extends ApplicationWindow {
 		// File Menu
 		MenuManager fileMenuManager = new MenuManager("文件");
 		fileMenuManager.add(new NewProjectAction());
+		fileMenuManager.add(new SaveEstimationProjectsAction());
 
 		mainMenu.add(fileMenuManager);
 		return mainMenu;

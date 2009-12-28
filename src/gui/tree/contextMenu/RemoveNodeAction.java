@@ -1,6 +1,7 @@
 package gui.tree.contextMenu;
 
 import entity.EstimateNode;
+import entity.EstimationProjects;
 import gui.GUI;
 
 import org.eclipse.jface.action.Action;
@@ -18,7 +19,7 @@ public class RemoveNodeAction extends Action{
 		if(node.isRoot()){
 			boolean result=MessageDialog.openConfirm(Display.getCurrent().getActiveShell(), "确认", "确定要删除项目?");
 		    if(result==true){
-		    	GUI.getTreeArea().removeEstimateProject(node);
+		    	EstimationProjects.removeEstimateProject(node);
 		    }
 		}else{
 			boolean result=MessageDialog.openConfirm(Display.getCurrent().getActiveShell(), "确认", "确定要删除节点?");

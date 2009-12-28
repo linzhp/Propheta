@@ -1,6 +1,7 @@
 package gui.tree.contextMenu;
 
 import entity.EstimateNode;
+import entity.EstimationProjects;
 import gui.GUI;
 
 import org.eclipse.jface.action.Action;
@@ -20,7 +21,7 @@ public class NewProjectAction extends Action {
 		InputDialog input=new InputDialog(null,"新建项目","项目名称","",new ProjectNameValidator());
 		if(input.open()==Window.OK){
 			EstimateNode node=new EstimateNode(input.getValue().trim());
-			GUI.getTreeArea().addEstimateProjet(node);
+			EstimationProjects.addEstimateProjet(node);
 			GUI.getTreeArea().getTreeViewer().setSelection(new StructuredSelection(node));
 		}
 		
@@ -34,7 +35,7 @@ public class NewProjectAction extends Action {
 			if(projectName.length()==0){
 				return "请输入项目名称";
 			}else{
-				if(GUI.getTreeArea().isEstimateProjectExist(projectName)==true){
+				if(EstimationProjects.isEstimateProjectExist(projectName)==true){
 					return "已存在名称为 "+projectName+"  的项目!";
 				}else{
 					return null;

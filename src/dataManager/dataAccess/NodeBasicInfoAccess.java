@@ -12,11 +12,11 @@ import dataManager.dataEntities.NodeBasicInformation;
 
 
 /**
- * 数据库访问类，用于对NodeBaiscInfor表进行存取操作
+ * 数据库访问类，用于对NodeBaiscInfo表进行存取操作
  * @author Administrator
  *
  */
-public class NodeBasicInforAccess {
+public class NodeBasicInfoAccess {
 
 	private String connectionString="jdbc:sqlite:./database/database.db3";  //数据库连接字符串
 	private Connection connection=null;
@@ -25,7 +25,7 @@ public class NodeBasicInforAccess {
 	/**
 	 * 构造器
 	 */
-	public NodeBasicInforAccess(){
+	public NodeBasicInfoAccess(){
 		
 	}
 	
@@ -34,7 +34,7 @@ public class NodeBasicInforAccess {
 	 * 构造器
 	 * @param dataBasePath 数据库连接字符串
 	 */
-	public NodeBasicInforAccess(String dataBasePath){
+	public NodeBasicInfoAccess(String dataBasePath){
 		this.connectionString="jdbc:sqlite:"+dataBasePath;
 		
 	}
@@ -79,10 +79,10 @@ public class NodeBasicInforAccess {
 	public ArrayList<NodeBasicInformation> getAllNodes(){	
 		ArrayList<NodeBasicInformation> nodes=new ArrayList<NodeBasicInformation>();
 		try {
-			String sqlString="select nodeID,parentID,name,description,businessArea," +
-				"SLOC,functionPoints,developmentType,language,languageType,developmentPlatform," +
-				"developmentTechniques,teamSize,duration,estEffort,estPDR,estProducttivity," +
-				"estPM,estPersons,cocomoEM,cocomoSCED,isRoot " +
+			String sqlString="select [nodeID],[parentID],[name],[description],[businessArea]," +
+				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform]," +
+				"[developmentTechniques],[teamSize,[duration],[estEffort],[estPDR],[estProductivity]," +
+				"[estPM],[estPersons],[cocomoEM],[cocomoSCED],[isRoot] " +
 				"from nodeBasicInfo";
 			ResultSet rs=statement.executeQuery(sqlString);
 			while(rs.next()){
@@ -103,7 +103,7 @@ public class NodeBasicInforAccess {
 				node.setDuration(rs.getInt("duration"));
 				node.setEstEffort(rs.getDouble("estEffort"));
 				node.setEstPDR(rs.getDouble("estPDR"));
-				node.setEstProductivity(rs.getDouble("estProducttivity"));
+				node.setEstProductivity(rs.getDouble("estProductivity"));
 				node.setEstPM(rs.getDouble("estPM"));
 				node.setEstPersons(rs.getInt("estPersons"));
 				//node.setEstOthersInfo
@@ -126,11 +126,11 @@ public class NodeBasicInforAccess {
 	public ArrayList<NodeBasicInformation> getAllRootNodes(){
 		ArrayList<NodeBasicInformation> rootNodes=new ArrayList<NodeBasicInformation>();
 		try {
-			String sqlString="select nodeID,parentID,name,description,businessArea," +
-				"SLOC,functionPoints,developmentType,language,languageType,developmentPlatform," +
-				"developmentTechniques,teamSize,duration,estEffort,estPDR,estProducttivity," +
-				"estPM,estPersons,cocomoEM,cocomoSCED,isRoot " +
-				"from nodeBasicInfo where isRoot=true";
+			String sqlString="select [nodeID],[parentID],[name],[description],[businessArea]," +
+				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform]," +
+				"[developmentTechniques],[teamSize],[duration],[estEffort],[estPDR],[estProductivity]," +
+				"[estPM],[estPersons],[cocomoEM],[cocomoSCED],[isRoot] " +
+				"from nodeBasicInfo where [isRoot]=1";
 			ResultSet rs=statement.executeQuery(sqlString);
 			while(rs.next()){
 				NodeBasicInformation node=new NodeBasicInformation();
@@ -150,7 +150,7 @@ public class NodeBasicInforAccess {
 				node.setDuration(rs.getInt("duration"));
 				node.setEstEffort(rs.getDouble("estEffort"));
 				node.setEstPDR(rs.getDouble("estPDR"));
-				node.setEstProductivity(rs.getDouble("estProducttivity"));
+				node.setEstProductivity(rs.getDouble("estProductivity"));
 				node.setEstPM(rs.getDouble("estPM"));
 				node.setEstPersons(rs.getInt("estPersons"));
 				//node.setEstOthersInfo
@@ -173,11 +173,11 @@ public class NodeBasicInforAccess {
 	 */
 	public NodeBasicInformation getNodeByID(int nodeID){
 		try {
-			String sqlString="select nodeID,parentID,name,description,businessArea," +
-				"SLOC,functionPoints,developmentType,language,languageType,developmentPlatform," +
-				"developmentTechniques,teamSize,duration,estEffort,estPDR,estProducttivity," +
-				"estPM,estPersons,cocomoEM,cocomoSCED,isRoot " +
-				"from nodeBasicInfo where nodeID="+nodeID;
+			String sqlString="select [nodeID],[parentID],[name],[description],[businessArea]," +
+				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform]," +
+				"[developmentTechniques],[teamSize,[duration],[estEffort],[estPDR],[estProductivity]," +
+				"[estPM],[estPersons],[cocomoEM],[cocomoSCED],[isRoot] " +
+				"from nodeBasicInfo where [nodeID]="+nodeID;
 			ResultSet rs=statement.executeQuery(sqlString);
 			if(rs.next()){
 				NodeBasicInformation node=new NodeBasicInformation();
@@ -197,7 +197,7 @@ public class NodeBasicInforAccess {
 				node.setDuration(rs.getInt("duration"));
 				node.setEstEffort(rs.getDouble("estEffort"));
 				node.setEstPDR(rs.getDouble("estPDR"));
-				node.setEstProductivity(rs.getDouble("estProducttivity"));
+				node.setEstProductivity(rs.getDouble("estProductivity"));
 				node.setEstPM(rs.getDouble("estPM"));
 				node.setEstPersons(rs.getInt("estPersons"));
 				//node.setEstOthersInfo
@@ -223,11 +223,11 @@ public class NodeBasicInforAccess {
 	public ArrayList<NodeBasicInformation> getNodesByParentID(int parentID){
 		ArrayList<NodeBasicInformation> childNodes=new ArrayList<NodeBasicInformation>();
 		try {
-			String sqlString="select nodeID,parentID,name,description,businessArea," +
-				"SLOC,functionPoints,developmentType,language,languageType,developmentPlatform," +
-				"developmentTechniques,teamSize,duration,estEffort,estPDR,estProducttivity," +
-				"estPM,estPersons,cocomoEM,cocomoSCED,isRoot " +
-				"from nodeBasicInfo where parentID="+parentID;
+			String sqlString="select [nodeID],[parentID],[name],[description],[businessArea]," +
+				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform]," +
+				"[developmentTechniques],[teamSize],[duration],[estEffort],[estPDR],[estProductivity]," +
+				"[estPM],[estPersons],[cocomoEM],[cocomoSCED],[isRoot] " +
+				"from nodeBasicInfo where [parentID]="+parentID+" and [nodeID]!="+parentID;
 			ResultSet rs=statement.executeQuery(sqlString);
 			while(rs.next()){
 				NodeBasicInformation node=new NodeBasicInformation();
@@ -247,7 +247,7 @@ public class NodeBasicInforAccess {
 				node.setDuration(rs.getInt("duration"));
 				node.setEstEffort(rs.getDouble("estEffort"));
 				node.setEstPDR(rs.getDouble("estPDR"));
-				node.setEstProductivity(rs.getDouble("estProducttivity"));
+				node.setEstProductivity(rs.getDouble("estProductivity"));
 				node.setEstPM(rs.getDouble("estPM"));
 				node.setEstPersons(rs.getInt("estPersons"));
 				//node.setEstOthersInfo
@@ -270,11 +270,11 @@ public class NodeBasicInforAccess {
 	 */
 	public int insertNode(NodeBasicInformation node){
 		try{
-			String sqlString="insert into nodeBasicInfo (parentID,name,description,businessArea," +
-				"SLOC,functionPoints,developmentType,language,languageType,developmentPlatform," +
-				"developmentTechniques,teamSize,duration,estEffort,estPDR,estProducttivity," +
-				"estPM,estPersons,cocomoEM,cocomoSCED,isRoot) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-			PreparedStatement preStatement=connection.prepareStatement(sqlString, Statement.RETURN_GENERATED_KEYS);
+			String sqlString="insert into nodeBasicInfo ([parentID],[name],[description],[businessArea]," +
+				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform],"+
+				"[developmentTechniques],[teamSize],[duration],[estEffort],[estPDR],[estProductivity]," +
+				"[estPM],[estPersons],[cocomoEM],[cocomoSCED],[isRoot]) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+			PreparedStatement preStatement=connection.prepareStatement(sqlString);
 			preStatement.setInt(1, node.getParentID());
 			preStatement.setString(2, node.getName());
 			preStatement.setString(3, node.getDescription());
@@ -313,7 +313,38 @@ public class NodeBasicInforAccess {
 	 * @param node
 	 */
 	public void updateNode(NodeBasicInformation node){
-		
+		try{
+			String sqlString="update nodeBasicInfo set [parentID]=?,[name]=?,[description]=?,[businessArea]=?," +
+				"[SLOC]=?,[functionPoints]=?,[developmentType]=?,[language]=?,[languageType]=?,[developmentPlatform]=?," +
+				"[developmentTechniques]=?,[teamSize]=?,[duration]=?,[estEffort]=?,[estPDR]=?,[estProductivity]=?," +
+				"[estPM]=?,[estPersons]=?,[cocomoEM]=?,[cocomoSCED]=?,[isRoot]=? where [nodeID]="+node.getNodeID();
+			PreparedStatement preStatement=connection.prepareStatement(sqlString);
+			preStatement.setInt(1, node.getParentID());
+			preStatement.setString(2, node.getName());
+			preStatement.setString(3, node.getDescription());
+			preStatement.setString(4, node.getBusinessArea());
+			preStatement.setInt(5, node.getSLOC());
+			preStatement.setInt(6, node.getFunctionPoints());
+			preStatement.setString(7, node.getDevelopmentType());
+			preStatement.setString(8, node.getLanguage());
+			preStatement.setString(9, node.getLanguageType());
+			preStatement.setString(10, node.getDevelopmentPlatform());
+			preStatement.setString(11, node.getDevelopmentTechniques());
+			preStatement.setDouble(12, node.getTeamSize());
+			preStatement.setInt(13, node.getDuration());
+			preStatement.setDouble(14, node.getEstEffort());
+			preStatement.setDouble(15, node.getEstPDR());
+			preStatement.setDouble(16, node.getEstProductivity());
+			preStatement.setDouble(17, node.getEstPM());
+			preStatement.setInt(18, node.getEstPersons());
+			preStatement.setDouble(19, node.getCocomoEM());
+			preStatement.setDouble(20, node.getCocomoSCED());
+			preStatement.setBoolean(21, node.getIsRoot());
+			
+			preStatement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();			
+		}	
 	}
 	
 	

@@ -16,6 +16,7 @@ public class NodeBasicInformation {
 	private int functionPoints=-1;
 	private String developmentType=null;
 	private String language=null;
+	private String languageType=null;
 	private String developmentPlatform=null;
 	private String developmentTechniques=null;
 	private double teamSize=-1;
@@ -85,6 +86,12 @@ public class NodeBasicInformation {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
+	public String getLanguageType() {
+		return languageType;
+	}
+	public void setLanguageType(String languageType) {
+		this.languageType = languageType;
+	}
 	public String getDevelopmentPlatform() {
 		return developmentPlatform;
 	}
@@ -151,10 +158,10 @@ public class NodeBasicInformation {
 	public void setCocomoSCED(double cocomoSCED) {
 		this.cocomoSCED = cocomoSCED;
 	}
-	public boolean isRoot() {
+	public boolean getIsRoot() {
 		return isRoot;
 	}
-	public void setRoot(boolean isRoot) {
+	public void setIsRoot(boolean isRoot) {
 		this.isRoot = isRoot;
 	}
 	
