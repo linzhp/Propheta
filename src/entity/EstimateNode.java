@@ -2,6 +2,8 @@ package entity;
 
 import java.util.ArrayList;
 
+import dataManager.dataAccess.NodeBasicInfoAccess;
+
 /**
  * the node in the tree view
  * @author Administrator
@@ -57,7 +59,7 @@ public class EstimateNode{
 		return this.parent;
 	}
 	
-	public void add(EstimateNode node){
+	public void addChild(EstimateNode node){
 		node.setParent(this);
 		this.children.add(node);
 	}
@@ -93,7 +95,7 @@ public class EstimateNode{
 
 	
 	public boolean isRoot() {
-		if(this.parent.equals(this)){
+		if(this.parent==null){
 			return true;
 		}else{
 			return false;
@@ -101,6 +103,18 @@ public class EstimateNode{
 	}
 	
 	
+	public boolean hasEstPM(){
+		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		double estPM=nbi_access.getNodeByID(this.getId()).getEstPM();
+		nbi_access.diposeConnection();
+		
+		if(estPM==-1){
+			return false;
+		}else{
+			return true;
+		}
+	}
 
 
 }
