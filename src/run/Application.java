@@ -110,6 +110,8 @@ public class Application extends ApplicationWindow {
 				buttomContentArea.setMinimized(true);
 				buttomContentArea.setLayoutData(new GridData(SWT.FILL,
 						SWT.FILL, true, false));
+				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+						true));
 				topContentArea.getParent().layout(true);
 			}
 
@@ -119,6 +121,8 @@ public class Application extends ApplicationWindow {
 				buttomContentArea.setMinimized(false);
 				buttomContentArea.setLayoutData(new GridData(SWT.FILL,
 						SWT.FILL, true, true));
+				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+						true));
 				topContentArea.getParent().layout(true);
 
 			}
@@ -137,6 +141,8 @@ public class Application extends ApplicationWindow {
 				topContentArea.setMinimized(true);
 				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 						true, false));
+				buttomContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+						true));
 				buttomContentArea.getParent().layout(true);
 			}
 
@@ -146,6 +152,8 @@ public class Application extends ApplicationWindow {
 				topContentArea.setMinimized(false);
 				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 						true, true));
+				buttomContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+						true));
 				buttomContentArea.getParent().layout(true);
 
 			}
