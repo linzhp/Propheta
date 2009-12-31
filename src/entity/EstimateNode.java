@@ -83,6 +83,28 @@ public class EstimateNode{
 			return false;
 		}
 	}
+	
+	
+	/**
+	 * 判断谁否存在同名的子节点
+	 * @param nodeName 节点名称
+	 * @return
+	 */
+	public boolean isChildExist(String nodeName){
+		if(this.hasChildren()==true){
+			boolean isExist=false;
+			ArrayList<EstimateNode> nodes=this.getChildren();
+			for(int i=0;i<nodes.size();i++){
+				if(nodes.get(i).getName().equals(nodeName)){
+					isExist=true;
+					break;
+				}
+			}
+			return isExist;
+		}else{
+			return false;
+		}
+	} 
 
 	
 	public boolean isLeaf() {

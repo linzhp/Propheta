@@ -167,17 +167,31 @@ public class EstimationProjects{
      * @param en
      */
 	public static void removeEstimateProject(EstimateNode node){
+		//删除根节点
 		estimateProjects.remove(node);
 		
 		//更新数据库
-		System.out.println("delete: "+node.getName());
+		removeNode(node);
+		
+		//更新treeviewer显示结果
+		GUI.getTreeArea().getTreeViewer().refresh();
+	}
+	
+	
+	private static void removeNode(EstimateNode node){
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		nbi_access.initConnection();
 		nbi_access.deleteNodeByNodeID(node.getId());
 		nbi_access.diposeConnection();
 		
-		//更新treeviewer显示结果
-		GUI.getTreeArea().getTreeViewer().refresh();
+		if(node.hasChildren()){
+			ArrayList<EstimateNode> nodes=node.getChildren();
+			for(int i=0;i<nodes.size();i++){
+				removeNode(nodes.get(i));
+			}
+		}else{
+			return;
+		}			
 	}
 	
 
