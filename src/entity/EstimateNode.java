@@ -3,6 +3,7 @@ package entity;
 import java.util.ArrayList;
 
 import dataManager.dataAccess.NodeBasicInfoAccess;
+import dataManager.dataEntities.NodeBasicInformation;
 
 /**
  * the node in the tree view
@@ -59,7 +60,26 @@ public class EstimateNode{
 		return this.parent;
 	}
 	
+	
+	/**
+	 * 增加子节点
+	 * @param node
+	 */
 	public void addChild(EstimateNode node){
+		//插入数据库，获取分配的节点ID
+		NodeBasicInformation nbi=new NodeBasicInformation();
+		nbi.setName(node.getName());
+		nbi.setParentID(this.getId());
+		nbi.setIsRoot(false);
+		
+		//将新建项目插入数据库并获取分配的节点ID
+		System.out.println("insert: "+nbi.getName());
+		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		int nodeID=nbi_access.insertNode(nbi);
+		nbi_access.diposeConnection();
+		
+		node.setId(nodeID);
 		node.setParent(this);
 		this.children.add(node);
 	}

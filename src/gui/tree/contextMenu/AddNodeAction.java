@@ -20,7 +20,7 @@ public class AddNodeAction extends Action{
 		EstimateNode node=treeArea.getSelectedNode();
 		InputDialog input=new InputDialog(treeArea.getShell(),"请输入节点名称","节点名称","",new NodeNameValidator());
 		if(input.open()==Window.OK){
-			EstimateNode newNode=new EstimateNode(input.getValue());
+			EstimateNode newNode=new EstimateNode(input.getValue().trim());
 			node.addChild(newNode);
 			treeArea.getTreeViewer().refresh();
 			if(treeArea.getTreeViewer().getExpandedState(node)==false){
