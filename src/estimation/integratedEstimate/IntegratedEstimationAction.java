@@ -1,5 +1,6 @@
-package estimation.detailedEstimate;
+package estimation.integratedEstimate;
 
+import estimation.integratedEstimate.COCOMOEstimate;
 import gui.GUI;
 
 import org.eclipse.jface.action.Action;
@@ -7,11 +8,11 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Composite;
 
-public class DetailedEstimationAction extends Action implements
+public class IntegratedEstimationAction extends Action implements
 		ISelectionChangedListener {
-	public DetailedEstimationAction()
+	public IntegratedEstimationAction()
 	{
-		super("详细估算");
+		super("集成估算");
 	}
 
 	@Override
@@ -23,6 +24,6 @@ public class DetailedEstimationAction extends Action implements
 	@Override
 	public void run(){
 		Composite content = new COCOMOEstimate(GUI.getTopContentArea());
-		GUI.createNewTab("详细估算", content);		
+		GUI.createNewTab("集成估算", content);		
 	}
 }

@@ -3,7 +3,7 @@ package estimation.quickEstimate;
 import java.util.HashMap;
 
 import gui.ParameterArea;
-import estimation.detailedEstimate.ParameterScale;
+import estimation.ParameterScale;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;

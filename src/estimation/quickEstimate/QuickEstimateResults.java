@@ -16,6 +16,7 @@ import org.jfree.experimental.chart.swt.ChartComposite;
 
 import dataManager.dataEntities.CSBSG;
 import dataManager.dataEntities.ISBSG;
+import estimation.Chart;
 
 public class QuickEstimateResults {
 	private QuickEstimate quickEstimate;

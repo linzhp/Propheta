@@ -1,4 +1,4 @@
-package estimation.detailedEstimate;
+package estimation;
 
 import gui.GUI;
 

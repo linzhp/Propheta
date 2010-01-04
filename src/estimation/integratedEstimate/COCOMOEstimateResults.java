@@ -1,4 +1,6 @@
-package estimation.detailedEstimate;
+package estimation.integratedEstimate;
+
+import java.util.ArrayList;
 
 import gui.GUI;
 
@@ -8,17 +10,22 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import dataManager.dataEntities.COCOMO;
+import entity.EstimateNode;
 
-public class COCOMOResults {
-	private COCOMOParameters parameters;
+public class COCOMOEstimateResults {
+	private COCOMOEstimate parameters;
 	
-	public COCOMOResults(COCOMOParameters param){
+	public COCOMOEstimateResults(COCOMOEstimate param){
 		parameters = param;
 	}
 	
 	public void show()
 	{
-		Double[] effort = COCOMO.getModuleEffortTime(parameters.getEstimatedSize(), 
+		ArrayList<EstimateNode> children = GUI.getTreeArea().getSelectedNode().getChildren();
+		Double[] sizes = new Double[children.size()];
+		for(int i=0; i<children.size(); i++)
+			sizes[i] = (double)children.get(i).getSLOC();
+		Double[] effort = COCOMO.getIntegratedEffortTime(sizes, 
 				parameters.getScaleFactors(), 
 				parameters.getEffortMultipliers(), parameters.getEMtype());
 		
@@ -31,7 +38,7 @@ public class COCOMOResults {
 		Label result = new Label(resultView, SWT.NONE);
 		result.setText("根据公式计算出   PM为：" + effort[0].intValue()+ "(人.月)\n\n"+
 				"\t\t TDEV为：" + effort[1].intValue()+"(月)\n\n" + "\t\t 平均所需开发人员为：" + (int)((effort[0]/effort[1])+1));
-		GUI.createNewTab("详细估算结果", resultView);
+		GUI.createNewTab("集成估算结果", resultView);
 
 	}
 }

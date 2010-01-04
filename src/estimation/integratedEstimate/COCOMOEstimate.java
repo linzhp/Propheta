@@ -1,7 +1,8 @@
-package estimation.detailedEstimate;
+package estimation.integratedEstimate;
 
 import java.util.HashMap;
 
+import estimation.ParameterScale;
 import gui.ParameterArea;
 
 import org.eclipse.swt.SWT;
@@ -18,7 +19,7 @@ import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Section;
 
-public class COCOMOParameters extends ParameterArea{
+public class COCOMOEstimate extends ParameterArea{
 
 	private static String[] levels = {"XL","VL","L","N","H","VH","XH"};
 	private HashMap<String, ParameterScale> scales;
@@ -27,21 +28,14 @@ public class COCOMOParameters extends ParameterArea{
 	private String[][] postArchDrivers;
 	private Button earlyDesignRadio;
 	private Button postArchRadio;
-	private Spinner sizeSpinner;
 	private Button ok;
 
-	public COCOMOParameters(Composite parent){
+	public COCOMOEstimate(Composite parent){
 		super(parent);
 		scales = new HashMap<String, ParameterScale>();
-		createSize(form.getBody());
 		createButtonArea(form.getBody());
 		createScaleFactors(form.getBody());
 		createEffortMultipliers(form.getBody());
-	}
-	
-	public double getEstimatedSize()
-	{
-		return sizeSpinner.getSelection();
 	}
 	
 	public HashMap<String, String> getScaleFactors()
@@ -79,16 +73,6 @@ public class COCOMOParameters extends ParameterArea{
 			return "Early";
 		else
 			return "Post";
-	}
-	
-	private Composite createSize(Composite parent){
-		Composite pane = toolkit.createComposite(parent);
-		pane.setLayout(new RowLayout(SWT.HORIZONTAL));
-		toolkit.createLabel(pane, "规模（SLOC）：");
-		sizeSpinner = new Spinner(pane, SWT.BORDER);
-		sizeSpinner.setMaximum(Spinner.LIMIT);
-		sizeSpinner.setSelection(1000);
-		return pane;		
 	}
 	
 	private void createScaleFactors(Composite parent){
@@ -152,7 +136,7 @@ public class COCOMOParameters extends ParameterArea{
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				COCOMOResults results = new COCOMOResults(COCOMOParameters.this);
+				COCOMOEstimateResults results = new COCOMOEstimateResults(COCOMOEstimate.this);
 				results.show();
 			}
 			

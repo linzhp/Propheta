@@ -175,7 +175,7 @@ public class NodeBasicInfoAccess {
 		try {
 			String sqlString="select [nodeID],[parentID],[name],[description],[businessArea]," +
 				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform]," +
-				"[developmentTechniques],[teamSize,[duration],[estEffort],[estPDR],[estProductivity]," +
+				"[developmentTechniques],[teamSize],[duration],[estEffort],[estPDR],[estProductivity]," +
 				"[estPM],[estPersons],[cocomoEM],[cocomoSCED],[isRoot] " +
 				"from nodeBasicInfo where [nodeID]="+nodeID;
 			ResultSet rs=statement.executeQuery(sqlString);

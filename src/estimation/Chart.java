@@ -1,4 +1,4 @@
-package estimation.quickEstimate;
+package estimation;
 
 import java.awt.Font;
 import java.util.ArrayList;

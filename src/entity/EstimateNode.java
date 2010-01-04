@@ -157,6 +157,24 @@ public class EstimateNode{
 			return true;
 		}
 	}
+	
+	public int getSLOC() {
+		int SLOC = 0;
+		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		if (this.isLeaf())
+			SLOC = nbi_access.getNodeByID(this.getId()).getSLOC();
+		else {
+			//子系统的规模计算为各模块规模之和，这样计算可能会有点问题
+			ArrayList<EstimateNode> children = this.getChildren();
+			for (EstimateNode child : children)
+				SLOC += child.getSLOC();
+		}
+		nbi_access.diposeConnection();
+
+		return SLOC;
+	}
+
 
 
 }

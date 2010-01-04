@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Menu;
 import entity.EstimateNode;
 import entity.EstimationProjects;
 import estimation.detailedEstimate.DetailedEstimationAction;
+import estimation.integratedEstimate.IntegratedEstimationAction;
 import estimation.quickEstimate.QuickEstimateAction;
 import estimation.sizeEstimate.COCOMOSizeAction;
 import gui.tree.contextMenu.AddNodeAction;
@@ -42,6 +43,7 @@ public class TreeArea extends Composite{
 	MenuManager menuManager_estimation=new MenuManager("估算");
 	QuickEstimateAction quickEstimateAction=new QuickEstimateAction();
 	DetailedEstimationAction detailedEstimationAction=new DetailedEstimationAction();
+	IntegratedEstimationAction integratedEstimationAction=new IntegratedEstimationAction();
 	COCOMOSizeAction cOCOMOSizeAction=new COCOMOSizeAction();
 	
 	public TreeArea(Composite parent, int style) {
@@ -71,6 +73,7 @@ public class TreeArea extends Composite{
 		menuManager_estimation.add(quickEstimateAction);
 		menuManager_estimation.add(detailedEstimationAction);
 		menuManager_estimation.add(cOCOMOSizeAction);
+		menuManager_estimation.add(integratedEstimationAction);
 		mm.add(menuManager_estimation);
 		Menu menu=mm.createContextMenu(this);
 		this.treeViewer.getTree().setMenu(menu);
@@ -122,6 +125,7 @@ public class TreeArea extends Composite{
 		quickEstimateAction.setEnabled(false);
 		detailedEstimationAction.setEnabled(false);
 		cOCOMOSizeAction.setEnabled(false);		
+		integratedEstimationAction.setEnabled(false);		
 	}
 	
 	
@@ -130,10 +134,11 @@ public class TreeArea extends Composite{
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
 		renameNodeAction.setEnabled(true);
-		menuManager_estimation.setVisible(false);
+		menuManager_estimation.setVisible(true);
 		quickEstimateAction.setEnabled(false);
 		detailedEstimationAction.setEnabled(false);
 		cOCOMOSizeAction.setEnabled(false);
+		integratedEstimationAction.setEnabled(true);		
 	}
 	
 	
@@ -142,10 +147,11 @@ public class TreeArea extends Composite{
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
 		renameNodeAction.setEnabled(true);
-		menuManager_estimation.setVisible(false);
+		menuManager_estimation.setVisible(true);
 		quickEstimateAction.setEnabled(false);
 		detailedEstimationAction.setEnabled(false);
 		cOCOMOSizeAction.setEnabled(false);
+		integratedEstimationAction.setEnabled(true);	
 	}
 	
 	
@@ -158,6 +164,7 @@ public class TreeArea extends Composite{
 		quickEstimateAction.setEnabled(true);
 		detailedEstimationAction.setEnabled(true);
 		cOCOMOSizeAction.setEnabled(true);
+		integratedEstimationAction.setEnabled(false);
 	}
 	
 	private void setRootLeafMenu(){
@@ -169,6 +176,7 @@ public class TreeArea extends Composite{
 		quickEstimateAction.setEnabled(true);
 		detailedEstimationAction.setEnabled(true);
 		cOCOMOSizeAction.setEnabled(true);
+		integratedEstimationAction.setEnabled(false);
 	}
 	
 	
