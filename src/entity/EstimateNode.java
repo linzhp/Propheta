@@ -2,6 +2,9 @@ package entity;
 
 import java.util.ArrayList;
 
+import dataManager.dataAccess.NodeBasicInfoAccess;
+import dataManager.dataEntities.NodeBasicInformation;
+
 /**
  * the node in the tree view
  * @author Administrator
@@ -57,7 +60,26 @@ public class EstimateNode{
 		return this.parent;
 	}
 	
-	public void add(EstimateNode node){
+	
+	/**
+	 * 增加子节点
+	 * @param node
+	 */
+	public void addChild(EstimateNode node){
+		//插入数据库，获取分配的节点ID
+		NodeBasicInformation nbi=new NodeBasicInformation();
+		nbi.setName(node.getName());
+		nbi.setParentID(this.getId());
+		nbi.setIsRoot(false);
+		
+		//将新建项目插入数据库并获取分配的节点ID
+		System.out.println("insert: "+nbi.getName());
+		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		int nodeID=nbi_access.insertNode(nbi);
+		nbi_access.diposeConnection();
+		
+		node.setId(nodeID);
 		node.setParent(this);
 		this.children.add(node);
 	}
@@ -81,6 +103,28 @@ public class EstimateNode{
 			return false;
 		}
 	}
+	
+	
+	/**
+	 * 判断谁否存在同名的子节点
+	 * @param nodeName 节点名称
+	 * @return
+	 */
+	public boolean isChildExist(String nodeName){
+		if(this.hasChildren()==true){
+			boolean isExist=false;
+			ArrayList<EstimateNode> nodes=this.getChildren();
+			for(int i=0;i<nodes.size();i++){
+				if(nodes.get(i).getName().equals(nodeName)){
+					isExist=true;
+					break;
+				}
+			}
+			return isExist;
+		}else{
+			return false;
+		}
+	} 
 
 	
 	public boolean isLeaf() {
@@ -93,7 +137,7 @@ public class EstimateNode{
 
 	
 	public boolean isRoot() {
-		if(this.parent.equals(this)){
+		if(this.parent==null){
 			return true;
 		}else{
 			return false;
@@ -101,6 +145,18 @@ public class EstimateNode{
 	}
 	
 	
+	public boolean hasEstPM(){
+		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		double estPM=nbi_access.getNodeByID(this.getId()).getEstPM();
+		nbi_access.diposeConnection();
+		
+		if(estPM==-1){
+			return false;
+		}else{
+			return true;
+		}
+	}
 
 
 }

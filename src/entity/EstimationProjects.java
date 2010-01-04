@@ -52,7 +52,7 @@ public class EstimationProjects{
 			EstimateNode newEstimationProject=new EstimateNode(null);
 			newEstimationProject.setId(nbi.getNodeID());
 			newEstimationProject.setName(nbi.getName());
-			newEstimationProject.setParent(newEstimationProject);
+			newEstimationProject.setParent(null);  //根节点，parent为null
 			
 			initNodeChildren(newEstimationProject);
 			estimateProjects.add(newEstimationProject);			
@@ -94,12 +94,21 @@ public class EstimationProjects{
 	
 	
 	private static void storeNode(EstimateNode node){
-		System.out.println(node.getName()+"	"+node.getParent().getName());
+		if(node.isRoot()){
+			System.out.println(node.getName()+"	"+"Root");
+		}else{
+			System.out.println(node.getName()+"	"+node.getParent().getName());
+		}
+		
 		NodeBasicInformation nbi=new NodeBasicInformation();
 		nbi.setNodeID(node.getId());
 		nbi.setName(node.getName());
-		nbi.setParentID(node.getParent().getId());
-		nbi.setIsRoot(node.getParent().getId()==node.getId());
+		if(node.isRoot()==true){
+			nbi.setParentID(-1);
+		}else{
+			nbi.setParentID(node.getParent().getId());
+		}		
+		nbi.setIsRoot(node.isRoot());
 		if(node.getId()==-1){  //尚未编号，插入
 			NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 			nbi_access.initConnection();
@@ -127,12 +136,29 @@ public class EstimationProjects{
 	 * 新增项目
 	 * @param en
 	 */
-	public static void addEstimateProjet(EstimateNode en){
-		en.setParent(en);
-		estimateProjects.add(en);
+	public static void addEstimateProjet(EstimateNode node){
+		
+		/**这两个操作可以改成多线程**/
+		//更新数据库
+		NodeBasicInformation nbi=new NodeBasicInformation();
+		nbi.setNodeID(-1);
+		nbi.setName(node.getName());
+		nbi.setParentID(-1);
+		nbi.setIsRoot(true);
+		
+		//将新建项目插入数据库并获取分配的节点ID
+		System.out.println("insert: "+nbi.getName());
+		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		int nodeID=nbi_access.insertNode(nbi);
+		nbi_access.diposeConnection();
+		
+		node.setId(nodeID);
+		node.setParent(null);
+		estimateProjects.add(node);
 		
 		//更新treeviewer显示结果
-		GUI.getTreeArea().getTreeViewer().refresh();
+		GUI.getTreeArea().getTreeViewer().refresh();		
 	}
 	
 
@@ -140,11 +166,32 @@ public class EstimationProjects{
      * 删除项目
      * @param en
      */
-	public static void removeEstimateProject(EstimateNode en){
-		estimateProjects.remove(en);
+	public static void removeEstimateProject(EstimateNode node){
+		//删除根节点
+		estimateProjects.remove(node);
+		
+		//更新数据库
+		removeNode(node);
 		
 		//更新treeviewer显示结果
 		GUI.getTreeArea().getTreeViewer().refresh();
+	}
+	
+	
+	private static void removeNode(EstimateNode node){
+		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		nbi_access.deleteNodeByNodeID(node.getId());
+		nbi_access.diposeConnection();
+		
+		if(node.hasChildren()){
+			ArrayList<EstimateNode> nodes=node.getChildren();
+			for(int i=0;i<nodes.size();i++){
+				removeNode(nodes.get(i));
+			}
+		}else{
+			return;
+		}			
 	}
 	
 

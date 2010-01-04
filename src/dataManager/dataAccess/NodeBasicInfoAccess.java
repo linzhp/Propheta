@@ -349,11 +349,16 @@ public class NodeBasicInfoAccess {
 	
 	
 	/**
-	 * 获取下一节点ID（下一节点ID=数据库中节点ID最大值+1）
-	 * @return
+	 * 删除节点（通过节点ID判断）
+	 * @param nodeID 节点ID
 	 */
-	public int getNextNodeID(){
-		return 0;
+	public void deleteNodeByNodeID(int nodeID){
+		try{
+			String sqlString="delete from nodeBasicInfo where [nodeID]="+nodeID;
+			statement.execute(sqlString);
+		} catch (SQLException e) {
+			e.printStackTrace();			
+		}	
 	}
 	
 	
