@@ -449,14 +449,15 @@ public class QuickEstimate extends ParameterArea{
 			}
 		});
 		String[] texts = { "面向对象分析设计", "事件建模", "业务领域建模", "回归测试", "面向对象与事件建模",
-				"回归测试与业务领域建模" };
+				"回归测试与业务领域建模", "其它"};
 		String[] values = {
 				"Object Oriented Analysis;Object Oriented Design",
 				"Event Modelling",
 				"Business Area Modelling",
 				"Regression Testing",
 				"Object Oriented Analysis;Object Oriented Design;Event Modelling",
-				"Regression Testing;Business Area Modelling" };
+				"Regression Testing;Business Area Modelling",
+				"Other"};//表示不包含OO、Event、Business、Regression的项
 		cmbISBSGDevTech = createComboItem(comISBSG, texts, values);
 		cmbISBSGDevTech.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {

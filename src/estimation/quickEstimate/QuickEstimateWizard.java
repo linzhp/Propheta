@@ -90,7 +90,7 @@ public class QuickEstimateWizard extends Wizard {
 				else{
 				JFreeChart monteCarloChart = Chart
 						.createMonteCarloChart(Chart
-								.createMonteCarloDataSet(getSize(), stats.getMean(),
+								.createCSBSGDataSet(getSize(), stats.getMean(),
 										stats.getStandardDeviation()));
 				Composite monteCarloFrame = new ChartComposite(resultView,
 						SWT.BORDER, monteCarloChart, true);

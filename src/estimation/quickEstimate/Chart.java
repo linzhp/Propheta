@@ -19,7 +19,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.HorizontalAlignment;
 
 public class Chart {
-
 	public static JFreeChart createMonteCarloChart(IntervalXYDataset dataSet) {
 		JFreeChart chart = ChartFactory.createXYLineChart("工作量蒙特卡罗模拟图",
 				"工时(Hour)", "", dataSet, PlotOrientation.VERTICAL,
@@ -45,7 +44,7 @@ public class Chart {
 		return chart;
 	}
 
-	public static IntervalXYDataset createMonteCarloDataSet(double size, double piE, double piD) {
+	public static IntervalXYDataset createCSBSGDataSet(double size, double piE, double piD) {
 		HistogramDataset histogramdataset = new HistogramDataset();
 		// 此处为输入的1万个点。
 		Random generator  = new Random();
@@ -55,6 +54,22 @@ public class Chart {
 		{
 			//工作量＝规模/生产率
 			ad[i] = size/((generator.nextGaussian() + piE) * piD);
+		}
+		//100表示bins（即条形柱的个数）
+		histogramdataset.addSeries("", ad, 100);
+		return histogramdataset;
+	}
+	
+	public static IntervalXYDataset createISBSGDataSet(double size, double piE, double piD) {
+		HistogramDataset histogramdataset = new HistogramDataset();
+		// 此处为输入的1万个点。
+		Random generator  = new Random();
+		final int NUM_SAMPLES = 5000000;
+		double[] ad = new double[NUM_SAMPLES];
+		for(int i = 0; i < ad.length; i++)
+		{
+			//工作量＝规模/生产率
+			ad[i] = size * ((generator.nextGaussian() + piE) * piD);
 		}
 		//100表示bins（即条形柱的个数）
 		histogramdataset.addSeries("", ad, 100);
