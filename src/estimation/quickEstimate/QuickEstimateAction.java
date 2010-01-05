@@ -1,12 +1,8 @@
 package estimation.quickEstimate;
 
-import entity.EstimateNode;
 import gui.GUI;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 
 public class QuickEstimateAction extends Action {
