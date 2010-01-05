@@ -44,35 +44,26 @@ public class Chart {
 		return chart;
 	}
 
-	public static IntervalXYDataset createCSBSGDataSet(double size, double piE, double piD) {
+	public static IntervalXYDataset createQuickDataSet(String dataType, double size, double piE, double piD) {
 		HistogramDataset histogramdataset = new HistogramDataset();
 		// 此处为输入的1万个点。
 		Random generator  = new Random();
 		final int NUM_SAMPLES = 5000000;
-		double[] ad = new double[NUM_SAMPLES];
-		for(int i = 0; i < ad.length; i++)
-		{
-			//工作量＝规模/生产率
-			ad[i] = size/((generator.nextGaussian() + piE) * piD);
-		}
+		double[] efforts = new double[NUM_SAMPLES];
+		if(dataType == "csbsg")
+			for(int i=0; i<efforts.length; i++)
+			{
+				//工作量＝规模/生产率
+				efforts[i] = size/((generator.nextGaussian() + piE) * piD);
+			}
+		else
+			for(int i=0; i<efforts.length; i++)
+			{
+				//工作量＝规模/生产率
+				efforts[i] = size * ((generator.nextGaussian() + piE) * piD);
+			}
 		//100表示bins（即条形柱的个数）
-		histogramdataset.addSeries("", ad, 100);
-		return histogramdataset;
-	}
-	
-	public static IntervalXYDataset createISBSGDataSet(double size, double piE, double piD) {
-		HistogramDataset histogramdataset = new HistogramDataset();
-		// 此处为输入的1万个点。
-		Random generator  = new Random();
-		final int NUM_SAMPLES = 5000000;
-		double[] ad = new double[NUM_SAMPLES];
-		for(int i = 0; i < ad.length; i++)
-		{
-			//工作量＝规模/生产率
-			ad[i] = size * ((generator.nextGaussian() + piE) * piD);
-		}
-		//100表示bins（即条形柱的个数）
-		histogramdataset.addSeries("", ad, 100);
+		histogramdataset.addSeries("", efforts, 100);
 		return histogramdataset;
 	}
 	
@@ -80,9 +71,6 @@ public class Chart {
 		JFreeChart chart = ChartFactory.createScatterPlot("规模相近的历史项目的工作量分布",
 				"规模(KLOC)", "工作量(Hour)", dataSet, PlotOrientation.VERTICAL,
 				false, false, false);
-
-		
-        
 		// 设置了字体，才能显示中文
 		Font font = new Font("黑体", SWT.Paint, 14);
 		// 图片标题
