@@ -188,18 +188,7 @@ public class EstimateNode{
 	}
 	
 	
-	public boolean hasEstPM(){
-		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.initConnection();
-		double estPM=nbi_access.getNodeByID(this.getId()).getEstPM();
-		nbi_access.diposeConnection();
-		
-		if(estPM==-1){
-			return false;
-		}else{
-			return true;
-		}
-	}
+	
 	
 	public int getSLOC() {
 		int SLOC = 0;

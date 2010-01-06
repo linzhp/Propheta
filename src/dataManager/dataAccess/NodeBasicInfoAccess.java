@@ -81,8 +81,7 @@ public class NodeBasicInfoAccess {
 		try {
 			String sqlString="select [nodeID],[parentID],[name],[description],[businessArea]," +
 				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform]," +
-				"[developmentTechniques],[teamSize,[duration],[estEffort],[estPDR],[estProductivity]," +
-				"[estPM],[estPersons],[cocomoEM],[cocomoSCED],[isRoot] " +
+				"[developmentTechniques],[teamSize,[duration],[isRoot],[estType] " +
 				"from nodeBasicInfo";
 			ResultSet rs=statement.executeQuery(sqlString);
 			while(rs.next()){
@@ -101,15 +100,8 @@ public class NodeBasicInfoAccess {
 				node.setDevelopmentTechniques(rs.getString("developmentTechniques"));
 				node.setTeamSize(rs.getDouble("teamSize"));
 				node.setDuration(rs.getInt("duration"));
-				node.setEstEffort(rs.getDouble("estEffort"));
-				node.setEstPDR(rs.getDouble("estPDR"));
-				node.setEstProductivity(rs.getDouble("estProductivity"));
-				node.setEstPM(rs.getDouble("estPM"));
-				node.setEstPersons(rs.getInt("estPersons"));
-				//node.setEstOthersInfo
-				node.setCocomoEM(rs.getDouble("cocomoEM"));
-				node.setCocomoSCED(rs.getDouble("cocomoSCED"));
 				node.setIsRoot(rs.getBoolean("isRoot"));
+				node.setEstType(rs.getString("estType"));
 				nodes.add(node);
 			}
 		} catch (SQLException e) {
@@ -128,8 +120,7 @@ public class NodeBasicInfoAccess {
 		try {
 			String sqlString="select [nodeID],[parentID],[name],[description],[businessArea]," +
 				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform]," +
-				"[developmentTechniques],[teamSize],[duration],[estEffort],[estPDR],[estProductivity]," +
-				"[estPM],[estPersons],[cocomoEM],[cocomoSCED],[isRoot] " +
+				"[developmentTechniques],[teamSize],[duration],[isRoot],[estType] " +
 				"from nodeBasicInfo where [isRoot]=1";
 			ResultSet rs=statement.executeQuery(sqlString);
 			while(rs.next()){
@@ -148,15 +139,8 @@ public class NodeBasicInfoAccess {
 				node.setDevelopmentTechniques(rs.getString("developmentTechniques"));
 				node.setTeamSize(rs.getDouble("teamSize"));
 				node.setDuration(rs.getInt("duration"));
-				node.setEstEffort(rs.getDouble("estEffort"));
-				node.setEstPDR(rs.getDouble("estPDR"));
-				node.setEstProductivity(rs.getDouble("estProductivity"));
-				node.setEstPM(rs.getDouble("estPM"));
-				node.setEstPersons(rs.getInt("estPersons"));
-				//node.setEstOthersInfo
-				node.setCocomoEM(rs.getDouble("cocomoEM"));
-				node.setCocomoSCED(rs.getDouble("cocomoSCED"));
 				node.setIsRoot(rs.getBoolean("isRoot"));
+				node.setEstType(rs.getString("estType"));
 				rootNodes.add(node);
 			}
 		} catch (SQLException e) {
@@ -175,8 +159,7 @@ public class NodeBasicInfoAccess {
 		try {
 			String sqlString="select [nodeID],[parentID],[name],[description],[businessArea]," +
 				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform]," +
-				"[developmentTechniques],[teamSize],[duration],[estEffort],[estPDR],[estProductivity]," +
-				"[estPM],[estPersons],[cocomoEM],[cocomoSCED],[isRoot] " +
+				"[developmentTechniques],[teamSize],[duration],[isRoot],[estType] " +
 				"from nodeBasicInfo where [nodeID]="+nodeID;
 			ResultSet rs=statement.executeQuery(sqlString);
 			if(rs.next()){
@@ -195,15 +178,8 @@ public class NodeBasicInfoAccess {
 				node.setDevelopmentTechniques(rs.getString("developmentTechniques"));
 				node.setTeamSize(rs.getDouble("teamSize"));
 				node.setDuration(rs.getInt("duration"));
-				node.setEstEffort(rs.getDouble("estEffort"));
-				node.setEstPDR(rs.getDouble("estPDR"));
-				node.setEstProductivity(rs.getDouble("estProductivity"));
-				node.setEstPM(rs.getDouble("estPM"));
-				node.setEstPersons(rs.getInt("estPersons"));
-				//node.setEstOthersInfo
-				node.setCocomoEM(rs.getDouble("cocomoEM"));
-				node.setCocomoSCED(rs.getDouble("cocomoSCED"));
 				node.setIsRoot(rs.getBoolean("isRoot"));
+				node.setEstType(rs.getString("estType"));
 				return node;
 			}else{
 				return null;
@@ -225,8 +201,7 @@ public class NodeBasicInfoAccess {
 		try {
 			String sqlString="select [nodeID],[parentID],[name],[description],[businessArea]," +
 				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform]," +
-				"[developmentTechniques],[teamSize],[duration],[estEffort],[estPDR],[estProductivity]," +
-				"[estPM],[estPersons],[cocomoEM],[cocomoSCED],[isRoot] " +
+				"[developmentTechniques],[teamSize],[duration],[isRoot],[estType] " +
 				"from nodeBasicInfo where [parentID]="+parentID+" and [nodeID]!="+parentID;
 			ResultSet rs=statement.executeQuery(sqlString);
 			while(rs.next()){
@@ -245,15 +220,8 @@ public class NodeBasicInfoAccess {
 				node.setDevelopmentTechniques(rs.getString("developmentTechniques"));
 				node.setTeamSize(rs.getDouble("teamSize"));
 				node.setDuration(rs.getInt("duration"));
-				node.setEstEffort(rs.getDouble("estEffort"));
-				node.setEstPDR(rs.getDouble("estPDR"));
-				node.setEstProductivity(rs.getDouble("estProductivity"));
-				node.setEstPM(rs.getDouble("estPM"));
-				node.setEstPersons(rs.getInt("estPersons"));
-				//node.setEstOthersInfo
-				node.setCocomoEM(rs.getDouble("cocomoEM"));
-				node.setCocomoSCED(rs.getDouble("cocomoSCED"));
 				node.setIsRoot(rs.getBoolean("isRoot"));
+				node.setEstType(rs.getString("estType"));
 				childNodes.add(node);
 			}
 		} catch (SQLException e) {
@@ -272,8 +240,7 @@ public class NodeBasicInfoAccess {
 		try{
 			String sqlString="insert into nodeBasicInfo ([parentID],[name],[description],[businessArea]," +
 				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform],"+
-				"[developmentTechniques],[teamSize],[duration],[estEffort],[estPDR],[estProductivity]," +
-				"[estPM],[estPersons],[cocomoEM],[cocomoSCED],[isRoot]) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+				"[developmentTechniques],[teamSize],[duration],[isRoot],[estType]) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
 			PreparedStatement preStatement=connection.prepareStatement(sqlString);
 			preStatement.setInt(1, node.getParentID());
 			preStatement.setString(2, node.getName());
@@ -288,14 +255,8 @@ public class NodeBasicInfoAccess {
 			preStatement.setString(11, node.getDevelopmentTechniques());
 			preStatement.setDouble(12, node.getTeamSize());
 			preStatement.setInt(13, node.getDuration());
-			preStatement.setDouble(14, node.getEstEffort());
-			preStatement.setDouble(15, node.getEstPDR());
-			preStatement.setDouble(16, node.getEstProductivity());
-			preStatement.setDouble(17, node.getEstPM());
-			preStatement.setInt(18, node.getEstPersons());
-			preStatement.setDouble(19, node.getCocomoEM());
-			preStatement.setDouble(20, node.getCocomoSCED());
-			preStatement.setBoolean(21, node.getIsRoot());
+			preStatement.setBoolean(14, node.getIsRoot());
+			preStatement.setString(15, node.getEstType());
 			
 			preStatement.execute();
 			ResultSet rs=preStatement.getGeneratedKeys();
@@ -316,8 +277,7 @@ public class NodeBasicInfoAccess {
 		try{
 			String sqlString="update nodeBasicInfo set [parentID]=?,[name]=?,[description]=?,[businessArea]=?," +
 				"[SLOC]=?,[functionPoints]=?,[developmentType]=?,[language]=?,[languageType]=?,[developmentPlatform]=?," +
-				"[developmentTechniques]=?,[teamSize]=?,[duration]=?,[estEffort]=?,[estPDR]=?,[estProductivity]=?," +
-				"[estPM]=?,[estPersons]=?,[cocomoEM]=?,[cocomoSCED]=?,[isRoot]=? where [nodeID]="+node.getNodeID();
+				"[developmentTechniques]=?,[teamSize]=?,[duration]=?,[isRoot]=?,[estType]=? where [nodeID]="+node.getNodeID();
 			PreparedStatement preStatement=connection.prepareStatement(sqlString);
 			preStatement.setInt(1, node.getParentID());
 			preStatement.setString(2, node.getName());
@@ -332,14 +292,8 @@ public class NodeBasicInfoAccess {
 			preStatement.setString(11, node.getDevelopmentTechniques());
 			preStatement.setDouble(12, node.getTeamSize());
 			preStatement.setInt(13, node.getDuration());
-			preStatement.setDouble(14, node.getEstEffort());
-			preStatement.setDouble(15, node.getEstPDR());
-			preStatement.setDouble(16, node.getEstProductivity());
-			preStatement.setDouble(17, node.getEstPM());
-			preStatement.setInt(18, node.getEstPersons());
-			preStatement.setDouble(19, node.getCocomoEM());
-			preStatement.setDouble(20, node.getCocomoSCED());
-			preStatement.setBoolean(21, node.getIsRoot());
+			preStatement.setBoolean(14, node.getIsRoot());
+			preStatement.setString(15, node.getEstType());
 			
 			preStatement.execute();
 		} catch (SQLException e) {
