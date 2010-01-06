@@ -207,6 +207,12 @@ public class EstimateNode{
 		return SLOC;
 	}
 
+	public String getEstType(){
+		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		String estType = nbi_access.getNodeByID(this.getId()).getEstType();
+		nbi_access.diposeConnection();
 
-
+		return estType;
+	}
 }
