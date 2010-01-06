@@ -20,13 +20,13 @@ public class RenameNodeAction extends Action{
 		if(node.isRoot()){
 			InputDialog input=new InputDialog(null,"请输入新的项目名称","新项目名称","",new ProjectNameValidator());
 			if(input.open()==Window.OK){
-				node.setName(input.getValue().trim());
+				node.renameNode(input.getValue().trim());
 				GUI.getTreeArea().getTreeViewer().refresh();
 			}
 		}else{
 			InputDialog input=new InputDialog(null,"请输入新的节点名称","新节点名称","",new NodeNameValidator());
 			if(input.open()==Window.OK){
-				node.setName(input.getValue().trim());
+				node.renameNode(input.getValue().trim());
 				GUI.getTreeArea().getTreeViewer().refresh();
 			}
 		}		

@@ -349,6 +349,22 @@ public class NodeBasicInfoAccess {
 	
 	
 	/**
+	 * 更新节点名称
+	 * @param node
+	 */
+	public void updateNodeName(int nodeID, String newName){
+		try{
+			String sqlString="update nodeBasicInfo set [name]=? where [nodeID]="+nodeID;
+			PreparedStatement preStatement=connection.prepareStatement(sqlString);
+			preStatement.setString(1, newName);
+			preStatement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();			
+		}	
+	}
+	
+	
+	/**
 	 * 删除节点（通过节点ID判断）
 	 * @param nodeID 节点ID
 	 */

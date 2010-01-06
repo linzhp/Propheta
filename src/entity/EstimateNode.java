@@ -84,9 +84,33 @@ public class EstimateNode{
 		this.children.add(node);
 	}
 
-	public void removeChild(EstimateNode node){
-		node.setParent(null);
-		this.children.remove(node);
+	
+	/**
+	 * 删除子节点
+	 * @param childNode 子节点
+	 */
+	public void removeChild(EstimateNode childNode){
+		System.out.println("delete:	"+childNode.getName());
+		
+		//从数据库中删除记录
+		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		nbi_access.deleteNodeByNodeID(childNode.getId());
+		nbi_access.diposeConnection();
+		
+		//从父节点中删除
+		childNode.setParent(null);
+		this.children.remove(childNode);
+		
+		// 递归删除其子节点
+		if(childNode.hasChildren()){
+			ArrayList<EstimateNode> nodes=childNode.getChildren();
+			for(int i=0;i<nodes.size();i++){
+				removeChild(nodes.get(i));
+			}
+		}else{
+			return;
+		}		
 	}
 	
 	public void removeAllChildren(){
@@ -95,6 +119,25 @@ public class EstimateNode{
 		}
 		this.children.clear();
 	}
+	
+	
+	/**
+	 * 重命名节点
+	 * @param newName 节点新名称
+	 */
+	public void renameNode(String newName){
+		
+		System.out.println("rename:	"+this.getName()+"	"+newName);
+		//更新数据库
+		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		nbi_access.updateNodeName(this.getId(), newName);
+		nbi_access.diposeConnection();
+		
+		//更新节点
+		this.setName(newName);
+	}
+	
 	
 	public boolean hasChildren() {
 		if(this.children.size()>0){
