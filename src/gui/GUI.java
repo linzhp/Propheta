@@ -53,7 +53,6 @@ public class GUI {
 		tab.setText(title);
 		tab.setControl(content);
 		folder.setSelection(tab);
-		folder.setFocus();
 		return tab;
 	}
 }

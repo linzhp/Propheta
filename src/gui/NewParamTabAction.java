@@ -35,6 +35,7 @@ public abstract class NewParamTabAction extends Action {
 		{
 			GUI.createNewTab(getTabTitle(), createContents(parent));
 		}
+		parent.setFocus();
 	}
 	
 	protected abstract Composite createContents(Composite parent);
