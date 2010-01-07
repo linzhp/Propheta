@@ -9,9 +9,11 @@ import org.eclipse.ui.forms.widgets.*;
 public abstract class ParameterArea extends Composite{
 	protected FormToolkit toolkit;
 	protected ScrolledForm form;
+	protected int nodeID;
 	
-	public ParameterArea(Composite parent){
+	public ParameterArea(Composite parent, int nodeID){
 		super(parent, SWT.NONE);
+		this.nodeID = nodeID;
 		toolkit = new FormToolkit(Display.getCurrent());
 		setLayout(new FillLayout());
 		form = toolkit.createScrolledForm(this);
@@ -20,6 +22,9 @@ public abstract class ParameterArea extends Composite{
 		body.setLayout(new ColumnLayout());
 	}
 	
+	public int getnodeID(){
+		return nodeID;
+	}
 	
 	@Override
 	public void dispose(){
