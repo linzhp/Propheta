@@ -19,17 +19,10 @@ public class NodeBasicInformation {
 	private String languageType=null;
 	private String developmentPlatform=null;
 	private String developmentTechniques=null;
-	private double teamSize=-1;
-	private int duration=-1;
-	private double estEffort=-1;
-	private double estPDR=-1;
-	private double estProductivity=-1;
-	private double estPM=-1;
-	private int estPersons=-1;
-	//private String estOthersInfo=null;
-	private double cocomoEM=-1;
-	private double cocomoSCED=-1;
+	private double teamSize=5;
+	private int duration=180;
 	private boolean isRoot=false;
+	private String estType="none";
 	
 	
 	public int getNodeID() {
@@ -116,60 +109,20 @@ public class NodeBasicInformation {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-	public double getEstEffort() {
-		return estEffort;
-	}
-	public void setEstEffort(double estEffort) {
-		this.estEffort = estEffort;
-	}
-	public double getEstPDR() {
-		return estPDR;
-	}
-	public void setEstPDR(double estPDR) {
-		this.estPDR = estPDR;
-	}
-	public double getEstProductivity() {
-		return estProductivity;
-	}
-	public void setEstProductivity(double estProductivity) {
-		this.estProductivity = estProductivity;
-	}
-	public double getEstPM() {
-		return estPM;
-	}
-	public void setEstPM(double estPM) {
-		this.estPM = estPM;
-	}
-	public int getEstPersons() {
-		return estPersons;
-	}
-	public void setEstPersons(int estPersons) {
-		this.estPersons = estPersons;
-	}
-	public double getCocomoEM() {
-		return cocomoEM;
-	}
-	public void setCocomoEM(double cocomoEM) {
-		this.cocomoEM = cocomoEM;
-	}
-	public double getCocomoSCED() {
-		return cocomoSCED;
-	}
-	public void setCocomoSCED(double cocomoSCED) {
-		this.cocomoSCED = cocomoSCED;
-	}
 	public boolean getIsRoot() {
 		return isRoot;
 	}
 	public void setIsRoot(boolean isRoot) {
 		this.isRoot = isRoot;
 	}
-	
-	
+	public String getEstType() {
+		return estType;
+	}
+	public void setEstType(String estType) {
+		this.estType = estType;
+	}
 	public NodeBasicInformation(){
 		
 	}
-	
-	
 	
 }

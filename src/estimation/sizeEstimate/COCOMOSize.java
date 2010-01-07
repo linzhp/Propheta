@@ -10,7 +10,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
 import dataManager.dataEntities.COCOMO;
@@ -139,7 +138,7 @@ public class COCOMOSize extends ParameterArea{
 	}
 
 	private Spinner createDataField(Composite parent, String desc, int selection, int minimum, int maximum, int digits ){
-		Label label = toolkit.createLabel(parent, desc);
+		toolkit.createLabel(parent, desc);
 		Spinner inputSpinner = new Spinner(parent, SWT.BORDER);
 		inputSpinner.setMinimum(minimum);
 		inputSpinner.setMaximum(maximum);

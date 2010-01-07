@@ -60,6 +60,10 @@ public class EstimationProjects{
 	}
 	
 	
+	/**
+	 *  从数据库中读取节点所有的子节点
+	 * @param node
+	 */
 	private static void initNodeChildren(EstimateNode node){
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		nbi_access.initConnection();
@@ -92,7 +96,10 @@ public class EstimationProjects{
 		}
 	}
 	
-	
+	/**
+	 * 保存估算项目所有节点信息
+	 * @param node
+	 */
 	private static void storeNode(EstimateNode node){
 		if(node.isRoot()){
 			System.out.println(node.getName()+"	"+"Root");
@@ -167,6 +174,7 @@ public class EstimationProjects{
      * @param en
      */
 	public static void removeEstimateProject(EstimateNode node){
+		System.out.println("delete:	"+node.getName());
 		//删除根节点
 		estimateProjects.remove(node);
 		
@@ -178,7 +186,13 @@ public class EstimationProjects{
 	}
 	
 	
+	/**
+	 * 删除估算项目所有的子节点
+	 * @param node
+	 */
 	private static void removeNode(EstimateNode node){
+		System.out.println("delete:	"+node.getName());
+		//更新数据库		
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		nbi_access.initConnection();
 		nbi_access.deleteNodeByNodeID(node.getId());

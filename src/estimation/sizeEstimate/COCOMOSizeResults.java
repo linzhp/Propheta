@@ -7,8 +7,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import dataManager.dataEntities.COCOMO;
-
 public class COCOMOSizeResults {
 	private COCOMOSize COCOMOsize;
 	

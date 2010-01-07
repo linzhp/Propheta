@@ -178,7 +178,7 @@ public class QuickEstimate extends ParameterArea{
 		Composite comSize = toolkit.createComposite(comCSBSG);
 		comSize.setLayout(new GridLayout(2, false));
 		
-		Label labelSize = toolkit.createLabel(comSize, "规模（SLOC）：");
+		toolkit.createLabel(comSize, "规模（SLOC）：");
 		toolkit.createLabel(comSize, null);
 		
 		btnUserInput = toolkit.createButton(comSize, "用户输入", SWT.RADIO);

@@ -27,9 +27,24 @@ public class COCOMO {
 		return size.intValue();
 	}
 
-	// 模块工作量计算公式
+	// 模块工作量计算公式，输入参数为cocomo原始输入值
 	public static Double[] getModuleEffortTime(Double size,
-			HashMap<String, String> factorsSF, HashMap<String, String> factorsEM, String EMtype) {
+			HashMap<String, String> factorsSF, HashMap<String, String> factorsEM) {
+		// 求各SF因子的和
+		Double sumSF = getSumSF(factorsSF);
+		// 求各EM因子的乘积
+		Double productEM = getProductEM(factorsEM);
+		// 求effort
+		String propertyKey = "EM.SCED." + factorsEM.get("SCED");
+		Double SCED = Double.valueOf(PropertyFile.readValue(
+				"properties/COCOMO.properties", propertyKey));
+		
+		return getModuleEffortTime(size, sumSF, productEM/SCED, SCED);
+	}
+	
+	// 模块工作量计算公式,输入参数为cocomo运算的中间值
+	public static Double[] getModuleEffortTime(Double size, Double sumSF, Double productEM, Double SCED)
+	{
 		//搜索A、B、C、D值
 		Double A = Double.valueOf(PropertyFile.readValue(
 				"properties/COCOMO.properties", "A"));
@@ -39,23 +54,15 @@ public class COCOMO {
 				"properties/COCOMO.properties", "C"));
 		Double D = Double.valueOf(PropertyFile.readValue(
 				"properties/COCOMO.properties", "D"));
-		// 求各SF因子的和
-		Double sumSF = getSumSF(factorsSF);
-		// 求各EM因子的乘积
-		Double multiEM = getMultiEM(factorsEM, EMtype);
 		// 求effort
 		Double E = B + 0.01 * sumSF;
-		Double PM = A * Math.pow((size / 1000), E) * multiEM;
+		Double PM = A * Math.pow((size / 1000), E) * productEM * SCED;
 		// 求TDEV: Time to development
-		String propertyKey = EMtype + "." + "EM.SCED." + factorsEM.get("SCED");
-		Double SCED = Double.valueOf(PropertyFile.readValue(
-				"properties/COCOMO.properties", propertyKey));
 		Double TDEV = C * Math.pow((PM / SCED), (D + 0.2 * (E - B))) * SCED;
-		
 		Double[] effort = { PM, TDEV };
 		
 		System.out.println("sumSF = " + sumSF);
-		System.out.println("multiEM = " + multiEM);
+		System.out.println("productEM = " + productEM);
 		System.out.println("SCED = " + SCED);
 		System.out.println("PM = " + PM);
 		System.out.println("TDEV = " + TDEV);
@@ -63,9 +70,24 @@ public class COCOMO {
 		return effort;
 	}
 
-	//一级集成工作量计算公式
-	public static Double[] getIntegratedEffortTime(Double[] sizes,
-			HashMap<String, String> factorsSF, HashMap<String, String> factorsEM, String EMtype) {
+	//一级集成工作量计算公式，输入参数为cocomo原始输入值
+	public static Double[] getIntegratedEffortTime(Double[] sizes, Double[] productEMs,
+			HashMap<String, String> factorsSF, String SCEDLevel) {
+		
+		// 求各SF因子的和
+		Double sumSF = getSumSF(factorsSF);
+		
+		// 求effort
+		String propertyKey = "EM.SCED." + SCEDLevel;
+		Double SCED = Double.valueOf(PropertyFile.readValue(
+				"properties/COCOMO.properties", propertyKey));
+		
+		return getIntegratedEffortTime(sizes, productEMs, sumSF, SCED);
+	}
+	
+	//一级集成工作量计算公式，输入参数为cocomo中间值
+	public static Double[] getIntegratedEffortTime(Double[] sizes, Double[] productEMs,
+			Double sumSF, Double SCED) {
 		//搜索A、B、C、D值
 		Double A = Double.valueOf(PropertyFile.readValue(
 				"properties/COCOMO.properties", "A"));
@@ -75,29 +97,22 @@ public class COCOMO {
 				"properties/COCOMO.properties", "C"));
 		Double D = Double.valueOf(PropertyFile.readValue(
 				"properties/COCOMO.properties", "D"));
-		// 求各SF因子的和
-		Double sumSF = getSumSF(factorsSF);
-		// 求各EM因子的乘积
-		Double multiEM = getMultiEM(factorsEM, EMtype);
+		
 		// 求effort
 		Double E = B + 0.01 * sumSF;
-		String propertyKey = EMtype + "." + "EM.SCED." + factorsEM.get("SCED");
-		Double SCED = Double.valueOf(PropertyFile.readValue(
-				"properties/COCOMO.properties", propertyKey));
 		Double sumSize = 0.0;
 		for(Double size: sizes)
 			sumSize += size;
 		Double PMBasic = A * Math.pow((sumSize / 1000), E) * SCED;
 		Double PM = 0.0;
-		for(Double size: sizes)
-			PM += PMBasic * (size/sumSize)* (multiEM/SCED);
+		for(int i=0; i<sizes.length; i++)
+			PM += PMBasic * (sizes[i]/sumSize)* productEMs[i];
 		// 求TDEV: Time to development
-		Double TDEV = C * Math.pow((PM / SCED), (D + 0.2 * (E - B))) * SCED;
+		Double TDEV = C * Math.pow((PM/SCED), (D + 0.2 * (E - B))) * SCED;
 		
 		Double[] effort = { PM, TDEV };
 		
 		System.out.println("sumSF = " + sumSF);
-		System.out.println("multiEM = " + multiEM);
 		System.out.println("SCED = " + SCED);
 		System.out.println("PM = " + PM);
 		System.out.println("TDEV = " + TDEV);
@@ -121,17 +136,18 @@ public class COCOMO {
 		return sumSF;
 	}
 	// 求各EM因子的乘积
-	private static Double getMultiEM(HashMap<String, String> factorsEM, String EMtype)
+	private static Double getProductEM(HashMap<String, String> factorsEM)
 	{
-		Double multiEM = 1.0;
+		Double productEM = 1.0;
 		String propertyKey;
 		Set<String> factors = factorsEM.keySet();
 		for (Object factor : factors) {
-			propertyKey = EMtype + "." + "EM." + factor.toString() + "."
+			propertyKey = "EM." + factor.toString() + "."
 					+ factorsEM.get(factor);
-			multiEM *= Double.valueOf(PropertyFile.readValue(
+			productEM *= Double.valueOf(PropertyFile.readValue(
 					"properties/COCOMO.properties", propertyKey));
 		}
-		return multiEM;
+		return productEM;
 	}
+	
 }
