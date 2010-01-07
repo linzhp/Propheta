@@ -29,8 +29,8 @@ public class PropertyFile {
 	}
 
 	// Reads a enumeration of keys from a file
-	public static Enumeration getKeys(String filePath) {
-		Enumeration en;
+	public static Enumeration<?> getKeys(String filePath) {
+		Enumeration<?> en;
 		Properties props = new Properties();
 		try {
 			InputStream in = new BufferedInputStream(new FileInputStream(

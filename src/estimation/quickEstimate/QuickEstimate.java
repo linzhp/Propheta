@@ -22,7 +22,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 
 public class QuickEstimate extends ParameterArea{
-
 	//公共变量
 	private Composite factorDataArea;
 	private StackLayout factorStack;
@@ -47,8 +46,8 @@ public class QuickEstimate extends ParameterArea{
 	private Spinner spnISBSGTeamSize, spnISBSGSize;
 	
 
-	public QuickEstimate(Composite parent){
-		super(parent);
+	public QuickEstimate(Composite parent, int nodeID){
+		super(parent, nodeID);
 		createEstimation(form.getBody());
 	}
 	public String getDataType()

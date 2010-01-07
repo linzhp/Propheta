@@ -31,8 +31,8 @@ public class COCOMOEstimate extends ParameterArea{
 	private Spinner sizeSpinner;
 	private Button ok;
 
-	public COCOMOEstimate(Composite parent){
-		super(parent);
+	public COCOMOEstimate(Composite parent, int nodeID){
+		super(parent, nodeID);
 		scales = new HashMap<String, ParameterScale>();
 		createSize(form.getBody());
 		createButtonArea(form.getBody());

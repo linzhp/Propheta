@@ -23,8 +23,8 @@ public class COCOMOSize extends ParameterArea{
 	private Composite compNew, compReuse, compMaintain;
 	private Composite dataArea;
 	
-	public COCOMOSize(Composite parent){
-		super(parent);
+	public COCOMOSize(Composite parent, int nodeID){
+		super(parent, nodeID);
 		createSize(form.getBody());
 	}
 	private Composite createSize(Composite parent)

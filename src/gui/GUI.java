@@ -53,17 +53,6 @@ public class GUI {
 		tab.setText(title);
 		tab.setControl(content);
 		folder.setSelection(tab);
-		folder.setFocus();
 		return tab;
 	}
-	
-	public static Composite createNewResultTab(String title){
-		CTabItem tab = new CTabItem(buttomContentArea, SWT.CLOSE);
-		Composite content = new Composite(buttomContentArea, SWT.NONE);
-		tab.setText(title);
-		tab.setControl(content);
-		buttomContentArea.setFocus();
-		return content;
-	}
-
 }
