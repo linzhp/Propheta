@@ -24,6 +24,7 @@ public class COCOMOEstimate extends ParameterArea{
 
 	private static String[] levels = {"XL","VL","L","N","H","VH","XH"};
 	private HashMap<String, ParameterScale> scales;
+	ArrayList<EstimateNode> selectedChildren = new ArrayList<EstimateNode>();
 	private String[] scaleFactors;
 	private Button ok;
 
@@ -42,12 +43,17 @@ public class COCOMOEstimate extends ParameterArea{
 		{
 			result.put(sf, scales.get(sf).getLevel());
 		}
-		return result;
+		return result;  
 	}
 	
 	public String getSCED()
 	{
 		return scales.get("SCED").getLevel();
+	}
+	
+	public ArrayList<EstimateNode> getSelectedChildren()
+	{
+		return selectedChildren;
 	}
 	
 	private void createButtonArea(Composite parent) {
@@ -69,10 +75,12 @@ public class COCOMOEstimate extends ParameterArea{
 		});
 		
 		ArrayList<EstimateNode> children = GUI.getTreeArea().getSelectedNode().getChildren();
-		for(EstimateNode child: children)
+		Button[] buttons = new Button[children.size()];
+		for(int i=0; i<children.size(); i++)
 		{
-			toolkit.createButton(buttonArea, child.getName(), SWT.CHECK);
-			toolkit.createLabel(buttonArea, child.getEstType());
+			buttons[i] = toolkit.createButton(buttonArea, children.get(i).getName(), SWT.CHECK);
+			buttons[i].addSelectionListener(new ButtonListener(selectedChildren, children.get(i), buttons[i]));
+			toolkit.createLabel(buttonArea, children.get(i).getEstType());
 		}
 	}
 	
@@ -108,6 +116,29 @@ public class COCOMOEstimate extends ParameterArea{
 			ParameterScale scale = new ParameterScale(parent, levels, 3);
 			toolkit.adapt(scale);
 			scales.put(d, scale);
+		}
+	}
+	
+	private final class ButtonListener implements SelectionListener {
+		private ArrayList<EstimateNode> selectedChildren;
+		private EstimateNode child;
+		private Button button;
+
+		private ButtonListener(ArrayList<EstimateNode> selectedChildren, EstimateNode child, Button button) {
+			this.selectedChildren = selectedChildren;
+			this.child = child;
+			this.button = button;
+		}
+		public void widgetSelected(SelectionEvent e) {
+			if (button.getSelection())
+				selectedChildren.add(child);
+			else
+				selectedChildren.remove(child);
+			}
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+			
 		}
 	}
 }

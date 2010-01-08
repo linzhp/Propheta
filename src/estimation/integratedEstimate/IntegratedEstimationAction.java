@@ -17,8 +17,7 @@ public class IntegratedEstimationAction extends NewParamTabAction implements
 
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
-		// TODO 判断什么时候该禁用
-
+		
 	}
 
 	@Override
