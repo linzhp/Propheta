@@ -25,7 +25,7 @@ public class COCOMOEstimateResults {
 	{
 		ArrayList<EstimateNode> children = parameters.getSelectedChildren();
 		int tag = 0;
-		String resultText = null;
+		String resultText = "test";
 		for(EstimateNode child: children)
 			if (child.getEstType().contains("cocomoSimple")){
 				tag =1;
@@ -53,6 +53,7 @@ public class COCOMOEstimateResults {
 			Double effort = SimpleIntegratedEstimation.getIntegratedEffort(efforts);
 			resultText = "集成估算的 工作量为" + effort.intValue()+ " 小时";
 		}
+		
 		Composite resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
 		GridLayout layout = new GridLayout(1, false);
 		layout.verticalSpacing = 10;

@@ -6,6 +6,7 @@ import gui.ParameterArea;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.widgets.Composite;
 
 public class IntegratedEstimationAction extends NewParamTabAction implements

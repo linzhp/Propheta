@@ -3,6 +3,7 @@ package gui;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.widgets.Composite;
 
 import entity.EstimateNode;
