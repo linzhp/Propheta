@@ -39,13 +39,13 @@ public class COCOMOEstimate extends ParameterArea{
 		createSCEDFactor(form.getBody());
 		createScaleFactors(form.getBody());
 		
-		this.addFocusListener(new FocusListener(){
-			public void focusGained(FocusEvent e) {
-				refreshChildrenList();
-			}
-			public void focusLost(FocusEvent e) {
-			}
-		});
+	}
+	
+	@Override
+	public void refresh(){
+		System.out.println("refreshed: "+this);
+		comChildrenList.dispose();
+		createChildrenList(comButtonArea);
 	}
 	
 	public HashMap<String, String> getScaleFactors()
@@ -102,13 +102,7 @@ public class COCOMOEstimate extends ParameterArea{
 			toolkit.createLabel(comChildrenList, children.get(i).getEstType());
 		}
 	}
-	
-	private void refreshChildrenList()
-	{
-		comChildrenList.dispose();
-		createChildrenList(comButtonArea);
-	}
-	
+		
 	private void createSCEDFactor(Composite parent){
 		Composite comSCEDFactor = toolkit.createComposite(parent);
 		comSCEDFactor.setLayout(new GridLayout(2, false));

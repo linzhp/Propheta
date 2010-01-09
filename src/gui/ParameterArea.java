@@ -26,6 +26,11 @@ public abstract class ParameterArea extends Composite{
 		return nodeID;
 	}
 	
+	/**
+	 * 当一个标签被选中需要刷新内容时，请Override这个方法
+	 */
+	public void refresh(){}
+	
 	@Override
 	public void dispose(){
 		toolkit.dispose();
