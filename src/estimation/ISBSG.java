@@ -1,4 +1,4 @@
-package dataManager.dataEntities;
+package estimation;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,13 +30,13 @@ public class ISBSG {
 		constData.put("languageType.ApG", -1.021);
 	}
 
-	private int[] getSizeScale(int size, double percent) {
+	private static int[] getSizeScale(int size, double percent) {
 		double projectSize = size;
 		return (new int[] { (int) (projectSize * (1 - percent)),
 				(int) (projectSize * (1 + percent)) });
 	}
 
-	public ArrayList<Double> getPDR(int size,
+	public static ArrayList<Double> getPDR(int size,
 			HashMap<String, String> factors) {
 		ArrayList<Double> arrayList = new ArrayList<Double>();
 		String sql = null;
@@ -75,7 +75,7 @@ public class ISBSG {
 	}
 
 	//由ISBSG公式计算PDR值
-	public Double getEqnPDR(HashMap<String, String> factors) {
+	public static Double getEqnPDR(HashMap<String, String> factors) {
 		Double teamSize, lnPDR;
 		if (factors.containsKey("teamSize")) {
 			teamSize = Double.parseDouble(factors.get("teamSize").toString());

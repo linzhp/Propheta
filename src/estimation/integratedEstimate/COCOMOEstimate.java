@@ -9,6 +9,8 @@ import gui.GUI;
 import gui.ParameterArea;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -24,6 +26,9 @@ public class COCOMOEstimate extends ParameterArea{
 
 	private static String[] levels = {"XL","VL","L","N","H","VH","XH"};
 	private HashMap<String, ParameterScale> scales;
+	ArrayList<EstimateNode> selectedChildren = new ArrayList<EstimateNode>();
+	private Composite comChildrenList;
+	private Composite comButtonArea;
 	private String[] scaleFactors;
 	private Button ok;
 
@@ -33,6 +38,14 @@ public class COCOMOEstimate extends ParameterArea{
 		createButtonArea(form.getBody());
 		createSCEDFactor(form.getBody());
 		createScaleFactors(form.getBody());
+		
+	}
+	
+	@Override
+	public void refresh(){
+		System.out.println("refreshed: "+this);
+		comChildrenList.dispose();
+		createChildrenList(comButtonArea);
 	}
 	
 	public HashMap<String, String> getScaleFactors()
@@ -42,7 +55,7 @@ public class COCOMOEstimate extends ParameterArea{
 		{
 			result.put(sf, scales.get(sf).getLevel());
 		}
-		return result;
+		return result;  
 	}
 	
 	public String getSCED()
@@ -50,13 +63,18 @@ public class COCOMOEstimate extends ParameterArea{
 		return scales.get("SCED").getLevel();
 	}
 	
+	public ArrayList<EstimateNode> getSelectedChildren()
+	{
+		return selectedChildren;
+	}
+	
 	private void createButtonArea(Composite parent) {
-		Composite buttonArea = toolkit.createComposite(parent);
+		comButtonArea = toolkit.createComposite(parent);
 		GridLayout layout = new GridLayout(2, false);
 		layout.horizontalSpacing=30;
-		buttonArea.setLayout(layout);
-		toolkit.createLabel(buttonArea, "请选择集成的子项目");
-		ok = toolkit.createButton(buttonArea, "确定", SWT.PUSH);
+		comButtonArea.setLayout(layout);
+		toolkit.createLabel(comButtonArea, "请选择集成的子项目");
+		ok = toolkit.createButton(comButtonArea, "确定", SWT.PUSH);
 		ok.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 		ok.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
@@ -67,15 +85,24 @@ public class COCOMOEstimate extends ParameterArea{
 				widgetSelected(e);
 			}
 		});
-		
-		ArrayList<EstimateNode> children = GUI.getTreeArea().getSelectedNode().getChildren();
-		for(EstimateNode child: children)
-		{
-			toolkit.createButton(buttonArea, child.getName(), SWT.CHECK);
-			toolkit.createLabel(buttonArea, child.getEstType());
-		}
+		//列出所有子节点
+		createChildrenList(comButtonArea);
 	}
 	
+	private void createChildrenList(Composite parent)
+	{
+		comChildrenList= toolkit.createComposite(parent);
+		comChildrenList.setLayout(new GridLayout(2, false));
+		ArrayList<EstimateNode> children = GUI.getTreeArea().getSelectedNode().getChildren();
+		Button[] buttons = new Button[children.size()];
+		for(int i=0; i<children.size(); i++)
+		{
+			buttons[i] = toolkit.createButton(comChildrenList, children.get(i).getName(), SWT.CHECK);
+			buttons[i].addSelectionListener(new ButtonListener(selectedChildren, children.get(i), buttons[i]));
+			toolkit.createLabel(comChildrenList, children.get(i).getEstType());
+		}
+	}
+		
 	private void createSCEDFactor(Composite parent){
 		Composite comSCEDFactor = toolkit.createComposite(parent);
 		comSCEDFactor.setLayout(new GridLayout(2, false));
@@ -108,6 +135,29 @@ public class COCOMOEstimate extends ParameterArea{
 			ParameterScale scale = new ParameterScale(parent, levels, 3);
 			toolkit.adapt(scale);
 			scales.put(d, scale);
+		}
+	}
+	
+	private final class ButtonListener implements SelectionListener {
+		private ArrayList<EstimateNode> selectedChildren;
+		private EstimateNode child;
+		private Button button;
+
+		private ButtonListener(ArrayList<EstimateNode> selectedChildren, EstimateNode child, Button button) {
+			this.selectedChildren = selectedChildren;
+			this.child = child;
+			this.button = button;
+		}
+		public void widgetSelected(SelectionEvent e) {
+			if (button.getSelection())
+				selectedChildren.add(child);
+			else
+				selectedChildren.remove(child);
+			}
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+			
 		}
 	}
 }

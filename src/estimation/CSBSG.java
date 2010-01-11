@@ -1,4 +1,4 @@
-package dataManager.dataEntities;
+package estimation;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,7 +39,7 @@ public class CSBSG {
 		constData.put("language.Other", 0.0);
 	}
 
-	private int[] getSizeScale(int size) {
+	private static int[] getSizeScale(int size) {
 		int projectSize = size;
 		if (projectSize >= 0 && projectSize <= 4000)
 			return (new int[] { 0, 4000 });
@@ -55,7 +55,7 @@ public class CSBSG {
 			return (new int[] { 1024000, -1 });
 	}
 
-	public ArrayList<Double> getProductivity(int size,
+	public static ArrayList<Double> getProductivity(int size,
 			HashMap<String, String> factors) {
 		ArrayList<Double> arrayList = new ArrayList<Double>();
 		String sql = null;
@@ -95,7 +95,7 @@ public class CSBSG {
 	}
 
 	// 返回projectSize,effort数组
-	public ArrayList<Double[]> getEffort(int size, double percent) {
+	public static ArrayList<Double[]> getEffort(int size, double percent) {
 		ArrayList<Double[]> array = new ArrayList<Double[]>();
 
 		Double projectSize = (double) size;
@@ -124,7 +124,7 @@ public class CSBSG {
 	}
 
 	//由CSBSG公式计算effort值
-	public Double getEqnEffort(Double projectSize,
+	public static Double getEqnEffort(Double projectSize,
 			HashMap<String, String> factors) {
 		Double teamSize, duration, lnEffort;
 		if (factors.containsKey("teamSize")) {

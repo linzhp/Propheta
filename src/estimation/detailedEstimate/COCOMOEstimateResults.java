@@ -7,7 +7,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import dataManager.dataEntities.COCOMO;
+import estimation.COCOMO;
 
 public class COCOMOEstimateResults {
 	private COCOMOEstimate parameters;

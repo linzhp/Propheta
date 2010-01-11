@@ -14,9 +14,9 @@ import org.eclipse.swt.widgets.Label;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
-import dataManager.dataEntities.CSBSG;
-import dataManager.dataEntities.ISBSG;
+import estimation.CSBSG;
 import estimation.Chart;
+import estimation.ISBSG;
 
 public class QuickEstimateResults {
 	private QuickEstimate quickEstimate;
@@ -46,24 +46,22 @@ public class QuickEstimateResults {
 
 		//快速估算数据处理
 		if (quickEstimate.getDataType() == "csbsg") {
-			CSBSG csbsg = new CSBSG();
 			// 此处factors为指向quickEstimate.getFactors()的指针，factors的改变会影响
 			factors = quickEstimate.getCSBSGFactors();
 			projectSize = quickEstimate.getCSBSGSize();
 			System.out.println("projectSize = " + projectSize);
-			arrayPI = csbsg.getProductivity(projectSize, factors);
-			formulaEffort = csbsg.getEqnEffort((double) projectSize, factors);
+			arrayPI = CSBSG.getProductivity(projectSize, factors);
+			formulaEffort = CSBSG.getEqnEffort((double) projectSize, factors);
 			for (double PI : arrayPI)
 				stats.addValue(PI);
 			historyEffort = projectSize / stats.getPercentile(50);
 		} else {
-			ISBSG isbsg = new ISBSG();
 			// 此处factors为指向quickEstimate.getFactors()的指针，factors的改变会影响
 			factors = quickEstimate.getISBSGFactors();
 			projectSize = quickEstimate.getISBSGSize();
 			System.out.println("projectSize = " + projectSize);
-			arrayPI = isbsg.getPDR(projectSize, factors);
-			formulaEffort = isbsg.getEqnPDR(factors) * projectSize;
+			arrayPI = ISBSG.getPDR(projectSize, factors);
+			formulaEffort = ISBSG.getEqnPDR(factors) * projectSize;
 			for (double PI : arrayPI)
 				stats.addValue(PI);
 			historyEffort = stats.getPercentile(50) * projectSize;
