@@ -46,7 +46,7 @@ public class EstimationProjects{
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		nbi_access.initConnection();
 		ArrayList<NodeBasicInformation> rootNodes=nbi_access.getAllRootNodes(); //所有根节点
-		nbi_access.diposeConnection();
+		nbi_access.disposeConnection();
 		for(int i=0;i<rootNodes.size();i++){
 			NodeBasicInformation nbi=rootNodes.get(i);
 			EstimateNode newEstimationProject=new EstimateNode(null);
@@ -68,7 +68,7 @@ public class EstimationProjects{
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		nbi_access.initConnection();
 		ArrayList<NodeBasicInformation> childNodes=nbi_access.getNodesByParentID(node.getId());
-		nbi_access.diposeConnection();
+		nbi_access.disposeConnection();
 		if(childNodes.size()==0){
 			return;
 		}else{
@@ -120,7 +120,7 @@ public class EstimationProjects{
 			NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 			nbi_access.initConnection();
 			int nodeID=nbi_access.insertNode(nbi);
-			nbi_access.diposeConnection();
+			nbi_access.disposeConnection();
 			for(int i=0;i<node.getChildren().size();i++){
 				EstimateNode childNode=node.getChildren().get(i);
 				childNode.getParent().setId(nodeID);
@@ -130,7 +130,7 @@ public class EstimationProjects{
 			NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 			nbi_access.initConnection();
 			nbi_access.updateNode(nbi);
-			nbi_access.diposeConnection();
+			nbi_access.disposeConnection();
 			for(int i=0;i<node.getChildren().size();i++){
 				EstimateNode childNode=node.getChildren().get(i);
 				storeNode(childNode);
@@ -158,7 +158,7 @@ public class EstimationProjects{
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		nbi_access.initConnection();
 		int nodeID=nbi_access.insertNode(nbi);
-		nbi_access.diposeConnection();
+		nbi_access.disposeConnection();
 		
 		node.setId(nodeID);
 		node.setParent(null);
@@ -196,7 +196,7 @@ public class EstimationProjects{
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		nbi_access.initConnection();
 		nbi_access.deleteNodeByNodeID(node.getId());
-		nbi_access.diposeConnection();
+		nbi_access.disposeConnection();
 		
 		if(node.hasChildren()){
 			ArrayList<EstimateNode> nodes=node.getChildren();

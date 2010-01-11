@@ -77,7 +77,7 @@ public class EstimateNode{
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		nbi_access.initConnection();
 		int nodeID=nbi_access.insertNode(nbi);
-		nbi_access.diposeConnection();
+		nbi_access.disposeConnection();
 		
 		node.setId(nodeID);
 		node.setParent(this);
@@ -96,7 +96,7 @@ public class EstimateNode{
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		nbi_access.initConnection();
 		nbi_access.deleteNodeByNodeID(childNode.getId());
-		nbi_access.diposeConnection();
+		nbi_access.disposeConnection();
 		
 		//从父节点中删除
 		childNode.setParent(null);
@@ -132,7 +132,7 @@ public class EstimateNode{
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		nbi_access.initConnection();
 		nbi_access.updateNodeName(this.getId(), newName);
-		nbi_access.diposeConnection();
+		nbi_access.disposeConnection();
 		
 		//更新节点
 		this.setName(newName);
@@ -202,7 +202,7 @@ public class EstimateNode{
 			for (EstimateNode child : children)
 				SLOC += child.getSLOC();
 		}
-		nbi_access.diposeConnection();
+		nbi_access.disposeConnection();
 
 		return SLOC;
 	}
@@ -211,7 +211,7 @@ public class EstimateNode{
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
 		nbi_access.initConnection();
 		String estType = nbi_access.getNodeByID(this.getId()).getEstType();
-		nbi_access.diposeConnection();
+		nbi_access.disposeConnection();
 
 		return estType;
 	}

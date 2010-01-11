@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import dataManager.dataAccess.DBAccess;
+import dataManager.dataAccess.DataBaseAccess;
+
 
 public class CSBSG {
 	private final static HashMap<String, Double> constData = new HashMap<String, Double>();
@@ -79,7 +80,8 @@ public class CSBSG {
 		sql += " order by productivity asc";
 		System.out.println(sql);
 
-		DBAccess dataAccess = new DBAccess();
+		DataBaseAccess dataAccess = new DataBaseAccess();
+		dataAccess.initConnection();
 		ResultSet resultSet = dataAccess.query(sql);
 		try {
 			while (resultSet.next()) {
@@ -90,7 +92,7 @@ public class CSBSG {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		dataAccess.close();
+		dataAccess.disposeConnection();
 		return arrayList;
 	}
 
@@ -109,7 +111,8 @@ public class CSBSG {
 				+ maxSize
 				+ " order by effort asc";
 
-		DBAccess dataAccess = new DBAccess();
+		DataBaseAccess dataAccess = new DataBaseAccess();
+		dataAccess.initConnection();
 		ResultSet resultSet = dataAccess.query(sql);
 		try {
 			while (resultSet.next())
@@ -118,7 +121,7 @@ public class CSBSG {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		dataAccess.close();
+		dataAccess.disposeConnection();
 		return array;
 
 	}

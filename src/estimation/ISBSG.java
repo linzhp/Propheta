@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import dataManager.dataAccess.DBAccess;
+import dataManager.dataAccess.DataBaseAccess;
+
 
 public class ISBSG {
 	private final static HashMap<String, Double> constData = new HashMap<String, Double>();
@@ -60,7 +61,8 @@ public class ISBSG {
 		sql += " order by PDR asc";
 		System.out.println(sql);
 
-		DBAccess dataAccess = new DBAccess();
+		DataBaseAccess dataAccess = new DataBaseAccess();
+		dataAccess.initConnection();
 		ResultSet resultSet = dataAccess.query(sql);
 		try {
 			while (resultSet.next()) {
@@ -70,7 +72,7 @@ public class ISBSG {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		dataAccess.close();
+		dataAccess.disposeConnection();
 		return arrayList;
 	}
 

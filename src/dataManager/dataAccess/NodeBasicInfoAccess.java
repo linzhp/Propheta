@@ -16,11 +16,9 @@ import dataManager.dataEntities.NodeBasicInformation;
  * @author Administrator
  *
  */
-public class NodeBasicInfoAccess {
+public class NodeBasicInfoAccess extends DataBaseAccess{
 
-	private String connectionString="jdbc:sqlite:./database/database.db3";  //数据库连接字符串
-	private Connection connection=null;
-	private Statement statement=null;
+	
 	
 	/**
 	 * 构造器
@@ -35,41 +33,9 @@ public class NodeBasicInfoAccess {
 	 * @param dataBasePath 数据库连接字符串
 	 */
 	public NodeBasicInfoAccess(String dataBasePath){
-		this.connectionString="jdbc:sqlite:"+dataBasePath;
-		
+		super(dataBasePath);
 	}
 	
-	
-	/**
-	 * 连接数据库
-	 */
-	public void initConnection(){
-		try{
-			Class.forName("org.sqlite.JDBC");
-			this.connection=DriverManager.getConnection(this.connectionString);
-			this.statement=this.connection.createStatement();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-	
-	
-	/**
-	 * 关闭数据库连接
-	 * (在调用NodeBasicInforAccess对象完成数据库操作后，应立即调用本方法释放数据库连接)
-	 */
-	public void diposeConnection(){
-		try{
-			if(this.statement!=null){
-				this.statement.close();
-			}
-			if(this.connection!=null){
-				this.connection=null;
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}		
-	}
 	
 	
 	/**

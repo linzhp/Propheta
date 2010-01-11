@@ -5,14 +5,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
-
-import dataManager.dataAccess.DBAccess;
+import dataManager.dataAccess.DataBaseAccess;
 
 public class MainClass {
 
 	public static void main(String args[]){
 		ArrayList<Integer> array = new ArrayList<Integer>();
-		DBAccess da= new DBAccess();
+		DataBaseAccess da= new DataBaseAccess();
+		da.initConnection();
 		ResultSet rs = da.query("select duration,count(*) from csbsg group by duration order by count(*) asc");
 		try {
 			while (rs.next()){
@@ -29,6 +29,6 @@ public class MainClass {
 		
 		System.out.println("median= " + stats.getPercentile(50));
 		System.out.println("mean= " + stats.getMean());
-		da.close();
+		da.disposeConnection();
 	}
 }

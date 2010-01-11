@@ -121,6 +121,8 @@ public class NodeBasicInformation {
 	public void setEstType(String estType) {
 		this.estType = estType;
 	}
+	
+	
 	public NodeBasicInformation(){
 		
 	}
