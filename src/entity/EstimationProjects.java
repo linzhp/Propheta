@@ -254,7 +254,7 @@ public class EstimationProjects{
 	 * @param nodeID
 	 * @return
 	 */
-	public EstimateNode getNodeByID(int nodeID){
+	public static EstimateNode getNodeByID(int nodeID){
 		ArrayList<EstimateNode> allNodes=getAllNodes();
 		EstimateNode node=null;
 		for(int i=0;i<allNodes.size();i++){
