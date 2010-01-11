@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import entity.EstimateNode;
+import entity.EstimationProjects;
 import estimation.ParameterScale;
 import gui.GUI;
 import gui.ParameterArea;
@@ -38,14 +39,13 @@ public class COCOMOEstimate extends ParameterArea{
 		createButtonArea(form.getBody());
 		createSCEDFactor(form.getBody());
 		createScaleFactors(form.getBody());
-		
 	}
 	
 	@Override
 	public void refresh(){
-		System.out.println("refreshed: "+this);
 		comChildrenList.dispose();
 		createChildrenList(comButtonArea);
+		comButtonArea.layout();
 	}
 	
 	public HashMap<String, String> getScaleFactors()
@@ -93,7 +93,8 @@ public class COCOMOEstimate extends ParameterArea{
 	{
 		comChildrenList= toolkit.createComposite(parent);
 		comChildrenList.setLayout(new GridLayout(2, false));
-		ArrayList<EstimateNode> children = GUI.getTreeArea().getSelectedNode().getChildren();
+		//应该通过nodeID得到tab，而不是树形结构里的被选节点
+		ArrayList<EstimateNode> children = EstimationProjects.getNodeByID(nodeID).getChildren();
 		Button[] buttons = new Button[children.size()];
 		for(int i=0; i<children.size(); i++)
 		{

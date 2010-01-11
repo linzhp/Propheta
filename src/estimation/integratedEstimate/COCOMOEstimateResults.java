@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Label;
 
 import entity.EstimateNode;
 import estimation.COCOMO;
-import estimation.SimpleIntegratedEstimation;
+import estimation.SimpleIntegratedEstimate;
 
 public class COCOMOEstimateResults {
 	private COCOMOEstimate parameters;
@@ -50,7 +50,7 @@ public class COCOMOEstimateResults {
 					;//efforts[i] = 取formulaEffort值
 				else
 					;//efforts[i] = 直接从cocomo里取devTime值 并转化为小时
-			Double effort = SimpleIntegratedEstimation.getIntegratedEffort(efforts);
+			Double effort = SimpleIntegratedEstimate.getIntegratedEffort(efforts);
 			resultText = "集成估算的 工作量为" + effort.intValue()+ " 小时";
 		}
 		

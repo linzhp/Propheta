@@ -7,9 +7,9 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Composite;
 
-public class DetailedEstimationAction extends NewParamTabAction implements
+public class DetailedEstimateAction extends NewParamTabAction implements
 		ISelectionChangedListener {
-	public DetailedEstimationAction()
+	public DetailedEstimateAction()
 	{
 		super("详细估算");
 	}
