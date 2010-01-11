@@ -5,6 +5,6 @@ package dataManager.dataAccess;
  * @author Administrator
  *
  */
-public class QuickEstimationAccess {
+public class QuickEstimationAccess extends DataBaseAccess{
 
 }

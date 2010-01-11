@@ -5,6 +5,6 @@ package dataManager.dataAccess;
  * @author Administrator
  *
  */
-public class CocomoEstimationAccess {
+public class CocomoEstimationAccess extends DataBaseAccess{
 
 }
