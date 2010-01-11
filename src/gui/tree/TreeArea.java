@@ -14,8 +14,8 @@ import org.eclipse.swt.widgets.Menu;
 
 import entity.EstimateNode;
 import entity.EstimationProjects;
-import estimation.detailedEstimate.DetailedEstimationAction;
-import estimation.integratedEstimate.IntegratedEstimationAction;
+import estimation.detailedEstimate.DetailedEstimateAction;
+import estimation.integratedEstimate.IntegratedEstimateAction;
 import estimation.quickEstimate.QuickEstimateAction;
 import estimation.sizeEstimate.COCOMOSizeAction;
 import gui.tree.contextMenu.AddNodeAction;
@@ -42,8 +42,8 @@ public class TreeArea extends Composite{
 	RenameNodeAction renameNodeAction=new RenameNodeAction();
 	MenuManager menuManager_estimation=new MenuManager("估算");
 	QuickEstimateAction quickEstimateAction=new QuickEstimateAction();
-	DetailedEstimationAction detailedEstimationAction=new DetailedEstimationAction();
-	IntegratedEstimationAction integratedEstimationAction=new IntegratedEstimationAction();
+	DetailedEstimateAction detailedEstimationAction=new DetailedEstimateAction();
+	IntegratedEstimateAction integratedEstimationAction=new IntegratedEstimateAction();
 	COCOMOSizeAction cOCOMOSizeAction=new COCOMOSizeAction();
 	
 	public TreeArea(Composite parent, int style) {

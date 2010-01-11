@@ -1,6 +1,6 @@
 package estimation;
 
-public class SimpleIntegratedEstimation {
+public class SimpleIntegratedEstimate {
 
 	//简单的集成计算公式
 	public static Double getIntegratedEffort(Double[] efforts)

@@ -9,9 +9,9 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.widgets.Composite;
 
-public class IntegratedEstimationAction extends NewParamTabAction implements
+public class IntegratedEstimateAction extends NewParamTabAction implements
 		ISelectionChangedListener {
-	public IntegratedEstimationAction()
+	public IntegratedEstimateAction()
 	{
 		super("集成估算");
 	}
