@@ -175,6 +175,7 @@ public class Application extends ApplicationWindow {
 		MenuManager fileMenuManager = new MenuManager("文件");
 		fileMenuManager.add(new NewProjectAction());
 		fileMenuManager.add(new SaveEstimationProjectsAction());
+		fileMenuManager.add(new Test());
 
 		mainMenu.add(fileMenuManager);
 		return mainMenu;

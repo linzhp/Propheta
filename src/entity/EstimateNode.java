@@ -215,4 +215,11 @@ public class EstimateNode{
 
 		return estType;
 	}
+	
+	
+	public void fromNodeBasicInfo(NodeBasicInformation nbi){
+		this.id=nbi.getNodeID();
+		this.name=nbi.getName();
+		
+	}
 }

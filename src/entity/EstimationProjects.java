@@ -224,4 +224,48 @@ public class EstimationProjects{
 		}
 		return isExist;
 	}
+	
+	
+	/**
+	 * 获取所有估算节点
+	 * @return
+	 */
+	public static ArrayList<EstimateNode> getAllNodes(){
+		ArrayList<EstimateNode> allNodes=new ArrayList<EstimateNode>();
+		for(int i=0;i<estimateProjects.size();i++){
+			getAllChildren(estimateProjects.get(i),allNodes);
+		}
+		
+		return allNodes;		
+	}
+	
+	private static void getAllChildren(EstimateNode node, ArrayList<EstimateNode> nodes){
+		if(node!=null){
+			nodes.add(node);
+			for(int i=0;i<node.getChildren().size();i++){
+				getAllChildren(node.getChildren().get(i),nodes);
+			}
+		}
+	}
+	
+	
+	/**
+	 * 根据节点ID获取节点，节点不存在时返回null
+	 * @param nodeID
+	 * @return
+	 */
+	public EstimateNode getNodeByID(int nodeID){
+		ArrayList<EstimateNode> allNodes=getAllNodes();
+		EstimateNode node=null;
+		for(int i=0;i<allNodes.size();i++){
+			if(allNodes.get(i).getId()==nodeID){
+				node=allNodes.get(i);
+				break;
+			}
+		}
+		
+		return node;		
+	}
+	
+	
 }
