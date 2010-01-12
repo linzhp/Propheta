@@ -18,6 +18,7 @@ import estimation.detailedEstimate.DetailedEstimateAction;
 import estimation.integratedEstimate.IntegratedEstimateAction;
 import estimation.quickEstimate.QuickEstimateAction;
 import estimation.sizeEstimate.COCOMOSizeAction;
+import gui.OpenBasicInformationPageAction;
 import gui.tree.contextMenu.AddNodeAction;
 import gui.tree.contextMenu.NewProjectAction;
 import gui.tree.contextMenu.RemoveNodeAction;
@@ -36,6 +37,7 @@ public class TreeArea extends Composite{
 	private TreeLabelProvider treeLabelProvider;
 	
 	//menus
+	OpenBasicInformationPageAction openBasicInformationPageAction=new OpenBasicInformationPageAction();
 	NewProjectAction newProjectAction=new NewProjectAction();
 	AddNodeAction addNodeAction=new AddNodeAction();
 	RemoveNodeAction removeNodeAction=new RemoveNodeAction();
@@ -64,7 +66,8 @@ public class TreeArea extends Composite{
 	
 	//添加右键菜单
 	public void addMenu(){		
-		MenuManager mm = new MenuManager();		
+		MenuManager mm = new MenuManager();	
+		mm.add(openBasicInformationPageAction);
 		mm.add(newProjectAction);	
 		mm.add(addNodeAction);
 		mm.add(removeNodeAction);
@@ -117,6 +120,7 @@ public class TreeArea extends Composite{
 	
 	
 	private void setNoneMenu(){
+		openBasicInformationPageAction.setEnabled(false);
 		newProjectAction.setEnabled(true);
 		addNodeAction.setEnabled(false);
 		removeNodeAction.setEnabled(false);
@@ -130,6 +134,7 @@ public class TreeArea extends Composite{
 	
 	
 	private void setRootMenu(){
+		openBasicInformationPageAction.setEnabled(true);
 		newProjectAction.setEnabled(true);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
@@ -143,6 +148,7 @@ public class TreeArea extends Composite{
 	
 	
 	private void setNodeMenu(){
+		openBasicInformationPageAction.setEnabled(true);
 		newProjectAction.setEnabled(false);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
@@ -156,6 +162,7 @@ public class TreeArea extends Composite{
 	
 	
 	private void setLeafMenu(){
+		openBasicInformationPageAction.setEnabled(true);
 		newProjectAction.setEnabled(false);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
@@ -168,6 +175,7 @@ public class TreeArea extends Composite{
 	}
 	
 	private void setRootLeafMenu(){
+		openBasicInformationPageAction.setEnabled(true);
 		newProjectAction.setEnabled(true);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
