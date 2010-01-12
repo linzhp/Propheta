@@ -14,10 +14,11 @@ import org.eclipse.swt.widgets.Text;
 public class NodeBasicInformationPage extends BasePage{
 
 	//页面控件
-	private Label labelNodeName, labelTeamSize,labelDuration,labelDevelopType,labelLanguage,labelBusinessArea;
+	private Label labelNodeName, labelTeamSize,labelDuration,labelSLOC,labelFP,labelBusinessArea,
+	              labelDevelopType,labelDevelopPlatform,labelDevelopTechnique,labelLanguageType,labelLanguage;
 	private Text texNodeName;
-	private Spinner spnTeamSize,spnDuration;
-	private Combo cmbDevelopType,cmbLanguage,cmbBusinessArea;
+	private Spinner spnTeamSize,spnDuration,spnSLOC,spnFP;
+	private Combo cmbBusinessArea,cmbDevelopType,cmbDevelopPlatform,cmbDevelopTechnique,cmbLanguageType,cmbLanguage;
 	
 	
 	/**
