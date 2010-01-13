@@ -22,6 +22,15 @@ public abstract class ParameterArea extends Composite{
 		body.setLayout(new ColumnLayout());
 	}
 	
+	
+	/**
+	 * 设置页面标题
+	 * @param formText
+	 */
+	public void setFormText(String formText){
+		this.form.setText(formText);
+	}
+	
 	public int getnodeID(){
 		return nodeID;
 	}

@@ -24,6 +24,6 @@ public class OpenBasicInformationPageAction extends NewParamTabAction{
 
 	@Override
 	protected Class<? extends ParameterArea> pageClass() {
-		return null;
+		return NodeBasicInformationPage.class;
 	}
 }

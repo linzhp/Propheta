@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Text;
  * @author Administrator
  *
  */
-public class NodeBasicInformationPage extends BasePage{
+public class NodeBasicInformationPage extends ParameterArea{
 
 	//页面控件
 	private Label labelNodeName, labelTeamSize,labelDuration,labelSLOC,labelFP,labelBusinessArea,
@@ -29,11 +29,10 @@ public class NodeBasicInformationPage extends BasePage{
 	 * @param nodeID 关联的节点ID
 	 */
 	public NodeBasicInformationPage(int nodeID, Composite parent){
-		super(parent);
-		this.setPageType(PageType.NodeBasicInformationPage);
-		this.setNodeID(nodeID);
+		super(parent,nodeID);
+		this.setFormText("节点基本信息");
 		
-		createContents(this);
+		createContents(this.form.getBody());
 	}
 	
 	
@@ -52,6 +51,7 @@ public class NodeBasicInformationPage extends BasePage{
 		GridData gd=new GridData();
 		gd.horizontalSpan=3;
 		texNodeName.setLayoutData(gd);
+		texNodeName.setText("unknown");
 		
 		labelTeamSize=new Label(parent,SWT.NONE);
 		labelTeamSize.setText("团队规模:");
