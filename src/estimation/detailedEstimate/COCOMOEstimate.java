@@ -40,7 +40,7 @@ public class COCOMOEstimate extends ParameterArea{
 		createEffortMultipliers(form.getBody());
 	}
 	
-	public double getEstimatedSize()
+	public int getEstimatedSize()
 	{
 		return sizeSpinner.getSelection();
 	}

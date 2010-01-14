@@ -46,6 +46,7 @@ public class COCOMOEstimate extends ParameterArea{
 		comChildrenList.dispose();
 		createChildrenList(comButtonArea);
 		comButtonArea.layout();
+		selectedChildren.clear();
 	}
 	
 	public HashMap<String, String> getScaleFactors()
@@ -100,6 +101,8 @@ public class COCOMOEstimate extends ParameterArea{
 		{
 			buttons[i] = toolkit.createButton(comChildrenList, children.get(i).getName(), SWT.CHECK);
 			buttons[i].addSelectionListener(new ButtonListener(selectedChildren, children.get(i), buttons[i]));
+			if(children.get(i).getEstType().contains("none"))
+				buttons[i].setEnabled(false);
 			toolkit.createLabel(comChildrenList, children.get(i).getEstType());
 		}
 	}

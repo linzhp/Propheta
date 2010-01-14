@@ -10,6 +10,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import dataManager.dataAccess.CocomoEstimationAccess;
+import dataManager.dataAccess.QuickEstimationAccess;
+
 import entity.EstimateNode;
 import estimation.COCOMO;
 import estimation.SimpleIntegratedEstimate;
@@ -33,23 +36,33 @@ public class COCOMOEstimateResults {
 			}
 		if (tag == 0){
 			Double[] sizes = new Double[children.size()];
-			for(int i=0; i<children.size(); i++)
+			Double[] productEMs = new Double[children.size()];
+			CocomoEstimationAccess cocomoAccess = new CocomoEstimationAccess();
+			cocomoAccess.initConnection();
+			for(int i=0; i<children.size(); i++){
 				sizes[i] = (double)children.get(i).getSLOC();
-			HashMap<String, String> factorSF = parameters.getScaleFactors();
+				productEMs[i] = cocomoAccess.getCocomoEstimationByNodeID(children.get(i).getId()).getProductEM();
+			}
+			cocomoAccess.disposeConnection();
+			HashMap<String, String> factorsSF = parameters.getScaleFactors();
 			String SCEDLevel = parameters.getSCED();
-			//Double[] effort = COCOMO.getIntegratedEffortTime(sizes, 
-					//parameters.getScaleFactors(), 
-					//parameters.getEffortMultipliers());
-			//resultText = "根据公式计算出   PM为：" + effort[0].intValue()+ "(人.月)\n\n"+
-			//"\t\t TDEV为：" + effort[1].intValue()+"(月)\n\n" + "\t\t 平均所需开发人员为：" + (int)((effort[0]/effort[1])+1);
+			Double[] effort = COCOMO.getIntegratedEffortTime(sizes, productEMs, factorsSF, SCEDLevel);
+			resultText = "根据公式计算出   PM为：" + effort[0].intValue()+ "(人.月)\n\n"+
+			"\t\t TDEV为：" + effort[1].intValue()+"(月)\n\n" + "\t\t 平均所需开发人员为：" + (int)((effort[0]/effort[1])+1);
 		}
 		else{
 			Double[] efforts = new Double[children.size()];
+			QuickEstimationAccess quickAccess = new QuickEstimationAccess();
+			quickAccess.initConnection();
+			CocomoEstimationAccess cocomoAccess = new CocomoEstimationAccess();
+			cocomoAccess.initConnection();
 			for(int i=0; i<children.size(); i++)
 				if(children.get(i).getEstType().contains("quick"))
-					;//efforts[i] = 取formulaEffort值
+					efforts[i] = quickAccess.getQuickEstimationByNodeID(children.get(i).getId()).getFormulaEffort();
 				else
-					;//efforts[i] = 直接从cocomo里取devTime值 并转化为小时
+					efforts[i] = cocomoAccess.getCocomoEstimationByNodeID(children.get(i).getId()).getDevTime()* 160;
+			quickAccess.disposeConnection();
+			cocomoAccess.disposeConnection();
 			Double effort = SimpleIntegratedEstimate.getIntegratedEffort(efforts);
 			resultText = "集成估算的 工作量为" + effort.intValue()+ " 小时";
 		}
