@@ -106,8 +106,10 @@ public class Application extends ApplicationWindow {
 		topContentArea.addCTabFolder2Listener(new CTabFolder2Adapter() {
 			@Override
 			public void maximize(CTabFolderEvent event) {
+				topContentArea.setMinimized(false);
 				topContentArea.setMaximized(true);
 				buttomContentArea.setMinimized(true);
+				buttomContentArea.setMaximized(false);
 				buttomContentArea.setLayoutData(new GridData(SWT.FILL,
 						SWT.FILL, true, false));
 				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
@@ -137,7 +139,9 @@ public class Application extends ApplicationWindow {
 		buttomContentArea.addCTabFolder2Listener(new CTabFolder2Adapter() {
 			@Override
 			public void maximize(CTabFolderEvent event) {
+				buttomContentArea.setMinimized(false);
 				buttomContentArea.setMaximized(true);
+				topContentArea.setMaximized(false);
 				topContentArea.setMinimized(true);
 				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 						true, false));
