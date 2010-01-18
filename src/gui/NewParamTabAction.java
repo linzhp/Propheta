@@ -1,9 +1,13 @@
 package gui;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 import entity.EstimateNode;
 
@@ -33,7 +37,7 @@ public abstract class NewParamTabAction extends Action {
 		}
 		if(opened == false)
 		{
-			GUI.createNewTab(getTabTitle(), createContents(parent));
+			GUI.createNewTab(getTabTitle(), createContents(parent));			
 		}
 		parent.setFocus();
 	}

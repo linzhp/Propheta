@@ -12,8 +12,8 @@ public class NodeBasicInformation {
 	private String name=null;
 	private String description=null;
 	private String businessArea=null;
-	private int SLOC=-1;
-	private int functionPoints=-1;
+	private int SLOC=1000;
+	private int functionPoints=200;
 	private String developmentType=null;
 	private String language=null;
 	private String languageType=null;

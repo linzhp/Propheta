@@ -2,6 +2,8 @@ package run;
 
 import entity.EstimationProjects;
 import gui.GUI;
+import gui.NodeBasicInformationPage;
+import gui.ParameterArea;
 import gui.tree.TreeArea;
 import gui.tree.contextMenu.NewProjectAction;
 import gui.tree.contextMenu.SaveEstimationProjectsAction;
@@ -12,6 +14,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabFolder2Adapter;
 import org.eclipse.swt.custom.CTabFolderEvent;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
@@ -128,7 +131,33 @@ public class Application extends ApplicationWindow {
 				topContentArea.getParent().layout(true);
 
 			}
+
+			@Override
+			public void close(CTabFolderEvent event) {
+				CTabItem closingItem = (CTabItem)event.item;
+				ParameterArea tab=(ParameterArea)closingItem.getControl();
+				if(tab.getClass()==NodeBasicInformationPage.class){
+					NodeBasicInformationPage nbi_page=(NodeBasicInformationPage)tab;
+					if(nbi_page.getIsNodeBasicInformationChanged()==true){
+						MessageBox box=new MessageBox(Display.getCurrent().getActiveShell(),SWT.ICON_QUESTION|SWT.YES|SWT.NO|SWT.CANCEL);
+						box.setText("提示");
+						box.setMessage("节点信息已被修改，是否保存这些修改?");
+						int result=box.open();
+						if(result==SWT.YES){
+							nbi_page.saveNodeBasicInformation();
+							event.doit=true;
+						}else if(result==SWT.NO){
+							event.doit=true;
+						}else if(result==SWT.CANCEL){
+							event.doit=false;
+						}
+					}
+				}
+			super.close(event);
+			}
+			
 		});
+		
 
 		buttomContentArea = new CTabFolder(rightArea, SWT.BORDER);
 		buttomContentArea.setDragDetect(true);
