@@ -1,5 +1,6 @@
 package gui;
 
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -9,6 +10,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -18,6 +20,7 @@ import org.eclipse.swt.widgets.Text;
 import dataManager.dataAccess.NodeBasicInfoAccess;
 import dataManager.dataEntities.NodeBasicInformation;
 import estimation.ParameterScale;
+import gui.sizeEstimation.SizeEstimationWizard;
 
 /**
  * 节点基本信息页面
@@ -127,7 +130,8 @@ public class NodeBasicInformationPage extends ParameterArea{
 				saveButton.setEnabled(true);
 				
 				//设置SLOC wizard
-				
+				WizardDialog wdialog=new WizardDialog(Display.getCurrent().getActiveShell(),new SizeEstimationWizard());
+			    wdialog.open();
 			}});
 		
 		
