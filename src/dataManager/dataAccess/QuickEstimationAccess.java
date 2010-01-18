@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import dataManager.dataEntities.NodeBasicInformation;
 import dataManager.dataEntities.QuickEstimationRecord;
 
 /**
@@ -29,10 +28,10 @@ public class QuickEstimationAccess extends DataBaseAccess{
 	 * @param recordID 记录ＩＤ
 	 * @return
 	 */
-	public QuickEstimationRecord getQuickEstimationByRecordID(int recordID){
+	public QuickEstimationRecord getQuickEstimationByEstimationID(int estimationID){
 		try {
 			String sqlString="select [estimationID],[nodeID],[dataType],[formulaEffort],[historyEffort],[meanProductivity]," +
-					"[stanDevProductivity] from quickEstimation where [estimationID]="+recordID;
+					"[stanDevProductivity] from quickEstimation where [estimationID]="+estimationID;
 			ResultSet rs=statement.executeQuery(sqlString);
 			if(rs.next()){
 				QuickEstimationRecord record=new QuickEstimationRecord();
@@ -139,9 +138,9 @@ public class QuickEstimationAccess extends DataBaseAccess{
 	 * 通过记录ID删除快速估算记录
 	 * @param recordID
 	 */
-	public void deleteQuickEstimationByRecordID(int recordID){
+	public void deleteQuickEstimationByEstimationID(int estimationID){
 		try{
-			String sqlString="delete from quickEstimation where [estimationID]="+recordID;
+			String sqlString="delete from quickEstimation where [estimationID]="+estimationID;
 			statement.execute(sqlString);
 		}catch(SQLException e){
 			e.printStackTrace();
