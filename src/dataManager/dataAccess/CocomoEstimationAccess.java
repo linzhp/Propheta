@@ -156,7 +156,7 @@ public class CocomoEstimationAccess extends DataBaseAccess{
 					"[PM],[devTime],[PREC],[FLEX],[RESL],[TEAM],[PMAT],[RELY],[DATA],[CPLX],[RUSE],[DOCU]," +
 					"[TIME],[STOR],[PVOL],[ACAP],[PCAP],[PCON],[APEX],[PLEX],[LTEX],[TOOL],[SITE],[SCED]," +
 					"[RCPX],[PDIF],[PERS],[PREX],[FCIL]) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?," +
-					"?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					"?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement preStatement=connection.prepareStatement(sqlString);
 			preStatement.setInt(1, record.getNodeID());
 			preStatement.setString(2, record.getEMType());

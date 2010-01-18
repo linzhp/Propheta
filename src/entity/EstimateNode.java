@@ -2,8 +2,12 @@ package entity;
 
 import java.util.ArrayList;
 
+import dataManager.dataAccess.CocomoEstimationAccess;
 import dataManager.dataAccess.NodeBasicInfoAccess;
+import dataManager.dataAccess.QuickEstimationAccess;
+import dataManager.dataEntities.CocomoEstimationRecord;
 import dataManager.dataEntities.NodeBasicInformation;
+import dataManager.dataEntities.QuickEstimationRecord;
 
 /**
  * the node in the tree view
@@ -67,17 +71,30 @@ public class EstimateNode{
 	 */
 	public void addChild(EstimateNode node){
 		//插入数据库，获取分配的节点ID
+		System.out.println("insert: "+node.getName());
 		NodeBasicInformation nbi=new NodeBasicInformation();
 		nbi.setName(node.getName());
 		nbi.setParentID(this.getId());
-		nbi.setIsRoot(false);
-		
-		//将新建项目插入数据库并获取分配的节点ID
-		System.out.println("insert: "+nbi.getName());
+		nbi.setIsRoot(false);		
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		nbi_access.initConnection();
 		int nodeID=nbi_access.insertNode(nbi);
 		nbi_access.disposeConnection();
+		
+		//为新建节点设置估算输入输出的默认值并保存到数据库中
+		QuickEstimationRecord qer=new QuickEstimationRecord();
+		qer.setNodeID(nodeID);
+		QuickEstimationAccess qe_access=new QuickEstimationAccess();
+		qe_access.initConnection();
+		qe_access.insertQuickEstimation(qer);
+		qe_access.disposeConnection();
+		
+		CocomoEstimationRecord cer=new CocomoEstimationRecord();
+		cer.setNodeID(nodeID);
+		CocomoEstimationAccess ce_access=new CocomoEstimationAccess();
+		ce_access.initConnection();
+		ce_access.insertCocomoEstimation(cer);
+		ce_access.disposeConnection();
 		
 		node.setId(nodeID);
 		node.setParent(this);
@@ -97,6 +114,17 @@ public class EstimateNode{
 		nbi_access.initConnection();
 		nbi_access.deleteNodeByNodeID(childNode.getId());
 		nbi_access.disposeConnection();
+		
+		//删除对应的估算记录
+		QuickEstimationAccess qe_access=new QuickEstimationAccess();
+		qe_access.initConnection();
+		qe_access.deleteQuickEstimationByNodeID(childNode.getId());
+		qe_access.disposeConnection();
+		
+		CocomoEstimationAccess ce_access=new CocomoEstimationAccess();
+		ce_access.initConnection();
+		ce_access.deleteCocomoEstimationByNodeID(childNode.getId());
+		ce_access.disposeConnection();
 		
 		//从父节点中删除
 		childNode.setParent(null);

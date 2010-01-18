@@ -4,8 +4,12 @@ import gui.GUI;
 
 import java.util.ArrayList;
 
+import dataManager.dataAccess.CocomoEstimationAccess;
 import dataManager.dataAccess.NodeBasicInfoAccess;
+import dataManager.dataAccess.QuickEstimationAccess;
+import dataManager.dataEntities.CocomoEstimationRecord;
 import dataManager.dataEntities.NodeBasicInformation;
+import dataManager.dataEntities.QuickEstimationRecord;
 
 
 /**
@@ -160,9 +164,24 @@ public class EstimationProjects{
 		int nodeID=nbi_access.insertNode(nbi);
 		nbi_access.disposeConnection();
 		
+		//为新建项目设置估算输入输出的默认值并保存到数据库中
+		QuickEstimationRecord qer=new QuickEstimationRecord();
+		qer.setNodeID(nodeID);
+		QuickEstimationAccess qe_access=new QuickEstimationAccess();
+		qe_access.initConnection();
+		qe_access.insertQuickEstimation(qer);
+		qe_access.disposeConnection();
+		
+		CocomoEstimationRecord cer=new CocomoEstimationRecord();
+		cer.setNodeID(nodeID);
+		CocomoEstimationAccess ce_access=new CocomoEstimationAccess();
+		ce_access.initConnection();
+		ce_access.insertCocomoEstimation(cer);
+		ce_access.disposeConnection();
+		
 		node.setId(nodeID);
 		node.setParent(null);
-		estimateProjects.add(node);
+		estimateProjects.add(node);	
 		
 		//更新treeviewer显示结果
 		GUI.getTreeArea().getTreeViewer().refresh();		
@@ -197,6 +216,17 @@ public class EstimationProjects{
 		nbi_access.initConnection();
 		nbi_access.deleteNodeByNodeID(node.getId());
 		nbi_access.disposeConnection();
+		
+		//删除对应的估算记录
+		QuickEstimationAccess qe_access=new QuickEstimationAccess();
+		qe_access.initConnection();
+		qe_access.deleteQuickEstimationByNodeID(node.getId());
+		qe_access.disposeConnection();
+		
+		CocomoEstimationAccess ce_access=new CocomoEstimationAccess();
+		ce_access.initConnection();
+		ce_access.deleteCocomoEstimationByNodeID(node.getId());
+		ce_access.disposeConnection();
 		
 		if(node.hasChildren()){
 			ArrayList<EstimateNode> nodes=node.getChildren();
