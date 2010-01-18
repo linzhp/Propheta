@@ -1,13 +1,20 @@
 package gui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
+
+import dataManager.dataAccess.NodeBasicInfoAccess;
+import dataManager.dataEntities.NodeBasicInformation;
 
 /**
  * 节点基本信息页面
@@ -22,7 +29,11 @@ public class NodeBasicInformationPage extends ParameterArea{
 	private Text texNodeName;
 	private Spinner spnTeamSize,spnDuration,spnSLOC,spnFP;
 	private Combo cmbBusinessArea,cmbDevelopType,cmbDevelopPlatform,cmbDevelopTechnique,cmbLanguageType,cmbLanguage;
+	private Composite buttonComposite;
+	private Button saveButton;
 	
+	//变量
+	private boolean isNodeBasicInformationChanged=false;  //节点信息是否被重新设置，如被重新设置，则提醒用户保存节点信息
 	
 	/**
 	 * 构造器
@@ -32,7 +43,17 @@ public class NodeBasicInformationPage extends ParameterArea{
 		super(parent,nodeID);
 		this.setFormText("节点基本信息");
 		
+		//构造页面控件
 		createContents(this.form.getBody());
+		
+		//读取存储的节点信息并显示
+		NodeBasicInformation nbi=new NodeBasicInformation();
+		NodeBasicInfoAccess nia_access=new NodeBasicInfoAccess();
+		nia_access.initConnection();
+		nbi=nia_access.getNodeByID(nodeID);
+		nia_access.disposeConnection();
+		
+		bindNodeBaiscInformation(nbi);
 	}
 	
 	
@@ -43,6 +64,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 	private void createContents(Composite parent){
 		parent.setLayout(new GridLayout(4,false));
 		
+		//节点名称
 		labelNodeName=new Label(parent,SWT.NONE);
 		labelNodeName.setText("节点名称:");
 		
@@ -53,6 +75,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		texNodeName.setLayoutData(gd);
 		texNodeName.setText("unknown");
 		
+		//团队规模
 		labelTeamSize=new Label(parent,SWT.NONE);
 		labelTeamSize.setText("团队规模:");
 		
@@ -60,6 +83,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		spnTeamSize.setMaximum(Spinner.LIMIT);
 		spnTeamSize.setSelection(5);
 		
+		//项目周期
 		labelDuration=new Label(parent,SWT.NONE);
 		labelDuration.setText("项目周期:");
 		
@@ -67,6 +91,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		spnDuration.setMaximum(Spinner.LIMIT);
 		spnDuration.setSelection(180);
 		
+		//代码行数
 		labelSLOC=new Label(parent,SWT.NONE);
 		labelSLOC.setText("代码行数:");
 		
@@ -74,6 +99,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		spnSLOC.setMaximum(Spinner.LIMIT);
 		spnSLOC.setSelection(1000);
 		
+		//FP
 		labelFP=new Label(parent,SWT.NONE);
 		labelFP.setText("功能点数目:");
 		
@@ -81,6 +107,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		spnFP.setMaximum(Spinner.LIMIT);
 		spnFP.setSelection(180);
 		
+		//业务领域
 		labelBusinessArea=new Label(parent,SWT.NONE);
 		labelBusinessArea.setText("业务领域:");
 		
@@ -96,7 +123,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		}
 		cmbBusinessArea.select(0);
 		
-		
+		//开发类型
 		labelDevelopType=new Label(parent,SWT.NONE);
 		labelDevelopType.setText("开发类型:");
 		
@@ -109,6 +136,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		}
 		cmbDevelopType.select(0);
 		
+		//开发平台
 		labelDevelopPlatform=new Label(parent,SWT.NONE);
 		labelDevelopPlatform.setText("开发平台:");
 		
@@ -121,6 +149,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		}
 		cmbDevelopPlatform.select(0);
 		
+		//开发技术
 		labelDevelopTechnique=new Label(parent,SWT.NONE);
 		labelDevelopTechnique.setText("开发技术:");
 		
@@ -140,6 +169,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		}
 		cmbDevelopTechnique.select(0);
 		
+		//语言类型
 		labelLanguageType=new Label(parent,SWT.NONE);
 		labelLanguageType.setText("语言类型:");
 		
@@ -152,6 +182,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		}
 		cmbLanguageType.select(0);
 		
+		//开发语言
 		labelLanguage=new Label(parent,SWT.NONE);
 		labelLanguage.setText("开发语言:");
 		
@@ -163,5 +194,51 @@ public class NodeBasicInformationPage extends ParameterArea{
 			cmbLanguage.setData(texts[i], values[i]);
 		}
 		cmbLanguage.select(0);
+		
+		
+		//操作按钮面板
+		buttonComposite=new Composite(parent, SWT.NONE);
+		gd=new GridData();
+		gd.horizontalSpan=3;
+		buttonComposite.setLayoutData(gd);
+		buttonComposite.setLayout(new FillLayout());
+		
+		//保存按钮
+		saveButton=new Button(buttonComposite,SWT.PUSH);
+		saveButton.setText("保存");
+		saveButton.setEnabled(false);
+		saveButton.addSelectionListener(new SelectionListener(){
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+	}
+	
+	
+	/**
+	 * 获取节点信息
+	 * @return
+	 */
+	public NodeBasicInformation getNodeBasicInformation(){
+		return null;
+	}
+	
+	
+	/**
+	 * 显示节点信息
+	 * @param nbi
+	 */
+	public void bindNodeBaiscInformation(NodeBasicInformation nbi){
+		
 	}
 }

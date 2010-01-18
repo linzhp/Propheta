@@ -134,7 +134,7 @@ public class TreeArea extends Composite{
 	
 	
 	private void setRootMenu(){
-		openBasicInformationPageAction.setEnabled(true);
+		openBasicInformationPageAction.setEnabled(false);
 		newProjectAction.setEnabled(true);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
@@ -148,7 +148,7 @@ public class TreeArea extends Composite{
 	
 	
 	private void setNodeMenu(){
-		openBasicInformationPageAction.setEnabled(true);
+		openBasicInformationPageAction.setEnabled(false);
 		newProjectAction.setEnabled(false);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
