@@ -1,7 +1,5 @@
 package gui.tree;
 
-import java.util.ArrayList;
-
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -75,7 +73,7 @@ public class TreeArea extends Composite{
 		mm.add(new Separator());
 		menuManager_estimation.add(quickEstimateAction);
 		menuManager_estimation.add(detailedEstimationAction);
-		menuManager_estimation.add(cOCOMOSizeAction);
+		//menuManager_estimation.add(cOCOMOSizeAction);
 		menuManager_estimation.add(integratedEstimationAction);
 		mm.add(menuManager_estimation);
 		Menu menu=mm.createContextMenu(this);

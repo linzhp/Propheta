@@ -11,15 +11,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 import dataManager.dataAccess.NodeBasicInfoAccess;
 import dataManager.dataEntities.NodeBasicInformation;
-import estimation.ParameterScale;
 import gui.sizeEstimation.SizeEstimationWizard;
 
 /**
@@ -33,11 +30,11 @@ public class NodeBasicInformationPage extends ParameterArea{
 	private Label labelNodeName, labelTeamSize,labelDuration,labelSLOC,labelFP,labelBusinessArea,
 	              labelDevelopType,labelDevelopPlatform,labelDevelopTechnique,labelLanguageType,labelLanguage;
 	private Text texNodeName, textSLOC;
-	private Spinner spnTeamSize,spnDuration,spnSLOC,spnFP;
+	private Spinner spnTeamSize,spnDuration,spnFP;
 	private Combo cmbBusinessArea,cmbDevelopType,cmbDevelopPlatform,cmbDevelopTechnique,cmbLanguageType,cmbLanguage;
 	private Composite SLOCComposite, buttonComposite;
-	private Button setSLOCButton,manualSLOCButton,historicalSLOCButton,saveButton;
-	private ParameterScale SLOCScale;
+	private Button setSLOCButton,saveButton;
+	
 	
 	//变量
 	private boolean isNodeBasicInformationChanged=false;  //节点信息是否被重新设置，如被重新设置，则提醒用户保存节点信息
@@ -47,6 +44,10 @@ public class NodeBasicInformationPage extends ParameterArea{
 	}
 	public boolean getIsNodeBasicInformationChanged(){
 		return this.isNodeBasicInformationChanged;
+	}
+	
+	private Text getTextSLOC(){
+		return this.textSLOC;
 	}
 	
 	
@@ -130,72 +131,9 @@ public class NodeBasicInformationPage extends ParameterArea{
 				saveButton.setEnabled(true);
 				
 				//设置SLOC wizard
-				WizardDialog wdialog=new WizardDialog(Display.getCurrent().getActiveShell(),new SizeEstimationWizard());
+				WizardDialog wdialog=new WizardDialog(Display.getCurrent().getActiveShell(),new SizeEstimationWizard(getTextSLOC()));
 			    wdialog.open();
 			}});
-		
-		
-		/*
-		manualSLOCButton=toolkit.createButton(SLOCComposite, "用户输入", SWT.RADIO);
-		manualSLOCButton.setSelection(true);
-		manualSLOCButton.addSelectionListener(new SelectionListener(){
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {				
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				spnSLOC.setEnabled(true);
-				textSLOC.setEnabled(false);
-				SLOCScale.setEnabled(false);
-			}			
-		});
-		
-		spnSLOC=createSpinner(SLOCComposite,Spinner.LIMIT,1000);
-		
-		historicalSLOCButton=toolkit.createButton(SLOCComposite, "参考历史数据", SWT.RADIO);
-		historicalSLOCButton.addSelectionListener(new SelectionListener(){
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {				
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				spnSLOC.setEnabled(false);
-				textSLOC.setEnabled(true);
-				SLOCScale.setEnabled(true);
-			}			
-		});
-		
-		textSLOC=toolkit.createText(SLOCComposite, "1000",SWT.BORDER);
-		textSLOC.setEditable(false);
-		textSLOC.setEnabled(false);
-		gd=new GridData();
-		gd.horizontalAlignment=SWT.FILL;
-		textSLOC.setLayoutData(gd);
-				
-		String[] levels = {"XL","VL","L","N","H","VH","XH"};
-		SLOCScale= new ParameterScale(SLOCComposite, levels, 0);
-		SLOCScale.setEnabled(false);
-		toolkit.adapt(SLOCScale);
-		gd=new GridData();
-		gd.horizontalSpan=2;
-		gd.horizontalAlignment=SWT.FILL;
-		SLOCScale.setLayoutData(gd);
-		
-		SLOCScale.addListener(new Listener() {
-			public void handleEvent(Event event) {
-				int sizeValue = SLOCScale.getIndex();
-				textSLOC.setText(String.valueOf((int)Math.pow(4, sizeValue)*1000));
-				
-				setIsNodeBasicInformationChanged(true);
-				saveButton.setEnabled(true);
-			}
-		});
-		*/
-		
 	
 		//FP
 		labelFP=toolkit.createLabel(parent, "功能点数目:", SWT.NONE);			

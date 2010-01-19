@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Shell;
 
 public class SizeEstimationWizardDialog extends WizardDialog{
 
+	
 	public SizeEstimationWizardDialog(Shell parentShell, IWizard newWizard) {
 		super(parentShell, newWizard);
 		// TODO Auto-generated constructor stub
