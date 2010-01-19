@@ -94,7 +94,7 @@ public class COCOMOEstimate extends ParameterArea{
 	
 	private void createScaleFactors(Composite parent){
 		Section section = toolkit.createSection(parent,
-				ExpandableComposite.TWISTIE| ExpandableComposite.TITLE_BAR);
+				ExpandableComposite.TWISTIE| ExpandableComposite.TITLE_BAR|ExpandableComposite.EXPANDED);
 		section.addExpansionListener(new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
