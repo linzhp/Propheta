@@ -352,20 +352,14 @@ public class NodeBasicInformationPage extends ParameterArea{
 		
 		nbi.setTeamSize(this.spnTeamSize.getSelection());
 		nbi.setDuration(this.spnDuration.getSelection());
-		nbi.setFunctionPoints(this.spnFP.getSelection());
-		nbi.setBusinessArea(this.cmbBusinessArea.getText());
-		nbi.setDevelopmentType(this.cmbDevelopType.getText());
-		nbi.setDevelopmentPlatform(this.cmbDevelopPlatform.getText());
-		nbi.setDevelopmentTechniques(this.cmbDevelopTechnique.getText());
-		nbi.setLanguageType(this.cmbLanguageType.getText());
-		nbi.setLanguage(this.cmbLanguage.getText());
-		
-		//SLOC
-		if(this.spnSLOC.getEnabled()==true){
-			nbi.setSLOC(this.spnSLOC.getSelection());
-		}else{
-			nbi.setSLOC(Integer.parseInt(this.textSLOC.getText()));
-		}
+		nbi.setFunctionPoints(this.spnFP.getSelection());				
+		nbi.setBusinessArea((String)this.cmbBusinessArea.getData(this.cmbBusinessArea.getText()));
+		nbi.setDevelopmentType((String)this.cmbDevelopType.getData(this.cmbDevelopType.getText()));
+		nbi.setDevelopmentPlatform((String)this.cmbDevelopPlatform.getData(this.cmbDevelopPlatform.getText()));
+		nbi.setDevelopmentTechniques((String)this.cmbDevelopTechnique.getData(this.cmbDevelopTechnique.getText()));
+		nbi.setLanguageType((String)this.cmbLanguageType.getData(this.cmbLanguageType.getText()));
+		nbi.setLanguage((String)this.cmbLanguage.getData(this.cmbLanguage.getText()));
+		nbi.setSLOC(Integer.parseInt(this.textSLOC.getText()));
 		
 		return nbi;
 	}
@@ -380,33 +374,33 @@ public class NodeBasicInformationPage extends ParameterArea{
 			this.texNodeName.setText(nbi.getName());
 			this.spnTeamSize.setSelection((int)nbi.getTeamSize());
 			this.spnDuration.setSelection((int)nbi.getDuration());
-			
-			//SLOC
-			//this.spnSLOC.setSelection(nbi.getSLOC());
-			
+			this.textSLOC.setText(String.valueOf(nbi.getSLOC()));			
 			this.spnFP.setSelection(nbi.getFunctionPoints());
-			if(nbi.getBusinessArea()!=null){
-				this.cmbBusinessArea.setText(nbi.getBusinessArea());
-			}
-			if(nbi.getDevelopmentType()!=null){
-				this.cmbDevelopType.setText(nbi.getDevelopmentType());
-			}
-			if(nbi.getDevelopmentPlatform()!=null){
-				this.cmbDevelopPlatform.setText(nbi.getDevelopmentPlatform());
-			}
-			if(nbi.getDevelopmentTechniques()!=null){
-				this.cmbDevelopTechnique.setText(nbi.getDevelopmentTechniques());
-			}
-			if(nbi.getLanguageType()!=null){
-				this.cmbLanguageType.setText(nbi.getLanguageType());
-			}
-			if(nbi.getLanguage()!=null){
-				this.cmbLanguage.setText(nbi.getLanguage());
+			this.initCombo(this.cmbBusinessArea, nbi.getBusinessArea());
+			this.initCombo(this.cmbDevelopType, nbi.getDevelopmentType());
+			this.initCombo(this.cmbDevelopPlatform, nbi.getDevelopmentPlatform());
+			this.initCombo(this.cmbDevelopTechnique, nbi.getDevelopmentTechniques());
+			this.initCombo(this.cmbLanguageType, nbi.getLanguageType());
+			this.initCombo(this.cmbLanguage, nbi.getLanguage());
+		}
+	}	
+	
+	private void initCombo(Combo cmb, String value){
+		if(value!=null){
+			int itemNum=cmb.getItemCount();
+			for(int i=0;i<itemNum;i++){
+				if(value.equals(cmb.getData(cmb.getItem(i)))){
+					cmb.select(i);
+					break;
+				}
 			}
 		}
 	}
 	
 	
+	/**
+	 * 保存节点基本信息
+	 */
 	public void saveNodeBasicInformation(){
 		NodeBasicInformation nbi=getNodeBasicInformation();
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
