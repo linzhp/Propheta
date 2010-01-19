@@ -1,9 +1,11 @@
 package gui.sizeEstimation;
 
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Text;
 
 public class SizeEstimationWizard extends Wizard{
 
+	//wizardPage
 	private SizeEstimationTypePage sizeEstimationTypePage;
 	private ManualSizeEstimationPage manualSizeEstimationPage;
 	private HistoricalDataBaseSizeEstimationPage historicalDataBaseSizeEstimationPage;
@@ -11,7 +13,10 @@ public class SizeEstimationWizard extends Wizard{
 	private CocomoSizeEstimation_reused_Page cocomoSizeEstimation_reused_Page;
 	private CocomoSizeEstimation_maintained_Page cocomoSizeEstimation_maintained_Page;
 	
+	//用户输入
 	
+	//关联的Text
+	private Text textSLOC;	
 	
 	public SizeEstimationTypePage getSizeEstimationTypePage() {
 		return sizeEstimationTypePage;
@@ -67,7 +72,17 @@ public class SizeEstimationWizard extends Wizard{
 		cocomoSizeEstimation_maintained_Page = cocomoSizeEstimationMaintainedPage;
 	}
 
-	public SizeEstimationWizard(){
+	public Text getTextSLOC() {
+		return textSLOC;
+	}
+
+	public void setTextSLOC(Text textSLOC) {
+		this.textSLOC = textSLOC;
+	}
+
+	public SizeEstimationWizard(Text text){
+		setTextSLOC(text);
+		
 		sizeEstimationTypePage=new SizeEstimationTypePage("请选择估算方式");
 		manualSizeEstimationPage=new ManualSizeEstimationPage("人工输入");
 		historicalDataBaseSizeEstimationPage=new HistoricalDataBaseSizeEstimationPage("参考历史数据");
@@ -87,8 +102,17 @@ public class SizeEstimationWizard extends Wizard{
 	
 	@Override
 	public boolean performFinish() {
-		// TODO Auto-generated method stub
+		BaseWizardPage currentPage=(BaseWizardPage)this.getContainer().getCurrentPage();
+		if(currentPage.isEndPage()==true){
+			int size=currentPage.getSize();
+			this.textSLOC.setText(String.valueOf(size));
+		}
 		return true;
+	}
+	
+	public boolean canFinish(){
+		BaseWizardPage currentPage=(BaseWizardPage)this.getContainer().getCurrentPage();
+		return currentPage.isEndPage();
 	}
 
 }
