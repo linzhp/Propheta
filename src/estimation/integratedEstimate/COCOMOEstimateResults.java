@@ -95,7 +95,7 @@ public class COCOMOEstimateResults {
 		nbi_access.disposeConnection();
 		
 		//存储集成估算结果到cocomoEstimation表中
-//		cer_access.updateCocomoEstimation(cer);
-//		cer_access.disposeConnection();
+		cer_access.updateCocomoEstimation(cer);
+		cer_access.disposeConnection();
 	}
 }

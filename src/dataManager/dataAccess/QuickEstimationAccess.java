@@ -99,7 +99,8 @@ public class QuickEstimationAccess extends DataBaseAccess{
 			preStatement.setString(2, record.getDataType());
 			preStatement.setDouble(3, record.getFormulaEffort());
 			preStatement.setDouble(4, record.getHistoryEffort());
-			preStatement.setDouble(5, record.getStanDevProductivity());
+			preStatement.setDouble(5, record.getMeanProductivity());
+			preStatement.setDouble(6, record.getStanDevProductivity());
 			
 			preStatement.execute();
 			ResultSet rs=preStatement.getGeneratedKeys();
@@ -125,7 +126,8 @@ public class QuickEstimationAccess extends DataBaseAccess{
 			preStatement.setString(2, record.getDataType());
 			preStatement.setDouble(3, record.getFormulaEffort());
 			preStatement.setDouble(4, record.getHistoryEffort());
-			preStatement.setDouble(5, record.getStanDevProductivity());
+			preStatement.setDouble(5, record.getMeanProductivity());
+			preStatement.setDouble(6, record.getStanDevProductivity());
 			
 			preStatement.execute();
 		}catch(SQLException e){

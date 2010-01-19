@@ -14,6 +14,13 @@ import org.eclipse.swt.widgets.Label;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
+import dataManager.dataAccess.CocomoEstimationAccess;
+import dataManager.dataAccess.NodeBasicInfoAccess;
+import dataManager.dataAccess.QuickEstimationAccess;
+import dataManager.dataEntities.CocomoEstimationRecord;
+import dataManager.dataEntities.NodeBasicInformation;
+import dataManager.dataEntities.QuickEstimationRecord;
+
 import estimation.CSBSG;
 import estimation.Chart;
 import estimation.ISBSG;
@@ -44,7 +51,7 @@ public class QuickEstimateResults {
 		layout.verticalSpacing = 10;
 		resultView.setLayout(layout);
 
-		//快速估算数据处理
+		// 快速估算数据处理
 		if (quickEstimate.getDataType() == "csbsg") {
 			// 此处factors为指向quickEstimate.getFactors()的指针，factors的改变会影响
 			factors = quickEstimate.getCSBSGFactors();
@@ -67,7 +74,7 @@ public class QuickEstimateResults {
 			historyEffort = stats.getPercentile(50) * projectSize;
 		}
 
-		//快速估算结果显示
+		// 快速估算结果显示
 		Label PI = new Label(resultView, SWT.NONE);
 		PI.setText("根据公式计算出的工作量为：" + formulaEffort.intValue() + " 小时");
 		if (arrayPI.size() == 0) {
@@ -100,5 +107,42 @@ public class QuickEstimateResults {
 		}
 
 		GUI.createNewTab("快速估算结果", resultView);
+
+		//存储数据
+		updateEstType(quickEstimate.getnodeID(), "quick");
+		saveQuickEstimation(quickEstimate.getnodeID(), quickEstimate
+				.getDataType(), formulaEffort, historyEffort, stats.getMean(),
+				stats.getStandardDeviation());
 	}
+
+	// 更新某条cocomoEstimation数据
+	private void saveQuickEstimation(int nodeID, String dataType,
+			Double formula_Effort, Double historyEffort,
+			Double meanProductivity, Double stanDevProductivity) {
+		QuickEstimationRecord qer = new QuickEstimationRecord();
+		QuickEstimationAccess qer_access = new QuickEstimationAccess();
+		qer_access.initConnection();
+		qer = qer_access.getQuickEstimationByNodeID(nodeID);
+
+		qer.setDataType(dataType);
+		qer.setFormulaEffort(formula_Effort);
+		qer.setHistoryEffort(historyEffort);
+		qer.setMeanProductivity(meanProductivity);
+		qer.setStanDevProductivity(stanDevProductivity);
+
+		qer_access.updateQuickEstimation(qer);
+		qer_access.disposeConnection();
+	}
+
+	// 更新基本信息表中的估算类型
+	private void updateEstType(int nodeID, String EstType) {
+		NodeBasicInformation nbi = new NodeBasicInformation();
+		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		nbi = nbi_access.getNodeByID(nodeID);
+		nbi.setEstType(EstType);
+		nbi_access.updateNode(nbi);
+		nbi_access.disposeConnection();
+	}
+
 }

@@ -3,6 +3,8 @@ package estimation.quickEstimate;
 import java.util.HashMap;
 
 import gui.ParameterArea;
+import dataManager.dataAccess.NodeBasicInfoAccess;
+import dataManager.dataEntities.NodeBasicInformation;
 import estimation.ParameterScale;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -23,40 +25,53 @@ import org.eclipse.swt.widgets.Spinner;
 
 public class QuickEstimate extends ParameterArea{
 	//公共变量
-	private Composite factorDataArea;
+	private Composite comEstimation, factorDataArea;
 	private StackLayout factorStack;
 	private GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+	private NodeBasicInformation nbi;
+	private NodeBasicInfoAccess nbi_access;
+	private int CSBSGSize, ISBSGSize;
 	
 	// CSBSG变量
-	private Button btnCSBSG, btnUserInput,btnScaleSize;
+	private Button btnCSBSG;
 	private Composite comCSBSG;
-	private Label labelCSBSGSize;
-	private ParameterScale CSizeScale;
 	private HashMap<String, String> CSBSGFactors = new HashMap<String, String>();
 	private Button btnCSBSGTeamSize, btnCSBSGDuration, btnCSBSGDevType, btnCSBSGLanguage, btnCSBSGBusArea ;
-	private Combo cmbCSBSGDevType, cmbCSBSGLanguage, cmbCSBSGBusArea;
-	private Spinner spnCSBSGTeamSize, spnCSBSGDuration, spnCSBSGSize;
 	
 	// ISBSG变量
 	private Button btnISBSG;
 	private Composite comISBSG;
 	private HashMap<String, String> ISBSGFactors = new HashMap<String, String>();
 	private Button btnISBSGTeamSize, btnISBSGDevType, btnISBSGDevTech, btnISBSGDevPlat, btnISBSGLanType;
-	private Combo cmbISBSGDevType, cmbISBSGDevTech, cmbISBSGDevPlat, cmbISBSGLanType;
-	private Spinner spnISBSGTeamSize, spnISBSGSize;
-	
 
 	public QuickEstimate(Composite parent, int nodeID){
 		super(parent, nodeID);
 		createEstimation(form.getBody());
 	}
+	
+	public void refresh(){
+		comEstimation.dispose();
+		createEstimation(form.getBody());
+		form.getBody().layout();
+		CSBSGFactors.clear();
+		ISBSGFactors.clear();
+	}
 	public String getDataType()
 	{
-		
 		if(btnCSBSG.getSelection())
 			return "csbsg";
 		else
 			return "isbsg";
+	}
+	
+	public int getCSBSGSize()
+	{
+		return CSBSGSize;
+	}
+	
+	public int getISBSGSize()
+	{
+		return ISBSGSize;
 	}
 	public HashMap<String, String> getCSBSGFactors() {
 		return CSBSGFactors;
@@ -66,22 +81,9 @@ public class QuickEstimate extends ParameterArea{
 		return ISBSGFactors;
 	}
 	
-	public int getCSBSGSize()
-	{
-		if(btnUserInput.getSelection())
-			return spnCSBSGSize.getSelection();
-		else
-			return Integer.parseInt(labelCSBSGSize.getText());
-	}
-	
-	public int getISBSGSize()
-	{
-		return spnISBSGSize.getSelection();
-	}
-	
 	private Composite createEstimation(Composite parent)
 	{
-		Composite comEstimation = toolkit.createComposite(parent);
+		comEstimation = toolkit.createComposite(parent);
 		GridLayout layout = new GridLayout(3, false);
 		layout.horizontalSpacing = 20;
 		comEstimation.setLayout(layout);
@@ -103,10 +105,23 @@ public class QuickEstimate extends ParameterArea{
 			}
 		});
 		
+		createfactorsDataArea(comEstimation);
+		
+		return comEstimation;
+	}
+	private void createfactorsDataArea(Composite parent)
+	{
+		nbi = new NodeBasicInformation();
+		nbi_access = new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		nbi = nbi_access.getNodeByID(nodeID);
+		CSBSGSize = nbi.getSLOC();
+		ISBSGSize = nbi.getFunctionPoints();
+		
 		//生成参数输入区
 		GridData gd = new GridData();
 		gd.horizontalSpan = 3;
-		factorDataArea = toolkit.createComposite(comEstimation);
+		factorDataArea = toolkit.createComposite(parent);
 		factorDataArea.setLayoutData(gd);
 		factorStack = new StackLayout();
 		factorDataArea.setLayout(factorStack);
@@ -116,8 +131,9 @@ public class QuickEstimate extends ParameterArea{
 		//生成ISBSG参数输入区
 		createComISBSG();
 		
-		return comEstimation;
+		nbi_access.disposeConnection();
 	}
+	
 	private void createRadioButtons(Composite parent) {
 		// 用户选择根据CSBSG历史数据估算规模
 		btnCSBSG = toolkit.createButton(parent,"参考CSBSG数据", SWT.RADIO);
@@ -151,9 +167,7 @@ public class QuickEstimate extends ParameterArea{
 		layout.horizontalSpacing = 15;
 		comCSBSG = toolkit.createComposite(factorDataArea);
 		comCSBSG.setLayout(layout);
-		
-		createCSBSGOtherItem();
-		createCSBSGSizeItem();
+		createCSBSGItems();
 	}
 	
 	private void createComISBSG()
@@ -163,79 +177,27 @@ public class QuickEstimate extends ParameterArea{
 		layout.horizontalSpacing = 15;
 		comISBSG = toolkit.createComposite(factorDataArea);
 		comISBSG.setLayout(layout);
-		createISBSGSizeItem();
-		createISBSGTeamSizeItem();
-		createISBSGDevTypeItem();
-		createISBSGDevTechItem();
-		createISBSGDevPlatItem();
-		createISBSGLanTypeItem();
+		createISBSGItems();
 	}
 	
 	//CSBSG选项
-	private void createCSBSGSizeItem()
+	private void createCSBSGItems()
 	{
-		Composite comSize = toolkit.createComposite(comCSBSG);
-		comSize.setLayout(new GridLayout(2, false));
-		
-		toolkit.createLabel(comSize, "规模（SLOC）：");
-		toolkit.createLabel(comSize, null);
-		
-		btnUserInput = toolkit.createButton(comSize, "用户输入", SWT.RADIO);
-		btnUserInput.addSelectionListener(new SelectionListener(){
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-			public void widgetSelected(SelectionEvent e) {
-				spnCSBSGSize.setVisible(true);
-				CSizeScale.setVisible(false);
-				labelCSBSGSize.setVisible(false);
-			}
-		});
-		btnUserInput.setSelection(true);
-		
-		spnCSBSGSize = createSpinnerItem(comSize, 1000);
-		spnCSBSGSize.setVisible(true);
-		
-		btnScaleSize = toolkit.createButton(comSize, "参考历史数据", SWT.RADIO);
-		btnScaleSize.addSelectionListener(new SelectionListener(){
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-			public void widgetSelected(SelectionEvent e) {
-				CSizeScale.setVisible(true);
-				labelCSBSGSize.setVisible(true);
-				spnCSBSGSize.setVisible(false);
-			}
-		});
-		labelCSBSGSize = toolkit.createLabel(comSize,"64000",SWT.READ_ONLY);
-		labelCSBSGSize.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-		labelCSBSGSize.setVisible(false);
-		
-		GridData interGd = new GridData();
-		interGd.horizontalSpan = 2;
-		
-		String[] levels = {"XL","VL","L","N","H","VH","XH"};
-		CSizeScale = new ParameterScale(comSize, levels, 3);
-		toolkit.adapt(CSizeScale);
-		CSizeScale.setLayoutData(interGd);
-		CSizeScale.setVisible(false);
-		CSizeScale.addListener(new Listener() {
-			public void handleEvent(Event event) {
-				int sizeValue = CSizeScale.getIndex();
-				labelCSBSGSize.setText("" + (int)Math.pow(4, sizeValue)*1000);
-				labelCSBSGSize.getParent().layout();
-			}
-		});
+		Composite comCSBSGItems = toolkit.createComposite(comCSBSG);
+		comCSBSGItems.setLayout(new GridLayout(2, false));
+		createCSBSGTeamSizeItem(comCSBSGItems);
+		createCSBSGDurationItem(comCSBSGItems);
+		createCSBSGDevTypeItem(comCSBSGItems);
+		createCSBSGLanguageItem(comCSBSGItems);
+		createCSBSGBusAreaItem(comCSBSGItems);
 	}
-	private void createCSBSGOtherItem()
+	private void createISBSGItems()
 	{
-		Composite comCSBSGOther = toolkit.createComposite(comCSBSG);
-		comCSBSGOther.setLayout(new GridLayout(2, false));
-		createCSBSGTeamSizeItem(comCSBSGOther);
-		createCSBSGDurationItem(comCSBSGOther);
-		createCSBSGDevTypeItem(comCSBSGOther);
-		createCSBSGLanguageItem(comCSBSGOther);
-		createCSBSGBusAreaItem(comCSBSGOther);
+		createISBSGTeamSizeItem(comISBSG);
+		createISBSGDevTypeItem(comISBSG);
+		createISBSGDevTechItem(comISBSG);
+		createISBSGDevPlatItem(comISBSG);
+		createISBSGLanTypeItem(comISBSG);
 	}
 	private void createCSBSGTeamSizeItem(Composite parent) {
 		btnCSBSGTeamSize = toolkit.createButton(parent, "团队规模（人）：", SWT.CHECK);
@@ -245,21 +207,13 @@ public class QuickEstimate extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnCSBSGTeamSize.getSelection()) {
-					spnCSBSGTeamSize.setVisible(true);
-					CSBSGFactors.put("teamSize", spnCSBSGTeamSize.getText());
+					CSBSGFactors.put("teamSize", String.valueOf(nbi.getTeamSize()));
 				} else {
-					spnCSBSGTeamSize.setVisible(false);
 					CSBSGFactors.remove("teamSize");
 				}
 			}
 		});
-		
-		spnCSBSGTeamSize = createSpinnerItem(parent, 5);
-		spnCSBSGTeamSize.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				CSBSGFactors.put("teamSize", spnCSBSGTeamSize.getText());
-			}
-		});
+		toolkit.createLabel(parent, String.valueOf(nbi.getTeamSize()));
 	}
 
 	private void createCSBSGDurationItem(Composite parent) {
@@ -270,20 +224,13 @@ public class QuickEstimate extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnCSBSGDuration.getSelection()){
-					spnCSBSGDuration.setVisible(true);
-					CSBSGFactors.put("duration", spnCSBSGDuration.getText());
+					CSBSGFactors.put("duration", String.valueOf(nbi.getDuration()));
 				}else {
-					spnCSBSGDuration.setVisible(false);
 					CSBSGFactors.remove("duration");
 				}
 			}
 		});
-		spnCSBSGDuration = createSpinnerItem(parent, 180);
-		spnCSBSGDuration.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				CSBSGFactors.put("duration", spnCSBSGDuration.getText());
-			}
-		});
+		toolkit.createLabel(parent, String.valueOf(nbi.getDuration()));
 	}
 	
 	private void createCSBSGDevTypeItem(Composite parent) {
@@ -294,24 +241,16 @@ public class QuickEstimate extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnCSBSGDevType.getSelection()){
-					cmbCSBSGDevType.setVisible(true);
-					CSBSGFactors.put("developmentType", cmbCSBSGDevType.getData(cmbCSBSGDevType.getText())
-							.toString());
+					CSBSGFactors.put("developmentType", nbi.getDevelopmentType());
 				}else {
-					cmbCSBSGDevType.setVisible(false);
 					CSBSGFactors.remove("developmentType");
 				}
 			}
 		});
 		String[] texts = { "新开发", "二次开发", "优化", "其它" };
 		String[] values = { "NewDevelopment", "ReDevelopment", "Enhancement", "Other" };
-		cmbCSBSGDevType = createComboItem(parent, texts, values);
-		cmbCSBSGDevType.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				CSBSGFactors.put("developmentType", cmbCSBSGDevType.getData(cmbCSBSGDevType.getText())
-						.toString());
-			}
-		});
+		HashMap<String, String> factors = createHashMap(texts, values);
+		toolkit.createLabel(parent, factors.get(nbi.getDevelopmentType()));
 	}
 
 	private void createCSBSGLanguageItem(Composite parent) {
@@ -323,22 +262,16 @@ public class QuickEstimate extends ParameterArea{
 
 			public void widgetSelected(SelectionEvent e) {
 				if (btnCSBSGLanguage.getSelection()){
-					cmbCSBSGLanguage.setVisible(true);
-					CSBSGFactors.put("language", cmbCSBSGLanguage.getData(cmbCSBSGLanguage.getText()).toString());
+					CSBSGFactors.put("language", nbi.getLanguage());
 				}else{
-					cmbCSBSGLanguage.setVisible(false);
 					CSBSGFactors.remove("language");
 				}
 			}
 		});
 		String[] texts = { "ASP", "C#", "VB", "JAVA", "C++", "C", "COBOL" };
 		String[] values = { "ASP", "C#", "VB", "Java", "C++", "C", "Cobol" };
-		cmbCSBSGLanguage = createComboItem(parent, texts, values);
-		cmbCSBSGLanguage.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				CSBSGFactors.put("language", cmbCSBSGLanguage.getData(cmbCSBSGLanguage.getText()).toString());
-			}
-		});
+		HashMap<String, String> factors = createHashMap(texts, values);
+		toolkit.createLabel(parent, factors.get(nbi.getLanguage()));
 	}
 	
 	private void createCSBSGBusAreaItem(Composite parent) {
@@ -347,102 +280,71 @@ public class QuickEstimate extends ParameterArea{
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
-
 			public void widgetSelected(SelectionEvent e) {
 				if (btnCSBSGBusArea.getSelection()){
-					cmbCSBSGBusArea.setVisible(true);
-					CSBSGFactors.put("businessArea", cmbCSBSGBusArea.getData(cmbCSBSGBusArea.getText()).toString());
+					CSBSGFactors.put("businessArea", nbi.getBusinessArea());
 				}else{
-					cmbCSBSGBusArea.setVisible(false);
 					CSBSGFactors.remove("businessArea");
 				}
 			}
 		});
-		String[] texts = { "电信", "金融", "流通", "保险", "交通", "媒体", "卫生", "制造",
+		String[] texts = new String[]{ "电信", "金融", "流通", "保险", "交通", "媒体", "卫生", "制造",
 				"政府", "能源" };
-		String[] values = { "Telecom", "Finance", "Retail", "General",
-				"Transport", "Media", "HealthCare", "Manufacturing",
-				"PublicAdmin", "Energy" };
-		cmbCSBSGBusArea = createComboItem(parent, texts, values);
-		cmbCSBSGBusArea.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				CSBSGFactors.put("businessArea", cmbCSBSGBusArea.getData(cmbCSBSGBusArea.getText()).toString());
-			}
-		});
+		String[] values =new String[]{ "Telecom", "Finance", "Retail", "General","Transport", "Media",
+				"HealthCare", "Manufacturing","PublicAdmin", "Energy" };
+		HashMap<String, String> factors = createHashMap(texts, values);
+		toolkit.createLabel(parent, factors.get(nbi.getBusinessArea()));
 	}
 	
 	//ISBSG 选项
-	private void createISBSGSizeItem()
+	private void createISBSGTeamSizeItem(Composite parent)
 	{
-		toolkit.createLabel(comISBSG, "规模（功能点数）：");
-		spnISBSGSize = createSpinnerItem(comISBSG, 200);
-		spnISBSGSize.setVisible(true);
-	}
-	
-	private void createISBSGTeamSizeItem()
-	{
-		btnISBSGTeamSize = toolkit.createButton(comISBSG, "团队规模（人）：", SWT.CHECK);
+		btnISBSGTeamSize = toolkit.createButton(parent, "团队规模（人）：", SWT.CHECK);
 		btnISBSGTeamSize.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnISBSGTeamSize.getSelection()) {
-					spnISBSGTeamSize.setVisible(true);
-					ISBSGFactors.put("teamSize", spnISBSGTeamSize.getText());
+					ISBSGFactors.put("teamSize", String.valueOf(nbi.getTeamSize()));
 				} else {
-					spnISBSGTeamSize.setVisible(false);
 					ISBSGFactors.remove("teamSize");
 				}
 			}
 		});
-		spnISBSGTeamSize = createSpinnerItem(comISBSG, 5);
-		spnISBSGTeamSize.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				ISBSGFactors.put("teamSize", spnISBSGTeamSize.getText());
-			}
-		});
+		toolkit.createLabel(parent, String.valueOf(nbi.getTeamSize()));
 	}
 	
-	private void createISBSGDevTypeItem(){
-		btnISBSGDevType = toolkit.createButton(comISBSG, "开发类型：", SWT.CHECK);
+	private void createISBSGDevTypeItem(Composite parent){
+		btnISBSGDevType = toolkit.createButton(parent, "开发类型：", SWT.CHECK);
 		btnISBSGDevType.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnISBSGDevType.getSelection()){
-					cmbISBSGDevType.setVisible(true);
-					ISBSGFactors.put("developmentType", cmbISBSGDevType.getData(cmbISBSGDevType.getText())
-							.toString());
+					ISBSGFactors.put("developmentType", nbi.getDevelopmentType());
 				}else {
-					cmbISBSGDevType.setVisible(false);
 					ISBSGFactors.remove("developmentType");
 				}
 			}
 		});
 		String[] texts = { "新开发", "二次开发", "优化", "其它" };
 		String[] values = { "NewDevelopment", "ReDevelopment", "Enhancement", "Other" };
-		cmbISBSGDevType = createComboItem(comISBSG, texts, values);
-		cmbISBSGDevType.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				ISBSGFactors.put("developmentType", cmbISBSGDevType.getData(cmbISBSGDevType.getText())
-						.toString());
-			}
-		});
+		HashMap<String, String> factors = createHashMap(texts, values);
+		toolkit.createLabel(parent, factors.get(nbi.getDevelopmentType()));
+
 	}
-	private void createISBSGDevTechItem(){
-		btnISBSGDevTech = toolkit.createButton(comISBSG, "开发技术： ", SWT.CHECK);
+	private void createISBSGDevTechItem(Composite parent){
+		btnISBSGDevTech = toolkit.createButton(parent, "开发技术： ", SWT.CHECK);
 		btnISBSGDevTech.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnISBSGDevTech.getSelection()){
-					cmbISBSGDevTech.setVisible(true);
-					ISBSGFactors.put("developmentTechniques", cmbISBSGDevTech.getData(cmbISBSGDevTech.getText()).toString());
+					ISBSGFactors.put("developmentTechniques", nbi.getDevelopmentTechniques());
 				}else{
-					cmbISBSGDevTech.setVisible(false);
 					ISBSGFactors.remove("developmentTechniques");
 				}
 			}
@@ -457,88 +359,54 @@ public class QuickEstimate extends ParameterArea{
 				"Object Oriented Analysis;Object Oriented Design;Event Modelling",
 				"Regression Testing;Business Area Modelling",
 				"Other"};//表示不包含OO、Event、Business、Regression的项
-		cmbISBSGDevTech = createComboItem(comISBSG, texts, values);
-		cmbISBSGDevTech.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				ISBSGFactors.put("developmentTechniques", cmbISBSGDevTech.getData(cmbISBSGDevTech.getText()).toString());
-			}
-		});
+		HashMap<String, String> factors = createHashMap(texts, values);
+		toolkit.createLabel(parent, factors.get(nbi.getDevelopmentTechniques()));
 	}
-	private void createISBSGDevPlatItem(){
-		btnISBSGDevPlat = toolkit.createButton(comISBSG, "开发平台：", SWT.CHECK);
+	private void createISBSGDevPlatItem(Composite parent){
+		btnISBSGDevPlat = toolkit.createButton(parent, "开发平台：", SWT.CHECK);
 		btnISBSGDevPlat.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnISBSGDevPlat.getSelection()){
-					cmbISBSGDevPlat.setVisible(true);
-					ISBSGFactors.put("developmentPlatform", cmbISBSGDevPlat.getData(cmbISBSGDevPlat.getText())
-							.toString());
+					ISBSGFactors.put("developmentPlatform", nbi.getDevelopmentPlatform());
 				}else {
-					cmbISBSGDevPlat.setVisible(false);
 					ISBSGFactors.remove("developmentPlatform");
 				}
 			}
 		});
 		String[] texts = { "大型机", "中型机", "个人计算机", "混合" };
 		String[] values = { "MF", "MR", "PC", "Multi" };
-		cmbISBSGDevPlat = createComboItem(comISBSG, texts, values);
-		cmbISBSGDevPlat.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				ISBSGFactors.put("developmentPlatform", cmbISBSGDevPlat.getData(cmbISBSGDevPlat.getText())
-						.toString());
-			}
-		});
+		HashMap<String, String> factors = createHashMap(texts, values);
+		toolkit.createLabel(parent, factors.get(nbi.getDevelopmentPlatform()));
 	}
-	private void createISBSGLanTypeItem(){
-		btnISBSGLanType = toolkit.createButton(comISBSG, "语言类型：", SWT.CHECK);
+	private void createISBSGLanTypeItem(Composite parent){
+		btnISBSGLanType = toolkit.createButton(parent, "语言类型：", SWT.CHECK);
 		btnISBSGLanType.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnISBSGLanType.getSelection()){
-					cmbISBSGLanType.setVisible(true);
-					ISBSGFactors.put("languageType", cmbISBSGLanType.getData(cmbISBSGLanType.getText())
-							.toString());
+					ISBSGFactors.put("languageType", nbi.getLanguageType());
 				}else {
-					cmbISBSGLanType.setVisible(false);
 					ISBSGFactors.remove("languageType");
 				}
 			}
 		});
 		String[] texts = { "第二代语言", "第三代语言", "第四代语言", "应用代" };
 		String[] values = { "2GL", "3GL", "4GL", "ApG" };
-		cmbISBSGLanType = createComboItem(comISBSG, texts, values);
-		cmbISBSGLanType.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				ISBSGFactors.put("languageType", cmbISBSGLanType.getData(cmbISBSGLanType.getText())
-						.toString());
-			}
-		});
+		HashMap<String, String> factors = createHashMap(texts, values);
+		toolkit.createLabel(parent, factors.get(nbi.getLanguageType()));
 	}
 	
-	private Spinner createSpinnerItem(Composite parent, int selection)
+	private HashMap<String, String> createHashMap(String[] texts, String values[])
 	{
-		Spinner spinner = new Spinner(parent, SWT.BORDER);
-		spinner.setMaximum(Spinner.LIMIT);
-		spinner.setSelection(selection);
-		spinner.setVisible(false);
-		return spinner;
-	}
-	
-	private Combo createComboItem(Composite parent, String[] texts, String[]values)
-	{
-		Combo combo = new Combo(parent, SWT.READ_ONLY);
-		combo.setLayoutData(gd);
-		combo.setItems(texts);
-		for (int i = 0; i < texts.length; i++) {
-			combo.setData(texts[i], values[i]);
-		}
-		combo.select(0);
-		combo.setVisible(false);
-		return combo;
+		HashMap<String, String> factors = new HashMap<String, String>();
+		for(int i=0; i<texts.length; i++)
+			factors.put(values[i], texts[i]);
+		return factors;
 	}
 }
 

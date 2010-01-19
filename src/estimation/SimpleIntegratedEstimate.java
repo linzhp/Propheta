@@ -11,5 +11,4 @@ public class SimpleIntegratedEstimate {
 		integratedEffort *= (1 +0.2);
 		return integratedEffort;
 	}
-	
 }
