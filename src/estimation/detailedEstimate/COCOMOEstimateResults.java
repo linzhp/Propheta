@@ -71,7 +71,7 @@ public class COCOMOEstimateResults {
 					COCOMO.getSizeLevel(parameters.getEstimatedSize()), COCOMO
 							.getELevel(E), effort[0], phaseEfforts[i]);
 			title = phasesTex[i]+ "阶段的活动工作量分布";
-			activityEffortBarCharts[i] = Chart.createEffortBarChart(title, "活动", Chart
+			activityEffortBarCharts[i] = Chart.createEffortBarChart(title, null, Chart
 					.createEffortCategoryDataset(activitiesTex, activityEfforts));
 			effortFrames[i] = new ChartComposite(chartView, SWT.BORDER,
 					activityEffortBarCharts[i], true);
