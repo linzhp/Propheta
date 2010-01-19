@@ -49,11 +49,8 @@ public class COCOMO {
 		// 求各EM因子的乘积
 		Double productEM = getProductEM(factorsEM);
 		// 求effort
-		String propertyKey = "EM.SCED." + factorsEM.get("SCED");
-		Double SCED = Double.valueOf(PropertyFile.readValue(
-				"properties/COCOMO.properties", propertyKey));
-		
-		return getModuleEffortTime(size, sumSF, productEM/SCED, SCED);
+		Double SCED = getSCEDValue(factorsEM.get("SCED"));
+		return getModuleEffortTime(size, sumSF, productEM, SCED);
 	}
 	
 	// 模块工作量计算公式,输入参数为cocomo运算的中间值
@@ -79,15 +76,10 @@ public class COCOMO {
 	//一级集成工作量计算公式，输入参数为cocomo原始输入值
 	public static Double[] getIntegratedEffortTime(Double[] sizes, Double[] productEMs,
 			HashMap<String, String> factorsSF, String SCEDLevel) {
-		
 		// 求各SF因子的和
 		Double sumSF = getSumSF(factorsSF);
-		
 		// 求effort
-		String propertyKey = "EM.SCED." + SCEDLevel;
-		Double SCED = Double.valueOf(PropertyFile.readValue(
-				"properties/COCOMO.properties", propertyKey));
-		
+		Double SCED = getSCEDValue(SCEDLevel);
 		return getIntegratedEffortTime(sizes, productEMs, sumSF, SCED);
 	}
 	
@@ -129,8 +121,8 @@ public class COCOMO {
 		}
 		return sumSF;
 	}
-	// 求各EM因子的乘积 包括SCED
-	private static Double getProductEM(HashMap<String, String> factorsEM)
+	// 求各EM因子的乘积 不包括SCED
+	public static Double getProductEM(HashMap<String, String> factorsEM)
 	{
 		Double productEM = 1.0;
 		String propertyKey;
@@ -141,7 +133,16 @@ public class COCOMO {
 			productEM *= Double.valueOf(PropertyFile.readValue(
 					"properties/COCOMO.properties", propertyKey));
 		}
-		return productEM;
+		Double SCED = getSCEDValue(factorsEM.get("SCED"));
+		return productEM/SCED;
+	}
+	
+	public static Double getSCEDValue(String SCEDLevel)
+	{
+		String propertyKey = "EM.SCED." + SCEDLevel;
+		Double SCED = Double.valueOf(PropertyFile.readValue(
+				"properties/COCOMO.properties", propertyKey));
+		return SCED;
 	}
 	
 	public static Double getE(Double sumSF)
