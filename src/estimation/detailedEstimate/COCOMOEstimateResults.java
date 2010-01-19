@@ -26,11 +26,15 @@ public class COCOMOEstimateResults {
 	}
 
 	public void show() {
-		String[] phases = { "plansAndRequirements", "productDesign",
+		String[] phasesSym = { "plansAndRequirements", "productDesign",
 				"programming", "integrationAndTest" };
-		String[] activities = { "requirementsAnalysis", "productDesign",
-				"programming", "testPlanning", "VV", "projectOffice", "CM/QA",
-				"manuals" };
+		String[] phasesTex = {"计划与需求","产品设计","编码","集成与测试"};
+		String[] activitiesSym = { "requirementsAnalysis", "productDesign",
+                "programming", "testPlanning", "VV", "projectOffice", "CM/QA",
+                "manuals" };
+		String[] activitiesTex = { "需求", "设计",
+	"编码", "测试计划", "VV", "管理活动", "CM/QA",
+	"文档" };
 
 		int size = parameters.getEstimatedSize();
 		HashMap<String, String> factorsSF = parameters.getScaleFactors();
@@ -41,8 +45,9 @@ public class COCOMOEstimateResults {
 				factorsEM);
 		Double PM = effort[0];
 		Double devTime = effort[1];
-		Double[] phaseEfforts = COCOMO.getPhaseEfforts(phases, COCOMO
-				.getSizeLevel(size), COCOMO.getELevel(E), PM);
+		Double[] phaseEfforts = COCOMO.getPhaseEfforts(phasesSym, COCOMO
+				.getSizeLevel(parameters.getEstimatedSize()), COCOMO
+				.getELevel(E), effort[0]);
 
 		// 详细估算结果
 		Composite resultView = new Composite(GUI.getButtomContentArea(),
@@ -56,7 +61,7 @@ public class COCOMOEstimateResults {
 				+ "\t\t 平均所需开发人员为：" + (int) ((PM / devTime) + 1));
 		// 阶段工作量分布
 		JFreeChart phaseEffortBarChart = Chart.createEffortBarChart("阶段工作量分布",
-				"阶段", Chart.createEffortCategoryDataset(phases, phaseEfforts));
+				"阶段", Chart.createEffortCategoryDataset(phasesTex, phaseEfforts));
 		Composite effortFrame = new ChartComposite(resultView, SWT.BORDER,
 				phaseEffortBarChart, true);
 		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -69,18 +74,17 @@ public class COCOMOEstimateResults {
 		GridLayout chartLayout = new GridLayout(2, false);
 		chartLayout.verticalSpacing = 10;
 		chartView.setLayout(chartLayout);
-		JFreeChart[] activityEffortBarCharts = new JFreeChart[phases.length];
-		Composite[] effortFrames = new Composite[phases.length];
+		JFreeChart[] activityEffortBarCharts = new JFreeChart[phasesSym.length];
+		Composite[] effortFrames = new Composite[phasesSym.length];
 		Double[] activityEfforts;
 		String title;
-		for (int i = 0; i < phases.length; i++) {
-			activityEfforts = COCOMO.getActivityEfforts(phases[i], activities,
-					COCOMO.getSizeLevel(size), COCOMO.getELevel(E), PM,
-					phaseEfforts[i]);
-			title = phases[i] + "阶段的活动工作量分布";
-			activityEffortBarCharts[i] = Chart.createEffortBarChart(title,
-					"活动", Chart.createEffortCategoryDataset(activities,
-							activityEfforts));
+		for (int i = 0; i < phasesSym.length; i++) {
+			activityEfforts = COCOMO.getActivityEfforts(phasesSym[i], activitiesSym,
+					COCOMO.getSizeLevel(parameters.getEstimatedSize()), COCOMO
+							.getELevel(E), effort[0], phaseEfforts[i]);
+			title = phasesTex[i]+ "阶段的活动工作量分布";
+			activityEffortBarCharts[i] = Chart.createEffortBarChart(title, null, Chart
+					.createEffortCategoryDataset(activitiesTex, activityEfforts));
 			effortFrames[i] = new ChartComposite(chartView, SWT.BORDER,
 					activityEffortBarCharts[i], true);
 			effortFrames[i].setLayoutData(gd);
