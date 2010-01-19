@@ -34,15 +34,9 @@ public class COCOMOEstimate extends ParameterArea{
 	public COCOMOEstimate(Composite parent, int nodeID){
 		super(parent, nodeID);
 		scales = new HashMap<String, ParameterScale>();
-		createSize(form.getBody());
 		createButtonArea(form.getBody());
 		createScaleFactors(form.getBody());
 		createEffortMultipliers(form.getBody());
-	}
-	
-	public int getEstimatedSize()
-	{
-		return sizeSpinner.getSelection();
 	}
 	
 	public HashMap<String, String> getScaleFactors()
@@ -80,16 +74,6 @@ public class COCOMOEstimate extends ParameterArea{
 			return "Early";
 		else
 			return "Post";
-	}
-	
-	private Composite createSize(Composite parent){
-		Composite pane = toolkit.createComposite(parent);
-		pane.setLayout(new RowLayout(SWT.HORIZONTAL));
-		toolkit.createLabel(pane, "规模（SLOC）：");
-		sizeSpinner = new Spinner(pane, SWT.BORDER);
-		sizeSpinner.setMaximum(Spinner.LIMIT);
-		sizeSpinner.setSelection(1000);
-		return pane;		
 	}
 	
 	private void createScaleFactors(Composite parent){
@@ -189,23 +173,16 @@ public class COCOMOEstimate extends ParameterArea{
 			this.factorsPane = factorsPane;
 			this.layouts = layouts;
 		}
-
-		@Override
 		public void widgetSelected(SelectionEvent e) {
 			for(int i=0;i<layouts.length;i++){
 				layouts[i].topControl = factorsPane[i]; 
 				factorsPane[i].getParent().layout();
 				ok.setEnabled(true);
 			}
-			
 		}
-
-		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
 			widgetSelected(e);
-			
 		}
 	}
-
 }
 

@@ -30,7 +30,7 @@ public class COCOMOEstimateResults {
 		int tag = 0;
 		String resultText = "test";
 		for(EstimateNode child: children)
-			if (child.getEstType().contains("cocomoSimple")){
+			if (!child.getEstType().contains("cocomoSimple")){
 				tag =1;
 				break;
 			}
