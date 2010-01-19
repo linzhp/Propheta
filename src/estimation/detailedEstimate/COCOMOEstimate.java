@@ -13,7 +13,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -28,7 +27,6 @@ public class COCOMOEstimate extends ParameterArea{
 	private String[][] postArchDrivers;
 	private Button earlyDesignRadio;
 	private Button postArchRadio;
-	private Spinner sizeSpinner;
 	private Button ok;
 
 	public COCOMOEstimate(Composite parent, int nodeID){

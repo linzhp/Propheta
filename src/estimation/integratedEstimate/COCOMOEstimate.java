@@ -6,12 +6,9 @@ import java.util.HashMap;
 import entity.EstimateNode;
 import entity.EstimationProjects;
 import estimation.ParameterScale;
-import gui.GUI;
 import gui.ParameterArea;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
