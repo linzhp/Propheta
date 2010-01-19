@@ -3,6 +3,11 @@ package estimation;
 import java.util.HashMap;
 import java.util.Set;
 
+import dataManager.dataAccess.CocomoEstimationAccess;
+import dataManager.dataAccess.NodeBasicInfoAccess;
+import dataManager.dataEntities.CocomoEstimationRecord;
+import dataManager.dataEntities.NodeBasicInformation;
+
 import file.PropertyFile;
 
 public class COCOMO {
@@ -158,7 +163,7 @@ public class COCOMO {
 		}
 		return efforts;
 	}
-	
+	//求各阶段的活动工作量分布
 	public static Double[] getActivityEfforts(String phase, String[] activities, String sizeLevel, String ELevel, Double PM, Double phaseEffort)
 	{
 		Double[] efforts = new Double[activities.length];
@@ -172,7 +177,7 @@ public class COCOMO {
 		}
 		return efforts;
 	}
-	
+	//获取size的级别：S、I、M、L、VL
 	public static String getSizeLevel(int size){
 		String[] levels = {"S", "I", "M", "L", "VL"};
 		int sizeLevel;
@@ -190,7 +195,7 @@ public class COCOMO {
 		}
 		return resultLevel;
 	}
-	
+	//获取E的级别：S、M、L
 	public static String getELevel(Double E)
 	{
 		String[] levels = {"S", "M", "L"};
@@ -208,6 +213,54 @@ public class COCOMO {
 			absMin = Math.min(abs, absMin);
 		}
 		return resultLevel;
+	}
+	//更新某条cocomoEstimation数据
+	public static void saveCocomoEstimation(int nodeID, String EMType, Double sumSF,
+			Double productEM, Double SCEDValue, Double PM, Double devTime,
+			HashMap<String, String> factorsSF, HashMap<String, String> factorsEM) {
+		CocomoEstimationRecord cer=new CocomoEstimationRecord();
+		CocomoEstimationAccess cer_access=new CocomoEstimationAccess();
+		cer_access.initConnection();
+		cer = cer_access.getCocomoEstimationByNodeID(nodeID);
+		
+		cer.setEMType(EMType);
+		cer.setSumSF(sumSF);
+		cer.setProductEM(productEM);
+		cer.setSCEDValue(SCEDValue);
+		cer.setPM(PM);
+		cer.setDevTime(devTime);
+		//设置SF因子
+		cer.setPREC(factorsSF.get("PREC"));
+		cer.setFLEX(factorsSF.get("FLEX"));
+		cer.setRESL(factorsSF.get("RESL"));
+		cer.setTEAM(factorsSF.get("TEAM"));
+		cer.setPMAT(factorsSF.get("PMAT"));
+		//设置EM因子
+		cer.setRELY(factorsEM.get("RELY"));
+		cer.setDATA(factorsEM.get("DATA"));
+		cer.setCPLX(factorsEM.get("CPLX"));
+		cer.setRUSE(factorsEM.get("RUSE"));
+		cer.setDOCU(factorsEM.get("DOCU"));
+		cer.setTIME(factorsEM.get("TIME"));
+		cer.setSTOR(factorsEM.get("STOR"));
+		cer.setPVOL(factorsEM.get("PVOL"));
+		cer.setACAP(factorsEM.get("ACAP"));
+		cer.setPCAP(factorsEM.get("PCAP"));
+		cer.setPCON(factorsEM.get("PCON"));
+		cer.setAPEX(factorsEM.get("APEX"));
+		cer.setPLEX(factorsEM.get("PLEX"));
+		cer.setLTEX(factorsEM.get("LTEX"));
+		cer.setTOOL(factorsEM.get("TOOL"));
+		cer.setSITE(factorsEM.get("SITE"));
+		cer.setSCED(factorsEM.get("SCED"));
+		cer.setRCPX(factorsEM.get("RCPX"));
+		cer.setPDIF(factorsEM.get("PDIF"));
+		cer.setPERS(factorsEM.get("PERS"));
+		cer.setPREX(factorsEM.get("PREX"));
+		cer.setFCIL(factorsEM.get("FCIL"));
+
+		cer_access.updateCocomoEstimation(cer);
+		cer_access.disposeConnection();
 	}
 
 }

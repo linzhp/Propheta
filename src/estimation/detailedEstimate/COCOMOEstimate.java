@@ -189,23 +189,16 @@ public class COCOMOEstimate extends ParameterArea{
 			this.factorsPane = factorsPane;
 			this.layouts = layouts;
 		}
-
-		@Override
 		public void widgetSelected(SelectionEvent e) {
 			for(int i=0;i<layouts.length;i++){
 				layouts[i].topControl = factorsPane[i]; 
 				factorsPane[i].getParent().layout();
 				ok.setEnabled(true);
 			}
-			
 		}
-
-		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
 			widgetSelected(e);
-			
 		}
 	}
-
 }
 
