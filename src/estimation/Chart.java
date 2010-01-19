@@ -129,14 +129,15 @@ public class Chart{
         );   
    
      // 设置了字体，才能显示中文
-		Font font = new Font("黑体", SWT.Paint, 14);
+		Font font = new Font("黑体", SWT.Paint, 12);
 		// 图片标题
 		TextTitle textTitle = chart.getTitle();
-		textTitle.setFont(font);
+		textTitle.setFont(new Font("黑体", SWT.Paint, 14));
 		// 图形的绘制结构对象
 		CategoryPlot categoryPlot = chart.getCategoryPlot();
 		// X 轴
 		CategoryAxis categoryAxis = categoryPlot.getDomainAxis();
+		categoryAxis.setMaximumCategoryLabelLines(2);
 		categoryAxis.setLabelFont(font);// 轴标题
 		categoryAxis.setTickLabelFont(font);// 轴数值
 		// Y 轴
