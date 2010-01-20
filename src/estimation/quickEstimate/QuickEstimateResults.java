@@ -14,10 +14,8 @@ import org.eclipse.swt.widgets.Label;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
-import dataManager.dataAccess.CocomoEstimationAccess;
 import dataManager.dataAccess.NodeBasicInfoAccess;
 import dataManager.dataAccess.QuickEstimationAccess;
-import dataManager.dataEntities.CocomoEstimationRecord;
 import dataManager.dataEntities.NodeBasicInformation;
 import dataManager.dataEntities.QuickEstimationRecord;
 
