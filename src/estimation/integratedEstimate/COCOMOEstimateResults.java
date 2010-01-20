@@ -1,5 +1,6 @@
 package estimation.integratedEstimate;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -54,10 +55,11 @@ public class COCOMOEstimateResults {
 			Double[] effort = COCOMO.getIntegratedEffortTime(sizes, productEMs, factorsSF, SCEDLevel);
 			Double PM = effort[0];
 			Double devTime = effort[1];
-			resultText = "根据公式计算出   PM为：" + PM.intValue()+ "(人.月)\n\n"+
-			"\t\t TDEV为：" + devTime.intValue()+"(月)\n\n" + "\t\t 平均所需开发人员为：" + (int)((PM/devTime)+1);
+			NumberFormat format = NumberFormat.getInstance();
+			resultText = "根据公式计算出   PM为：" + format.format(PM)+ "(人.月)\n\n"+
+			"\t\t TDEV为：" + format.format(devTime)+"(月)\n\n" + "\t\t 平均所需开发人员为：" + format.format(PM/devTime);
 			//设置集成估算结果
-			CocomoEstimationRecord.saveCocomoEstimation(parameters.getnodeID(), null, null, null, null, PM, devTime, null, null);
+			saveCocomoEstimation(parameters.getnodeID(), "multiple", PM, devTime);
 			// 更新基本信息表中的估算类型
 			NodeBasicInformation.updateEstType(parameters.getnodeID(), "cocomoMultiple");
 		}
@@ -71,12 +73,13 @@ public class COCOMOEstimateResults {
 				else
 					efforts[i] = cer_access.getCocomoEstimationByNodeID(children.get(i).getId()).getDevTime()* 160;
 			qer_access.disposeConnection();
+			cer_access.disposeConnection();
 			Double effort = SimpleIntegratedEstimate.getIntegratedEffort(efforts);
 			resultText = "集成估算的 工作量为" + effort.intValue()+ " 小时";
 			//设置集成估算结果
-			QuickEstimationRecord.saveQuickEstimation(parameters.getnodeID(), null, effort, null, null, null);
+			saveQuickEstimation(parameters.getnodeID(), "multiple", effort);
 			// 更新基本信息表中的估算类型
-			NodeBasicInformation.updateEstType(parameters.getnodeID(), "simpleMultiple");
+			NodeBasicInformation.updateEstType(parameters.getnodeID(), "quickMultiple");
 		}
 		Composite resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
 		GridLayout layout = new GridLayout(1, false);
@@ -88,4 +91,31 @@ public class COCOMOEstimateResults {
 		resultLabel.setText(resultText);
 		GUI.createNewTab("集成估算结果", resultView);
 	}
+	
+	private static void saveCocomoEstimation(int nodeID, String EMType, Double PM, Double devTime) {
+		CocomoEstimationRecord cer=new CocomoEstimationRecord();
+		CocomoEstimationAccess cer_access=new CocomoEstimationAccess();
+		cer_access.initConnection();
+		cer = cer_access.getCocomoEstimationByNodeID(nodeID);
+		cer.setEMType(EMType);
+		cer.setPM(PM);
+		cer.setDevTime(devTime);
+		cer_access.updateCocomoEstimation(cer);
+		cer_access.disposeConnection();
+	}
+	
+	// 更新某条quickEstimation数据
+	private static void saveQuickEstimation(int nodeID,String dataType, Double formula_Effort) {
+		QuickEstimationRecord qer = new QuickEstimationRecord();
+		QuickEstimationAccess qer_access = new QuickEstimationAccess();
+		qer_access.initConnection();
+		qer = qer_access.getQuickEstimationByNodeID(nodeID);
+
+		qer.setDataType(dataType);
+		qer.setFormulaEffort(formula_Effort);
+
+		qer_access.updateQuickEstimation(qer);
+		qer_access.disposeConnection();
+	}
+
 }

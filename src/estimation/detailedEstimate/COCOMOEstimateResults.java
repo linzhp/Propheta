@@ -1,5 +1,6 @@
 package estimation.detailedEstimate;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 
 import gui.GUI;
@@ -63,9 +64,10 @@ public class COCOMOEstimateResults {
 		resultLayout.verticalSpacing = 10;
 		resultView.setLayout(resultLayout);
 		Label result = new Label(resultView, SWT.NONE);
-		result.setText("根据公式计算出   PM为：" + PM.intValue() + "(人.月)\n\n"
-				+ "\t\t TDEV为：" + devTime.intValue() + "(月)\n\n"
-				+ "\t\t 平均所需开发人员为：" + (int) ((PM / devTime) + 1));
+		NumberFormat format = NumberFormat.getInstance();
+		result.setText("根据公式计算出   PM为：" + format.format(PM) + "(人.月)\n\n"
+				+ "\t\t TDEV为：" + format.format(devTime) + "(月)\n\n"
+				+ "\t\t 平均所需开发人员为：" + format.format(PM / devTime));
 		// 阶段工作量分布
 		JFreeChart phaseEffortBarChart = Chart.createEffortBarChart("阶段工作量分布",
 				"阶段", Chart

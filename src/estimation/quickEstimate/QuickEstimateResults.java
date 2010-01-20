@@ -40,14 +40,10 @@ public class QuickEstimateResults {
 		Double formulaEffort;
 		// 由历史数据得到的effort值
 		Double historyEffort;
+		Double meanProductivity;
+		Double stanDevProductivity;
 		// for the statistic of median,mean and standard deviation
 		DescriptiveStatistics stats = new DescriptiveStatistics();
-
-		Composite resultView = new Composite(GUI.getButtomContentArea(),
-				SWT.NONE);
-		GridLayout layout = new GridLayout(1, false);
-		layout.verticalSpacing = 10;
-		resultView.setLayout(layout);
 
 		// 快速估算数据处理
 		if (quickEstimate.getDataType() == "csbsg") {
@@ -72,30 +68,56 @@ public class QuickEstimateResults {
 			historyEffort = stats.getPercentile(50) * projectSize;
 		}
 
+		if (arrayPI.size() > 1) {
+			meanProductivity = stats.getMean();
+			stanDevProductivity = stats.getStandardDeviation();
+		} else {
+			meanProductivity = 0.0;
+			stanDevProductivity = 0.0;
+			if (arrayPI.size() == 0)
+				historyEffort = 0.0;
+		}
+
 		// 快速估算结果显示
+		createResultsTab(projectSize, formulaEffort, historyEffort,
+				meanProductivity, stanDevProductivity);
+
+		// 存储数据
+		NodeBasicInformation.updateEstType(quickEstimate.getnodeID(), "quick");
+		QuickEstimationRecord.saveQuickEstimation(quickEstimate.getnodeID(),
+				quickEstimate.getDataType(), formulaEffort, historyEffort,
+				meanProductivity, stanDevProductivity);
+	}
+
+	public void createResultsTab(int projectSize, Double formulaEffort,
+			Double historyEffort, Double meanProductivity,
+			Double stanDevProductivity) {
+		Composite resultView = new Composite(GUI.getButtomContentArea(),
+				SWT.NONE);
+		GridLayout layout = new GridLayout(1, false);
+		layout.verticalSpacing = 10;
+		resultView.setLayout(layout);
+
 		Label PI = new Label(resultView, SWT.NONE);
 		PI.setText("根据公式计算出的工作量为：" + formulaEffort.intValue() + " 小时");
-		if (arrayPI.size() == 0) {
+		if (historyEffort == 0) {
 			Label noResult = new Label(resultView, SWT.SINGLE);
 			noResult.setText("没有搜索到任何相关历史数据，无法显示“历史工作量数值”与“工作量的蒙特卡罗图”");
 		} else {
-			System.out.println("PI median: " + stats.getPercentile(50));
+			System.out.println("PI median: " + historyEffort);
 			Label PImedian = new Label(resultView, SWT.NONE);
 			PImedian.setText("根据历史项目数据的生产率中位数值计算出的工作量："
 					+ historyEffort.intValue() + " 小时");
 
 			// 显示工作量的蒙特卡罗图
-			System.out.println("PI mean: " + stats.getMean());
-			System.out.println("PI standardDeviation: "
-					+ stats.getStandardDeviation());
-			if (arrayPI.size() == 1) {
+			if (meanProductivity == 0) {
 				Label noResult = new Label(resultView, SWT.SINGLE);
 				noResult.setText("没有搜索到足够的相关历史数据，无法显示工作量的蒙特卡罗图”");
 			} else {
 				JFreeChart monteCarloChart = Chart.createMonteCarloChart(Chart
 						.createQuickDataSet(quickEstimate.getDataType(),
-								projectSize, stats.getMean(), stats
-										.getStandardDeviation()));
+								projectSize, meanProductivity,
+								stanDevProductivity));
 				Composite monteCarloFrame = new ChartComposite(resultView,
 						SWT.BORDER, monteCarloChart, true);
 				// 页面布局
@@ -105,15 +127,6 @@ public class QuickEstimateResults {
 		}
 
 		GUI.createNewTab("快速估算结果", resultView);
-
-		//存储数据
-		NodeBasicInformation.updateEstType(quickEstimate.getnodeID(), "quick");
-		QuickEstimationRecord.saveQuickEstimation(quickEstimate.getnodeID(), quickEstimate
-				.getDataType(), formulaEffort, historyEffort, stats.getMean(),
-				stats.getStandardDeviation());
 	}
-
-	
-	
 
 }
