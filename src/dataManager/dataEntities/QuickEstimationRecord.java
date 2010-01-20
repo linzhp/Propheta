@@ -1,5 +1,7 @@
 package dataManager.dataEntities;
 
+import dataManager.dataAccess.QuickEstimationAccess;
+
 /**
  * 快速估算记录，用于存储快速估算的输入输出
  * @author Administrator
@@ -77,4 +79,24 @@ public class QuickEstimationRecord {
 		this.estimationID=estimationID;
 		this.nodeID=nodeID;
 	}
+	
+	// 更新某条quickEstimation数据
+	public static void saveQuickEstimation(int nodeID, String dataType,
+			Double formula_Effort, Double historyEffort,
+			Double meanProductivity, Double stanDevProductivity) {
+		QuickEstimationRecord qer = new QuickEstimationRecord();
+		QuickEstimationAccess qer_access = new QuickEstimationAccess();
+		qer_access.initConnection();
+		qer = qer_access.getQuickEstimationByNodeID(nodeID);
+
+		qer.setDataType(dataType);
+		qer.setFormulaEffort(formula_Effort);
+		qer.setHistoryEffort(historyEffort);
+		qer.setMeanProductivity(meanProductivity);
+		qer.setStanDevProductivity(stanDevProductivity);
+
+		qer_access.updateQuickEstimation(qer);
+		qer_access.disposeConnection();
+	}
+
 }

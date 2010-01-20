@@ -109,40 +109,13 @@ public class QuickEstimateResults {
 		GUI.createNewTab("快速估算结果", resultView);
 
 		//存储数据
-		updateEstType(quickEstimate.getnodeID(), "quick");
-		saveQuickEstimation(quickEstimate.getnodeID(), quickEstimate
+		NodeBasicInformation.updateEstType(quickEstimate.getnodeID(), "quick");
+		QuickEstimationRecord.saveQuickEstimation(quickEstimate.getnodeID(), quickEstimate
 				.getDataType(), formulaEffort, historyEffort, stats.getMean(),
 				stats.getStandardDeviation());
 	}
 
-	// 更新某条cocomoEstimation数据
-	private void saveQuickEstimation(int nodeID, String dataType,
-			Double formula_Effort, Double historyEffort,
-			Double meanProductivity, Double stanDevProductivity) {
-		QuickEstimationRecord qer = new QuickEstimationRecord();
-		QuickEstimationAccess qer_access = new QuickEstimationAccess();
-		qer_access.initConnection();
-		qer = qer_access.getQuickEstimationByNodeID(nodeID);
-
-		qer.setDataType(dataType);
-		qer.setFormulaEffort(formula_Effort);
-		qer.setHistoryEffort(historyEffort);
-		qer.setMeanProductivity(meanProductivity);
-		qer.setStanDevProductivity(stanDevProductivity);
-
-		qer_access.updateQuickEstimation(qer);
-		qer_access.disposeConnection();
-	}
-
-	// 更新基本信息表中的估算类型
-	private void updateEstType(int nodeID, String EstType) {
-		NodeBasicInformation nbi = new NodeBasicInformation();
-		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-		nbi_access.initConnection();
-		nbi = nbi_access.getNodeByID(nodeID);
-		nbi.setEstType(EstType);
-		nbi_access.updateNode(nbi);
-		nbi_access.disposeConnection();
-	}
+	
+	
 
 }

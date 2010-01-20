@@ -1,5 +1,9 @@
 package dataManager.dataEntities;
 
+import java.util.HashMap;
+
+import dataManager.dataAccess.CocomoEstimationAccess;
+
 /**
  * cocomo估算记录，用于存储cocomo估算的输入输出
  * @author Administrator
@@ -272,5 +276,54 @@ public class CocomoEstimationRecord {
     public CocomoEstimationRecord(int estimationID, int nodeID){
 		this.estimationID=estimationID;
 		this.nodeID=nodeID;
+	}
+    
+  //更新某条cocomoEstimation数据
+	public static void saveCocomoEstimation(int nodeID, String EMType, Double sumSF,
+			Double productEM, Double SCEDValue, Double PM, Double devTime,
+			HashMap<String, String> factorsSF, HashMap<String, String> factorsEM) {
+		CocomoEstimationRecord cer=new CocomoEstimationRecord();
+		CocomoEstimationAccess cer_access=new CocomoEstimationAccess();
+		cer_access.initConnection();
+		cer = cer_access.getCocomoEstimationByNodeID(nodeID);
+		
+		cer.setEMType(EMType);
+		cer.setSumSF(sumSF);
+		cer.setProductEM(productEM);
+		cer.setSCEDValue(SCEDValue);
+		cer.setPM(PM);
+		cer.setDevTime(devTime);
+		//设置SF因子
+		cer.setPREC(factorsSF.get("PREC"));
+		cer.setFLEX(factorsSF.get("FLEX"));
+		cer.setRESL(factorsSF.get("RESL"));
+		cer.setTEAM(factorsSF.get("TEAM"));
+		cer.setPMAT(factorsSF.get("PMAT"));
+		//设置EM因子
+		cer.setRELY(factorsEM.get("RELY"));
+		cer.setDATA(factorsEM.get("DATA"));
+		cer.setCPLX(factorsEM.get("CPLX"));
+		cer.setRUSE(factorsEM.get("RUSE"));
+		cer.setDOCU(factorsEM.get("DOCU"));
+		cer.setTIME(factorsEM.get("TIME"));
+		cer.setSTOR(factorsEM.get("STOR"));
+		cer.setPVOL(factorsEM.get("PVOL"));
+		cer.setACAP(factorsEM.get("ACAP"));
+		cer.setPCAP(factorsEM.get("PCAP"));
+		cer.setPCON(factorsEM.get("PCON"));
+		cer.setAPEX(factorsEM.get("APEX"));
+		cer.setPLEX(factorsEM.get("PLEX"));
+		cer.setLTEX(factorsEM.get("LTEX"));
+		cer.setTOOL(factorsEM.get("TOOL"));
+		cer.setSITE(factorsEM.get("SITE"));
+		cer.setSCED(factorsEM.get("SCED"));
+		cer.setRCPX(factorsEM.get("RCPX"));
+		cer.setPDIF(factorsEM.get("PDIF"));
+		cer.setPERS(factorsEM.get("PERS"));
+		cer.setPREX(factorsEM.get("PREX"));
+		cer.setFCIL(factorsEM.get("FCIL"));
+
+		cer_access.updateCocomoEstimation(cer);
+		cer_access.disposeConnection();
 	}
 }

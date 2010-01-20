@@ -1,5 +1,7 @@
 package dataManager.dataEntities;
 
+import dataManager.dataAccess.NodeBasicInfoAccess;
+
 /**
  * 估算节点基本信息类，与数据表NodeBasicInfor表结构一致
  * @author Administrator
@@ -125,6 +127,17 @@ public class NodeBasicInformation {
 	
 	public NodeBasicInformation(){
 		
+	}
+	
+	// 更新基本信息表中的估算类型
+	public static void updateEstType(int nodeID, String EstType) {
+		NodeBasicInformation nbi = new NodeBasicInformation();
+		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		nbi = nbi_access.getNodeByID(nodeID);
+		nbi.setEstType(EstType);
+		nbi_access.updateNode(nbi);
+		nbi_access.disposeConnection();
 	}
 	
 }

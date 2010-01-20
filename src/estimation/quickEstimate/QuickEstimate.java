@@ -52,6 +52,9 @@ public class QuickEstimate extends ParameterArea{
 	public void refresh(){
 		comEstimation.dispose();
 		createEstimation(form.getBody());
+		btnCSBSG.setSelection(true);
+		factorStack.topControl = comCSBSG;
+		factorDataArea.layout();
 		form.getBody().layout();
 		CSBSGFactors.clear();
 		ISBSGFactors.clear();

@@ -13,6 +13,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
 import dataManager.dataAccess.NodeBasicInfoAccess;
+import dataManager.dataEntities.CocomoEstimationRecord;
 import dataManager.dataEntities.NodeBasicInformation;
 
 import estimation.COCOMO;
@@ -105,7 +106,7 @@ public class COCOMOEstimateResults {
 		nbi_access.disposeConnection();
 
 		// 更新cocomo估算结果
-		COCOMO.saveCocomoEstimation(parameters.getnodeID(), parameters
+		CocomoEstimationRecord.saveCocomoEstimation(parameters.getnodeID(), parameters
 				.getEMtype(), sumSF, productEM, SCEDValue, PM, devTime,
 				factorsSF, factorsEM);
 

@@ -15,6 +15,7 @@ import dataManager.dataAccess.NodeBasicInfoAccess;
 import dataManager.dataAccess.QuickEstimationAccess;
 import dataManager.dataEntities.CocomoEstimationRecord;
 import dataManager.dataEntities.NodeBasicInformation;
+import dataManager.dataEntities.QuickEstimationRecord;
 
 import entity.EstimateNode;
 import estimation.COCOMO;
@@ -31,8 +32,6 @@ public class COCOMOEstimateResults {
 	{
 		CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
 		cer_access.initConnection();
-		CocomoEstimationRecord cer = new CocomoEstimationRecord();
-		cer = cer_access.getCocomoEstimationByNodeID(parameters.getnodeID());
 		
 		ArrayList<EstimateNode> children = parameters.getSelectedChildren();
 		int tag = 0;
@@ -51,14 +50,16 @@ public class COCOMOEstimateResults {
 				sizes[i] = (double)children.get(i).getSLOC();
 				productEMs[i] = cer_access.getCocomoEstimationByNodeID(children.get(i).getId()).getProductEM();
 			}
+			cer_access.disposeConnection();
 			Double[] effort = COCOMO.getIntegratedEffortTime(sizes, productEMs, factorsSF, SCEDLevel);
 			Double PM = effort[0];
 			Double devTime = effort[1];
 			resultText = "根据公式计算出   PM为：" + PM.intValue()+ "(人.月)\n\n"+
 			"\t\t TDEV为：" + devTime.intValue()+"(月)\n\n" + "\t\t 平均所需开发人员为：" + (int)((PM/devTime)+1);
 			//设置集成估算结果
-			cer.setPM(PM);
-			cer.setDevTime(devTime);
+			CocomoEstimationRecord.saveCocomoEstimation(parameters.getnodeID(), null, null, null, null, PM, devTime, null, null);
+			// 更新基本信息表中的估算类型
+			NodeBasicInformation.updateEstType(parameters.getnodeID(), "cocomoMultiple");
 		}
 		else{
 			Double[] efforts = new Double[children.size()];
@@ -73,7 +74,9 @@ public class COCOMOEstimateResults {
 			Double effort = SimpleIntegratedEstimate.getIntegratedEffort(efforts);
 			resultText = "集成估算的 工作量为" + effort.intValue()+ " 小时";
 			//设置集成估算结果
-			cer.setDevTime(effort/160);
+			QuickEstimationRecord.saveQuickEstimation(parameters.getnodeID(), null, effort, null, null, null);
+			// 更新基本信息表中的估算类型
+			NodeBasicInformation.updateEstType(parameters.getnodeID(), "simpleMultiple");
 		}
 		Composite resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
 		GridLayout layout = new GridLayout(1, false);
@@ -84,18 +87,5 @@ public class COCOMOEstimateResults {
 		Label resultLabel = new Label(resultView, SWT.NONE);
 		resultLabel.setText(resultText);
 		GUI.createNewTab("集成估算结果", resultView);
-		
-		// 更新基本信息表中的估算类型
-		NodeBasicInformation nbi = new NodeBasicInformation();
-		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-		nbi_access.initConnection();
-		nbi = nbi_access.getNodeByID(parameters.getnodeID());
-		nbi.setEstType("cocomoMultiple");
-		nbi_access.updateNode(nbi);
-		nbi_access.disposeConnection();
-		
-		//存储集成估算结果到cocomoEstimation表中
-		cer_access.updateCocomoEstimation(cer);
-		cer_access.disposeConnection();
 	}
 }
