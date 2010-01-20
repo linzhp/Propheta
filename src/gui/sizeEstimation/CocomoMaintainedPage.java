@@ -91,7 +91,7 @@ public class CocomoMaintainedPage extends BaseWizardPage{
 		CocomoNewDevelopedPage new_Page=seWizard.getCocomoSizeEstimation_newDeveloped_Page();
 		estimatedSize += new_Page.getSpnSLOC().getSelection();
 		// reuse code
-		CocomoSizeEstimation_reused_Page resused_Page=seWizard.getCocomoSizeEstimation_reused_Page();
+		CocomoReusedPage resused_Page=seWizard.getCocomoSizeEstimation_reused_Page();
 		Double SLOC = Double.parseDouble(resused_Page.getTextReuseSize().getText());
 		Double AT = Double.parseDouble(resused_Page.getTextReuseAT().getText());
 		Double DM = Double.parseDouble(resused_Page.getTextReuseDM().getText());
