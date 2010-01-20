@@ -10,7 +10,7 @@ public class SizeEstimationWizard extends Wizard{
 	private ManualSizeEstimationPage manualSizeEstimationPage;
 	private HistoricalDataBaseSizeEstimationPage historicalDataBaseSizeEstimationPage;
 	private CocomoNewDevelopedPage cocomoSizeEstimation_newDeveloped_Page;
-	private CocomoReusedPage cocomoSizeEstimation_reused_Page;
+	private CocomoSizeEstimation_reused_Page cocomoSizeEstimation_reused_Page;
 	private CocomoMaintainedPage cocomoSizeEstimation_maintained_Page;
 	
 	//用户输入
@@ -54,12 +54,12 @@ public class SizeEstimationWizard extends Wizard{
 		cocomoSizeEstimation_newDeveloped_Page = cocomoSizeEstimationNewDevelopedPage;
 	}
 
-	public CocomoReusedPage getCocomoSizeEstimation_reused_Page() {
+	public CocomoSizeEstimation_reused_Page getCocomoSizeEstimation_reused_Page() {
 		return cocomoSizeEstimation_reused_Page;
 	}
 
 	public void setCocomoSizeEstimation_reused_Page(
-			CocomoReusedPage cocomoSizeEstimationReusedPage) {
+			CocomoSizeEstimation_reused_Page cocomoSizeEstimationReusedPage) {
 		cocomoSizeEstimation_reused_Page = cocomoSizeEstimationReusedPage;
 	}
 
@@ -87,7 +87,7 @@ public class SizeEstimationWizard extends Wizard{
 		manualSizeEstimationPage=new ManualSizeEstimationPage("人工输入");
 		historicalDataBaseSizeEstimationPage=new HistoricalDataBaseSizeEstimationPage("参考历史数据");
 		cocomoSizeEstimation_newDeveloped_Page=new CocomoNewDevelopedPage("新开发的代码");
-		cocomoSizeEstimation_reused_Page=new CocomoReusedPage("重用的代码");
+		cocomoSizeEstimation_reused_Page=new CocomoSizeEstimation_reused_Page("重用的代码");
 		cocomoSizeEstimation_maintained_Page=new CocomoMaintainedPage("维护的代码");
 	
 		this.setWindowTitle("代码规模估算");

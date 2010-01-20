@@ -88,6 +88,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		texNodeName.setEditable(false);
 		GridData gd=new GridData();
 		gd.horizontalSpan=3;
+		gd.horizontalAlignment=SWT.FILL;
 		texNodeName.setLayoutData(gd);
 		
 		//团队规模
@@ -113,9 +114,11 @@ public class NodeBasicInformationPage extends ParameterArea{
 		SLOCComposite.setLayout(new GridLayout(2,false));
 		
 		textSLOC=toolkit.createText(SLOCComposite, "1000",SWT.BORDER);
+		textSLOC.setSize(300, textSLOC.getSize().y);
 		textSLOC.setEditable(false);
 		gd=new GridData();
 		gd.horizontalAlignment=SWT.FILL;
+		gd.grabExcessHorizontalSpace = true;
 		textSLOC.setLayoutData(gd);
 		
 		setSLOCButton=toolkit.createButton(SLOCComposite, "设置", SWT.NONE);
@@ -153,12 +156,6 @@ public class NodeBasicInformationPage extends ParameterArea{
 		values =new String[]{"NewDevelopment", "ReDevelopment", "Enhancement", "Other"};
 		cmbDevelopType=createCombo(parent,texts,values,0);
 		
-		//开发平台
-		labelDevelopPlatform=toolkit.createLabel(parent, "开发平台:", SWT.NONE);
-		texts = new String[]{"大型机", "中型机", "个人计算机", "混合"};
-		values =new String[]{"MF", "MR", "PC", "Multi"};
-		cmbDevelopPlatform=createCombo(parent,texts,values,0);
-		
 		//开发技术
 		labelDevelopTechnique=toolkit.createLabel(parent, "开发技术:", SWT.NONE);
 		texts = new String[]{"面向对象分析设计", "事件建模", "业务领域建模", "回归测试", "面向对象与事件建模",
@@ -167,6 +164,12 @@ public class NodeBasicInformationPage extends ParameterArea{
 				"Business Area Modelling","Regression Testing","Object Oriented Analysis;Object Oriented Design;Event Modelling",
 				"Regression Testing;Business Area Modelling","Other"};
 		cmbDevelopTechnique=createCombo(parent,texts,values,0);
+		
+		//开发平台
+		labelDevelopPlatform=toolkit.createLabel(parent, "开发平台:", SWT.NONE);
+		texts = new String[]{"大型机", "中型机", "个人计算机", "混合"};
+		values =new String[]{"MF", "MR", "PC", "Multi"};
+		cmbDevelopPlatform=createCombo(parent,texts,values,0);
 		
 		//语言类型
 		labelLanguageType=toolkit.createLabel(parent, "语言类型:", SWT.NONE);	
