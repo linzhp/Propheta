@@ -29,8 +29,7 @@ public class ParameterScale extends Composite {
 		setLayout(gl);
 		scale=new Scale(this, SWT.NONE);
 		FormToolkit toolkit = GUI.getToolkit();
-		scale.setBackground(toolkit.getColors().getBackground());
-//		scale.setSize(length, 10);
+		scale.setBackground(toolkit.getColors().getBackground());//Scale不是Composite子类，无法adapt
 		scale.setMinimum(0);
 		scale.setMaximum(length-1);
 		scale.setIncrement(1);
@@ -44,7 +43,7 @@ public class ParameterScale extends Composite {
 		scale.setLayoutData(gd);
 		
 		for(int i=0;i<length;i++) {
-			Label label=new Label(this, SWT.SINGLE);
+			Label label=toolkit.createLabel(this, labels[i]);
 			label.setText(labels[i]);
 			selectMap.put(i, labels[i]);
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));

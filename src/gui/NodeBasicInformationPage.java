@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Text;
 
 import dataManager.dataAccess.NodeBasicInfoAccess;
 import dataManager.dataEntities.NodeBasicInformation;
-import gui.sizeEstimation.SizeEstimationWizard;
+import estimation.sizeEstimation.SizeEstimationWizard;
 
 /**
  * 节点基本信息页面

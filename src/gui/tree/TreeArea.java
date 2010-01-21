@@ -15,7 +15,6 @@ import entity.EstimationProjects;
 import estimation.detailedEstimate.DetailedEstimateAction;
 import estimation.integratedEstimate.IntegratedEstimateAction;
 import estimation.quickEstimate.QuickEstimateAction;
-import estimation.sizeEstimate.COCOMOSizeAction;
 import gui.OpenBasicInformationPageAction;
 import gui.tree.contextMenu.AddNodeAction;
 import gui.tree.contextMenu.NewProjectAction;
@@ -44,7 +43,6 @@ public class TreeArea extends Composite{
 	QuickEstimateAction quickEstimateAction=new QuickEstimateAction();
 	DetailedEstimateAction detailedEstimationAction=new DetailedEstimateAction();
 	IntegratedEstimateAction integratedEstimationAction=new IntegratedEstimateAction();
-	COCOMOSizeAction cOCOMOSizeAction=new COCOMOSizeAction();
 	
 	public TreeArea(Composite parent, int style) {
 		super(parent, style);
@@ -126,7 +124,6 @@ public class TreeArea extends Composite{
 		menuManager_estimation.setVisible(true);
 		quickEstimateAction.setEnabled(false);
 		detailedEstimationAction.setEnabled(false);
-		cOCOMOSizeAction.setEnabled(false);		
 		integratedEstimationAction.setEnabled(false);		
 	}
 	
@@ -140,7 +137,6 @@ public class TreeArea extends Composite{
 		menuManager_estimation.setVisible(true);
 		quickEstimateAction.setEnabled(false);
 		detailedEstimationAction.setEnabled(false);
-		cOCOMOSizeAction.setEnabled(false);
 		integratedEstimationAction.setEnabled(true);		
 	}
 	
@@ -154,7 +150,6 @@ public class TreeArea extends Composite{
 		menuManager_estimation.setVisible(true);
 		quickEstimateAction.setEnabled(false);
 		detailedEstimationAction.setEnabled(false);
-		cOCOMOSizeAction.setEnabled(false);
 		integratedEstimationAction.setEnabled(true);	
 	}
 	
@@ -168,7 +163,6 @@ public class TreeArea extends Composite{
 		menuManager_estimation.setVisible(true);
 		quickEstimateAction.setEnabled(true);
 		detailedEstimationAction.setEnabled(true);
-		cOCOMOSizeAction.setEnabled(true);
 		integratedEstimationAction.setEnabled(false);
 	}
 	
@@ -181,7 +175,6 @@ public class TreeArea extends Composite{
 		menuManager_estimation.setVisible(true);
 		quickEstimateAction.setEnabled(true);
 		detailedEstimationAction.setEnabled(true);
-		cOCOMOSizeAction.setEnabled(true);
 		integratedEstimationAction.setEnabled(false);
 	}
 	
