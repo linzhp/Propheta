@@ -3,10 +3,10 @@ package estimation;
 import java.util.HashMap;
 import java.util.Set;
 
-import dataManager.dataAccess.CocomoEstimationAccess;
-import dataManager.dataEntities.CocomoEstimationRecord;
+import data.database.dataAccess.CocomoEstimationAccess;
+import data.database.dataEntities.CocomoEstimationRecord;
+import data.file.PropertyFile;
 
-import file.PropertyFile;
 
 public class COCOMO {
 

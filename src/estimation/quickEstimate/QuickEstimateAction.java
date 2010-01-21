@@ -2,7 +2,7 @@ package estimation.quickEstimate;
 
 import gui.GUI;
 import gui.NewParamTabAction;
-import gui.ParameterArea;
+import gui.widgets.ParameterArea;
 
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;

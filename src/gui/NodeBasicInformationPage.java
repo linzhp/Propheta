@@ -15,9 +15,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
-import dataManager.dataAccess.NodeBasicInfoAccess;
-import dataManager.dataEntities.NodeBasicInformation;
-import gui.sizeEstimation.SizeEstimationWizard;
+import data.database.dataAccess.NodeBasicInfoAccess;
+import data.database.dataEntities.NodeBasicInformation;
+import estimation.sizeEstimation.SizeEstimationWizard;
+import gui.widgets.ParameterArea;
 
 /**
  * 节点基本信息页面

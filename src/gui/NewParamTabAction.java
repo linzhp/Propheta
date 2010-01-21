@@ -5,7 +5,8 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
-import entity.EstimateNode;
+import estimation.entity.EstimateNode;
+import gui.widgets.ParameterArea;
 
 public abstract class NewParamTabAction extends Action {
 	protected EstimateNode node;

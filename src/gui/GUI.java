@@ -1,6 +1,7 @@
 package gui;
 
-import gui.tree.TreeArea;
+import gui.widgets.ParameterArea;
+import gui.widgets.tree.TreeArea;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;

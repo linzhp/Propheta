@@ -1,5 +1,7 @@
 package gui;
 
+import gui.widgets.ParameterArea;
+
 import org.eclipse.swt.widgets.Composite;
 
 public class OpenBasicInformationPageAction extends NewParamTabAction{

@@ -13,9 +13,9 @@ import org.eclipse.swt.widgets.Label;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
-import dataManager.dataAccess.NodeBasicInfoAccess;
-import dataManager.dataEntities.CocomoEstimationRecord;
-import dataManager.dataEntities.NodeBasicInformation;
+import data.database.dataAccess.NodeBasicInfoAccess;
+import data.database.dataEntities.CocomoEstimationRecord;
+import data.database.dataEntities.NodeBasicInformation;
 
 import estimation.COCOMO;
 import estimation.Chart;

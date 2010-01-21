@@ -3,10 +3,10 @@ package estimation.integratedEstimate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import entity.EstimateNode;
-import entity.EstimationProjects;
-import estimation.ParameterScale;
-import gui.ParameterArea;
+import estimation.entity.EstimateNode;
+import estimation.entity.EstimationProjects;
+import gui.widgets.ParameterArea;
+import gui.widgets.ParameterScale;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
