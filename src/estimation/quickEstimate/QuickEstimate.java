@@ -2,10 +2,11 @@ package estimation.quickEstimate;
 
 import java.util.HashMap;
 
-import gui.ParameterArea;
-import dataManager.dataAccess.NodeBasicInfoAccess;
-import dataManager.dataEntities.NodeBasicInformation;
-import estimation.ParameterScale;
+import gui.widgets.ParameterArea;
+import gui.widgets.ParameterScale;
+import data.database.dataAccess.NodeBasicInfoAccess;
+import data.database.dataEntities.NodeBasicInformation;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;

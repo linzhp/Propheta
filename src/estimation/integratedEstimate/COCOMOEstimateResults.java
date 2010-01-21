@@ -10,16 +10,16 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import dataManager.dataAccess.CocomoEstimationAccess;
-import dataManager.dataAccess.NodeBasicInfoAccess;
-import dataManager.dataAccess.QuickEstimationAccess;
-import dataManager.dataEntities.CocomoEstimationRecord;
-import dataManager.dataEntities.NodeBasicInformation;
-import dataManager.dataEntities.QuickEstimationRecord;
+import data.database.dataAccess.CocomoEstimationAccess;
+import data.database.dataAccess.NodeBasicInfoAccess;
+import data.database.dataAccess.QuickEstimationAccess;
+import data.database.dataEntities.CocomoEstimationRecord;
+import data.database.dataEntities.NodeBasicInformation;
+import data.database.dataEntities.QuickEstimationRecord;
 
-import entity.EstimateNode;
 import estimation.COCOMO;
 import estimation.SimpleIntegratedEstimate;
+import estimation.entity.EstimateNode;
 
 public class COCOMOEstimateResults {
 	private COCOMOEstimate parameters;

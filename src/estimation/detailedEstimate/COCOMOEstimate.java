@@ -2,8 +2,8 @@ package estimation.detailedEstimate;
 
 import java.util.HashMap;
 
-import estimation.ParameterScale;
-import gui.ParameterArea;
+import gui.widgets.ParameterArea;
+import gui.widgets.ParameterScale;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;

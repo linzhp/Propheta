@@ -2,7 +2,7 @@ package estimation.integratedEstimate;
 
 import estimation.integratedEstimate.COCOMOEstimate;
 import gui.NewParamTabAction;
-import gui.ParameterArea;
+import gui.widgets.ParameterArea;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;

@@ -1,13 +1,11 @@
 package estimation;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Random;
 
 import org.eclipse.swt.SWT;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
@@ -22,9 +20,7 @@ import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.HorizontalAlignment;
-import org.jfree.ui.RefineryUtilities;
 
 public class Chart{
 	public static JFreeChart createMonteCarloChart(IntervalXYDataset dataSet) {

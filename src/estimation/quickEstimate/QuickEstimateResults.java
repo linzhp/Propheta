@@ -14,10 +14,10 @@ import org.eclipse.swt.widgets.Label;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
-import dataManager.dataAccess.NodeBasicInfoAccess;
-import dataManager.dataAccess.QuickEstimationAccess;
-import dataManager.dataEntities.NodeBasicInformation;
-import dataManager.dataEntities.QuickEstimationRecord;
+import data.database.dataAccess.NodeBasicInfoAccess;
+import data.database.dataAccess.QuickEstimationAccess;
+import data.database.dataEntities.NodeBasicInformation;
+import data.database.dataEntities.QuickEstimationRecord;
 
 import estimation.CSBSG;
 import estimation.Chart;

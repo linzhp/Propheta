@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import dataManager.dataAccess.DataBaseAccess;
+import data.database.dataAccess.DataBaseAccess;
 
 
 public class ISBSG {

@@ -1,7 +1,7 @@
 package estimation.quickEstimate;
 
 import gui.NewParamTabAction;
-import gui.ParameterArea;
+import gui.widgets.ParameterArea;
 
 import org.eclipse.swt.widgets.Composite;
 

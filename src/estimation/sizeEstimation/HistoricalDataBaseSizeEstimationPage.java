@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
-import estimation.ParameterScale;
+import gui.widgets.ParameterScale;
 
 public class HistoricalDataBaseSizeEstimationPage extends BaseWizardPage{
 
