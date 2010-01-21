@@ -14,7 +14,7 @@ import estimation.detailedEstimate.DetailedEstimateAction;
 import estimation.entity.EstimateNode;
 import estimation.entity.EstimationProjects;
 import estimation.integratedEstimate.IntegratedEstimateAction;
-import estimation.quickEstimate.QuickEstimateAction;
+import estimation.quickEstimate.QEOpen;
 import gui.OpenBasicInformationPageAction;
 import gui.widgets.tree.contextMenu.AddNodeAction;
 import gui.widgets.tree.contextMenu.NewProjectAction;
@@ -40,7 +40,7 @@ public class TreeArea extends Composite{
 	RemoveNodeAction removeNodeAction=new RemoveNodeAction();
 	RenameNodeAction renameNodeAction=new RenameNodeAction();
 	MenuManager menuManager_estimation=new MenuManager("估算");
-	QuickEstimateAction quickEstimateAction=new QuickEstimateAction();
+	QEOpen quickEstimateAction=new QEOpen();
 	DetailedEstimateAction detailedEstimationAction=new DetailedEstimateAction();
 	IntegratedEstimateAction integratedEstimationAction=new IntegratedEstimateAction();
 	

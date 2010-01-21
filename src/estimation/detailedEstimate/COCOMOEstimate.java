@@ -3,7 +3,7 @@ package estimation.detailedEstimate;
 import java.util.HashMap;
 
 import estimation.entity.EstimateNode;
-import gui.widgets.ParameterArea;
+import gui.tabs.ParameterArea;
 import gui.widgets.ParameterScale;
 
 import org.eclipse.swt.SWT;

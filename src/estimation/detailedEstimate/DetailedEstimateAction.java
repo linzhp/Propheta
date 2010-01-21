@@ -1,7 +1,7 @@
 package estimation.detailedEstimate;
 
 import gui.tabs.NewParamTabAction;
-import gui.widgets.ParameterArea;
+import gui.tabs.ParameterArea;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -22,12 +22,12 @@ public class DetailedEstimateAction extends NewParamTabAction implements
 
 	@Override
 	protected Composite createContents(Composite parent) {
-		return new COCOMOEstimate(parent, node);
+		return new COCOMOEstimate(parent, getNode());
 	}
 
 	@Override
 	protected String getTabTitle() {
-		return node.getName()+"详细估算";
+		return getNode().getName()+"详细估算";
 	}
 
 	@Override

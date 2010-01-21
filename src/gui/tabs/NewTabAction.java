@@ -9,7 +9,6 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
 public abstract class NewTabAction extends Action {
-	protected EstimateNode node;
 
 	public NewTabAction(String text)
 	{
@@ -20,7 +19,8 @@ public abstract class NewTabAction extends Action {
 	public void run()
 	{
 		CTabFolder parent = getTabFolder();
-		node = GUI.getTreeArea().getSelectedNode();
+		EstimateNode node = getNode();
+		Composite newContents = createContents(parent);
 		boolean opened = false;
 		for(CTabItem tab:parent.getItems())
 		{
@@ -28,13 +28,14 @@ public abstract class NewTabAction extends Action {
 			if(tabContent.getnodeID() == node.getId() && tabContent.getClass() == pageClass())
 			{
 				parent.setSelection(tab);
+				tab.setControl(newContents);
 				opened = true;
 				break;
 			}
 		}
 		if(opened == false)
 		{
-			GUI.createNewTab(getTabTitle(), createContents(parent));			
+			GUI.createNewTab(getTabTitle(), newContents);			
 		}
 		parent.setFocus();
 	}
@@ -45,5 +46,5 @@ public abstract class NewTabAction extends Action {
 	protected abstract Composite createContents(Composite parent);
 	protected abstract Class<? extends TabContentArea> pageClass();
 	protected abstract String getTabTitle();
-//	protected abstract int getNodeID();
+	protected abstract EstimateNode getNode();
 }

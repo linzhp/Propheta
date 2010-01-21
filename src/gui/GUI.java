@@ -1,6 +1,6 @@
 package gui;
 
-import gui.widgets.ParameterArea;
+import gui.tabs.ParameterArea;
 import gui.widgets.tree.TreeArea;
 
 import org.eclipse.swt.SWT;

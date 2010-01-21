@@ -19,7 +19,7 @@ import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataEntities.NodeBasicInformation;
 import estimation.entity.EstimateNode;
 import estimation.sizeEstimation.SizeEstimationWizard;
-import gui.widgets.ParameterArea;
+import gui.tabs.ParameterArea;
 
 /**
  * 节点基本信息页面

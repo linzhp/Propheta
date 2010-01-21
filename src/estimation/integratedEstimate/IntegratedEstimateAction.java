@@ -2,7 +2,7 @@ package estimation.integratedEstimate;
 
 import estimation.integratedEstimate.COCOMOEstimate;
 import gui.tabs.NewParamTabAction;
-import gui.widgets.ParameterArea;
+import gui.tabs.ParameterArea;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -22,12 +22,12 @@ public class IntegratedEstimateAction extends NewParamTabAction implements
 
 	@Override
 	protected Composite createContents(Composite parent) {
-		return new COCOMOEstimate(parent, node);
+		return new COCOMOEstimate(parent, getNode());
 	}
 
 	@Override
 	protected String getTabTitle() {
-		return node.getName()+"集成估算";
+		return getNode().getName()+"集成估算";
 	}
 
 	@Override

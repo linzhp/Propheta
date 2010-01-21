@@ -1,7 +1,7 @@
 package gui;
 
 import estimation.entity.EstimationProjects;
-import gui.widgets.ParameterArea;
+import gui.tabs.ParameterArea;
 import gui.widgets.tree.TreeArea;
 import gui.widgets.tree.contextMenu.NewProjectAction;
 import gui.widgets.tree.contextMenu.SaveEstimationProjectsAction;

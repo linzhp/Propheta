@@ -1,13 +1,16 @@
 package gui.tabs;
 
+import estimation.entity.EstimateNode;
 import gui.GUI;
 
 import org.eclipse.swt.custom.CTabFolder;
 
 public abstract class NewResultTabAction extends NewTabAction {
-	public NewResultTabAction(String text)
+	private EstimateNode node;
+	public NewResultTabAction(EstimateNode node)
 	{
-		super(text);
+		super("确定");
+		this.node = node;
 	}
 
 	@Override
@@ -15,4 +18,8 @@ public abstract class NewResultTabAction extends NewTabAction {
 		return GUI.getButtomContentArea();
 	}
 
+	@Override 
+	public EstimateNode getNode() {
+		return node;
+	}
 }
