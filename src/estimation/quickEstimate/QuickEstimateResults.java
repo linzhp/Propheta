@@ -22,9 +22,9 @@ import estimation.CSBSG;
 import estimation.ISBSG;
 
 public class QuickEstimateResults {
-	private QuickEstimate quickEstimate;
+	private QuickEstimateParams quickEstimate;
 
-	public QuickEstimateResults(QuickEstimate estimate) {
+	public QuickEstimateResults(QuickEstimateParams estimate) {
 		quickEstimate = estimate;
 	}
 

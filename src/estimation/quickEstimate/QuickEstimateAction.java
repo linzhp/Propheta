@@ -18,14 +18,14 @@ public class QuickEstimateAction extends NewParamTabAction {
 	
 	@Override
 	protected Composite createContents(Composite parent){
-		return new QuickEstimate(parent, node.getId());
+		return new QuickEstimateParams(parent, node);
 		
 	}
 	
 	@Override
 	protected Class<? extends ParameterArea> pageClass()
 	{
-		return QuickEstimate.class;
+		return QuickEstimateParams.class;
 	}
 
 	@Override

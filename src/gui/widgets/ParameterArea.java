@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import estimation.entity.EstimateNode;
 import gui.tabs.TabContentArea;
 
 import org.eclipse.swt.layout.FillLayout;
@@ -11,8 +12,8 @@ public abstract class ParameterArea extends TabContentArea{
 	protected FormToolkit toolkit;
 	protected ScrolledForm form;
 	
-	public ParameterArea(Composite parent, int nodeID){
-		super(parent, nodeID);
+	public ParameterArea(Composite parent, EstimateNode node){
+		super(parent, node);
 		toolkit = new FormToolkit(Display.getCurrent());
 		setLayout(new FillLayout());
 		form = toolkit.createScrolledForm(this);

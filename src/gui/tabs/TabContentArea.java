@@ -3,16 +3,18 @@ package gui.tabs;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import estimation.entity.EstimateNode;
+
 public class TabContentArea extends Composite {
 
-	protected int nodeID;
-	public TabContentArea(Composite parent, int nodeID) {
+	protected EstimateNode node;
+	public TabContentArea(Composite parent, EstimateNode node) {
 		super(parent, SWT.NONE);
-		this.nodeID = nodeID;
+		this.node = node;
 	}
 
 	public int getnodeID(){
-		return nodeID;
+		return node.getId();
 	}
 	
 }

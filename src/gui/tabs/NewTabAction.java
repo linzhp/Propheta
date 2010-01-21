@@ -2,7 +2,6 @@ package gui.tabs;
 
 import estimation.entity.EstimateNode;
 import gui.GUI;
-import gui.widgets.ParameterArea;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.custom.CTabFolder;
@@ -25,7 +24,7 @@ public abstract class NewTabAction extends Action {
 		boolean opened = false;
 		for(CTabItem tab:parent.getItems())
 		{
-			ParameterArea tabContent = (ParameterArea)tab.getControl();
+			TabContentArea tabContent = (TabContentArea)tab.getControl();
 			if(tabContent.getnodeID() == node.getId() && tabContent.getClass() == pageClass())
 			{
 				parent.setSelection(tab);
@@ -44,6 +43,7 @@ public abstract class NewTabAction extends Action {
 	
 	protected abstract CTabFolder getTabFolder();
 	protected abstract Composite createContents(Composite parent);
-	protected abstract Class<? extends ParameterArea> pageClass();
+	protected abstract Class<? extends TabContentArea> pageClass();
 	protected abstract String getTabTitle();
+//	protected abstract int getNodeID();
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import gui.widgets.ParameterArea;
 import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataEntities.NodeBasicInformation;
+import estimation.entity.EstimateNode;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -14,9 +15,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.jface.action.Action;
 
-public class QuickEstimate extends ParameterArea{
+public class QuickEstimateParams extends ParameterArea{
 	//公共变量
 	private Composite comEstimation, factorDataArea;
 	private StackLayout factorStack;
@@ -36,8 +36,8 @@ public class QuickEstimate extends ParameterArea{
 	private HashMap<String, String> ISBSGFactors = new HashMap<String, String>();
 	private Button btnISBSGTeamSize, btnISBSGDevType, btnISBSGDevTech, btnISBSGDevPlat, btnISBSGLanType;
 
-	public QuickEstimate(Composite parent, int nodeID){
-		super(parent, nodeID);
+	public QuickEstimateParams(Composite parent, EstimateNode node){
+		super(parent, node);
 		createEstimation(form.getBody());
 	}
 	
@@ -92,7 +92,7 @@ public class QuickEstimate extends ParameterArea{
 		ok.setEnabled(true);
 		ok.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				QuickEstimateResults results = new QuickEstimateResults(QuickEstimate.this);
+				QuickEstimateResults results = new QuickEstimateResults(QuickEstimateParams.this);
 				results.show();
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -109,7 +109,7 @@ public class QuickEstimate extends ParameterArea{
 		nbi = new NodeBasicInformation();
 		nbi_access = new NodeBasicInfoAccess();
 		nbi_access.initConnection();
-		nbi = nbi_access.getNodeByID(nodeID);
+		nbi = nbi_access.getNodeByID(node.getId());
 		CSBSGSize = nbi.getSLOC();
 		ISBSGSize = nbi.getFunctionPoints();
 		

@@ -2,6 +2,7 @@ package estimation.detailedEstimate;
 
 import java.util.HashMap;
 
+import estimation.entity.EstimateNode;
 import gui.widgets.ParameterArea;
 import gui.widgets.ParameterScale;
 
@@ -29,8 +30,8 @@ public class COCOMOEstimate extends ParameterArea{
 	private Button postArchRadio;
 	private Button ok;
 
-	public COCOMOEstimate(Composite parent, int nodeID){
-		super(parent, nodeID);
+	public COCOMOEstimate(Composite parent, EstimateNode node){
+		super(parent, node);
 		scales = new HashMap<String, ParameterScale>();
 		createButtonArea(form.getBody());
 		createScaleFactors(form.getBody());

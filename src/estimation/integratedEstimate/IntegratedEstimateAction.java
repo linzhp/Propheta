@@ -22,7 +22,7 @@ public class IntegratedEstimateAction extends NewParamTabAction implements
 
 	@Override
 	protected Composite createContents(Composite parent) {
-		return new COCOMOEstimate(parent, node.getId());
+		return new COCOMOEstimate(parent, node);
 	}
 
 	@Override

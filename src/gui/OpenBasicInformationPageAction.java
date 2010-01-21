@@ -15,7 +15,7 @@ public class OpenBasicInformationPageAction extends NewParamTabAction{
 	@Override
 	protected Composite createContents(Composite parent) {
 	
-		return new NodeBasicInformationPage(GUI.getTreeArea().getSelectedNode().getId(),parent);
+		return new NodeBasicInformationPage(node,parent);
 	}
 
 
