@@ -56,7 +56,8 @@ public class QuickEstimateAction extends NewParamTabAction {
 		}
 		parent.setFocus();
 		
-		
+//		createResultsTab(projectSize, formulaEffort, historyEffort,
+//				meanProductivity, stanDevProductivity);
 	}
 
 }
