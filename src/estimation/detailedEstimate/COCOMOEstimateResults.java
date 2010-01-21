@@ -3,6 +3,7 @@ package estimation.detailedEstimate;
 import java.text.NumberFormat;
 import java.util.HashMap;
 
+import gui.Chart;
 import gui.GUI;
 
 import org.eclipse.swt.SWT;
@@ -18,7 +19,6 @@ import data.database.dataEntities.CocomoEstimationRecord;
 import data.database.dataEntities.NodeBasicInformation;
 
 import estimation.COCOMO;
-import estimation.Chart;
 
 public class COCOMOEstimateResults {
 	private COCOMOEstimate parameters;

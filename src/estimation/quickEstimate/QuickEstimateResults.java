@@ -3,6 +3,7 @@ package estimation.quickEstimate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import gui.Chart;
 import gui.GUI;
 
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
@@ -20,7 +21,6 @@ import data.database.dataEntities.NodeBasicInformation;
 import data.database.dataEntities.QuickEstimationRecord;
 
 import estimation.CSBSG;
-import estimation.Chart;
 import estimation.ISBSG;
 
 public class QuickEstimateResults {
