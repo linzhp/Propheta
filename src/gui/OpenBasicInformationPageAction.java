@@ -1,5 +1,6 @@
 package gui;
 
+import gui.tabs.NewParamTabAction;
 import gui.widgets.ParameterArea;
 
 import org.eclipse.swt.widgets.Composite;

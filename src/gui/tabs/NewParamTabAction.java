@@ -1,4 +1,4 @@
-package gui;
+package gui.tabs;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.custom.CTabFolder;
@@ -6,6 +6,7 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
 import estimation.entity.EstimateNode;
+import gui.GUI;
 import gui.widgets.ParameterArea;
 
 public abstract class NewParamTabAction extends Action {

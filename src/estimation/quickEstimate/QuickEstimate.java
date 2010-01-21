@@ -3,32 +3,23 @@ package estimation.quickEstimate;
 import java.util.HashMap;
 
 import gui.widgets.ParameterArea;
-import gui.widgets.ParameterScale;
 import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataEntities.NodeBasicInformation;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.jface.action.Action;
 
 public class QuickEstimate extends ParameterArea{
 	//公共变量
 	private Composite comEstimation, factorDataArea;
 	private StackLayout factorStack;
-	private GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 	private NodeBasicInformation nbi;
 	private NodeBasicInfoAccess nbi_access;
 	private int CSBSGSize, ISBSGSize;

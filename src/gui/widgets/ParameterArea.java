@@ -1,19 +1,18 @@
 package gui.widgets;
 
-import org.eclipse.swt.*;
+import gui.tabs.TabContentArea;
+
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.forms.widgets.*;
 
 
-public abstract class ParameterArea extends Composite{
+public abstract class ParameterArea extends TabContentArea{
 	protected FormToolkit toolkit;
 	protected ScrolledForm form;
-	protected int nodeID;
 	
 	public ParameterArea(Composite parent, int nodeID){
-		super(parent, SWT.NONE);
-		this.nodeID = nodeID;
+		super(parent, nodeID);
 		toolkit = new FormToolkit(Display.getCurrent());
 		setLayout(new FillLayout());
 		form = toolkit.createScrolledForm(this);
@@ -29,10 +28,6 @@ public abstract class ParameterArea extends Composite{
 	 */
 	public void setFormText(String formText){
 		this.form.setText(formText);
-	}
-	
-	public int getnodeID(){
-		return nodeID;
 	}
 	
 	/**

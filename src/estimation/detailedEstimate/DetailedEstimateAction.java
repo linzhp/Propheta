@@ -1,6 +1,6 @@
 package estimation.detailedEstimate;
 
-import gui.NewParamTabAction;
+import gui.tabs.NewParamTabAction;
 import gui.widgets.ParameterArea;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
