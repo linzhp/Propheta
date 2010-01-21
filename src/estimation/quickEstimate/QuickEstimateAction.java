@@ -8,6 +8,10 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
+import data.database.dataAccess.NodeBasicInfoAccess;
+import data.database.dataAccess.QuickEstimationAccess;
+import data.database.dataEntities.QuickEstimationRecord;
+
 public class QuickEstimateAction extends NewParamTabAction {
 
 
@@ -50,14 +54,35 @@ public class QuickEstimateAction extends NewParamTabAction {
 				break;
 			}
 		}
-		if(opened == false)
+		if(opened == false) 
 		{
 			GUI.createNewTab(getTabTitle(), createContents(parent));			
 		}
 		parent.setFocus();
 		
-//		createResultsTab(projectSize, formulaEffort, historyEffort,
-//				meanProductivity, stanDevProductivity);
+		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		int projectSize = nbi_access.getNodeByID(node.getId()).getSLOC();
+		nbi_access.disposeConnection();
+		
+		QuickEstimationAccess qer_access = new QuickEstimationAccess();
+		qer_access.initConnection();
+		QuickEstimationRecord qer = qer_access.getQuickEstimationByNodeID(node.getId());
+		qer_access.disposeConnection();
+		String dataType = qer.getDataType();
+		
+		
+		if(dataType != null){
+			Double formulaEffort = qer.getFormulaEffort();
+			Double historyEffort = qer.getHistoryEffort();
+			Double meanProductivity = qer.getMeanProductivity();
+			Double stanDevProductivity = qer.getStanDevProductivity();
+
+			QuickEstimateResults.createResultsTab(node.getName(),projectSize, dataType, formulaEffort, historyEffort,
+					meanProductivity, stanDevProductivity);
+		}
+		
+		
 	}
 
 }

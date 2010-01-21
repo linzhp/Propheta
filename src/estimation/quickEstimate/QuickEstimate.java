@@ -251,6 +251,8 @@ public class QuickEstimate extends ParameterArea{
 				}
 			}
 		});
+		if(nbi.getDevelopmentType() == null)
+			btnCSBSGDevType.setEnabled(false);
 		String[] texts = { "新开发", "二次开发", "优化", "其它" };
 		String[] values = { "NewDevelopment", "ReDevelopment", "Enhancement", "Other" };
 		HashMap<String, String> factors = createHashMap(texts, values);
@@ -272,6 +274,8 @@ public class QuickEstimate extends ParameterArea{
 				}
 			}
 		});
+		if(nbi.getLanguage() == null)
+			btnCSBSGLanguage.setEnabled(false);
 		String[] texts = { "ASP", "C#", "VB", "JAVA", "C++", "C", "COBOL" };
 		String[] values = { "ASP", "C#", "VB", "Java", "C++", "C", "Cobol" };
 		HashMap<String, String> factors = createHashMap(texts, values);
@@ -292,6 +296,8 @@ public class QuickEstimate extends ParameterArea{
 				}
 			}
 		});
+		if(nbi.getBusinessArea() == null)
+			btnCSBSGBusArea.setEnabled(false);
 		String[] texts = new String[]{ "电信", "金融", "流通", "保险", "交通", "媒体", "卫生", "制造",
 				"政府", "能源" };
 		String[] values =new String[]{ "Telecom", "Finance", "Retail", "General","Transport", "Media",
@@ -333,6 +339,8 @@ public class QuickEstimate extends ParameterArea{
 				}
 			}
 		});
+		if(nbi.getDevelopmentType() == null)
+			btnISBSGDevType.setEnabled(false);
 		String[] texts = { "新开发", "二次开发", "优化", "其它" };
 		String[] values = { "NewDevelopment", "ReDevelopment", "Enhancement", "Other" };
 		HashMap<String, String> factors = createHashMap(texts, values);
@@ -353,6 +361,8 @@ public class QuickEstimate extends ParameterArea{
 				}
 			}
 		});
+		if(nbi.getDevelopmentTechniques() == null)
+			btnISBSGDevTech.setEnabled(false);
 		String[] texts = { "面向对象分析设计", "事件建模", "业务领域建模", "回归测试", "面向对象与事件建模",
 				"回归测试与业务领域建模", "其它"};
 		String[] values = {
@@ -380,6 +390,8 @@ public class QuickEstimate extends ParameterArea{
 				}
 			}
 		});
+		if(nbi.getDevelopmentPlatform() == null)
+			btnISBSGDevPlat.setEnabled(false);
 		String[] texts = { "大型机", "中型机", "个人计算机", "混合" };
 		String[] values = { "MF", "MR", "PC", "Multi" };
 		HashMap<String, String> factors = createHashMap(texts, values);
@@ -399,6 +411,8 @@ public class QuickEstimate extends ParameterArea{
 				}
 			}
 		});
+		if(nbi.getLanguageType() == null)
+			btnISBSGLanType.setEnabled(false);
 		String[] texts = { "第二代语言", "第三代语言", "第四代语言", "应用代" };
 		String[] values = { "2GL", "3GL", "4GL", "ApG" };
 		HashMap<String, String> factors = createHashMap(texts, values);

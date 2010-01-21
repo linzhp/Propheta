@@ -78,8 +78,16 @@ public class QuickEstimateResults {
 				historyEffort = 0.0;
 		}
 
+		System.out.println("size" + ":" + projectSize);
+		System.out.println("DataType" + ":" + quickEstimate.getDataType());
+		System.out.println("meanProductivity" + ":" + stanDevProductivity);
+		System.out.println("stanDevProductivity" + ":" + stanDevProductivity);
 		// 快速估算结果显示
-		createResultsTab(projectSize, formulaEffort, historyEffort,
+		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		String nodeName = nbi_access.getNodeByID(quickEstimate.getnodeID()).getName(); 
+		nbi_access.disposeConnection();
+		createResultsTab(nodeName, projectSize, quickEstimate.getDataType(), formulaEffort, historyEffort,
 				meanProductivity, stanDevProductivity);
 
 		// 存储数据
@@ -89,7 +97,7 @@ public class QuickEstimateResults {
 				meanProductivity, stanDevProductivity);
 	}
 
-	public void createResultsTab(int projectSize, Double formulaEffort,
+	public static void createResultsTab(String nodeName, int projectSize, String dataType, Double formulaEffort,
 			Double historyEffort, Double meanProductivity,
 			Double stanDevProductivity) {
 		Composite resultView = new Composite(GUI.getButtomContentArea(),
@@ -115,7 +123,7 @@ public class QuickEstimateResults {
 				noResult.setText("没有搜索到足够的相关历史数据，无法显示工作量的蒙特卡罗图”");
 			} else {
 				JFreeChart monteCarloChart = Chart.createMonteCarloChart(Chart
-						.createQuickDataSet(quickEstimate.getDataType(),
+						.createQuickDataSet(dataType,
 								projectSize, meanProductivity,
 								stanDevProductivity));
 				Composite monteCarloFrame = new ChartComposite(resultView,
@@ -126,7 +134,7 @@ public class QuickEstimateResults {
 			}
 		}
 
-		GUI.createNewTab("快速估算结果", resultView);
+		GUI.createNewTab(nodeName + "快速估算结果", resultView);
 	}
 
 }

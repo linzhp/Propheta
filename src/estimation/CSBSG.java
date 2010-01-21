@@ -147,6 +147,7 @@ public class CSBSG {
 		Set<String> keys = factors.keySet();
 		for (String key : keys) {
 			if(key != "teamSize" && key != "duration"){
+				System.out.println(key + "." + factors.get(key));
 				lnEffort += constData.get(key + "." + factors.get(key));
 				System.out.println(key + "." + factors.get(key));
 			}

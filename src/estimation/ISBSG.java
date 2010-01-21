@@ -24,7 +24,7 @@ public class ISBSG {
 		constData.put("developmentTechniques.Object Oriented Analysis;Object Oriented Design;Event Modelling", 0.821);
 		constData.put("developmentTechniques.Regression Testing;Business Area Modelling", 1.015);
 		constData.put("developmentTechniques.Other", 0.0);
-
+		
 		constData.put("languageType.2GL", 0.0);
 		constData.put("languageType.3GL", -0.463);
 		constData.put("languageType.4GL", -1.049);

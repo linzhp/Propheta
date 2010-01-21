@@ -54,16 +54,17 @@ public class Chart{
 		Random generator  = new Random();
 		final int NUM_SAMPLES = 5000000;
 		double[] efforts = new double[NUM_SAMPLES];
-		if(dataType == "csbsg")
+		if(dataType.contains("csbsg"))
 			for(int i=0; i<efforts.length; i++)
 			{
 				//工作量＝规模/生产率
+				//efforts[i] = generator.nextGaussian();
 				efforts[i] = size/((generator.nextGaussian() + piE) * piD);
 			}
 		else
 			for(int i=0; i<efforts.length; i++)
 			{
-				//工作量＝规模/生产率
+				//工作量＝规模*生产率
 				efforts[i] = size * ((generator.nextGaussian() + piE) * piD);
 			}
 		//100表示bins（即条形柱的个数）
