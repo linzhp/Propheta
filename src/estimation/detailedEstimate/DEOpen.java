@@ -7,9 +7,9 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Composite;
 
-public class DetailedEstimateAction extends NewParamTabAction implements
+public class DEOpen extends NewParamTabAction implements
 		ISelectionChangedListener {
-	public DetailedEstimateAction()
+	public DEOpen()
 	{
 		super("详细估算");
 	}
@@ -22,7 +22,7 @@ public class DetailedEstimateAction extends NewParamTabAction implements
 
 	@Override
 	protected Composite createContents(Composite parent) {
-		return new COCOMOEstimate(parent, getNode());
+		return new DEInput(parent, getNode());
 	}
 
 	@Override
@@ -32,6 +32,6 @@ public class DetailedEstimateAction extends NewParamTabAction implements
 
 	@Override
 	protected Class<? extends ParameterArea> pageClass() {
-		return COCOMOEstimate.class;
+		return DEInput.class;
 	}
 }

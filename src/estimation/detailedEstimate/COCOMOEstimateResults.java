@@ -21,9 +21,9 @@ import data.database.dataEntities.NodeBasicInformation;
 import estimation.COCOMO;
 
 public class COCOMOEstimateResults {
-	private COCOMOEstimate parameters;
+	private DEInput parameters;
 
-	public COCOMOEstimateResults(COCOMOEstimate param) {
+	public COCOMOEstimateResults(DEInput param) {
 		parameters = param;
 	}
 

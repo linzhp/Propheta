@@ -19,7 +19,7 @@ import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Section;
 
-public class COCOMOEstimate extends ParameterArea{
+public class DEInput extends ParameterArea{
 
 	private static String[] levels = {"XL","VL","L","N","H","VH","XH"};
 	private HashMap<String, ParameterScale> scales;
@@ -30,7 +30,7 @@ public class COCOMOEstimate extends ParameterArea{
 	private Button postArchRadio;
 	private Button ok;
 
-	public COCOMOEstimate(Composite parent, EstimateNode node){
+	public DEInput(Composite parent, EstimateNode node){
 		super(parent, node);
 		scales = new HashMap<String, ParameterScale>();
 		createButtonArea(form.getBody());
@@ -136,7 +136,7 @@ public class COCOMOEstimate extends ParameterArea{
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				COCOMOEstimateResults results = new COCOMOEstimateResults(COCOMOEstimate.this);
+				COCOMOEstimateResults results = new COCOMOEstimateResults(DEInput.this);
 				results.show();
 			}
 			
