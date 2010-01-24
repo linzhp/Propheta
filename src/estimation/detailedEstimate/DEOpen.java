@@ -1,13 +1,13 @@
 package estimation.detailedEstimate;
 
-import gui.tabs.NewParamTabAction;
+import gui.tabs.ShowParamTabAction;
 import gui.tabs.ParameterArea;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Composite;
 
-public class DEOpen extends NewParamTabAction implements
+public class DEOpen extends ShowParamTabAction implements
 		ISelectionChangedListener {
 	public DEOpen()
 	{

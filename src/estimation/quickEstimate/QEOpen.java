@@ -1,11 +1,11 @@
 package estimation.quickEstimate;
 
-import gui.tabs.NewParamTabAction;
+import gui.tabs.ShowParamTabAction;
 import gui.tabs.ParameterArea;
 
 import org.eclipse.swt.widgets.Composite;
 
-public class QEOpen extends NewParamTabAction {
+public class QEOpen extends ShowParamTabAction {
 
 
 	public QEOpen()

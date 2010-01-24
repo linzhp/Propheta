@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import gui.Chart;
 import gui.GUI;
-import gui.tabs.NewResultTabAction;
+import gui.tabs.ShowResultTabAction;
 import gui.tabs.TabContentArea;
 
 import org.eclipse.swt.SWT;
@@ -23,7 +23,7 @@ import data.database.dataEntities.NodeBasicInformation;
 
 import estimation.COCOMO;
 
-public class COCOMOEstimateResults extends NewResultTabAction{
+public class COCOMOEstimateResults extends ShowResultTabAction{
 	private DEInput parameters;
 	//同个包里可见的参数
 	String[] phasesSym = { "plansAndRequirements", "productDesign",

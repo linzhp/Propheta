@@ -5,9 +5,9 @@ import gui.GUI;
 
 import org.eclipse.swt.custom.CTabFolder;
 
-public abstract class NewResultTabAction extends NewTabAction {
+public abstract class ShowResultTabAction extends ShowTabAction {
 	private EstimateNode node;
-	public NewResultTabAction(EstimateNode node)
+	public ShowResultTabAction(EstimateNode node)
 	{
 		super("确定");
 		this.node = node;

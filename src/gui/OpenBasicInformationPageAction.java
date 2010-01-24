@@ -1,11 +1,11 @@
 package gui;
 
-import gui.tabs.NewParamTabAction;
+import gui.tabs.ShowParamTabAction;
 import gui.tabs.ParameterArea;
 
 import org.eclipse.swt.widgets.Composite;
 
-public class OpenBasicInformationPageAction extends NewParamTabAction{
+public class OpenBasicInformationPageAction extends ShowParamTabAction{
 
 	public OpenBasicInformationPageAction(){
 		super("打开");

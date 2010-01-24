@@ -1,14 +1,14 @@
 package estimation.integratedEstimate;
 
 import estimation.integratedEstimate.COCOMOEstimate;
-import gui.tabs.NewParamTabAction;
+import gui.tabs.ShowParamTabAction;
 import gui.tabs.ParameterArea;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Composite;
 
-public class IntegratedEstimateAction extends NewParamTabAction implements
+public class IntegratedEstimateAction extends ShowParamTabAction implements
 		ISelectionChangedListener {
 	public IntegratedEstimateAction()
 	{

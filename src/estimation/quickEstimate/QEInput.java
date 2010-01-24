@@ -41,7 +41,7 @@ public class QEInput extends ParameterArea{
 		super(parent, node);
 		//生成确定按钮
 		IToolBarManager toolBarManager = form.getToolBarManager();
-		toolBarManager.add(new QEProcessing(this));
+		toolBarManager.add(new QEShowResult(this));
 		toolBarManager.update(true);
 			
 		createEstimation(form.getBody());

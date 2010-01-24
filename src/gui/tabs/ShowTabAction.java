@@ -8,9 +8,9 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
-public abstract class NewTabAction extends Action {
+public abstract class ShowTabAction extends Action {
 
-	public NewTabAction(String text)
+	public ShowTabAction(String text)
 	{
 		super(text);
 	}

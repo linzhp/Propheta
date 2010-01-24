@@ -6,9 +6,9 @@ import estimation.entity.EstimateNode;
 
 import gui.GUI;
 
-public abstract class NewParamTabAction extends NewTabAction {
+public abstract class ShowParamTabAction extends ShowTabAction {
 	
-	protected NewParamTabAction(String text)
+	protected ShowParamTabAction(String text)
 	{
 		super(text);
 	}
