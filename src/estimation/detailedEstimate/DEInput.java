@@ -14,8 +14,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.forms.events.ExpansionAdapter;
-import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Section;
 
@@ -78,12 +76,6 @@ public class DEInput extends ParameterArea{
 	private void createScaleFactors(Composite parent){
 		Section section = toolkit.createSection(parent,
 				ExpandableComposite.TWISTIE| ExpandableComposite.TITLE_BAR|ExpandableComposite.EXPANDED);
-		section.addExpansionListener(new ExpansionAdapter() {
-			@Override
-			public void expansionStateChanged(ExpansionEvent e) {
-				form.reflow(true);
-			}
-		});
 		section.setText("比例因子");
 		Composite sectionClient = toolkit.createComposite(section);
 		scaleFactors = new String[]{"PREC","FLEX","RESL","TEAM","PMAT"};
