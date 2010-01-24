@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import gui.Chart;
 import gui.GUI;
+import gui.tabs.NewResultTabAction;
+import gui.tabs.TabContentArea;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -21,43 +23,37 @@ import data.database.dataEntities.NodeBasicInformation;
 
 import estimation.COCOMO;
 
-public class COCOMOEstimateResults {
+public class COCOMOEstimateResults extends NewResultTabAction{
 	private DEInput parameters;
+	//同个包里可见的参数
+	String[] phasesSym = { "plansAndRequirements", "productDesign",
+			"programming", "integrationAndTest" };
+	String[] phasesTex = { "计划与需求", "产品设计", "编码", "集成与测试" };
+	String[] activitiesSym = { "requirementsAnalysis", "productDesign",
+			"programming", "testPlanning", "VV", "projectOffice", "CM/QA",
+			"manuals" };
+	String[] activitiesTex = { "需求", "设计", "编码", "测试计划", "VV", "管理活动",
+			"CM/QA", "文档" };
+	Double productEM;
+	Double SCEDValue;
+	Double PM;
+	Double devTime;
+	Double[] phaseEfforts;
+	NodeBasicInformation nbi;
+	NodeBasicInfoAccess nbi_access;
+	HashMap<String, String> factorsSF;
+	HashMap<String, String> factorsEM;
+	Double sumSF;
+	int size;
+	Double e;
+	Double[] efforts;
 
 	public COCOMOEstimateResults(DEInput param) {
+		super(param.getNode());
 		parameters = param;
 	}
 
 	public void show() {
-		NodeBasicInformation nbi = new NodeBasicInformation();
-		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-		nbi_access.initConnection();
-		nbi = nbi_access.getNodeByID(parameters.getnodeID());
-		
-		String[] phasesSym = { "plansAndRequirements", "productDesign",
-				"programming", "integrationAndTest" };
-		String[] phasesTex = { "计划与需求", "产品设计", "编码", "集成与测试" };
-		String[] activitiesSym = { "requirementsAnalysis", "productDesign",
-				"programming", "testPlanning", "VV", "projectOffice", "CM/QA",
-				"manuals" };
-		String[] activitiesTex = { "需求", "设计", "编码", "测试计划", "VV", "管理活动",
-				"CM/QA", "文档" };
-
-		int size = nbi.getSLOC();
-		HashMap<String, String> factorsSF = parameters.getScaleFactors();
-		HashMap<String, String> factorsEM = parameters.getEffortMultipliers();
-		Double sumSF = COCOMO.getSumSF(factorsSF);
-		Double productEM = COCOMO.getProductEM(factorsEM);
-		Double SCEDValue = COCOMO.getSCEDValue(factorsEM.get("SCED"));
-		Double E = COCOMO.getE(sumSF);
-		Double[] effort = COCOMO.getModuleEffortTime((double) size, factorsSF,
-				factorsEM);
-		Double PM = effort[0];
-		Double devTime = effort[1];
-		Double[] phaseEfforts = COCOMO.getPhaseEfforts(phasesSym, COCOMO
-				.getSizeLevel(size), COCOMO
-				.getELevel(E), effort[0]);
-
 		// 详细估算结果
 		ScrolledComposite resultScroll = new ScrolledComposite(GUI.getButtomContentArea(),
 				SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
@@ -88,8 +84,8 @@ public class COCOMOEstimateResults {
 		String title;
 		for (int i = 0; i < phasesSym.length; i++) {
 			activityEfforts = COCOMO.getActivityEfforts(phasesSym[i],
-					activitiesSym, COCOMO.getSizeLevel(size), COCOMO.getELevel(E),
-					effort[0], phaseEfforts[i]);
+					activitiesSym, COCOMO.getSizeLevel(size), COCOMO.getELevel(e),
+					efforts[0], phaseEfforts[i]);
 			title = phasesTex[i] + "阶段的活动工作量分布";
 			activityEffortBarCharts[i] = Chart.createEffortBarChart(title,
 					null, Chart.createEffortCategoryDataset(activitiesTex,
@@ -112,5 +108,43 @@ public class COCOMOEstimateResults {
 				.getEMtype(), sumSF, productEM, SCEDValue, PM, devTime,
 				factorsSF, factorsEM);
 
+	}
+
+	@Override
+	protected Composite createContents(Composite parent) {
+		nbi = new NodeBasicInformation();
+		nbi_access = new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		nbi = nbi_access.getNodeByID(parameters.getnodeID());
+		
+
+		size = nbi.getSLOC();
+		factorsSF = parameters.getScaleFactors();
+		factorsEM = parameters.getEffortMultipliers();
+		sumSF = COCOMO.getSumSF(factorsSF);
+		productEM = COCOMO.getProductEM(factorsEM);
+		SCEDValue = COCOMO.getSCEDValue(factorsEM.get("SCED"));
+		e = COCOMO.getE(sumSF);
+		efforts = COCOMO.getModuleEffortTime((double) size, factorsSF,
+				factorsEM);
+		PM = efforts[0];
+		devTime = efforts[1];
+		phaseEfforts= COCOMO.getPhaseEfforts(phasesSym, COCOMO
+				.getSizeLevel(size), COCOMO
+				.getELevel(e), efforts[0]);
+
+		return null;
+	}
+
+	@Override
+	protected String getTabTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Class<? extends TabContentArea> pageClass() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
