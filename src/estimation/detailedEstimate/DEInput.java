@@ -6,6 +6,7 @@ import estimation.entity.EstimateNode;
 import gui.tabs.ParameterArea;
 import gui.widgets.ParameterScale;
 
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
@@ -26,11 +27,17 @@ public class DEInput extends ParameterArea{
 	private String[][] postArchDrivers;
 	private Button earlyDesignRadio;
 	private Button postArchRadio;
-	private Button ok;
+	private DEShowResult ok;
 
 	public DEInput(Composite parent, EstimateNode node){
 		super(parent, node);
 		scales = new HashMap<String, ParameterScale>();
+		//生成确定按钮
+		IToolBarManager toolBarManager = form.getToolBarManager();
+		ok = new DEShowResult(this);
+		ok.setEnabled(false);
+		toolBarManager.add(ok);
+		toolBarManager.update(true);
 		createButtonArea(form.getBody());
 		createScaleFactors(form.getBody());
 		createEffortMultipliers(form.getBody());
@@ -122,21 +129,6 @@ public class DEInput extends ParameterArea{
 		buttonArea.setLayout(layout);
 		earlyDesignRadio = toolkit.createButton(buttonArea, "前期设计", SWT.RADIO);
 		postArchRadio = toolkit.createButton(buttonArea, "后体系结构", SWT.RADIO);
-		ok = toolkit.createButton(buttonArea, "确定", SWT.PUSH);
-		ok.setEnabled(false);
-		ok.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				COCOMOEstimateResults results = new COCOMOEstimateResults(DEInput.this);
-				results.show();
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-		});
 	}
 	
 	private void fillSections(String[][] drivers, Composite[] sections){
