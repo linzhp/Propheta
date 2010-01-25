@@ -16,7 +16,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
 import data.database.dataAccess.NodeBasicInfoAccess;
-import data.database.dataAccess.QuickEstimationAccess;
 import data.database.dataEntities.NodeBasicInformation;
 import data.database.dataEntities.QuickEstimationRecord;
 

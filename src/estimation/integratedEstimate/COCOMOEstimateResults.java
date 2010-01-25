@@ -81,15 +81,6 @@ public class COCOMOEstimateResults {
 			// 更新基本信息表中的估算类型
 			NodeBasicInformation.updateEstType(parameters.getnodeID(), "quickMultiple");
 		}
-		Composite resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
-		GridLayout layout = new GridLayout(1, false);
-		layout.verticalSpacing = 10;
-		resultView.setLayout(layout);
-
-		//显示同论文总结出的CSBSG公式，计算得到的结果
-		Label resultLabel = new Label(resultView, SWT.NONE);
-		resultLabel.setText(resultText);
-		GUI.createNewTab("集成估算结果", resultView);
 	}
 	
 	private static void saveCocomoEstimation(int nodeID, String EMType, Double PM, Double devTime) {
@@ -117,5 +108,30 @@ public class COCOMOEstimateResults {
 		qer_access.updateQuickEstimation(qer);
 		qer_access.disposeConnection();
 	}
+	
+	public static void createCocomoResultsTab(String nodeName, Double PM, Double devTime)
+	{
+		NumberFormat format = NumberFormat.getInstance();
+		String resultText = "根据公式计算出   PM为：" + format.format(PM)+ "(人.月)\n\n"+
+		"\t\t TDEV为：" + format.format(devTime)+"(月)\n\n" + "\t\t 平均所需开发人员为：" + format.format(PM/devTime);
+		//createTab
+	}
+	
+	public static void createCocomoResultsTab()
+	{
+		//createTab
+	}
+	
+	private void createTab(String nodeName, String resultText)
+	{
+		Composite resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
+		GridLayout layout = new GridLayout(1, false);
+		layout.verticalSpacing = 10;
+		resultView.setLayout(layout);
 
+		//显示同论文总结出的CSBSG公式，计算得到的结果
+		Label resultLabel = new Label(resultView, SWT.NONE);
+		resultLabel.setText(resultText);
+		GUI.createNewTab(nodeName + "集成估算结果", resultView);
+	}
 }

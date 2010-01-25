@@ -60,6 +60,7 @@ public class QuickEstimateAction extends NewParamTabAction {
 		}
 		parent.setFocus();
 		
+		//如果存储了快速估算结果，则生成显示结果的tab
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
 		nbi_access.initConnection();
 		int projectSize = nbi_access.getNodeByID(node.getId()).getSLOC();
@@ -71,7 +72,6 @@ public class QuickEstimateAction extends NewParamTabAction {
 		qer_access.disposeConnection();
 		String dataType = qer.getDataType();
 		
-		
 		if(dataType != null){
 			Double formulaEffort = qer.getFormulaEffort();
 			Double historyEffort = qer.getHistoryEffort();
@@ -81,8 +81,6 @@ public class QuickEstimateAction extends NewParamTabAction {
 			QuickEstimateResults.createResultsTab(node.getName(),projectSize, dataType, formulaEffort, historyEffort,
 					meanProductivity, stanDevProductivity);
 		}
-		
-		
 	}
 
 }
