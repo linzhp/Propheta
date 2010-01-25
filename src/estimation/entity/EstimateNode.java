@@ -234,6 +234,23 @@ public class EstimateNode{
 
 		return SLOC;
 	}
+	
+	public int getFunctionPoints() {
+		int functionPoints = 0;
+		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		if (this.isLeaf())
+			functionPoints = nbi_access.getNodeByID(this.getId()).getFunctionPoints();
+		else {
+			//子系统的规模计算为各模块规模之和，这样计算可能会有点问题
+			ArrayList<EstimateNode> children = this.getChildren();
+			for (EstimateNode child : children)
+				functionPoints += child.getFunctionPoints();
+		}
+		nbi_access.disposeConnection();
+
+		return functionPoints;
+	}
 
 	public String getEstType(){
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();

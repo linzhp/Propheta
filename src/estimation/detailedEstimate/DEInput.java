@@ -2,9 +2,11 @@ package estimation.detailedEstimate;
 
 import java.util.HashMap;
 
-import gui.widgets.ParameterArea;
+import estimation.entity.EstimateNode;
+import gui.tabs.ParameterArea;
 import gui.widgets.ParameterScale;
 
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
@@ -13,12 +15,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.forms.events.ExpansionAdapter;
-import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Section;
 
-public class COCOMOEstimate extends ParameterArea{
+public class DEInput extends ParameterArea{
 
 	private static String[] levels = {"XL","VL","L","N","H","VH","XH"};
 	private HashMap<String, ParameterScale> scales;
@@ -27,11 +27,17 @@ public class COCOMOEstimate extends ParameterArea{
 	private String[][] postArchDrivers;
 	private Button earlyDesignRadio;
 	private Button postArchRadio;
-	private Button ok;
+	private DEShowResult ok;
 
-	public COCOMOEstimate(Composite parent, int nodeID){
-		super(parent, nodeID);
+	public DEInput(Composite parent, EstimateNode node){
+		super(parent, node);
 		scales = new HashMap<String, ParameterScale>();
+		//生成确定按钮
+		IToolBarManager toolBarManager = form.getToolBarManager();
+		ok = new DEShowResult(this);
+		ok.setEnabled(false);
+		toolBarManager.add(ok);
+		toolBarManager.update(true);
 		createButtonArea(form.getBody());
 		createScaleFactors(form.getBody());
 		createEffortMultipliers(form.getBody());
@@ -77,12 +83,6 @@ public class COCOMOEstimate extends ParameterArea{
 	private void createScaleFactors(Composite parent){
 		Section section = toolkit.createSection(parent,
 				ExpandableComposite.TWISTIE| ExpandableComposite.TITLE_BAR|ExpandableComposite.EXPANDED);
-		section.addExpansionListener(new ExpansionAdapter() {
-			@Override
-			public void expansionStateChanged(ExpansionEvent e) {
-				form.reflow(true);
-			}
-		});
 		section.setText("比例因子");
 		Composite sectionClient = toolkit.createComposite(section);
 		scaleFactors = new String[]{"PREC","FLEX","RESL","TEAM","PMAT"};
@@ -129,21 +129,6 @@ public class COCOMOEstimate extends ParameterArea{
 		buttonArea.setLayout(layout);
 		earlyDesignRadio = toolkit.createButton(buttonArea, "前期设计", SWT.RADIO);
 		postArchRadio = toolkit.createButton(buttonArea, "后体系结构", SWT.RADIO);
-		ok = toolkit.createButton(buttonArea, "确定", SWT.PUSH);
-		ok.setEnabled(false);
-		ok.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				COCOMOEstimateResults results = new COCOMOEstimateResults(COCOMOEstimate.this);
-				results.show();
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-		});
 	}
 	
 	private void fillSections(String[][] drivers, Composite[] sections){

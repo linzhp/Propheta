@@ -2,33 +2,25 @@ package estimation.quickEstimate;
 
 import java.util.HashMap;
 
-import gui.widgets.ParameterArea;
-import gui.widgets.ParameterScale;
+import gui.tabs.ParameterArea;
 import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataEntities.NodeBasicInformation;
+import estimation.entity.EstimateNode;
 
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Spinner;
 
-public class QuickEstimate extends ParameterArea{
+public class QEInput extends ParameterArea{
 	//公共变量
 	private Composite comEstimation, factorDataArea;
 	private StackLayout factorStack;
-	private GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 	private NodeBasicInformation nbi;
 	private NodeBasicInfoAccess nbi_access;
 	private int CSBSGSize, ISBSGSize;
@@ -45,17 +37,19 @@ public class QuickEstimate extends ParameterArea{
 	private HashMap<String, String> ISBSGFactors = new HashMap<String, String>();
 	private Button btnISBSGTeamSize, btnISBSGDevType, btnISBSGDevTech, btnISBSGDevPlat, btnISBSGLanType;
 
-	public QuickEstimate(Composite parent, int nodeID){
-		super(parent, nodeID);
+	public QEInput(Composite parent, EstimateNode node){
+		super(parent, node);
+		//生成确定按钮
+		IToolBarManager toolBarManager = form.getToolBarManager();
+		toolBarManager.add(new QEShowResult(this, false));
+		toolBarManager.update(true);
+			
 		createEstimation(form.getBody());
 	}
 	
 	public void refresh(){
 		comEstimation.dispose();
 		createEstimation(form.getBody());
-		btnCSBSG.setSelection(true);
-		factorStack.topControl = comCSBSG;
-		factorDataArea.layout();
 		form.getBody().layout();
 		CSBSGFactors.clear();
 		ISBSGFactors.clear();
@@ -68,15 +62,6 @@ public class QuickEstimate extends ParameterArea{
 			return "isbsg";
 	}
 	
-	public int getCSBSGSize()
-	{
-		return CSBSGSize;
-	}
-	
-	public int getISBSGSize()
-	{
-		return ISBSGSize;
-	}
 	public HashMap<String, String> getCSBSGFactors() {
 		return CSBSGFactors;
 	}
@@ -94,22 +79,11 @@ public class QuickEstimate extends ParameterArea{
 		
 		//生成ISBSG与CSBSG数据选择按钮
 		createRadioButtons(comEstimation);
-		
-		//生成确定按钮
-		Button ok = toolkit.createButton(comEstimation, "确定", SWT.PUSH);
-		ok.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
-		ok.setEnabled(true);
-		ok.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				QuickEstimateResults results = new QuickEstimateResults(QuickEstimate.this);
-				results.show();
-			}
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-		});
-		
 		createfactorsDataArea(comEstimation);
+		
+		btnCSBSG.setSelection(true);
+		factorStack.topControl = comCSBSG;
+		factorDataArea.layout();
 		
 		return comEstimation;
 	}
@@ -118,9 +92,7 @@ public class QuickEstimate extends ParameterArea{
 		nbi = new NodeBasicInformation();
 		nbi_access = new NodeBasicInfoAccess();
 		nbi_access.initConnection();
-		nbi = nbi_access.getNodeByID(nodeID);
-		CSBSGSize = nbi.getSLOC();
-		ISBSGSize = nbi.getFunctionPoints();
+		nbi = nbi_access.getNodeByID(node.getId());
 		
 		//生成参数输入区
 		GridData gd = new GridData();

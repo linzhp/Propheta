@@ -1,10 +1,11 @@
 package gui;
 
-import gui.widgets.ParameterArea;
+import gui.tabs.ShowParamTabAction;
+import gui.tabs.ParameterArea;
 
 import org.eclipse.swt.widgets.Composite;
 
-public class OpenBasicInformationPageAction extends NewParamTabAction{
+public class OpenBasicInformationPageAction extends ShowParamTabAction{
 
 	public OpenBasicInformationPageAction(){
 		super("打开");
@@ -14,13 +15,13 @@ public class OpenBasicInformationPageAction extends NewParamTabAction{
 	@Override
 	protected Composite createContents(Composite parent) {
 	
-		return new NodeBasicInformationPage(GUI.getTreeArea().getSelectedNode().getId(),parent);
+		return new NodeBasicInformationPage(getNode(),parent);
 	}
 
 
 	@Override
 	protected String getTabTitle() {
-		return node.getName()+" 节点信息";
+		return getNode().getName()+" 节点信息";
 	}
 
 

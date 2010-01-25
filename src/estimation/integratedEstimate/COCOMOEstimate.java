@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import estimation.entity.EstimateNode;
 import estimation.entity.EstimationProjects;
-import gui.widgets.ParameterArea;
+import gui.tabs.ParameterArea;
 import gui.widgets.ParameterScale;
 
 import org.eclipse.swt.SWT;
@@ -30,8 +30,8 @@ public class COCOMOEstimate extends ParameterArea{
 	private String[] scaleFactors;
 	private Button ok;
 
-	public COCOMOEstimate(Composite parent, int nodeID){
-		super(parent, nodeID);
+	public COCOMOEstimate(Composite parent, EstimateNode node){
+		super(parent, node);
 		scales = new HashMap<String, ParameterScale>();
 		createButtonArea(form.getBody());
 		createSCEDFactor(form.getBody());
@@ -92,7 +92,7 @@ public class COCOMOEstimate extends ParameterArea{
 		comChildrenList= toolkit.createComposite(parent);
 		comChildrenList.setLayout(new GridLayout(2, false));
 		//应该通过nodeID得到tab，而不是树形结构里的被选节点
-		ArrayList<EstimateNode> children = EstimationProjects.getNodeByID(nodeID).getChildren();
+		ArrayList<EstimateNode> children = EstimationProjects.getNodeByID(node.getId()).getChildren();
 		Button[] buttons = new Button[children.size()];
 		for(int i=0; i<children.size(); i++)
 		{
@@ -115,12 +115,6 @@ public class COCOMOEstimate extends ParameterArea{
 	private void createScaleFactors(Composite parent){
 		Section section = toolkit.createSection(parent,
 				ExpandableComposite.TWISTIE| ExpandableComposite.TITLE_BAR);
-		section.addExpansionListener(new ExpansionAdapter() {
-			@Override
-			public void expansionStateChanged(ExpansionEvent e) {
-				form.reflow(true);
-			}
-		});
 		section.setText("比例因子");
 		Composite sectionClient = toolkit.createComposite(section);
 		scaleFactors = new String[]{"PREC","FLEX","RESL","TEAM","PMAT"};

@@ -10,11 +10,11 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 
-import estimation.detailedEstimate.DetailedEstimateAction;
+import estimation.detailedEstimate.DEOpen;
 import estimation.entity.EstimateNode;
 import estimation.entity.EstimationProjects;
 import estimation.integratedEstimate.IntegratedEstimateAction;
-import estimation.quickEstimate.QuickEstimateAction;
+import estimation.quickEstimate.QEOpen;
 import gui.OpenBasicInformationPageAction;
 import gui.widgets.tree.contextMenu.AddNodeAction;
 import gui.widgets.tree.contextMenu.NewProjectAction;
@@ -40,8 +40,8 @@ public class TreeArea extends Composite{
 	RemoveNodeAction removeNodeAction=new RemoveNodeAction();
 	RenameNodeAction renameNodeAction=new RenameNodeAction();
 	MenuManager menuManager_estimation=new MenuManager("估算");
-	QuickEstimateAction quickEstimateAction=new QuickEstimateAction();
-	DetailedEstimateAction detailedEstimationAction=new DetailedEstimateAction();
+	QEOpen quickEstimateAction=new QEOpen();
+	DEOpen detailedEstimationAction=new DEOpen();
 	IntegratedEstimateAction integratedEstimationAction=new IntegratedEstimateAction();
 	
 	public TreeArea(Composite parent, int style) {

@@ -17,8 +17,9 @@ import org.eclipse.swt.widgets.Text;
 
 import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataEntities.NodeBasicInformation;
+import estimation.entity.EstimateNode;
 import estimation.sizeEstimation.SizeEstimationWizard;
-import gui.widgets.ParameterArea;
+import gui.tabs.ParameterArea;
 
 /**
  * 节点基本信息页面
@@ -56,8 +57,8 @@ public class NodeBasicInformationPage extends ParameterArea{
 	 * 构造器
 	 * @param nodeID 关联的节点ID
 	 */
-	public NodeBasicInformationPage(int nodeID, Composite parent){
-		super(parent,nodeID);
+	public NodeBasicInformationPage(EstimateNode node, Composite parent){
+		super(parent,node);
 		this.setFormText("节点基本信息");
 		
 		//构造页面控件
@@ -67,7 +68,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		NodeBasicInformation nbi=new NodeBasicInformation();
 		NodeBasicInfoAccess nia_access=new NodeBasicInfoAccess();
 		nia_access.initConnection();
-		nbi=nia_access.getNodeByID(nodeID);
+		nbi=nia_access.getNodeByID(node.getId());
 		nia_access.disposeConnection();
 		
 		bindNodeBaiscInformation(nbi);
@@ -289,7 +290,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		NodeBasicInformation nbi=new NodeBasicInformation();
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		nbi_access.initConnection();
-		nbi=nbi_access.getNodeByID(nodeID);
+		nbi=nbi_access.getNodeByID(node.getId());
 		nbi_access.disposeConnection();
 		
 		nbi.setTeamSize(this.spnTeamSize.getSelection());

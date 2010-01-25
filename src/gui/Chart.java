@@ -20,7 +20,6 @@ import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.HorizontalAlignment;
 
 public class Chart{
 	public static JFreeChart createMonteCarloChart(IntervalXYDataset dataSet) {
@@ -72,35 +71,6 @@ public class Chart{
 		return histogramdataset;
 	}
 	
-	public static JFreeChart createQuickEffortScatterChart(XYDataset dataSet, Double mean, Double median) {
-		JFreeChart chart = ChartFactory.createScatterPlot("规模相近的历史项目的工作量分布",
-				"规模(KLOC)", "工作量(Hour)", dataSet, PlotOrientation.VERTICAL,
-				false, false, false);
-		// 设置了字体，才能显示中文
-		Font font = new Font("黑体", SWT.Paint, 14);
-		// 图片标题
-		TextTitle title = chart.getTitle();
-		title.setFont(font);
-		// 图片副标题
-		TextTitle subTitle = new TextTitle("工作量平均值：" + mean + "  中位数：" + median );  
-		subTitle.setFont(new Font("宋体", SWT.Paint, 12));
-		subTitle.setHorizontalAlignment(HorizontalAlignment.RIGHT);
-		chart.addSubtitle(subTitle);
-		// 图形的绘制结构对象
-		XYPlot xyplot = chart.getXYPlot();
-		// X 轴
-		ValueAxis domainAxis = xyplot.getDomainAxis();
-		domainAxis.setLabelFont(font);// 轴标题
-		domainAxis.setTickLabelFont(font);// 轴数值
-		// Y 轴
-		ValueAxis rangeAxis = xyplot.getRangeAxis();
-		rangeAxis.setLabelFont(font);// 轴标题
-		rangeAxis.setTickLabelFont(font);// 轴数值
-
-		xyplot.setForegroundAlpha(0.85F);
-		return chart;
-	}
-
 	public static XYDataset createQuickEffortXYDataset(ArrayList<Double[]> array) {
 		XYSeries xyseries = new XYSeries("");
 		for (int i = 0; i < array.size(); i++)
@@ -124,7 +94,6 @@ public class Chart{
             false,                     // tooltips   
             false                     // URLs  
         );   
-   
      // 设置了字体，才能显示中文
 		Font font = new Font("黑体", SWT.Paint, 12);
 		// 图片标题

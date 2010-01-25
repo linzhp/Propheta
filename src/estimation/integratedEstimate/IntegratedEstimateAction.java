@@ -6,10 +6,8 @@ import data.database.dataAccess.QuickEstimationAccess;
 import data.database.dataEntities.CocomoEstimationRecord;
 import data.database.dataEntities.QuickEstimationRecord;
 import estimation.integratedEstimate.COCOMOEstimate;
-import estimation.quickEstimate.QuickEstimateResults;
-import gui.GUI;
-import gui.NewParamTabAction;
-import gui.widgets.ParameterArea;
+import gui.tabs.ShowParamTabAction;
+import gui.tabs.ParameterArea;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -17,7 +15,7 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
-public class IntegratedEstimateAction extends NewParamTabAction implements
+public class IntegratedEstimateAction extends ShowParamTabAction implements
 		ISelectionChangedListener {
 	public IntegratedEstimateAction()
 	{
@@ -31,12 +29,12 @@ public class IntegratedEstimateAction extends NewParamTabAction implements
 
 	@Override
 	protected Composite createContents(Composite parent) {
-		return new COCOMOEstimate(parent, node.getId());
+		return new COCOMOEstimate(parent, getNode());
 	}
 
 	@Override
 	protected String getTabTitle() {
-		return node.getName()+"集成估算";
+		return getNode().getName()+"集成估算";
 	}
 
 	@Override
@@ -47,48 +45,31 @@ public class IntegratedEstimateAction extends NewParamTabAction implements
 	public void run()
 	{
 		//生成标签
-		CTabFolder parent = GUI.getTopContentArea();
-		node = GUI.getTreeArea().getSelectedNode();
-		boolean opened = false;
-		for(CTabItem tab:parent.getItems())
-		{
-			ParameterArea tabContent = (ParameterArea)tab.getControl();
-			if(tabContent.getnodeID() == node.getId() && tabContent.getClass() == pageClass())
-			{
-				parent.setSelection(tab);
-				opened = true;
-				break;
-			}
-		}
-		if(opened == false) 
-		{
-			GUI.createNewTab(getTabTitle(), createContents(parent));			
-		}
-		parent.setFocus();
+		super.run();
 		
 		//如果存储了集成估算结果，则生成显示结果的tab
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
 		nbi_access.initConnection();
-		String estType = nbi_access.getNodeByID(node.getId()).getEstType();
+		String estType = nbi_access.getNodeByID(getNode().getId()).getEstType();
 		nbi_access.disposeConnection();
 		
 		if(estType.contains("cocomoMultiple")){
 			CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
 			cer_access.initConnection();
-			CocomoEstimationRecord cer = cer_access.getCocomoEstimationByNodeID(node.getId());
+			CocomoEstimationRecord cer = cer_access.getCocomoEstimationByNodeID(getNode().getId());
 			cer_access.disposeConnection();
 			Double PM = cer.getPM();
 			Double devTime = cer.getDevTime();
 
-			COCOMOEstimateResults.createCocomoResultsTab(node.getName(), PM, devTime);
+			COCOMOEstimateResults.createCocomoResultsTab(getNode().getName(), PM, devTime);
 		}
 		else if(estType.contains("quickMultiple"))
 		{
 			QuickEstimationAccess qer_access = new QuickEstimationAccess();
 			qer_access.initConnection();
-			Double effort = qer_access.getQuickEstimationByNodeID(node.getId()).getFormulaEffort();
+			Double effort = qer_access.getQuickEstimationByNodeID(getNode().getId()).getFormulaEffort();
 			
-			COCOMOEstimateResults.createQuickResultsTab(node.getName(), effort);
+			COCOMOEstimateResults.createQuickResultsTab(getNode().getName(), effort);
 		}
 	}
 }

@@ -1,38 +1,36 @@
-package gui.widgets;
+package gui.tabs;
 
-import org.eclipse.swt.*;
+import estimation.entity.EstimateNode;
+
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.forms.widgets.*;
 
 
-public abstract class ParameterArea extends Composite{
+public abstract class ParameterArea extends TabContentArea{
 	protected FormToolkit toolkit;
 	protected ScrolledForm form;
-	protected int nodeID;
 	
-	public ParameterArea(Composite parent, int nodeID){
-		super(parent, SWT.NONE);
-		this.nodeID = nodeID;
+	public ParameterArea(Composite parent, EstimateNode node){
+		super(parent, node);
 		toolkit = new FormToolkit(Display.getCurrent());
 		setLayout(new FillLayout());
 		form = toolkit.createScrolledForm(this);
+		toolkit.decorateFormHeading(form.getForm());
 		form.setText("估算参数设置");
 		Composite body = form.getBody();
 		body.setLayout(new ColumnLayout());
 	}
 	
-	
+	public EstimateNode getNode(){
+		return node;
+	}
 	/**
 	 * 设置页面标题
 	 * @param formText
 	 */
 	public void setFormText(String formText){
 		this.form.setText(formText);
-	}
-	
-	public int getnodeID(){
-		return nodeID;
 	}
 	
 	/**

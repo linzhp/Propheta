@@ -4,9 +4,11 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 
 import gui.Chart;
-import gui.GUI;
+import gui.tabs.TabContentArea;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -20,14 +22,12 @@ import data.database.dataEntities.NodeBasicInformation;
 
 import estimation.COCOMO;
 
-public class COCOMOEstimateResults {
-	private COCOMOEstimate parameters;
+public class DEResults extends TabContentArea{
+	private DEInput parameters;
 
-	public COCOMOEstimateResults(COCOMOEstimate param) {
+	public DEResults(Composite parent, DEInput param) {
+		super(parent, param.getNode());
 		parameters = param;
-	}
-
-	public void show() {
 		NodeBasicInformation nbi = new NodeBasicInformation();
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
 		nbi_access.initConnection();
@@ -58,9 +58,14 @@ public class COCOMOEstimateResults {
 				.getELevel(E), effort[0]);
 
 		// 详细估算结果
-		Composite resultView = new Composite(GUI.getButtomContentArea(),
-				SWT.NONE);
-		GridLayout resultLayout = new GridLayout(1, false);
+		this.setLayout(new FillLayout());
+		ScrolledComposite resultScroll = new ScrolledComposite(this,
+				SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		resultScroll.setExpandHorizontal(true);
+		resultScroll.setExpandVertical(true);
+		Composite resultView = new Composite(resultScroll,
+		SWT.BORDER_DOT);
+		GridLayout resultLayout = new GridLayout(2, true);
 		resultLayout.verticalSpacing = 10;
 		resultView.setLayout(resultLayout);
 		Label result = new Label(resultView, SWT.NONE);
@@ -76,14 +81,7 @@ public class COCOMOEstimateResults {
 				phaseEffortBarChart, true);
 		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
 		effortFrame.setLayoutData(gd);
-		GUI.createNewTab("详细估算结果", resultView);
-
 		// 阶段的活动工作量
-		Composite chartView = new Composite(GUI.getButtomContentArea(),
-				SWT.NONE);
-		GridLayout chartLayout = new GridLayout(2, false);
-		chartLayout.verticalSpacing = 10;
-		chartView.setLayout(chartLayout);
 		JFreeChart[] activityEffortBarCharts = new JFreeChart[phasesSym.length];
 		Composite[] effortFrames = new Composite[phasesSym.length];
 		Double[] activityEfforts;
@@ -96,11 +94,12 @@ public class COCOMOEstimateResults {
 			activityEffortBarCharts[i] = Chart.createEffortBarChart(title,
 					null, Chart.createEffortCategoryDataset(activitiesTex,
 							activityEfforts));
-			effortFrames[i] = new ChartComposite(chartView, SWT.BORDER,
+			effortFrames[i] = new ChartComposite(resultView, SWT.BORDER,
 					activityEffortBarCharts[i], true);
 			effortFrames[i].setLayoutData(gd);
 		}
-		GUI.createNewTab("各阶段活动工作量分布", chartView);
+		resultScroll.setContent(resultView);
+		resultScroll.setMinSize(500,400);
 
 		// 更新基本信息表中的估算类型
 		nbi.setEstType("cocomoSimple");
@@ -113,4 +112,5 @@ public class COCOMOEstimateResults {
 				factorsSF, factorsEM);
 
 	}
+
 }

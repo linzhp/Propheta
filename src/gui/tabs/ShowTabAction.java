@@ -1,17 +1,16 @@
-package gui;
+package gui.tabs;
+
+import estimation.entity.EstimateNode;
+import gui.GUI;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
-import estimation.entity.EstimateNode;
-import gui.widgets.ParameterArea;
+public abstract class ShowTabAction extends Action {
 
-public abstract class NewParamTabAction extends Action {
-	protected EstimateNode node;
-	
-	protected NewParamTabAction(String text)
+	public ShowTabAction(String text)
 	{
 		super(text);
 	}
@@ -19,27 +18,31 @@ public abstract class NewParamTabAction extends Action {
 	@Override
 	public void run()
 	{
-		CTabFolder parent = GUI.getTopContentArea();
-		node = GUI.getTreeArea().getSelectedNode();
+		CTabFolder parent = getTabFolder();
+		EstimateNode node = getNode();
+		Composite newContents = createContents(parent);
 		boolean opened = false;
 		for(CTabItem tab:parent.getItems())
 		{
-			ParameterArea tabContent = (ParameterArea)tab.getControl();
+			TabContentArea tabContent = (TabContentArea)tab.getControl();
 			if(tabContent.getnodeID() == node.getId() && tabContent.getClass() == pageClass())
 			{
 				parent.setSelection(tab);
+				tab.setControl(newContents);
 				opened = true;
 				break;
 			}
 		}
 		if(opened == false)
 		{
-			GUI.createNewTab(getTabTitle(), createContents(parent));			
+			GUI.createNewTab(getTabTitle(), newContents);			
 		}
 		parent.setFocus();
 	}
-	
+
+	protected abstract CTabFolder getTabFolder();
 	protected abstract Composite createContents(Composite parent);
-	protected abstract Class<? extends ParameterArea> pageClass();
+	protected abstract Class<? extends TabContentArea> pageClass();
 	protected abstract String getTabTitle();
+	protected abstract EstimateNode getNode();
 }
