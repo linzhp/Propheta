@@ -31,12 +31,16 @@ public class COCOMOEstimateResults {
 	
 	public void show()
 	{
+		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
+		nbi_access.initConnection();
+		String nodeName = nbi_access.getNodeByID(parameters.getnodeID()).getName(); 
+		nbi_access.disposeConnection();
+		
 		CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
 		cer_access.initConnection();
 		
 		ArrayList<EstimateNode> children = parameters.getSelectedChildren();
 		int tag = 0;
-		String resultText = "test";
 		for(EstimateNode child: children)
 			if (!child.getEstType().contains("cocomoSimple")){
 				tag =1;
@@ -55,12 +59,10 @@ public class COCOMOEstimateResults {
 			Double[] effort = COCOMO.getIntegratedEffortTime(sizes, productEMs, factorsSF, SCEDLevel);
 			Double PM = effort[0];
 			Double devTime = effort[1];
-			NumberFormat format = NumberFormat.getInstance();
-			resultText = "根据公式计算出   PM为：" + format.format(PM)+ "(人.月)\n\n"+
-			"\t\t TDEV为：" + format.format(devTime)+"(月)\n\n" + "\t\t 平均所需开发人员为：" + format.format(PM/devTime);
+			createCocomoResultsTab(nodeName, PM, devTime);
 			//设置集成估算结果
 			saveCocomoEstimation(parameters.getnodeID(), "multiple", PM, devTime);
-			// 更新基本信息表中的估算类型
+			//更新基本信息表中的估算类型
 			NodeBasicInformation.updateEstType(parameters.getnodeID(), "cocomoMultiple");
 		}
 		else{
@@ -75,7 +77,7 @@ public class COCOMOEstimateResults {
 			qer_access.disposeConnection();
 			cer_access.disposeConnection();
 			Double effort = SimpleIntegratedEstimate.getIntegratedEffort(efforts);
-			resultText = "集成估算的 工作量为" + effort.intValue()+ " 小时";
+			createQuickResultsTab(nodeName, effort);
 			//设置集成估算结果
 			saveQuickEstimation(parameters.getnodeID(), "multiple", effort);
 			// 更新基本信息表中的估算类型
@@ -114,15 +116,16 @@ public class COCOMOEstimateResults {
 		NumberFormat format = NumberFormat.getInstance();
 		String resultText = "根据公式计算出   PM为：" + format.format(PM)+ "(人.月)\n\n"+
 		"\t\t TDEV为：" + format.format(devTime)+"(月)\n\n" + "\t\t 平均所需开发人员为：" + format.format(PM/devTime);
-		//createTab
+		createTab(nodeName, resultText);
 	}
 	
-	public static void createCocomoResultsTab()
+	public static void createQuickResultsTab(String nodeName, Double effort)
 	{
-		//createTab
+		String resultText = "集成估算的 工作量为" + effort.intValue()+ " 小时";
+		createTab(nodeName, resultText);
 	}
 	
-	private void createTab(String nodeName, String resultText)
+	private  static void createTab(String nodeName, String resultText)
 	{
 		Composite resultView = new Composite(GUI.getButtomContentArea(), SWT.NONE);
 		GridLayout layout = new GridLayout(1, false);
