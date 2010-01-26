@@ -15,7 +15,6 @@ import data.database.dataEntities.QuickEstimationRecord;
 public class QEOpen extends ShowParamTabAction {
 
 	private QEInput qeInput;
-
 	public QEOpen()
 	{
 		super("快速估算");
@@ -43,7 +42,11 @@ public class QEOpen extends ShowParamTabAction {
 	{
 		super.run();
 		
-		if(qeInput.getDataType() != null){
+		QuickEstimationAccess qer_access = new QuickEstimationAccess();
+		qer_access.initConnection();
+		String dataType = qer_access.getQuickEstimationByNodeID(getNode().getId()).getDataType();
+		qer_access.disposeConnection();
+		if(dataType != null){
 			QEShowResult qeShowResult = new QEShowResult(qeInput, true);
 			qeShowResult.run();
 		}		

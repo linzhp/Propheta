@@ -23,7 +23,6 @@ public class QEInput extends ParameterArea{
 	private StackLayout factorStack;
 	private NodeBasicInformation nbi;
 	private NodeBasicInfoAccess nbi_access;
-	private int CSBSGSize, ISBSGSize;
 	
 	// CSBSG变量
 	private Button btnCSBSG;

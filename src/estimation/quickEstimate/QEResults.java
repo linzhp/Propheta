@@ -31,7 +31,7 @@ public class QEResults extends TabContentArea {
 		super(parent, quickEstimate.getNode());
 		this.quickEstimate = quickEstimate;
 
-		String dataType = quickEstimate.getDataType();
+		String dataType;
 		int projectSize = 0;
 		// 由公式计算得到的effort值
 		Double formulaEffort = 0.0;
@@ -47,6 +47,7 @@ public class QEResults extends TabContentArea {
 			ArrayList<Double> arrayPI;
 			// for the statistic of median,mean and standard deviation
 			DescriptiveStatistics stats = new DescriptiveStatistics();
+			dataType = quickEstimate.getDataType();
 
 			// 根据用户输入，处理快速估算数据
 			if (dataType.contains("csbsg")) {
@@ -89,13 +90,15 @@ public class QEResults extends TabContentArea {
 		}
 		// 从数据库得到快速估算数据
 		else {
+			QuickEstimationAccess qer_access = new QuickEstimationAccess();
+			qer_access.initConnection();
+			
+			dataType = qer_access.getQuickEstimationByNodeID(this.getnodeID()).getDataType();
 			if (dataType.contains("csbsg"))
 				projectSize = quickEstimate.getNode().getSLOC();
 			else
 				projectSize = quickEstimate.getNode().getFunctionPoints();
 
-			QuickEstimationAccess qer_access = new QuickEstimationAccess();
-			qer_access.initConnection();
 			QuickEstimationRecord qer = qer_access
 					.getQuickEstimationByNodeID(node.getId());
 			qer_access.disposeConnection();

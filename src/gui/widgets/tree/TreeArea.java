@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Menu;
 import estimation.detailedEstimate.DEOpen;
 import estimation.entity.EstimateNode;
 import estimation.entity.EstimationProjects;
-import estimation.integratedEstimate.IntegratedEstimateAction;
+import estimation.integratedEstimate.IEOpen;
 import estimation.quickEstimate.QEOpen;
 import gui.OpenBasicInformationPageAction;
 import gui.widgets.tree.contextMenu.AddNodeAction;
@@ -42,7 +42,7 @@ public class TreeArea extends Composite{
 	MenuManager menuManager_estimation=new MenuManager("估算");
 	QEOpen quickEstimateAction=new QEOpen();
 	DEOpen detailedEstimationAction=new DEOpen();
-	IntegratedEstimateAction integratedEstimationAction=new IntegratedEstimateAction();
+	IEOpen integratedEstimationAction=new IEOpen();
 	
 	public TreeArea(Composite parent, int style) {
 		super(parent, style);
