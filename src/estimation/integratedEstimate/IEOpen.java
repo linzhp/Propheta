@@ -44,11 +44,7 @@ public class IEOpen extends ShowParamTabAction implements
 		//生成标签
 		super.run();
 		
-		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-		nbi_access.initConnection();
-		String estType = nbi_access.getNodeByID(getNode().getId()).getEstType();
-		nbi_access.disposeConnection();
-		
+		String estType = getNode().getEstType();
 		if(estType.contains("Multiple")){
 			IEShowResult ieShowResult = new IEShowResult(ieInput, true);
 			ieShowResult.run();

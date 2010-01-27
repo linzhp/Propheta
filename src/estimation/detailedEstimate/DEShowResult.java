@@ -7,14 +7,17 @@ import gui.tabs.TabContentArea;
 
 public class DEShowResult extends ShowResultTabAction {
 	private DEInput params;
-	public DEShowResult(DEInput params){
+	private boolean isOpen;
+	
+	public DEShowResult(DEInput params, boolean isOPen){
 		super(params.getNode());
 		this.params = params;
+		this.isOpen = isOpen;
 	}
 
 	@Override
 	protected Composite createContents(Composite parent) {
-		return new DEResults(parent, params);
+		return new DEResults(parent, params, isOpen);
 	}
 
 	@Override

@@ -7,8 +7,13 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Composite;
 
+import data.database.dataAccess.CocomoEstimationAccess;
+import data.database.dataAccess.QuickEstimationAccess;
+import estimation.quickEstimate.QEShowResult;
+
 public class DEOpen extends ShowParamTabAction implements
 		ISelectionChangedListener {
+	private DEInput deInput;
 	public DEOpen()
 	{
 		super("详细估算");
@@ -22,7 +27,8 @@ public class DEOpen extends ShowParamTabAction implements
 
 	@Override
 	protected Composite createContents(Composite parent) {
-		return new DEInput(parent, getNode());
+		deInput = new DEInput(parent, getNode());
+		return deInput;
 	}
 
 	@Override
@@ -33,5 +39,20 @@ public class DEOpen extends ShowParamTabAction implements
 	@Override
 	protected Class<? extends ParameterArea> pageClass() {
 		return DEInput.class;
+	}
+	
+	public void run()
+	{
+		super.run();
+		
+		CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
+		cer_access.initConnection();
+		String EMType = cer_access.getCocomoEstimationByNodeID(getNode().getId()).getEMType();
+		cer_access.disposeConnection();
+		
+		if(EMType != null){
+			DEShowResult deShowResult = new DEShowResult(deInput, true);
+			deShowResult.run();
+		}		
 	}
 }

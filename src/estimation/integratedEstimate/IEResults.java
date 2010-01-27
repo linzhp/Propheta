@@ -79,6 +79,7 @@ public class IEResults extends TabContentArea {
 				qer_access.disposeConnection();
 				cer_access.disposeConnection();
 				Double effort = SimpleIntegratedEstimate.getIntegratedEffort(efforts);
+				//显示集成估算结果
 				createComQuickResults(effort);
 				// 存储集成估算结果
 				saveQuickEstimation(integratedEstimate.getnodeID(), "multiple",
@@ -91,10 +92,7 @@ public class IEResults extends TabContentArea {
 		// 从数据库得到集成估算数据
 		else
 		{
-			NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-			nbi_access.initConnection();
-			String estType = nbi_access.getNodeByID(this.getnodeID()).getEstType();
-			nbi_access.disposeConnection();
+			String estType = this.integratedEstimate.getNode().getEstType();
 			
 			if(estType.contains("cocomoMultiple")){
 				CocomoEstimationAccess cer_access = new CocomoEstimationAccess();

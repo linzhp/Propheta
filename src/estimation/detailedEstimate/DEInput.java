@@ -34,10 +34,11 @@ public class DEInput extends ParameterArea{
 		scales = new HashMap<String, ParameterScale>();
 		//生成确定按钮
 		IToolBarManager toolBarManager = form.getToolBarManager();
-		ok = new DEShowResult(this);
+		ok = new DEShowResult(this, false);
 		ok.setEnabled(false);
 		toolBarManager.add(ok);
 		toolBarManager.update(true);
+		
 		createButtonArea(form.getBody());
 		createScaleFactors(form.getBody());
 		createEffortMultipliers(form.getBody());
