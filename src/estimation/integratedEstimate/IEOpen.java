@@ -1,8 +1,5 @@
 package estimation.integratedEstimate;
 
-import data.database.dataAccess.NodeBasicInfoAccess;
-import data.database.dataAccess.QuickEstimationAccess;
-import estimation.quickEstimate.QEShowResult;
 import gui.tabs.ShowParamTabAction;
 import gui.tabs.ParameterArea;
 

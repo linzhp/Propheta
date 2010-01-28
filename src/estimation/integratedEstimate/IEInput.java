@@ -12,12 +12,9 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Section;
 
@@ -29,7 +26,6 @@ public class IEInput extends ParameterArea{
 	private Composite comChildrenList;
 	private Composite comButtonArea;
 	private String[] scaleFactors;
-	private Button ok;
 
 	public IEInput(Composite parent, EstimateNode node){
 		super(parent, node);

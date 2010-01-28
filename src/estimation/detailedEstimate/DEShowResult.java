@@ -9,7 +9,7 @@ public class DEShowResult extends ShowResultTabAction {
 	private DEInput params;
 	private boolean isOpen;
 	
-	public DEShowResult(DEInput params, boolean isOPen){
+	public DEShowResult(DEInput params, boolean isOpen){
 		super(params.getNode());
 		this.params = params;
 		this.isOpen = isOpen;

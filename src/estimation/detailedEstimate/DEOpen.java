@@ -8,8 +8,6 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Composite;
 
 import data.database.dataAccess.CocomoEstimationAccess;
-import data.database.dataAccess.QuickEstimationAccess;
-import estimation.quickEstimate.QEShowResult;
 
 public class DEOpen extends ShowParamTabAction implements
 		ISelectionChangedListener {

@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import data.database.dataAccess.CocomoEstimationAccess;
-import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataAccess.QuickEstimationAccess;
 import data.database.dataEntities.CocomoEstimationRecord;
 import data.database.dataEntities.NodeBasicInformation;

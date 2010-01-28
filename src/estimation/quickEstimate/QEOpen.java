@@ -1,16 +1,11 @@
 package estimation.quickEstimate;
 
-import gui.GUI;
 import gui.tabs.ShowParamTabAction;
 import gui.tabs.ParameterArea;
 
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
-import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataAccess.QuickEstimationAccess;
-import data.database.dataEntities.QuickEstimationRecord;
 
 public class QEOpen extends ShowParamTabAction {
 
