@@ -91,7 +91,6 @@ public class QEResults extends TabContentArea {
 		// 从数据库得到快速估算数据
 		else {
 			QuickEstimationAccess qer_access = new QuickEstimationAccess();
-			qer_access.initConnection();
 			
 			dataType = qer_access.getQuickEstimationByNodeID(this.getnodeID()).getDataType();
 			if (dataType.contains("csbsg"))
@@ -101,7 +100,6 @@ public class QEResults extends TabContentArea {
 
 			QuickEstimationRecord qer = qer_access
 					.getQuickEstimationByNodeID(node.getId());
-			qer_access.disposeConnection();
 
 			formulaEffort = qer.getFormulaEffort();
 			historyEffort = qer.getHistoryEffort();

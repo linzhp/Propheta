@@ -90,7 +90,6 @@ public class QEInput extends ParameterArea{
 	{
 		nbi = new NodeBasicInformation();
 		nbi_access = new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		nbi = nbi_access.getNodeByID(node.getId());
 		
 		//生成参数输入区
@@ -106,7 +105,6 @@ public class QEInput extends ParameterArea{
 		//生成ISBSG参数输入区
 		createComISBSG();
 		
-		nbi_access.disposeConnection();
 	}
 	
 	private void createRadioButtons(Composite parent) {

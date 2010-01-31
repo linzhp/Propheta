@@ -284,7 +284,6 @@ public class CocomoEstimationRecord {
 			HashMap<String, String> factorsSF, HashMap<String, String> factorsEM) {
 		CocomoEstimationRecord cer=new CocomoEstimationRecord();
 		CocomoEstimationAccess cer_access=new CocomoEstimationAccess();
-		cer_access.initConnection();
 		cer = cer_access.getCocomoEstimationByNodeID(nodeID);
 		
 		cer.setEMType(EMType);
@@ -324,6 +323,5 @@ public class CocomoEstimationRecord {
 		cer.setFCIL(factorsEM.get("FCIL"));
 
 		cer_access.updateCocomoEstimation(cer);
-		cer_access.disposeConnection();
 	}
 }

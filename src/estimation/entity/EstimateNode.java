@@ -77,24 +77,18 @@ public class EstimateNode{
 		nbi.setParentID(this.getId());
 		nbi.setIsRoot(false);		
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		int nodeID=nbi_access.insertNode(nbi);
-		nbi_access.disposeConnection();
 		
 		//为新建节点设置估算输入输出的默认值并保存到数据库中
 		QuickEstimationRecord qer=new QuickEstimationRecord();
 		qer.setNodeID(nodeID);
 		QuickEstimationAccess qe_access=new QuickEstimationAccess();
-		qe_access.initConnection();
 		qe_access.insertQuickEstimation(qer);
-		qe_access.disposeConnection();
 		
 		CocomoEstimationRecord cer=new CocomoEstimationRecord();
 		cer.setNodeID(nodeID);
 		CocomoEstimationAccess ce_access=new CocomoEstimationAccess();
-		ce_access.initConnection();
 		ce_access.insertCocomoEstimation(cer);
-		ce_access.disposeConnection();
 		
 		node.setId(nodeID);
 		node.setParent(this);
@@ -111,20 +105,14 @@ public class EstimateNode{
 		
 		//从数据库中删除记录
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		nbi_access.deleteNodeByNodeID(childNode.getId());
-		nbi_access.disposeConnection();
 		
 		//删除对应的估算记录
 		QuickEstimationAccess qe_access=new QuickEstimationAccess();
-		qe_access.initConnection();
 		qe_access.deleteQuickEstimationByNodeID(childNode.getId());
-		qe_access.disposeConnection();
 		
 		CocomoEstimationAccess ce_access=new CocomoEstimationAccess();
-		ce_access.initConnection();
 		ce_access.deleteCocomoEstimationByNodeID(childNode.getId());
-		ce_access.disposeConnection();
 		
 		//从父节点中删除
 		childNode.setParent(null);
@@ -158,9 +146,7 @@ public class EstimateNode{
 		System.out.println("rename:	"+this.getName()+"	"+newName);
 		//更新数据库
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		nbi_access.updateNodeName(this.getId(), newName);
-		nbi_access.disposeConnection();
 		
 		//更新节点
 		this.setName(newName);
@@ -221,7 +207,6 @@ public class EstimateNode{
 	public int getSLOC() {
 		int SLOC = 0;
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		if (this.isLeaf())
 			SLOC = nbi_access.getNodeByID(this.getId()).getSLOC();
 		else {
@@ -230,7 +215,6 @@ public class EstimateNode{
 			for (EstimateNode child : children)
 				SLOC += child.getSLOC();
 		}
-		nbi_access.disposeConnection();
 
 		return SLOC;
 	}
@@ -238,7 +222,6 @@ public class EstimateNode{
 	public int getFunctionPoints() {
 		int functionPoints = 0;
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		if (this.isLeaf())
 			functionPoints = nbi_access.getNodeByID(this.getId()).getFunctionPoints();
 		else {
@@ -247,16 +230,13 @@ public class EstimateNode{
 			for (EstimateNode child : children)
 				functionPoints += child.getFunctionPoints();
 		}
-		nbi_access.disposeConnection();
 
 		return functionPoints;
 	}
 
 	public String getEstType(){
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		String estType = nbi_access.getNodeByID(this.getId()).getEstType();
-		nbi_access.disposeConnection();
 
 		return estType;
 	}

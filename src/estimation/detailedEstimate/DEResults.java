@@ -57,12 +57,10 @@ public class DEResults extends TabContentArea {
 
 			// 更新基本信息表中的估算类型
 			NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-			nbi_access.initConnection();
 			NodeBasicInformation nbi = nbi_access.getNodeByID(parameters
 					.getnodeID());
 			nbi.setEstType("cocomoSimple");
 			nbi_access.updateNode(nbi);
-			nbi_access.disposeConnection();
 
 			// 更新cocomo估算结果
 			CocomoEstimationRecord.saveCocomoEstimation(parameters.getnodeID(),
@@ -72,10 +70,8 @@ public class DEResults extends TabContentArea {
 		// 从数据库得到详细估算数据
 		else {
 			CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
-			cer_access.initConnection();
 			CocomoEstimationRecord cer = cer_access
 					.getCocomoEstimationByNodeID(this.getnodeID());
-			cer_access.disposeConnection();
 
 			PM = cer.getPM();
 			devTime = cer.getDevTime();
