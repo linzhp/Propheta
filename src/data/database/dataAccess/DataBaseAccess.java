@@ -72,11 +72,6 @@ public class DataBaseAccess {
 		}
 	}
 
-	public void createTable() throws SQLException {
-		statement.execute("CREATE TABLE [cocomoEstimation] (  "
-				+ "[estimationID] INTEGER NOT NULL PRIMARY KEY)");
-	}
-
 	public ResultSet query(String sql) {
 		ResultSet resultSet = null;
 		try {
