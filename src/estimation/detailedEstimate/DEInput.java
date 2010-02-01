@@ -2,6 +2,8 @@ package estimation.detailedEstimate;
 
 import java.util.HashMap;
 
+import data.database.dataAccess.CocomoEstimationAccess;
+import data.database.dataEntities.CocomoEstimationRecord;
 import estimation.entity.EstimateNode;
 import gui.tabs.ParameterArea;
 import gui.widgets.ParameterScale;
@@ -28,14 +30,24 @@ public class DEInput extends ParameterArea{
 	private Button earlyDesignRadio;
 	private Button postArchRadio;
 	private DEShowResult ok;
+	private CocomoEstimationRecord cer;
+	private final static HashMap<String, Integer> levelIndex = new HashMap<String, Integer>();
+	static{
+		for(int i = 0; i < levels.length; i++){
+			levelIndex.put(levels[i], i);
+		}
+	}
 
 	public DEInput(Composite parent, EstimateNode node){
 		super(parent, node);
 		scales = new HashMap<String, ParameterScale>();
+		CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
+		cer = cer_access.getCocomoEstimationByNodeID(getnodeID());
+		
 		//生成确定按钮
 		IToolBarManager toolBarManager = form.getToolBarManager();
 		ok = new DEShowResult(this, false);
-		ok.setEnabled(false);
+		//ok.setEnabled(false);
 		toolBarManager.add(ok);
 		toolBarManager.update(true);
 		
@@ -112,8 +124,21 @@ public class DEInput extends ParameterArea{
 			section.setClient(sectionClient);
 		}
 		//两种模式切换，为了充分利用ColumnLayout的特性，所有section都是form的孩子，Stack之间的切换只能在section内部
-		earlyDesignRadio.addSelectionListener(new RadioListener(earlyDesignFactors, layouts));
-		postArchRadio.addSelectionListener(new RadioListener(postArchFactors, layouts));
+		RadioListener earlyListener = new RadioListener(earlyDesignFactors, layouts);
+		RadioListener postListener = new RadioListener(postArchFactors, layouts);
+		earlyDesignRadio.addSelectionListener(earlyListener);
+		postArchRadio.addSelectionListener(postListener);
+		
+		//根据EMType的类型来设置界面,只用考虑early与post的两种情况
+		String emType = cer.getEMType();
+		if(emType.contains("Early")){
+			earlyDesignRadio.setSelection(true);
+			earlyListener.widgetDefaultSelected(null);
+		}
+		else if(emType.contains("Post")){
+			postArchRadio.setSelection(true);
+			postListener.widgetDefaultSelected(null);
+		}
 		
 		earlyDesignDrivers = new String[][] {{"RCPX","RUSE"},{"PDIF"},{"PERS","PREX"},{"FCIL","SCED"}};
 		postArchDrivers = new String[][] {{"RELY","DATA","CPLX","RUSE","DOCU"},{"TIME","STOR","PVOL"},
@@ -141,12 +166,18 @@ public class DEInput extends ParameterArea{
 	private void buildSectionContent(String[] drivers, Composite parent){
 		parent.setLayout(new GridLayout(2, false));
 		for(String d:drivers){
+			//在此处添加因子的初始设置
 			toolkit.createLabel(parent, d);
-			ParameterScale scale = new ParameterScale(parent, levels, 3);
+			int index;
+			HashMap<String, String> factors = cer.getFactors();
+			if(factors.get(d) == null)
+				index = 3;
+			else
+				index = levelIndex.get(factors.get(d));
+			ParameterScale scale = new ParameterScale(parent, levels, index);
 			toolkit.adapt(scale);
 			scales.put(d, scale);
 		}
-		
 	}
 
 	private final class RadioListener implements SelectionListener {
