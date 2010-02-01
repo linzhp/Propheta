@@ -62,7 +62,6 @@ public class ISBSG {
 		System.out.println(sql);
 
 		DataBaseAccess dataAccess = new DataBaseAccess();
-		dataAccess.initConnection();
 		ResultSet resultSet = dataAccess.query(sql);
 		try {
 			while (resultSet.next()) {
@@ -72,7 +71,6 @@ public class ISBSG {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		dataAccess.disposeConnection();
 		return arrayList;
 	}
 

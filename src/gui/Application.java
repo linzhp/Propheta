@@ -1,5 +1,6 @@
 package gui;
 
+import data.database.dataAccess.DataBaseAccess;
 import estimation.entity.EstimationProjects;
 import gui.tabs.ParameterArea;
 import gui.widgets.tree.TreeArea;
@@ -36,17 +37,17 @@ public class Application extends ApplicationWindow {
 	}
 
 	private void dispose() {
-				
+		DataBaseAccess.disposeConnection();
 		GUI.getToolkit().dispose();
 		Display.getCurrent().dispose();
 	}
 
 	public static void main(String[] args) {
-		
-		//初始化估算项目集合(读取数据库中的估算项目信息)
+
+		// 初始化估算项目集合(读取数据库中的估算项目信息)
 		EstimationProjects.readEstimateProjects();
-		/**我们可以做个类似Eclipse的启动界面，显示读取的进度**/
-				
+		/** 我们可以做个类似Eclipse的启动界面，显示读取的进度 **/
+
 		instance = new Application();
 		instance.run();
 		instance.dispose();
@@ -113,8 +114,8 @@ public class Application extends ApplicationWindow {
 				buttomContentArea.setMaximized(false);
 				buttomContentArea.setLayoutData(new GridData(SWT.FILL,
 						SWT.FILL, true, false));
-				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-						true));
+				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
+						true, true));
 				topContentArea.getParent().layout(true);
 			}
 
@@ -124,38 +125,39 @@ public class Application extends ApplicationWindow {
 				buttomContentArea.setMinimized(false);
 				buttomContentArea.setLayoutData(new GridData(SWT.FILL,
 						SWT.FILL, true, true));
-				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-						true));
+				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
+						true, true));
 				topContentArea.getParent().layout(true);
 
 			}
 
 			@Override
 			public void close(CTabFolderEvent event) {
-				CTabItem closingItem = (CTabItem)event.item;
-				ParameterArea tab=(ParameterArea)closingItem.getControl();
-				if(tab.getClass()==NodeBasicInformationPage.class){
-					NodeBasicInformationPage nbi_page=(NodeBasicInformationPage)tab;
-					if(nbi_page.getIsNodeBasicInformationChanged()==true){
-						MessageBox box=new MessageBox(Display.getCurrent().getActiveShell(),SWT.ICON_QUESTION|SWT.YES|SWT.NO|SWT.CANCEL);
+				CTabItem closingItem = (CTabItem) event.item;
+				ParameterArea tab = (ParameterArea) closingItem.getControl();
+				if (tab.getClass() == NodeBasicInformationPage.class) {
+					NodeBasicInformationPage nbi_page = (NodeBasicInformationPage) tab;
+					if (nbi_page.getIsNodeBasicInformationChanged() == true) {
+						MessageBox box = new MessageBox(Display.getCurrent()
+								.getActiveShell(), SWT.ICON_QUESTION | SWT.YES
+								| SWT.NO | SWT.CANCEL);
 						box.setText("提示");
 						box.setMessage("节点信息已被修改，是否保存这些修改?");
-						int result=box.open();
-						if(result==SWT.YES){
+						int result = box.open();
+						if (result == SWT.YES) {
 							nbi_page.saveNodeBasicInformation();
-							event.doit=true;
-						}else if(result==SWT.NO){
-							event.doit=true;
-						}else if(result==SWT.CANCEL){
-							event.doit=false;
+							event.doit = true;
+						} else if (result == SWT.NO) {
+							event.doit = true;
+						} else if (result == SWT.CANCEL) {
+							event.doit = false;
 						}
 					}
 				}
-			super.close(event);
+				super.close(event);
 			}
-			
+
 		});
-		
 
 		buttomContentArea = new CTabFolder(rightArea, SWT.BORDER);
 		buttomContentArea.setDragDetect(true);
@@ -172,8 +174,8 @@ public class Application extends ApplicationWindow {
 				topContentArea.setMinimized(true);
 				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 						true, false));
-				buttomContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-						true));
+				buttomContentArea.setLayoutData(new GridData(SWT.FILL,
+						SWT.FILL, true, true));
 				buttomContentArea.getParent().layout(true);
 			}
 
@@ -183,8 +185,8 @@ public class Application extends ApplicationWindow {
 				topContentArea.setMinimized(false);
 				topContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 						true, true));
-				buttomContentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-						true));
+				buttomContentArea.setLayoutData(new GridData(SWT.FILL,
+						SWT.FILL, true, true));
 				buttomContentArea.getParent().layout(true);
 
 			}

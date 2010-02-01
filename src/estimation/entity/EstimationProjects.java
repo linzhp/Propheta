@@ -48,9 +48,7 @@ public class EstimationProjects{
 		
 		//从数据库读取估算项目信息
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		ArrayList<NodeBasicInformation> rootNodes=nbi_access.getAllRootNodes(); //所有根节点
-		nbi_access.disposeConnection();
 		for(int i=0;i<rootNodes.size();i++){
 			NodeBasicInformation nbi=rootNodes.get(i);
 			EstimateNode newEstimationProject=new EstimateNode(null);
@@ -70,9 +68,7 @@ public class EstimationProjects{
 	 */
 	private static void initNodeChildren(EstimateNode node){
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		ArrayList<NodeBasicInformation> childNodes=nbi_access.getNodesByParentID(node.getId());
-		nbi_access.disposeConnection();
 		if(childNodes.size()==0){
 			return;
 		}else{
@@ -122,9 +118,7 @@ public class EstimationProjects{
 		nbi.setIsRoot(node.isRoot());
 		if(node.getId()==-1){  //尚未编号，插入
 			NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-			nbi_access.initConnection();
 			int nodeID=nbi_access.insertNode(nbi);
-			nbi_access.disposeConnection();
 			for(int i=0;i<node.getChildren().size();i++){
 				EstimateNode childNode=node.getChildren().get(i);
 				childNode.getParent().setId(nodeID);
@@ -132,9 +126,7 @@ public class EstimationProjects{
 			}
 		}else{ //以编号，更新
 			NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-			nbi_access.initConnection();
 			nbi_access.updateNode(nbi);
-			nbi_access.disposeConnection();
 			for(int i=0;i<node.getChildren().size();i++){
 				EstimateNode childNode=node.getChildren().get(i);
 				storeNode(childNode);
@@ -160,24 +152,18 @@ public class EstimationProjects{
 		//将新建项目插入数据库并获取分配的节点ID
 		System.out.println("insert: "+nbi.getName());
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		int nodeID=nbi_access.insertNode(nbi);
-		nbi_access.disposeConnection();
 		
 		//为新建项目设置估算输入输出的默认值并保存到数据库中
 		QuickEstimationRecord qer=new QuickEstimationRecord();
 		qer.setNodeID(nodeID);
 		QuickEstimationAccess qe_access=new QuickEstimationAccess();
-		qe_access.initConnection();
 		qe_access.insertQuickEstimation(qer);
-		qe_access.disposeConnection();
 		
 		CocomoEstimationRecord cer=new CocomoEstimationRecord();
 		cer.setNodeID(nodeID);
 		CocomoEstimationAccess ce_access=new CocomoEstimationAccess();
-		ce_access.initConnection();
 		ce_access.insertCocomoEstimation(cer);
-		ce_access.disposeConnection();
 		
 		node.setId(nodeID);
 		node.setParent(null);
@@ -213,20 +199,14 @@ public class EstimationProjects{
 		System.out.println("delete:	"+node.getName());
 		//更新数据库		
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		nbi_access.deleteNodeByNodeID(node.getId());
-		nbi_access.disposeConnection();
 		
 		//删除对应的估算记录
 		QuickEstimationAccess qe_access=new QuickEstimationAccess();
-		qe_access.initConnection();
 		qe_access.deleteQuickEstimationByNodeID(node.getId());
-		qe_access.disposeConnection();
 		
 		CocomoEstimationAccess ce_access=new CocomoEstimationAccess();
-		ce_access.initConnection();
 		ce_access.deleteCocomoEstimationByNodeID(node.getId());
-		ce_access.disposeConnection();
 		
 		if(node.hasChildren()){
 			ArrayList<EstimateNode> nodes=node.getChildren();

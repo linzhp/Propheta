@@ -81,7 +81,6 @@ public class CSBSG {
 		System.out.println(sql);
 
 		DataBaseAccess dataAccess = new DataBaseAccess();
-		dataAccess.initConnection();
 		ResultSet resultSet = dataAccess.query(sql);
 		try {
 			while (resultSet.next()) {
@@ -92,7 +91,6 @@ public class CSBSG {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		dataAccess.disposeConnection();
 		return arrayList;
 	}
 
@@ -112,7 +110,6 @@ public class CSBSG {
 				+ " order by effort asc";
 
 		DataBaseAccess dataAccess = new DataBaseAccess();
-		dataAccess.initConnection();
 		ResultSet resultSet = dataAccess.query(sql);
 		try {
 			while (resultSet.next())
@@ -121,7 +118,6 @@ public class CSBSG {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		dataAccess.disposeConnection();
 		return array;
 
 	}

@@ -86,7 +86,6 @@ public class QuickEstimationRecord {
 			Double meanProductivity, Double stanDevProductivity) {
 		QuickEstimationRecord qer = new QuickEstimationRecord();
 		QuickEstimationAccess qer_access = new QuickEstimationAccess();
-		qer_access.initConnection();
 		qer = qer_access.getQuickEstimationByNodeID(nodeID);
 
 		qer.setDataType(dataType);
@@ -96,7 +95,6 @@ public class QuickEstimationRecord {
 		qer.setStanDevProductivity(stanDevProductivity);
 
 		qer_access.updateQuickEstimation(qer);
-		qer_access.disposeConnection();
 	}
 
 }

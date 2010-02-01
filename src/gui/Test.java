@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.eclipse.jface.action.Action;
 
+import data.database.dataAccess.ExportData;
+
 import estimation.entity.EstimateNode;
 import estimation.entity.EstimationProjects;
 
@@ -16,6 +18,11 @@ public class Test extends Action{
 
 	public Test(){
 		super("测试");
+	}
+	
+	public static void main(String[] args) throws Exception{
+		ExportData dataBaseAccess = new ExportData("/home/clive/Desktop/test.db3");
+		dataBaseAccess.createSchema();
 	}
 	
 	public void run(){

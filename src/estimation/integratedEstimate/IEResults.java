@@ -31,7 +31,6 @@ public class IEResults extends TabContentArea {
 		// 根据用户输入，处理集成估算数据
 		if (!isOpen) {
 			CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
-			cer_access.initConnection();
 
 			ArrayList<EstimateNode> children = integratedEstimate
 					.getSelectedChildren();
@@ -52,7 +51,6 @@ public class IEResults extends TabContentArea {
 					productEMs[i] = cer_access.getCocomoEstimationByNodeID(
 							children.get(i).getId()).getProductEM();
 				}
-				cer_access.disposeConnection();
 				Double[] efforts = COCOMO.getIntegratedEffortTime(sizes,
 						productEMs, factorsSF, SCEDLevel);
 				Double PM = efforts[0];
@@ -67,7 +65,6 @@ public class IEResults extends TabContentArea {
 			} else {
 				Double[] efforts = new Double[children.size()];
 				QuickEstimationAccess qer_access = new QuickEstimationAccess();
-				qer_access.initConnection();
 				for (int i = 0; i < children.size(); i++)
 					if (children.get(i).getEstType().contains("quick"))
 						efforts[i] = qer_access.getQuickEstimationByNodeID(
@@ -75,8 +72,6 @@ public class IEResults extends TabContentArea {
 					else
 						efforts[i] = cer_access.getCocomoEstimationByNodeID(
 								children.get(i).getId()).getDevTime() * 152;
-				qer_access.disposeConnection();
-				cer_access.disposeConnection();
 				Double effort = SimpleIntegratedEstimate.getIntegratedEffort(efforts);
 				//显示集成估算结果
 				createComQuickResults(effort);
@@ -95,9 +90,7 @@ public class IEResults extends TabContentArea {
 			
 			if(estType.contains("cocomoMultiple")){
 				CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
-				cer_access.initConnection();
 				CocomoEstimationRecord cer = cer_access.getCocomoEstimationByNodeID(this.getnodeID());
-				cer_access.disposeConnection();
 				Double PM = cer.getPM();
 				Double devTime = cer.getDevTime();
 				
@@ -106,9 +99,7 @@ public class IEResults extends TabContentArea {
 			else if(estType.contains("quickMultiple"))
 			{
 				QuickEstimationAccess qer_access = new QuickEstimationAccess();
-				qer_access.initConnection();
 				QuickEstimationRecord cer = qer_access.getQuickEstimationByNodeID(this.getnodeID());
-				qer_access.disposeConnection();
 				Double effort = cer.getFormulaEffort();
 				
 				createComQuickResults(effort);
@@ -121,13 +112,11 @@ public class IEResults extends TabContentArea {
 			Double devTime) {
 		CocomoEstimationRecord cer = new CocomoEstimationRecord();
 		CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
-		cer_access.initConnection();
 		cer = cer_access.getCocomoEstimationByNodeID(nodeID);
 		cer.setEMType(EMType);
 		cer.setPM(PM);
 		cer.setDevTime(devTime);
 		cer_access.updateCocomoEstimation(cer);
-		cer_access.disposeConnection();
 	}
 
 	// 更新某条quickEstimation数据
@@ -135,14 +124,12 @@ public class IEResults extends TabContentArea {
 			Double formula_Effort) {
 		QuickEstimationRecord qer = new QuickEstimationRecord();
 		QuickEstimationAccess qer_access = new QuickEstimationAccess();
-		qer_access.initConnection();
 		qer = qer_access.getQuickEstimationByNodeID(nodeID);
 
 		qer.setDataType(dataType);
 		qer.setFormulaEffort(formula_Effort);
 
 		qer_access.updateQuickEstimation(qer);
-		qer_access.disposeConnection();
 	}
 
 	public void createComCocomoResults(Double PM, Double devTime) {

@@ -44,9 +44,7 @@ public class DEOpen extends ShowParamTabAction implements
 		super.run();
 		
 		CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
-		cer_access.initConnection();
 		String EMType = cer_access.getCocomoEstimationByNodeID(getNode().getId()).getEMType();
-		cer_access.disposeConnection();
 		
 		if(EMType != null){
 			DEShowResult deShowResult = new DEShowResult(deInput, true);

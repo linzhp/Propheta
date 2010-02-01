@@ -133,11 +133,9 @@ public class NodeBasicInformation {
 	public static void updateEstType(int nodeID, String EstType) {
 		NodeBasicInformation nbi = new NodeBasicInformation();
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		nbi = nbi_access.getNodeByID(nodeID);
 		nbi.setEstType(EstType);
 		nbi_access.updateNode(nbi);
-		nbi_access.disposeConnection();
 	}
 	
 }

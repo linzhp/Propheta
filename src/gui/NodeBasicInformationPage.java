@@ -67,9 +67,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		//读取存储的节点信息并显示
 		NodeBasicInformation nbi=new NodeBasicInformation();
 		NodeBasicInfoAccess nia_access=new NodeBasicInfoAccess();
-		nia_access.initConnection();
 		nbi=nia_access.getNodeByID(node.getId());
-		nia_access.disposeConnection();
 		
 		bindNodeBaiscInformation(nbi);
 	}
@@ -289,9 +287,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 	public NodeBasicInformation getNodeBasicInformation(){
 		NodeBasicInformation nbi=new NodeBasicInformation();
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		nbi=nbi_access.getNodeByID(node.getId());
-		nbi_access.disposeConnection();
 		
 		nbi.setTeamSize(this.spnTeamSize.getSelection());
 		nbi.setDuration(this.spnDuration.getSelection());
@@ -347,8 +343,6 @@ public class NodeBasicInformationPage extends ParameterArea{
 	public void saveNodeBasicInformation(){
 		NodeBasicInformation nbi=getNodeBasicInformation();
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.initConnection();
 		nbi_access.updateNode(nbi);
-		nbi_access.disposeConnection();
 	}
 }
