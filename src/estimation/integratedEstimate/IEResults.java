@@ -74,7 +74,7 @@ public class IEResults extends TabContentArea {
 								children.get(i).getId()).getFormulaEffort();
 					else
 						efforts[i] = cer_access.getCocomoEstimationByNodeID(
-								children.get(i).getId()).getDevTime() * 160;
+								children.get(i).getId()).getDevTime() * 152;
 				qer_access.disposeConnection();
 				cer_access.disposeConnection();
 				Double effort = SimpleIntegratedEstimate.getIntegratedEffort(efforts);
