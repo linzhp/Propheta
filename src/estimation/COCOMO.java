@@ -114,6 +114,7 @@ public class COCOMO {
 		for (String factor : factors) {
 			
 			propertyKey = "SF." + factor + "." + factorsSF.get(factor);
+			System.out.println(propertyKey);
 			sumSF += Double.valueOf(PropertyFile.readValue(
 					"properties/COCOMO.properties", propertyKey));
 		}

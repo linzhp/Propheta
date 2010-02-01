@@ -17,6 +17,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Section;
 
@@ -44,16 +46,16 @@ public class DEInput extends ParameterArea{
 		CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
 		cer = cer_access.getCocomoEstimationByNodeID(getnodeID());
 		
-		//生成确定按钮
+		//生成确定action,类似于按钮功能
 		IToolBarManager toolBarManager = form.getToolBarManager();
 		ok = new DEShowResult(this, false);
-		//ok.setEnabled(false);
 		toolBarManager.add(ok);
 		toolBarManager.update(true);
 		
 		createButtonArea(form.getBody());
 		createScaleFactors(form.getBody());
 		createEffortMultipliers(form.getBody());
+		setIsInformationChanged(false);
 	}
 	
 	public HashMap<String, String> getScaleFactors()
@@ -175,6 +177,11 @@ public class DEInput extends ParameterArea{
 			else
 				index = levelIndex.get(factors.get(d));
 			ParameterScale scale = new ParameterScale(parent, levels, index);
+			scale.addListener(new Listener(){
+				public void handleEvent(Event event) {
+					setIsInformationChanged(true);
+				}
+			});
 			toolkit.adapt(scale);
 			scales.put(d, scale);
 		}
@@ -189,6 +196,7 @@ public class DEInput extends ParameterArea{
 			this.layouts = layouts;
 		}
 		public void widgetSelected(SelectionEvent e) {
+			setIsInformationChanged(true);
 			for(int i=0;i<layouts.length;i++){
 				layouts[i].topControl = factorsPane[i]; 
 				factorsPane[i].getParent().layout();
