@@ -38,6 +38,7 @@ public abstract class ShowTabAction extends Action {
 			GUI.createNewTab(getTabTitle(), newContents);			
 		}
 		parent.setFocus();
+		
 	}
 
 	protected abstract CTabFolder getTabFolder();

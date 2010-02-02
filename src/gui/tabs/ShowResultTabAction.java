@@ -6,11 +6,11 @@ import gui.GUI;
 import org.eclipse.swt.custom.CTabFolder;
 
 public abstract class ShowResultTabAction extends ShowTabAction {
-	private EstimateNode node;
-	public ShowResultTabAction(EstimateNode node)
+	private ParameterArea param;
+	public ShowResultTabAction(ParameterArea param)
 	{
 		super("确定");
-		this.node = node;
+		this.param = param;
 	}
 
 	@Override
@@ -20,6 +20,12 @@ public abstract class ShowResultTabAction extends ShowTabAction {
 
 	@Override 
 	public EstimateNode getNode() {
-		return node;
+		return param.getNode();
+	}
+	
+	@Override
+	public void run(){
+		super.run();
+		param.setIsInformationChanged(false);
 	}
 }

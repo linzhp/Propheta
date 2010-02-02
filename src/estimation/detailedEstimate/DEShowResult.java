@@ -10,9 +10,10 @@ public class DEShowResult extends ShowResultTabAction {
 	private boolean isOpen;
 	
 	public DEShowResult(DEInput params, boolean isOpen){
-		super(params.getNode());
+		super(params);
 		this.params = params;
 		this.isOpen = isOpen;
+		
 	}
 
 	@Override
@@ -29,5 +30,7 @@ public class DEShowResult extends ShowResultTabAction {
 	protected Class<? extends TabContentArea> pageClass() {
 		return DEResults.class;
 	}
+	
+	
 
 }

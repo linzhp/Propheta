@@ -135,7 +135,7 @@ public class QEResults extends TabContentArea {
 				Label noResult = new Label(this, SWT.SINGLE);
 				noResult.setText("没有搜索到足够的相关历史数据，无法显示工作量的蒙特卡罗图”");
 			} else {
-				JFreeChart monteCarloChart = Chart.createMonteCarloChart(Chart
+				JFreeChart monteCarloChart = Chart.createXYLineChart("工作量蒙特卡罗图", "工时", null, Chart
 						.createQuickDataSet(dataType, projectSize,
 								meanProductivity, stanDevProductivity));
 				Composite monteCarloFrame = new ChartComposite(this,
