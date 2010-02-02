@@ -25,6 +25,14 @@ import estimation.COCOMO;
 
 public class DEResults extends TabContentArea {
 	private DEInput parameters;
+	private final String[] phasesSym = { "plansAndRequirements", "productDesign",
+			"programming", "integrationAndTest" };
+	private final String[] phasesTex = { "计划与需求", "产品设计", "编码", "集成与测试" };
+	private final String[] activitiesSym = { "requirementsAnalysis", "productDesign",
+			"programming", "testPlanning", "VV", "projectOffice", "CM/QA",
+			"manuals" };
+	private final String[] activitiesTex = { "需求", "设计", "编码", "测试计划", "VV", "管理活动",
+			"CM/QA", "文档" };
 
 	public DEResults(Composite parent, DEInput param, boolean isOpen) {
 		super(parent, param.getNode());
@@ -32,15 +40,7 @@ public class DEResults extends TabContentArea {
 
 		int size = parameters.getNode().getSLOC();
 		Double PM, devTime, sumSF;
-		String[] phasesSym = { "plansAndRequirements", "productDesign",
-				"programming", "integrationAndTest" };
-		String[] phasesTex = { "计划与需求", "产品设计", "编码", "集成与测试" };
-		String[] activitiesSym = { "requirementsAnalysis", "productDesign",
-				"programming", "testPlanning", "VV", "projectOffice", "CM/QA",
-				"manuals" };
-		String[] activitiesTex = { "需求", "设计", "编码", "测试计划", "VV", "管理活动",
-				"CM/QA", "文档" };
-		
+
 		// 根据用户输入，处理详细估算数据
 		if (!isOpen) {
 			HashMap<String, String> factorsSF = parameters.getScaleFactors();

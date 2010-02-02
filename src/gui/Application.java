@@ -1,6 +1,8 @@
 package gui;
 
 import data.database.dataAccess.DataBaseAccess;
+import estimation.detailedEstimate.DEInput;
+import estimation.detailedEstimate.DEShowResult;
 import estimation.entity.EstimationProjects;
 import gui.tabs.ParameterArea;
 import gui.widgets.tree.TreeArea;
@@ -135,23 +137,28 @@ public class Application extends ApplicationWindow {
 			public void close(CTabFolderEvent event) {
 				CTabItem closingItem = (CTabItem) event.item;
 				ParameterArea tab = (ParameterArea) closingItem.getControl();
-				if (tab.getClass() == NodeBasicInformationPage.class) {
-					NodeBasicInformationPage nbi_page = (NodeBasicInformationPage) tab;
-					if (nbi_page.getIsNodeBasicInformationChanged() == true) {
-						MessageBox box = new MessageBox(Display.getCurrent()
-								.getActiveShell(), SWT.ICON_QUESTION | SWT.YES
-								| SWT.NO | SWT.CANCEL);
-						box.setText("提示");
-						box.setMessage("节点信息已被修改，是否保存这些修改?");
-						int result = box.open();
-						if (result == SWT.YES) {
+				if (tab.getIsInformationChanged() == true) {
+					MessageBox box = new MessageBox(Display.getCurrent()
+							.getActiveShell(), SWT.ICON_QUESTION | SWT.YES
+							| SWT.NO | SWT.CANCEL);
+					box.setText("提示");
+					box.setMessage("节点信息已被修改，是否保存这些修改?");
+					int result = box.open();
+					if (result == SWT.YES) {
+						if (tab.getClass() == NodeBasicInformationPage.class) {
+							NodeBasicInformationPage nbi_page = (NodeBasicInformationPage) tab;
 							nbi_page.saveNodeBasicInformation();
-							event.doit = true;
-						} else if (result == SWT.NO) {
-							event.doit = true;
-						} else if (result == SWT.CANCEL) {
-							event.doit = false;
+						} else if (tab.getClass() == DEInput.class) {
+							DEInput deInput = (DEInput) tab;
+							DEShowResult deShowResult = new DEShowResult(
+									deInput, false);
+							deShowResult.run();
 						}
+						event.doit = true;
+					} else if (result == SWT.NO) {
+						event.doit = true;
+					} else if (result == SWT.CANCEL) {
+						event.doit = false;
 					}
 				}
 				super.close(event);

@@ -29,7 +29,7 @@ import gui.tabs.ParameterArea;
 public class NodeBasicInformationPage extends ParameterArea{
 
 	//页面控件
-	private Label labelNodeName, labelTeamSize,labelDuration,labelSLOC,labelFP,labelBusinessArea,
+	private Label labelTeamSize,labelDuration,labelSLOC,labelFP,labelBusinessArea,
 	              labelDevelopType,labelDevelopPlatform,labelDevelopTechnique,labelLanguageType,labelLanguage;
 	private Text texNodeName, textSLOC;
 	private Spinner spnTeamSize,spnDuration,spnFP;
@@ -38,15 +38,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 	private Button setSLOCButton,saveButton;
 	
 	
-	//变量
-	private boolean isNodeBasicInformationChanged=false;  //节点信息是否被重新设置，如被重新设置，则提醒用户保存节点信息
 	
-	public void setIsNodeBasicInformationChanged(boolean isChanged){
-		this.isNodeBasicInformationChanged=isChanged;
-	}
-	public boolean getIsNodeBasicInformationChanged(){
-		return this.isNodeBasicInformationChanged;
-	}
 	
 	private Text getTextSLOC(){
 		return this.textSLOC;
@@ -82,8 +74,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		GridLayout layout=new GridLayout(4,false);
 		parent.setLayout(layout);
 		
-		//节点名称
-		labelNodeName=toolkit.createLabel(parent, "节点名称:", SWT.NONE);		
+		toolkit.createLabel(parent, "节点名称:", SWT.NONE);		
 		texNodeName=toolkit.createText(parent, "", SWT.BORDER);
 		texNodeName.setEditable(false);
 		GridData gd=new GridData();
@@ -130,7 +121,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				setIsNodeBasicInformationChanged(true);
+				setIsInformationChanged(true);
 				saveButton.setEnabled(true);
 				
 				//设置SLOC wizard
@@ -204,7 +195,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				saveNodeBasicInformation();
-				setIsNodeBasicInformationChanged(false);
+				setIsInformationChanged(false);
 				saveButton.setEnabled(false);
 			}
 		});
@@ -234,7 +225,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				setIsNodeBasicInformationChanged(true);
+				setIsInformationChanged(true);
 				saveButton.setEnabled(true);
 			}	
 		});
@@ -271,7 +262,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				setIsNodeBasicInformationChanged(true);
+				setIsInformationChanged(true);
 				saveButton.setEnabled(true);
 			}			
 		});

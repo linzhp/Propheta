@@ -33,6 +33,16 @@ public abstract class ParameterArea extends TabContentArea{
 		this.form.setText(formText);
 	}
 	
+	//变量
+	private boolean isInformationChanged = false;  //节点信息是否被重新设置，如被重新设置，则提醒用户保存节点信息
+	
+	public void setIsInformationChanged(boolean isChanged){
+		this.isInformationChanged=isChanged;
+	}
+	public boolean getIsInformationChanged(){
+		return this.isInformationChanged;
+	}
+	
 	/**
 	 * 当一个标签被选中需要刷新内容时，请Override这个方法
 	 */
