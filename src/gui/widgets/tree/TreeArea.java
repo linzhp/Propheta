@@ -17,6 +17,7 @@ import estimation.integratedEstimate.IEOpen;
 import estimation.quickEstimate.QEOpen;
 import gui.OpenBasicInformationPageAction;
 import gui.widgets.tree.contextMenu.AddNodeAction;
+import gui.widgets.tree.contextMenu.ExportAction;
 import gui.widgets.tree.contextMenu.NewProjectAction;
 import gui.widgets.tree.contextMenu.RemoveNodeAction;
 import gui.widgets.tree.contextMenu.RenameNodeAction;
@@ -43,6 +44,7 @@ public class TreeArea extends Composite{
 	QEOpen quickEstimateAction=new QEOpen();
 	DEOpen detailedEstimationAction=new DEOpen();
 	IEOpen integratedEstimationAction=new IEOpen();
+	ExportAction exportAction = new ExportAction();
 	
 	public TreeArea(Composite parent, int style) {
 		super(parent, style);
@@ -64,6 +66,7 @@ public class TreeArea extends Composite{
 	public void addMenu(){		
 		MenuManager mm = new MenuManager();	
 		mm.add(openBasicInformationPageAction);
+		mm.add(exportAction);
 		mm.add(newProjectAction);	
 		mm.add(addNodeAction);
 		mm.add(removeNodeAction);
