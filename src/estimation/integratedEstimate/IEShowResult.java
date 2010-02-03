@@ -10,7 +10,7 @@ public class IEShowResult extends ShowResultTabAction {
 	private boolean isOpen;
 	
 	public IEShowResult(IEInput integratedEstimate, boolean isOpen){
-		super(integratedEstimate.getNode());
+		super(integratedEstimate);
 		this.integratedEstimate = integratedEstimate;
 		this.isOpen = isOpen;
 	}

@@ -93,7 +93,7 @@ public class IEResults extends TabContentArea {
 				CocomoEstimationRecord cer = cer_access.getCocomoEstimationByNodeID(this.getnodeID());
 				Double PM = cer.getPM();
 				Double devTime = cer.getDevTime();
-				
+				//显示集成估算结果
 				createComCocomoResults(PM, devTime);
 			}
 			else if(estType.contains("quickMultiple"))
@@ -101,7 +101,7 @@ public class IEResults extends TabContentArea {
 				QuickEstimationAccess qer_access = new QuickEstimationAccess();
 				QuickEstimationRecord cer = qer_access.getQuickEstimationByNodeID(this.getnodeID());
 				Double effort = cer.getFormulaEffort();
-				
+				//显示集成估算结果
 				createComQuickResults(effort);
 			}
 		}

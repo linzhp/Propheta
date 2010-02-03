@@ -11,7 +11,7 @@ public class QEShowResult extends ShowResultTabAction {
 	boolean isOpen;
 
 	public QEShowResult(QEInput estimate, boolean isOpen) {
-		super(estimate.getNode());
+		super(estimate);
 		this.quickEstimate = estimate;
 		this.isOpen = isOpen;
 	}
