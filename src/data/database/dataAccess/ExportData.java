@@ -2,8 +2,10 @@ package data.database.dataAccess;
 
 import java.sql.ResultSet;
 
+import estimation.entity.EstimateNode;
+
 public class ExportData extends DataBaseAccess {
-	public ExportData(String path){
+	public ExportData(String path, EstimateNode node){
 		super(path);
 	}
 	
@@ -15,5 +17,9 @@ public class ExportData extends DataBaseAccess {
 				continue;
 			this.statement.executeUpdate(rs.getString("sql"));
 		}
+	}
+	
+	public void copyData(EstimateNode node) {
+		
 	}
 }
