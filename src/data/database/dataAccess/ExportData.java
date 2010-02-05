@@ -11,11 +11,10 @@ public class ExportData extends DataBaseAccess {
 	
 	public void createSchema() throws Exception{
 		DataBaseAccess mainDB = new DataBaseAccess();
-		ResultSet rs = mainDB.statement.executeQuery("select name, sql from sqlite_master where type = 'table'");
+		ResultSet rs = mainDB.statement.executeQuery("select * from sqlite_master");
 		while(rs.next()){
-			if(rs.getString("name").equals("sqlite_sequence"))
-				continue;
-			this.statement.executeUpdate(rs.getString("sql"));
+			System.out.println(rs.getString("sql"));
+//			this.statement.executeUpdate(rs.getString("sql"));
 		}
 	}
 	
