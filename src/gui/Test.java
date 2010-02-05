@@ -21,8 +21,10 @@ public class Test extends Action{
 	}
 	
 	public static void main(String[] args) throws Exception{
-		ExportData dataBaseAccess = new ExportData("/home/clive/Desktop/test.db3");
-		dataBaseAccess.createSchema();
+//		ExportData dataBaseAccess = new ExportData("/home/clive/Desktop/test.db3");
+		Object i = 11;
+		System.out.println("object is: "+i);
+//		dataBaseAccess.createSchema();
 	}
 	
 	public void run(){

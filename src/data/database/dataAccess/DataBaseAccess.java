@@ -15,7 +15,7 @@ import java.sql.Statement;
 public class DataBaseAccess {
 
 	protected Connection connection = null;
-	private static Connection defaultConnection;
+	protected static Connection defaultConnection;
 	protected Statement statement = null;
 
 	/**

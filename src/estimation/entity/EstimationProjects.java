@@ -52,8 +52,8 @@ public class EstimationProjects{
 		for(int i=0;i<rootNodes.size();i++){
 			NodeBasicInformation nbi=rootNodes.get(i);
 			EstimateNode newEstimationProject=new EstimateNode(null);
-			newEstimationProject.setId(nbi.getNodeID());
-			newEstimationProject.setName(nbi.getName());
+			newEstimationProject.setId((Integer)nbi.get("nodeID"));
+			newEstimationProject.setName((String)nbi.get("name"));
 			newEstimationProject.setParent(null);  //根节点，parent为null
 			
 			initNodeChildren(newEstimationProject);
@@ -75,8 +75,8 @@ public class EstimationProjects{
 			for(int i=0;i<childNodes.size();i++){
 				NodeBasicInformation nbi=childNodes.get(i);
 				EstimateNode newNode=new EstimateNode(null);
-				newNode.setId(nbi.getNodeID());
-				newNode.setName(nbi.getName());
+				newNode.setId((Integer)nbi.get("nodeID"));
+				newNode.setName((String)nbi.get("name"));
 				newNode.setParent(node);
 				node.getChildren().add(newNode);
 				
@@ -108,14 +108,13 @@ public class EstimationProjects{
 		}
 		
 		NodeBasicInformation nbi=new NodeBasicInformation();
-		nbi.setNodeID(node.getId());
-		nbi.setName(node.getName());
+		nbi.set("nodeID",node.getId());
+		nbi.set("name",node.getName());
 		if(node.isRoot()==true){
-			nbi.setParentID(-1);
+			nbi.set("parentID",-1);
 		}else{
-			nbi.setParentID(node.getParent().getId());
+			nbi.set("parentID",node.getParent().getId());
 		}		
-		nbi.setIsRoot(node.isRoot());
 		if(node.getId()==-1){  //尚未编号，插入
 			NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 			int nodeID=nbi_access.insertNode(nbi);
@@ -144,13 +143,12 @@ public class EstimationProjects{
 		/**这两个操作可以改成多线程**/
 		//更新数据库
 		NodeBasicInformation nbi=new NodeBasicInformation();
-		nbi.setNodeID(-1);
-		nbi.setName(node.getName());
-		nbi.setParentID(-1);
-		nbi.setIsRoot(true);
+		nbi.set("nodeID",-1);
+		nbi.set("name",node.getName());
+		nbi.set("parentID",-1);
 		
 		//将新建项目插入数据库并获取分配的节点ID
-		System.out.println("insert: "+nbi.getName());
+		System.out.println("insert: "+nbi.get("name"));
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		int nodeID=nbi_access.insertNode(nbi);
 		

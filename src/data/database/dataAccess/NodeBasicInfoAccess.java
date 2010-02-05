@@ -2,6 +2,7 @@ package data.database.dataAccess;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -15,7 +16,6 @@ import data.database.dataEntities.NodeBasicInformation;
  */
 public class NodeBasicInfoAccess extends DataBaseAccess{
 
-	
 	
 	/**
 	 * 构造器
@@ -36,76 +36,13 @@ public class NodeBasicInfoAccess extends DataBaseAccess{
 	
 	
 	/**
-	 * 获取所有节点信息
-	 * @return
-	 */
-	public ArrayList<NodeBasicInformation> getAllNodes(){	
-		ArrayList<NodeBasicInformation> nodes=new ArrayList<NodeBasicInformation>();
-		try {
-			String sqlString="select [nodeID],[parentID],[name],[description],[businessArea]," +
-				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform]," +
-				"[developmentTechniques],[teamSize,[duration],[isRoot],[estType] " +
-				"from nodeBasicInfo";
-			ResultSet rs=statement.executeQuery(sqlString);
-			while(rs.next()){
-				NodeBasicInformation node=new NodeBasicInformation();
-				node.setNodeID(rs.getInt("nodeID"));
-				node.setParentID(rs.getInt("parentID"));
-				node.setName(rs.getString("name"));
-				node.setDescription(rs.getString("description"));
-				node.setBusinessArea(rs.getString("businessArea"));
-				node.setSLOC(rs.getInt("SLOC"));
-				node.setFunctionPoints(rs.getInt("functionPoints"));
-				node.setDevelopmentType(rs.getString("developmentType"));
-				node.setLanguage(rs.getString("language"));
-				node.setLanguageType(rs.getString("languageType"));
-				node.setDevelopmentPlatform(rs.getString("developmentPlatform"));
-				node.setDevelopmentTechniques(rs.getString("developmentTechniques"));
-				node.setTeamSize(rs.getDouble("teamSize"));
-				node.setDuration(rs.getInt("duration"));
-				node.setIsRoot(rs.getBoolean("isRoot"));
-				node.setEstType(rs.getString("estType"));
-				nodes.add(node);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();			
-		}	
-		return nodes;
-	}
-	
-	
-	/**
 	 * 获取所有根节点
 	 * @return
 	 */
 	public ArrayList<NodeBasicInformation> getAllRootNodes(){
 		ArrayList<NodeBasicInformation> rootNodes=new ArrayList<NodeBasicInformation>();
 		try {
-			String sqlString="select [nodeID],[parentID],[name],[description],[businessArea]," +
-				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform]," +
-				"[developmentTechniques],[teamSize],[duration],[isRoot],[estType] " +
-				"from nodeBasicInfo where [isRoot]=1";
-			ResultSet rs=statement.executeQuery(sqlString);
-			while(rs.next()){
-				NodeBasicInformation node=new NodeBasicInformation();
-				node.setNodeID(rs.getInt("nodeID"));
-				node.setParentID(rs.getInt("parentID"));
-				node.setName(rs.getString("name"));
-				node.setDescription(rs.getString("description"));
-				node.setBusinessArea(rs.getString("businessArea"));
-				node.setSLOC(rs.getInt("SLOC"));
-				node.setFunctionPoints(rs.getInt("functionPoints"));
-				node.setDevelopmentType(rs.getString("developmentType"));
-				node.setLanguage(rs.getString("language"));
-				node.setLanguageType(rs.getString("languageType"));
-				node.setDevelopmentPlatform(rs.getString("developmentPlatform"));
-				node.setDevelopmentTechniques(rs.getString("developmentTechniques"));
-				node.setTeamSize(rs.getDouble("teamSize"));
-				node.setDuration(rs.getInt("duration"));
-				node.setIsRoot(rs.getBoolean("isRoot"));
-				node.setEstType(rs.getString("estType"));
-				rootNodes.add(node);
-			}
+			rootNodes =findAllWhere("[parentID]=-1");
 		} catch (SQLException e) {
 			e.printStackTrace();			
 		}	
@@ -120,30 +57,9 @@ public class NodeBasicInfoAccess extends DataBaseAccess{
 	 */
 	public NodeBasicInformation getNodeByID(int nodeID){
 		try {
-			String sqlString="select [nodeID],[parentID],[name],[description],[businessArea]," +
-				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform]," +
-				"[developmentTechniques],[teamSize],[duration],[isRoot],[estType] " +
-				"from nodeBasicInfo where [nodeID]="+nodeID;
-			ResultSet rs=statement.executeQuery(sqlString);
-			if(rs.next()){
-				NodeBasicInformation node=new NodeBasicInformation();
-				node.setNodeID(rs.getInt("nodeID"));
-				node.setParentID(rs.getInt("parentID"));
-				node.setName(rs.getString("name"));
-				node.setDescription(rs.getString("description"));
-				node.setBusinessArea(rs.getString("businessArea"));
-				node.setSLOC(rs.getInt("SLOC"));
-				node.setFunctionPoints(rs.getInt("functionPoints"));
-				node.setDevelopmentType(rs.getString("developmentType"));
-				node.setLanguage(rs.getString("language"));
-				node.setLanguageType(rs.getString("languageType"));
-				node.setDevelopmentPlatform(rs.getString("developmentPlatform"));
-				node.setDevelopmentTechniques(rs.getString("developmentTechniques"));
-				node.setTeamSize(rs.getDouble("teamSize"));
-				node.setDuration(rs.getInt("duration"));
-				node.setIsRoot(rs.getBoolean("isRoot"));
-				node.setEstType(rs.getString("estType"));
-				return node;
+			ArrayList<NodeBasicInformation> result = findAllWhere("[nodeID]="+nodeID);
+			if(result.size()>0){
+				return result.get(0);
 			}else{
 				return null;
 			}
@@ -162,37 +78,29 @@ public class NodeBasicInfoAccess extends DataBaseAccess{
 	public ArrayList<NodeBasicInformation> getNodesByParentID(int parentID){
 		ArrayList<NodeBasicInformation> childNodes=new ArrayList<NodeBasicInformation>();
 		try {
-			String sqlString="select [nodeID],[parentID],[name],[description],[businessArea]," +
-				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform]," +
-				"[developmentTechniques],[teamSize],[duration],[isRoot],[estType] " +
-				"from nodeBasicInfo where [parentID]="+parentID+" and [nodeID]!="+parentID;
-			ResultSet rs=statement.executeQuery(sqlString);
-			while(rs.next()){
-				NodeBasicInformation node=new NodeBasicInformation();
-				node.setNodeID(rs.getInt("nodeID"));
-				node.setParentID(rs.getInt("parentID"));
-				node.setName(rs.getString("name"));
-				node.setDescription(rs.getString("description"));
-				node.setBusinessArea(rs.getString("businessArea"));
-				node.setSLOC(rs.getInt("SLOC"));
-				node.setFunctionPoints(rs.getInt("functionPoints"));
-				node.setDevelopmentType(rs.getString("developmentType"));
-				node.setLanguage(rs.getString("language"));
-				node.setLanguageType(rs.getString("languageType"));
-				node.setDevelopmentPlatform(rs.getString("developmentPlatform"));
-				node.setDevelopmentTechniques(rs.getString("developmentTechniques"));
-				node.setTeamSize(rs.getDouble("teamSize"));
-				node.setDuration(rs.getInt("duration"));
-				node.setIsRoot(rs.getBoolean("isRoot"));
-				node.setEstType(rs.getString("estType"));
-				childNodes.add(node);
-			}
+			childNodes= findAllWhere("[parentID]="+parentID+" and [nodeID]!="+parentID);
 		} catch (SQLException e) {
 			e.printStackTrace();			
 		}	
 		return childNodes;
 	}
 	
+	
+	public ArrayList<NodeBasicInformation> findAllWhere(String condition) throws SQLException{
+		ArrayList<NodeBasicInformation> list = new ArrayList<NodeBasicInformation>();
+		String sqlString="select * from nodeBasicInfo where "+condition;
+		ResultSet rs=statement.executeQuery(sqlString);
+		ResultSetMetaData metaData = rs.getMetaData();
+		while(rs.next()){
+			NodeBasicInformation node=new NodeBasicInformation();
+			for(int i=1;i<=metaData.getColumnCount();i++){
+				String columnName = metaData.getColumnName(i);
+				node.attributes.put(columnName, rs.getObject(columnName));
+			}
+			list.add(node);
+		}
+		return list;
+	}
 	
 	/**
 	 * 插入节点
@@ -201,28 +109,21 @@ public class NodeBasicInfoAccess extends DataBaseAccess{
 	 */
 	public int insertNode(NodeBasicInformation node){
 		try{
-			String sqlString="insert into nodeBasicInfo ([parentID],[name],[description],[businessArea]," +
-				"[SLOC],[functionPoints],[developmentType],[language],[languageType],[developmentPlatform],"+
-				"[developmentTechniques],[teamSize],[duration],[isRoot],[estType]) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
-			PreparedStatement preStatement=connection.prepareStatement(sqlString);
-			preStatement.setInt(1, node.getParentID());
-			preStatement.setString(2, node.getName());
-			preStatement.setString(3, node.getDescription());
-			preStatement.setString(4, node.getBusinessArea());
-			preStatement.setInt(5, node.getSLOC());
-			preStatement.setInt(6, node.getFunctionPoints());
-			preStatement.setString(7, node.getDevelopmentType());
-			preStatement.setString(8, node.getLanguage());
-			preStatement.setString(9, node.getLanguageType());
-			preStatement.setString(10, node.getDevelopmentPlatform());
-			preStatement.setString(11, node.getDevelopmentTechniques());
-			preStatement.setDouble(12, node.getTeamSize());
-			preStatement.setInt(13, node.getDuration());
-			preStatement.setBoolean(14, node.getIsRoot());
-			preStatement.setString(15, node.getEstType());
-			
-			preStatement.execute();
-			ResultSet rs=preStatement.getGeneratedKeys();
+			StringBuilder attrList = new StringBuilder();
+			StringBuilder valueList = new StringBuilder();
+			for(String attr:node.attributes.keySet())
+			{
+				attrList.append("[");
+				attrList.append(attr);
+				attrList.append("],");
+				valueList.append("'");
+				valueList.append(node.attributes.get(attr));
+				valueList.append("',");
+			}
+			attrList.deleteCharAt(attrList.length()-1);//删除最后一个逗号
+			valueList.deleteCharAt(valueList.length()-1);//删除最后一个逗号
+			statement.executeUpdate("insert into nodeBasicInfo ("+attrList+") values ("+valueList+")");
+			ResultSet rs=statement.getGeneratedKeys();
 			rs.next();
 			return rs.getInt(1);
 		} catch (SQLException e) {
@@ -238,27 +139,17 @@ public class NodeBasicInfoAccess extends DataBaseAccess{
 	 */
 	public void updateNode(NodeBasicInformation node){
 		try{
-			String sqlString="update nodeBasicInfo set [parentID]=?,[name]=?,[description]=?,[businessArea]=?," +
-				"[SLOC]=?,[functionPoints]=?,[developmentType]=?,[language]=?,[languageType]=?,[developmentPlatform]=?," +
-				"[developmentTechniques]=?,[teamSize]=?,[duration]=?,[isRoot]=?,[estType]=? where [nodeID]="+node.getNodeID();
-			PreparedStatement preStatement=connection.prepareStatement(sqlString);
-			preStatement.setInt(1, node.getParentID());
-			preStatement.setString(2, node.getName());
-			preStatement.setString(3, node.getDescription());
-			preStatement.setString(4, node.getBusinessArea());
-			preStatement.setInt(5, node.getSLOC());
-			preStatement.setInt(6, node.getFunctionPoints());
-			preStatement.setString(7, node.getDevelopmentType());
-			preStatement.setString(8, node.getLanguage());
-			preStatement.setString(9, node.getLanguageType());
-			preStatement.setString(10, node.getDevelopmentPlatform());
-			preStatement.setString(11, node.getDevelopmentTechniques());
-			preStatement.setDouble(12, node.getTeamSize());
-			preStatement.setInt(13, node.getDuration());
-			preStatement.setBoolean(14, node.getIsRoot());
-			preStatement.setString(15, node.getEstType());
-			
-			preStatement.execute();
+			StringBuilder sqlString= new StringBuilder("update nodeBasicInfo set ");
+			for(String attr:node.attributes.keySet()){
+				sqlString.append("[");
+				sqlString.append(attr);
+				sqlString.append("]='");
+				sqlString.append(node.attributes.get(attr));
+				sqlString.append("',");
+			}
+			sqlString.deleteCharAt(sqlString.length()-1);
+			sqlString.append(" where [nodeID]="+node.attributes.get("nodeID"));
+			statement.executeUpdate(sqlString.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();			
 		}	

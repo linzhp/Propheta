@@ -172,6 +172,8 @@ public class QEInput extends ParameterArea{
 		createISBSGDevPlatItem(comISBSG);
 		createISBSGLanTypeItem(comISBSG);
 	}
+	
+	//TODO 这部分代码大量地重复，可以考虑重构
 	private void createCSBSGTeamSizeItem(Composite parent) {
 		btnCSBSGTeamSize = toolkit.createButton(parent, "团队规模（人）：", SWT.CHECK);
 		btnCSBSGTeamSize.addSelectionListener(new SelectionListener() {
@@ -180,13 +182,13 @@ public class QEInput extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnCSBSGTeamSize.getSelection()) {
-					CSBSGFactors.put("teamSize", String.valueOf(nbi.getTeamSize()));
+					CSBSGFactors.put("teamSize", String.valueOf(nbi.get("teamSize")));
 				} else {
 					CSBSGFactors.remove("teamSize");
 				}
 			}
 		});
-		toolkit.createLabel(parent, String.valueOf(nbi.getTeamSize()));
+		toolkit.createLabel(parent, String.valueOf(nbi.get("teamSize")));
 	}
 
 	private void createCSBSGDurationItem(Composite parent) {
@@ -197,13 +199,13 @@ public class QEInput extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnCSBSGDuration.getSelection()){
-					CSBSGFactors.put("duration", String.valueOf(nbi.getDuration()));
+					CSBSGFactors.put("duration", String.valueOf(nbi.get("duration")));
 				}else {
 					CSBSGFactors.remove("duration");
 				}
 			}
 		});
-		toolkit.createLabel(parent, String.valueOf(nbi.getDuration()));
+		toolkit.createLabel(parent, String.valueOf(nbi.get("duration")));
 	}
 	
 	private void createCSBSGDevTypeItem(Composite parent) {
@@ -214,18 +216,18 @@ public class QEInput extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnCSBSGDevType.getSelection()){
-					CSBSGFactors.put("developmentType", nbi.getDevelopmentType());
+					CSBSGFactors.put("developmentType", (String)nbi.get("developmentType"));
 				}else {
 					CSBSGFactors.remove("developmentType");
 				}
 			}
 		});
-		if(nbi.getDevelopmentType() == null)
+		if(nbi.get("developmentType") == null)
 			btnCSBSGDevType.setEnabled(false);
 		String[] texts = { "新开发", "二次开发", "优化", "其它" };
 		String[] values = { "NewDevelopment", "ReDevelopment", "Enhancement", "Other" };
 		HashMap<String, String> factors = createHashMap(texts, values);
-		toolkit.createLabel(parent, factors.get(nbi.getDevelopmentType()));
+		toolkit.createLabel(parent, factors.get(nbi.get("developmentType")));
 	}
 
 	private void createCSBSGLanguageItem(Composite parent) {
@@ -237,18 +239,18 @@ public class QEInput extends ParameterArea{
 
 			public void widgetSelected(SelectionEvent e) {
 				if (btnCSBSGLanguage.getSelection()){
-					CSBSGFactors.put("language", nbi.getLanguage());
+					CSBSGFactors.put("language", (String)nbi.get("language"));
 				}else{
 					CSBSGFactors.remove("language");
 				}
 			}
 		});
-		if(nbi.getLanguage() == null)
+		if(nbi.get("language") == null)
 			btnCSBSGLanguage.setEnabled(false);
 		String[] texts = { "ASP", "C#", "VB", "JAVA", "C++", "C", "COBOL" };
 		String[] values = { "ASP", "C#", "VB", "Java", "C++", "C", "Cobol" };
 		HashMap<String, String> factors = createHashMap(texts, values);
-		toolkit.createLabel(parent, factors.get(nbi.getLanguage()));
+		toolkit.createLabel(parent, factors.get(nbi.get("language")));
 	}
 	
 	private void createCSBSGBusAreaItem(Composite parent) {
@@ -259,20 +261,20 @@ public class QEInput extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnCSBSGBusArea.getSelection()){
-					CSBSGFactors.put("businessArea", nbi.getBusinessArea());
+					CSBSGFactors.put("businessArea", (String)nbi.get("businessArea"));
 				}else{
 					CSBSGFactors.remove("businessArea");
 				}
 			}
 		});
-		if(nbi.getBusinessArea() == null)
+		if(nbi.get("businessArea") == null)
 			btnCSBSGBusArea.setEnabled(false);
 		String[] texts = new String[]{ "电信", "金融", "流通", "保险", "交通", "媒体", "卫生", "制造",
 				"政府", "能源" };
 		String[] values =new String[]{ "Telecom", "Finance", "Retail", "General","Transport", "Media",
 				"HealthCare", "Manufacturing","PublicAdmin", "Energy" };
 		HashMap<String, String> factors = createHashMap(texts, values);
-		toolkit.createLabel(parent, factors.get(nbi.getBusinessArea()));
+		toolkit.createLabel(parent, factors.get(nbi.get("businessArea")));
 	}
 	
 	//ISBSG 选项
@@ -285,13 +287,13 @@ public class QEInput extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnISBSGTeamSize.getSelection()) {
-					ISBSGFactors.put("teamSize", String.valueOf(nbi.getTeamSize()));
+					ISBSGFactors.put("teamSize", String.valueOf(nbi.get("teamSize")));
 				} else {
 					ISBSGFactors.remove("teamSize");
 				}
 			}
 		});
-		toolkit.createLabel(parent, String.valueOf(nbi.getTeamSize()));
+		toolkit.createLabel(parent, String.valueOf(nbi.get("teamSize")));
 	}
 	
 	private void createISBSGDevTypeItem(Composite parent){
@@ -302,18 +304,18 @@ public class QEInput extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnISBSGDevType.getSelection()){
-					ISBSGFactors.put("developmentType", nbi.getDevelopmentType());
+					ISBSGFactors.put("developmentType", (String)nbi.get("developmentType"));
 				}else {
 					ISBSGFactors.remove("developmentType");
 				}
 			}
 		});
-		if(nbi.getDevelopmentType() == null)
+		if(nbi.get("developmentType") == null)
 			btnISBSGDevType.setEnabled(false);
 		String[] texts = { "新开发", "二次开发", "优化", "其它" };
 		String[] values = { "NewDevelopment", "ReDevelopment", "Enhancement", "Other" };
 		HashMap<String, String> factors = createHashMap(texts, values);
-		toolkit.createLabel(parent, factors.get(nbi.getDevelopmentType()));
+		toolkit.createLabel(parent, factors.get(nbi.get("developmentType")));
 
 	}
 	private void createISBSGDevTechItem(Composite parent){
@@ -324,13 +326,13 @@ public class QEInput extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnISBSGDevTech.getSelection()){
-					ISBSGFactors.put("developmentTechniques", nbi.getDevelopmentTechniques());
+					ISBSGFactors.put("developmentTechniques", (String)nbi.get("developmentTechniques"));
 				}else{
 					ISBSGFactors.remove("developmentTechniques");
 				}
 			}
 		});
-		if(nbi.getDevelopmentTechniques() == null)
+		if(nbi.get("developmentTechniques") == null)
 			btnISBSGDevTech.setEnabled(false);
 		String[] texts = { "面向对象分析设计", "事件建模", "业务领域建模", "回归测试", "面向对象与事件建模",
 				"回归测试与业务领域建模", "其它"};
@@ -343,7 +345,7 @@ public class QEInput extends ParameterArea{
 				"Regression Testing;Business Area Modelling",
 				"Other"};//表示不包含OO、Event、Business、Regression的项
 		HashMap<String, String> factors = createHashMap(texts, values);
-		toolkit.createLabel(parent, factors.get(nbi.getDevelopmentTechniques()));
+		toolkit.createLabel(parent, factors.get(nbi.get("developmentTechniques")));
 	}
 	private void createISBSGDevPlatItem(Composite parent){
 		btnISBSGDevPlat = toolkit.createButton(parent, "开发平台：", SWT.CHECK);
@@ -353,18 +355,18 @@ public class QEInput extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnISBSGDevPlat.getSelection()){
-					ISBSGFactors.put("developmentPlatform", nbi.getDevelopmentPlatform());
+					ISBSGFactors.put("developmentPlatform", (String)nbi.get("developmentPlatform"));
 				}else {
 					ISBSGFactors.remove("developmentPlatform");
 				}
 			}
 		});
-		if(nbi.getDevelopmentPlatform() == null)
+		if(nbi.get("developmentPlatform") == null)
 			btnISBSGDevPlat.setEnabled(false);
 		String[] texts = { "大型机", "中型机", "个人计算机", "混合" };
 		String[] values = { "MF", "MR", "PC", "Multi" };
 		HashMap<String, String> factors = createHashMap(texts, values);
-		toolkit.createLabel(parent, factors.get(nbi.getDevelopmentPlatform()));
+		toolkit.createLabel(parent, factors.get(nbi.get("developmentPlatform")));
 	}
 	private void createISBSGLanTypeItem(Composite parent){
 		btnISBSGLanType = toolkit.createButton(parent, "语言类型：", SWT.CHECK);
@@ -374,18 +376,18 @@ public class QEInput extends ParameterArea{
 			}
 			public void widgetSelected(SelectionEvent e) {
 				if (btnISBSGLanType.getSelection()){
-					ISBSGFactors.put("languageType", nbi.getLanguageType());
+					ISBSGFactors.put("languageType", (String)nbi.get("languageType"));
 				}else {
 					ISBSGFactors.remove("languageType");
 				}
 			}
 		});
-		if(nbi.getLanguageType() == null)
+		if(nbi.get("languageType") == null)
 			btnISBSGLanType.setEnabled(false);
 		String[] texts = { "第二代语言", "第三代语言", "第四代语言", "应用代" };
 		String[] values = { "2GL", "3GL", "4GL", "ApG" };
 		HashMap<String, String> factors = createHashMap(texts, values);
-		toolkit.createLabel(parent, factors.get(nbi.getLanguageType()));
+		toolkit.createLabel(parent, factors.get(nbi.get("languageType")));
 	}
 	
 	private HashMap<String, String> createHashMap(String[] texts, String values[])

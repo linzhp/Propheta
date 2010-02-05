@@ -280,16 +280,16 @@ public class NodeBasicInformationPage extends ParameterArea{
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		nbi=nbi_access.getNodeByID(node.getId());
 		
-		nbi.setTeamSize(this.spnTeamSize.getSelection());
-		nbi.setDuration(this.spnDuration.getSelection());
-		nbi.setFunctionPoints(this.spnFP.getSelection());				
-		nbi.setBusinessArea((String)this.cmbBusinessArea.getData(this.cmbBusinessArea.getText()));
-		nbi.setDevelopmentType((String)this.cmbDevelopType.getData(this.cmbDevelopType.getText()));
-		nbi.setDevelopmentPlatform((String)this.cmbDevelopPlatform.getData(this.cmbDevelopPlatform.getText()));
-		nbi.setDevelopmentTechniques((String)this.cmbDevelopTechnique.getData(this.cmbDevelopTechnique.getText()));
-		nbi.setLanguageType((String)this.cmbLanguageType.getData(this.cmbLanguageType.getText()));
-		nbi.setLanguage((String)this.cmbLanguage.getData(this.cmbLanguage.getText()));
-		nbi.setSLOC(Integer.parseInt(this.textSLOC.getText()));
+		nbi.set("teamSize",this.spnTeamSize.getSelection());
+		nbi.set("duration",this.spnDuration.getSelection());
+		nbi.set("functionPoints",this.spnFP.getSelection());				
+		nbi.set("businessArea",(String)this.cmbBusinessArea.getData(this.cmbBusinessArea.getText()));
+		nbi.set("developmentType",(String)this.cmbDevelopType.getData(this.cmbDevelopType.getText()));
+		nbi.set("developmentPlatform",(String)this.cmbDevelopPlatform.getData(this.cmbDevelopPlatform.getText()));
+		nbi.set("developmentTechniques",(String)this.cmbDevelopTechnique.getData(this.cmbDevelopTechnique.getText()));
+		nbi.set("languageType",(String)this.cmbLanguageType.getData(this.cmbLanguageType.getText()));
+		nbi.set("language",(String)this.cmbLanguage.getData(this.cmbLanguage.getText()));
+		nbi.set("SLOC",Integer.parseInt(this.textSLOC.getText()));
 		
 		return nbi;
 	}
@@ -301,17 +301,17 @@ public class NodeBasicInformationPage extends ParameterArea{
 	 */
 	public void bindNodeBaiscInformation(NodeBasicInformation nbi){
 		if(nbi!=null){
-			this.texNodeName.setText(nbi.getName());
-			this.spnTeamSize.setSelection((int)nbi.getTeamSize());
-			this.spnDuration.setSelection((int)nbi.getDuration());
-			this.textSLOC.setText(String.valueOf(nbi.getSLOC()));			
-			this.spnFP.setSelection(nbi.getFunctionPoints());
-			this.initCombo(this.cmbBusinessArea, nbi.getBusinessArea());
-			this.initCombo(this.cmbDevelopType, nbi.getDevelopmentType());
-			this.initCombo(this.cmbDevelopPlatform, nbi.getDevelopmentPlatform());
-			this.initCombo(this.cmbDevelopTechnique, nbi.getDevelopmentTechniques());
-			this.initCombo(this.cmbLanguageType, nbi.getLanguageType());
-			this.initCombo(this.cmbLanguage, nbi.getLanguage());
+			this.texNodeName.setText((String)nbi.get("name"));
+			this.spnTeamSize.setSelection(((Double)nbi.get("teamSize")).intValue());
+			this.spnDuration.setSelection((Integer)nbi.get("duration"));
+			this.textSLOC.setText(String.valueOf(nbi.get("SLOC")));			
+			this.spnFP.setSelection((Integer)nbi.get("functionPoints"));
+			this.initCombo(this.cmbBusinessArea, (String)nbi.get("businessArea"));
+			this.initCombo(this.cmbDevelopType, (String)nbi.get("developmentType"));
+			this.initCombo(this.cmbDevelopPlatform, (String)nbi.get("developmentPlatform"));
+			this.initCombo(this.cmbDevelopTechnique, (String)nbi.get("developmentTechniques"));
+			this.initCombo(this.cmbLanguageType, (String)nbi.get("LanguageType"));
+			this.initCombo(this.cmbLanguage, (String)nbi.get("Language"));
 		}
 	}	
 	

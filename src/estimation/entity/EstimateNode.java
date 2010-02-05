@@ -73,9 +73,8 @@ public class EstimateNode{
 		//插入数据库，获取分配的节点ID
 		System.out.println("insert: "+node.getName());
 		NodeBasicInformation nbi=new NodeBasicInformation();
-		nbi.setName(node.getName());
-		nbi.setParentID(this.getId());
-		nbi.setIsRoot(false);		
+		nbi.set("name",node.getName());
+		nbi.set("parentID",this.getId());
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		int nodeID=nbi_access.insertNode(nbi);
 		
@@ -208,7 +207,7 @@ public class EstimateNode{
 		int SLOC = 0;
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
 		if (this.isLeaf())
-			SLOC = nbi_access.getNodeByID(this.getId()).getSLOC();
+			SLOC = (Integer)nbi_access.getNodeByID(this.getId()).get("SLOC");
 		else {
 			//子系统的规模计算为各模块规模之和，这样计算可能会有点问题
 			ArrayList<EstimateNode> children = this.getChildren();
@@ -223,7 +222,7 @@ public class EstimateNode{
 		int functionPoints = 0;
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
 		if (this.isLeaf())
-			functionPoints = nbi_access.getNodeByID(this.getId()).getFunctionPoints();
+			functionPoints = (Integer)nbi_access.getNodeByID(this.getId()).get("functionPoints");
 		else {
 			//子系统的规模计算为各模块规模之和，这样计算可能会有点问题
 			ArrayList<EstimateNode> children = this.getChildren();
@@ -236,15 +235,15 @@ public class EstimateNode{
 
 	public String getEstType(){
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-		String estType = nbi_access.getNodeByID(this.getId()).getEstType();
+		String estType = (String)nbi_access.getNodeByID(this.getId()).get("estType");
 
 		return estType;
 	}
 	
 	
 	public void fromNodeBasicInfo(NodeBasicInformation nbi){
-		this.id=nbi.getNodeID();
-		this.name=nbi.getName();
+		this.id=(Integer)nbi.get("nodeID");
+		this.name=(String)nbi.get("name");
 		
 	}
 }

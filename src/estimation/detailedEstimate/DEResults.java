@@ -59,7 +59,7 @@ public class DEResults extends TabContentArea {
 			NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
 			NodeBasicInformation nbi = nbi_access.getNodeByID(parameters
 					.getnodeID());
-			nbi.setEstType("cocomoSimple");
+			nbi.set("estType","cocomoSimple");
 			nbi_access.updateNode(nbi);
 
 			// 更新cocomo估算结果
