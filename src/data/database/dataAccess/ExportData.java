@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import estimation.entity.EstimateNode;
 
 public class ExportData extends DataBaseAccess {
-	public ExportData(String path, EstimateNode node){
+	public ExportData(String path){
 		super(path);
 	}
 	
