@@ -1,11 +1,10 @@
 package data.database.dataAccess;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import data.database.dataEntities.Entity;
 import data.database.dataEntities.NodeBasicInformation;
 
 
@@ -39,8 +38,8 @@ public class NodeBasicInfoAccess extends DataBaseAccess{
 	 * 获取所有根节点
 	 * @return
 	 */
-	public ArrayList<NodeBasicInformation> getAllRootNodes(){
-		ArrayList<NodeBasicInformation> rootNodes=new ArrayList<NodeBasicInformation>();
+	public ArrayList<Entity> getAllRootNodes(){
+		ArrayList<Entity> rootNodes = null;
 		try {
 			rootNodes =findAllWhere("[parentID]=-1");
 		} catch (SQLException e) {
@@ -57,9 +56,9 @@ public class NodeBasicInfoAccess extends DataBaseAccess{
 	 */
 	public NodeBasicInformation getNodeByID(int nodeID){
 		try {
-			ArrayList<NodeBasicInformation> result = findAllWhere("[nodeID]="+nodeID);
+			ArrayList<Entity> result = findAllWhere("[nodeID]="+nodeID);
 			if(result.size()>0){
-				return result.get(0);
+				return (NodeBasicInformation)result.get(0);
 			}else{
 				return null;
 			}
@@ -75,61 +74,14 @@ public class NodeBasicInfoAccess extends DataBaseAccess{
 	 * @param parentID 父节点ID
 	 * @return
 	 */
-	public ArrayList<NodeBasicInformation> getNodesByParentID(int parentID){
-		ArrayList<NodeBasicInformation> childNodes=new ArrayList<NodeBasicInformation>();
+	public ArrayList<Entity> getNodesByParentID(int parentID){
+		ArrayList<Entity> childNodes=new ArrayList<Entity>();
 		try {
 			childNodes= findAllWhere("[parentID]="+parentID+" and [nodeID]!="+parentID);
 		} catch (SQLException e) {
 			e.printStackTrace();			
 		}	
 		return childNodes;
-	}
-	
-	
-	public ArrayList<NodeBasicInformation> findAllWhere(String condition) throws SQLException{
-		ArrayList<NodeBasicInformation> list = new ArrayList<NodeBasicInformation>();
-		String sqlString="select * from nodeBasicInfo where "+condition;
-		ResultSet rs=statement.executeQuery(sqlString);
-		ResultSetMetaData metaData = rs.getMetaData();
-		while(rs.next()){
-			NodeBasicInformation node=new NodeBasicInformation();
-			for(int i=1;i<=metaData.getColumnCount();i++){
-				String columnName = metaData.getColumnName(i);
-				node.attributes.put(columnName, rs.getObject(columnName));
-			}
-			list.add(node);
-		}
-		return list;
-	}
-	
-	/**
-	 * 插入节点
-	 * @param node
-	 * @return 插入节点的ID
-	 */
-	public int insertNode(NodeBasicInformation node){
-		try{
-			StringBuilder attrList = new StringBuilder();
-			StringBuilder valueList = new StringBuilder();
-			for(String attr:node.attributes.keySet())
-			{
-				attrList.append("[");
-				attrList.append(attr);
-				attrList.append("],");
-				valueList.append("'");
-				valueList.append(node.attributes.get(attr));
-				valueList.append("',");
-			}
-			attrList.deleteCharAt(attrList.length()-1);//删除最后一个逗号
-			valueList.deleteCharAt(valueList.length()-1);//删除最后一个逗号
-			statement.executeUpdate("insert into nodeBasicInfo ("+attrList+") values ("+valueList+")");
-			ResultSet rs=statement.getGeneratedKeys();
-			rs.next();
-			return rs.getInt(1);
-		} catch (SQLException e) {
-			e.printStackTrace();			
-		}	
-		return -1;
 	}
 	
 	

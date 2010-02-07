@@ -3,8 +3,12 @@ package data.database.dataAccess;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+
+import data.database.dataEntities.Entity;
 
 /**
  * 数据访问基类，存储数据库连接信息，进行连接数据库及释放连接操作
@@ -81,5 +85,54 @@ public class DataBaseAccess {
 		}
 		return resultSet;
 	}
+	
+	
+	public ArrayList<Entity> findAllWhere(String condition) throws SQLException{
+		ArrayList<Entity> list = new ArrayList<Entity>();
+		String sqlString="select * from "+this.getClass().getName()+" where "+condition;
+		ResultSet rs=statement.executeQuery(sqlString);
+		ResultSetMetaData metaData = rs.getMetaData();
+		while(rs.next()){
+			Entity node=new Entity();
+			for(int i=1;i<=metaData.getColumnCount();i++){
+				String columnName = metaData.getColumnName(i);
+				node.set(columnName, rs.getObject(columnName));
+			}
+			list.add(node);
+		}
+		return list;
+	}
+	
+	/**
+	 * 插入记录
+	 * @return 插入记录的ID
+	 */
+	public int insert(Entity node){
+		try{
+			StringBuilder attrList = new StringBuilder();
+			StringBuilder valueList = new StringBuilder();
+			for(String attr:node.attributes.keySet())
+			{
+				attrList.append("[");
+				attrList.append(attr);
+				attrList.append("],");
+				valueList.append("'");
+				valueList.append(node.attributes.get(attr));
+				valueList.append("',");
+			}
+			attrList.deleteCharAt(attrList.length()-1);//删除最后一个逗号
+			valueList.deleteCharAt(valueList.length()-1);//删除最后一个逗号
+			statement.executeUpdate("insert into "+this.getClass().getName()+" ("+attrList+") values ("+valueList+")");
+			ResultSet rs=statement.getGeneratedKeys();
+			rs.next();
+			return rs.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();			
+		}	
+		return -1;
+	}
+	
+	
+
 
 }

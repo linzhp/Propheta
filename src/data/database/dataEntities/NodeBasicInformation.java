@@ -1,6 +1,5 @@
 package data.database.dataEntities;
 
-import java.util.HashMap;
 
 import data.database.dataAccess.NodeBasicInfoAccess;
 
@@ -9,9 +8,8 @@ import data.database.dataAccess.NodeBasicInfoAccess;
  * @author Administrator
  *
  */
-public class NodeBasicInformation {
+public class NodeBasicInformation extends Entity{
 
-	public HashMap<String, Object> attributes = new HashMap<String, Object>();
 	
 	
 	public NodeBasicInformation(){
@@ -30,11 +28,4 @@ public class NodeBasicInformation {
 		nbi_access.updateNode(nbi);
 	}
 	
-	public Object get(String attr){
-		return attributes.get(attr);
-	}
-	
-	public void set(String attr, Object value){
-		attributes.put(attr, value);
-	}
 }

@@ -3,7 +3,10 @@ package data.database.dataAccess;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import data.database.dataEntities.Entity;
+import data.database.dataEntities.NodeBasicInformation;
 import data.database.dataEntities.QuickEstimationRecord;
 
 /**
@@ -30,20 +33,9 @@ public class QuickEstimationAccess extends DataBaseAccess{
 	 */
 	public QuickEstimationRecord getQuickEstimationByEstimationID(int estimationID){
 		try {
-			String sqlString="select [estimationID],[nodeID],[dataType],[formulaEffort],[historyEffort],[meanProductivity]," +
-					"[stanDevProductivity] from quickEstimation where [estimationID]="+estimationID;
-			ResultSet rs=statement.executeQuery(sqlString);
-			if(rs.next()){
-				QuickEstimationRecord record=new QuickEstimationRecord();
-				record.setEstimationID(rs.getInt("estimationID"));
-				record.setNodeID(rs.getInt("nodeID"));
-				record.setDataType(rs.getString("dataType"));
-				record.setFormulaEffort(rs.getDouble("formulaEffort"));
-				record.setHistoryEffort(rs.getDouble("historyEffort"));
-				record.setMeanProductivity(rs.getDouble("meanProductivity"));
-				record.setStanDevProductivity(rs.getDouble("stanDevProductivity"));
-				
-				return record;
+			ArrayList<Entity> result =findAllWhere("[estimationID]="+estimationID);
+			if(result.size()>0){
+				return (QuickEstimationRecord)result.get(0);
 			}else{
 				return null;
 			}
@@ -61,20 +53,9 @@ public class QuickEstimationAccess extends DataBaseAccess{
 	 */
 	public QuickEstimationRecord getQuickEstimationByNodeID(int nodeID){
 		try {
-			String sqlString="select [estimationID],[nodeID],[dataType],[formulaEffort],[historyEffort],[meanProductivity]," +
-					"[stanDevProductivity] from quickEstimation where [nodeID]="+nodeID;
-			ResultSet rs=statement.executeQuery(sqlString);
-			if(rs.next()){
-				QuickEstimationRecord record=new QuickEstimationRecord();
-				record.setEstimationID(rs.getInt("estimationID"));
-				record.setNodeID(rs.getInt("nodeID"));
-				record.setDataType(rs.getString("dataType"));
-				record.setFormulaEffort(rs.getDouble("formulaEffort"));
-				record.setHistoryEffort(rs.getDouble("historyEffort"));
-				record.setMeanProductivity(rs.getDouble("meanProductivity"));
-				record.setStanDevProductivity(rs.getDouble("stanDevProductivity"));
-				
-				return record;
+			ArrayList<Entity> result = findAllWhere("[nodeID]="+nodeID);
+			if(result.size()>0){
+				return (QuickEstimationRecord)result.get(0);
 			}else{
 				return null;
 			}
@@ -82,34 +63,6 @@ public class QuickEstimationAccess extends DataBaseAccess{
 			e.printStackTrace();			
 		}	
 		return null;
-	}
-	
-	
-	/**
-	 * 插入一条快速估算记录，并返回分配的记录ID号
-	 * @param record
-	 * @return
-	 */
-	public int insertQuickEstimation(QuickEstimationRecord record){
-		try{
-			String sqlString="insert into quickEstimation ([nodeID],[dataType],[formulaEffort],[historyEffort],[meanProductivity]," +
-					"[stanDevProductivity]) values (?,?,?,?,?,?)";
-			PreparedStatement preStatement=connection.prepareStatement(sqlString);
-			preStatement.setInt(1, record.getNodeID());
-			preStatement.setString(2, record.getDataType());
-			preStatement.setDouble(3, record.getFormulaEffort());
-			preStatement.setDouble(4, record.getHistoryEffort());
-			preStatement.setDouble(5, record.getMeanProductivity());
-			preStatement.setDouble(6, record.getStanDevProductivity());
-			
-			preStatement.execute();
-			ResultSet rs=preStatement.getGeneratedKeys();
-			rs.next();
-			return rs.getInt(1);
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return -1;
 	}
 	
 	
