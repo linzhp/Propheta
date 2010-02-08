@@ -73,9 +73,9 @@ public class DEResults extends TabContentArea {
 			CocomoEstimationRecord cer = cer_access
 					.getCocomoEstimationByNodeID(this.getnodeID());
 
-			PM = cer.getPM();
-			devTime = cer.getDevTime();
-			sumSF = cer.getSumSF();
+			PM = (Double)cer.get("PM");
+			devTime = (Double)cer.get("devTime");
+			sumSF = (Double)cer.get("sumSF");
 		}
 		// 显示详细估算结果，生成chart
 		createComResults(size, PM, devTime, sumSF, phasesSym, phasesTex,

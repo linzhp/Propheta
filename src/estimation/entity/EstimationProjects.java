@@ -160,9 +160,9 @@ public class EstimationProjects{
 		qe_access.insert(qer);
 		
 		CocomoEstimationRecord cer=new CocomoEstimationRecord();
-		cer.setNodeID(nodeID);
+		cer.set("nodeID",nodeID);
 		CocomoEstimationAccess ce_access=new CocomoEstimationAccess();
-		ce_access.insertCocomoEstimation(cer);
+		ce_access.insert(cer);
 		
 		node.setId(nodeID);
 		node.setParent(null);

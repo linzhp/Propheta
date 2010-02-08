@@ -48,8 +48,8 @@ public class IEResults extends TabContentArea {
 				String SCEDLevel = integratedEstimate.getSCED();
 				for (int i = 0; i < children.size(); i++) {
 					sizes[i] = (double) children.get(i).getSLOC();
-					productEMs[i] = cer_access.getCocomoEstimationByNodeID(
-							children.get(i).getId()).getProductEM();
+					productEMs[i] = (Double)cer_access.getCocomoEstimationByNodeID(
+							children.get(i).getId()).get("productEM");
 				}
 				Double[] efforts = COCOMO.getIntegratedEffortTime(sizes,
 						productEMs, factorsSF, SCEDLevel);
@@ -70,8 +70,8 @@ public class IEResults extends TabContentArea {
 						efforts[i] = (Double)qer_access.getQuickEstimationByNodeID(
 								children.get(i).getId()).get("formulaEffort");
 					else
-						efforts[i] = cer_access.getCocomoEstimationByNodeID(
-								children.get(i).getId()).getDevTime() * 152;
+						efforts[i] = (Double)cer_access.getCocomoEstimationByNodeID(
+								children.get(i).getId()).get("devTime") * 152;
 				Double effort = SimpleIntegratedEstimate.getIntegratedEffort(efforts);
 				//显示集成估算结果
 				createComQuickResults(effort);
@@ -91,8 +91,8 @@ public class IEResults extends TabContentArea {
 			if(estType.contains("cocomoMultiple")){
 				CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
 				CocomoEstimationRecord cer = cer_access.getCocomoEstimationByNodeID(this.getnodeID());
-				Double PM = cer.getPM();
-				Double devTime = cer.getDevTime();
+				Double PM = (Double)cer.get("PM");
+				Double devTime = (Double)cer.get("devTime");
 				//显示集成估算结果
 				createComCocomoResults(PM, devTime);
 			}
@@ -113,10 +113,10 @@ public class IEResults extends TabContentArea {
 		CocomoEstimationRecord cer = new CocomoEstimationRecord();
 		CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
 		cer = cer_access.getCocomoEstimationByNodeID(nodeID);
-		cer.setEMType(EMType);
-		cer.setPM(PM);
-		cer.setDevTime(devTime);
-		cer_access.updateCocomoEstimation(cer);
+		cer.set("EMType",EMType);
+		cer.set("PM",PM);
+		cer.set("devTime",devTime);
+		cer_access.update(cer);
 	}
 
 	// 更新某条quickEstimation数据

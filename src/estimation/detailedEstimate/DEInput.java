@@ -49,7 +49,7 @@ public class DEInput extends ParameterArea {
 		// 生成确定action,类似于按钮功能
 		IToolBarManager toolBarManager = form.getToolBarManager();
 		ok = new DEShowResult(this, false);
-		if(cer.getEMType() == null)
+		if(cer.get("EMType") == null)
 			ok.setEnabled(false);
 		toolBarManager.add(ok);
 		toolBarManager.update(true);
@@ -133,7 +133,7 @@ public class DEInput extends ParameterArea {
 		postArchRadio.addSelectionListener(postListener);
 
 		// 根据EMType的类型来设置界面,只用考虑early与post的两种情况
-		String emType = cer.getEMType();
+		String emType = (String)cer.get("EMType");
 		if (emType != null) {
 			if (emType.contains("Early")) {
 				earlyDesignRadio.setSelection(true);
@@ -177,7 +177,7 @@ public class DEInput extends ParameterArea {
 			// 在此处添加因子的初始设置
 			toolkit.createLabel(parent, d);
 			int index;
-			HashMap<String, String> factors = cer.getFactors();
+			HashMap<String, Object> factors = cer.attributes;
 			if (factors.get(d) == null)
 				index = 3;
 			else
