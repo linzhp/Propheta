@@ -23,9 +23,9 @@ public class NodeBasicInformation extends Entity{
 	public static void updateEstType(int nodeID, String EstType) {
 		NodeBasicInformation nbi = new NodeBasicInformation();
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-		nbi = nbi_access.getNodeByID(nodeID);
+		nbi = (NodeBasicInformation)nbi_access.getByID(nodeID);
 		nbi.attributes.put("estType", EstType);
-		nbi_access.updateNode(nbi);
+		nbi_access.update(nbi);
 	}
 	
 }

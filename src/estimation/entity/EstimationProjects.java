@@ -8,6 +8,7 @@ import data.database.dataAccess.CocomoEstimationAccess;
 import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataAccess.QuickEstimationAccess;
 import data.database.dataEntities.CocomoEstimationRecord;
+import data.database.dataEntities.Entity;
 import data.database.dataEntities.NodeBasicInformation;
 import data.database.dataEntities.QuickEstimationRecord;
 
@@ -48,11 +49,11 @@ public class EstimationProjects{
 		
 		//从数据库读取估算项目信息
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		ArrayList<NodeBasicInformation> rootNodes=nbi_access.getAllRootNodes(); //所有根节点
+		ArrayList<Entity> rootNodes=nbi_access.getAllRootNodes(); //所有根节点
 		for(int i=0;i<rootNodes.size();i++){
-			NodeBasicInformation nbi=rootNodes.get(i);
+			NodeBasicInformation nbi=(NodeBasicInformation)rootNodes.get(i);
 			EstimateNode newEstimationProject=new EstimateNode(null);
-			newEstimationProject.setId((Integer)nbi.get("nodeID"));
+			newEstimationProject.setId((Integer)nbi.get("id"));
 			newEstimationProject.setName((String)nbi.get("name"));
 			newEstimationProject.setParent(null);  //根节点，parent为null
 			
@@ -68,14 +69,14 @@ public class EstimationProjects{
 	 */
 	private static void initNodeChildren(EstimateNode node){
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		ArrayList<NodeBasicInformation> childNodes=nbi_access.getNodesByParentID(node.getId());
+		ArrayList<Entity> childNodes=nbi_access.getNodesByParentID(node.getId());
 		if(childNodes.size()==0){
 			return;
 		}else{
 			for(int i=0;i<childNodes.size();i++){
-				NodeBasicInformation nbi=childNodes.get(i);
+				NodeBasicInformation nbi=(NodeBasicInformation)childNodes.get(i);
 				EstimateNode newNode=new EstimateNode(null);
-				newNode.setId((Integer)nbi.get("nodeID"));
+				newNode.setId((Integer)nbi.get("id"));
 				newNode.setName((String)nbi.get("name"));
 				newNode.setParent(node);
 				node.getChildren().add(newNode);
@@ -108,7 +109,7 @@ public class EstimationProjects{
 		}
 		
 		NodeBasicInformation nbi=new NodeBasicInformation();
-		nbi.set("nodeID",node.getId());
+		nbi.set("id",node.getId());
 		nbi.set("name",node.getName());
 		if(node.isRoot()==true){
 			nbi.set("parentID",-1);
@@ -117,7 +118,7 @@ public class EstimationProjects{
 		}		
 		if(node.getId()==-1){  //尚未编号，插入
 			NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-			int nodeID=nbi_access.insertNode(nbi);
+			int nodeID=nbi_access.insert(nbi);
 			for(int i=0;i<node.getChildren().size();i++){
 				EstimateNode childNode=node.getChildren().get(i);
 				childNode.getParent().setId(nodeID);
@@ -125,7 +126,7 @@ public class EstimationProjects{
 			}
 		}else{ //以编号，更新
 			NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-			nbi_access.updateNode(nbi);
+			nbi_access.update(nbi);
 			for(int i=0;i<node.getChildren().size();i++){
 				EstimateNode childNode=node.getChildren().get(i);
 				storeNode(childNode);
@@ -143,20 +144,20 @@ public class EstimationProjects{
 		/**这两个操作可以改成多线程**/
 		//更新数据库
 		NodeBasicInformation nbi=new NodeBasicInformation();
-		nbi.set("nodeID",-1);
+		nbi.set("id",-1);
 		nbi.set("name",node.getName());
 		nbi.set("parentID",-1);
 		
 		//将新建项目插入数据库并获取分配的节点ID
 		System.out.println("insert: "+nbi.get("name"));
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		int nodeID=nbi_access.insertNode(nbi);
+		int nodeID=nbi_access.insert(nbi);
 		
 		//为新建项目设置估算输入输出的默认值并保存到数据库中
 		QuickEstimationRecord qer=new QuickEstimationRecord();
-		qer.setNodeID(nodeID);
+		qer.set("nodeID",nodeID);
 		QuickEstimationAccess qe_access=new QuickEstimationAccess();
-		qe_access.insertQuickEstimation(qer);
+		qe_access.insert(qer);
 		
 		CocomoEstimationRecord cer=new CocomoEstimationRecord();
 		cer.setNodeID(nodeID);
@@ -197,7 +198,7 @@ public class EstimationProjects{
 		System.out.println("delete:	"+node.getName());
 		//更新数据库		
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.deleteNodeByNodeID(node.getId());
+		nbi_access.deleteByID(node.getId());
 		
 		//删除对应的估算记录
 		QuickEstimationAccess qe_access=new QuickEstimationAccess();

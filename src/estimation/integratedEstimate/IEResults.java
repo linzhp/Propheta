@@ -67,8 +67,8 @@ public class IEResults extends TabContentArea {
 				QuickEstimationAccess qer_access = new QuickEstimationAccess();
 				for (int i = 0; i < children.size(); i++)
 					if (children.get(i).getEstType().contains("quick"))
-						efforts[i] = qer_access.getQuickEstimationByNodeID(
-								children.get(i).getId()).getFormulaEffort();
+						efforts[i] = (Double)qer_access.getQuickEstimationByNodeID(
+								children.get(i).getId()).get("formulaEffort");
 					else
 						efforts[i] = cer_access.getCocomoEstimationByNodeID(
 								children.get(i).getId()).getDevTime() * 152;
@@ -100,7 +100,7 @@ public class IEResults extends TabContentArea {
 			{
 				QuickEstimationAccess qer_access = new QuickEstimationAccess();
 				QuickEstimationRecord cer = qer_access.getQuickEstimationByNodeID(this.getnodeID());
-				Double effort = cer.getFormulaEffort();
+				Double effort = (Double)cer.get("formulaEffort");
 				//显示集成估算结果
 				createComQuickResults(effort);
 			}
@@ -126,10 +126,10 @@ public class IEResults extends TabContentArea {
 		QuickEstimationAccess qer_access = new QuickEstimationAccess();
 		qer = qer_access.getQuickEstimationByNodeID(nodeID);
 
-		qer.setDataType(dataType);
-		qer.setFormulaEffort(formula_Effort);
+		qer.set("dataType",dataType);
+		qer.set("formulaEffort",formula_Effort);
 
-		qer_access.updateQuickEstimation(qer);
+		qer_access.update(qer);
 	}
 
 	public void createComCocomoResults(Double PM, Double devTime) {

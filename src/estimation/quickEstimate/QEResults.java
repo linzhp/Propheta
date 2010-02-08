@@ -24,11 +24,9 @@ import gui.tabs.TabContentArea;
 
 public class QEResults extends TabContentArea {
 
-	private QEInput quickEstimate;
 
 	public QEResults(Composite parent, QEInput quickEstimate, boolean isOpen) {
 		super(parent, quickEstimate.getNode());
-		this.quickEstimate = quickEstimate;
 
 		String dataType;
 		int projectSize = 0;
@@ -91,7 +89,7 @@ public class QEResults extends TabContentArea {
 		else {
 			QuickEstimationAccess qer_access = new QuickEstimationAccess();
 			
-			dataType = qer_access.getQuickEstimationByNodeID(this.getnodeID()).getDataType();
+			dataType = (String)qer_access.getQuickEstimationByNodeID(this.getnodeID()).get("dataType");
 			if (dataType.contains("csbsg"))
 				projectSize = quickEstimate.getNode().getSLOC();
 			else
@@ -100,10 +98,10 @@ public class QEResults extends TabContentArea {
 			QuickEstimationRecord qer = qer_access
 					.getQuickEstimationByNodeID(node.getId());
 
-			formulaEffort = qer.getFormulaEffort();
-			historyEffort = qer.getHistoryEffort();
-			meanProductivity = qer.getMeanProductivity();
-			stanDevProductivity = qer.getStanDevProductivity();
+			formulaEffort = (Double)qer.get("formulaEffort");
+			historyEffort = (Double)qer.get("historyEffort");
+			meanProductivity = (Double)qer.get("meanProductivity");
+			stanDevProductivity = (Double)qer.get("stanDevProductivity");
 
 		}
 		// 快速估算结果显示

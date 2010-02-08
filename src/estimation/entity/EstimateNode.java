@@ -76,13 +76,13 @@ public class EstimateNode{
 		nbi.set("name",node.getName());
 		nbi.set("parentID",this.getId());
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		int nodeID=nbi_access.insertNode(nbi);
+		int nodeID=nbi_access.insert(nbi);
 		
 		//为新建节点设置估算输入输出的默认值并保存到数据库中
 		QuickEstimationRecord qer=new QuickEstimationRecord();
-		qer.setNodeID(nodeID);
+		qer.set("nodeID",nodeID);
 		QuickEstimationAccess qe_access=new QuickEstimationAccess();
-		qe_access.insertQuickEstimation(qer);
+		qe_access.insert(qer);
 		
 		CocomoEstimationRecord cer=new CocomoEstimationRecord();
 		cer.setNodeID(nodeID);
@@ -104,7 +104,7 @@ public class EstimateNode{
 		
 		//从数据库中删除记录
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.deleteNodeByNodeID(childNode.getId());
+		nbi_access.deleteByID(childNode.getId());
 		
 		//删除对应的估算记录
 		QuickEstimationAccess qe_access=new QuickEstimationAccess();
@@ -207,7 +207,7 @@ public class EstimateNode{
 		int SLOC = 0;
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
 		if (this.isLeaf())
-			SLOC = (Integer)nbi_access.getNodeByID(this.getId()).get("SLOC");
+			SLOC = (Integer)nbi_access.getByID(this.getId()).get("SLOC");
 		else {
 			//子系统的规模计算为各模块规模之和，这样计算可能会有点问题
 			ArrayList<EstimateNode> children = this.getChildren();
@@ -222,7 +222,7 @@ public class EstimateNode{
 		int functionPoints = 0;
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
 		if (this.isLeaf())
-			functionPoints = (Integer)nbi_access.getNodeByID(this.getId()).get("functionPoints");
+			functionPoints = (Integer)nbi_access.getByID(this.getId()).get("functionPoints");
 		else {
 			//子系统的规模计算为各模块规模之和，这样计算可能会有点问题
 			ArrayList<EstimateNode> children = this.getChildren();
@@ -235,14 +235,14 @@ public class EstimateNode{
 
 	public String getEstType(){
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-		String estType = (String)nbi_access.getNodeByID(this.getId()).get("estType");
+		String estType = (String)nbi_access.getByID(this.getId()).get("estType");
 
 		return estType;
 	}
 	
 	
 	public void fromNodeBasicInfo(NodeBasicInformation nbi){
-		this.id=(Integer)nbi.get("nodeID");
+		this.id=(Integer)nbi.get("id");
 		this.name=(String)nbi.get("name");
 		
 	}

@@ -10,7 +10,7 @@ import data.database.dataAccess.CocomoEstimationAccess;
  * @author Administrator
  * 
  */
-public class CocomoEstimationRecord {
+public class CocomoEstimationRecord extends Entity{
 
 	private int estimationID = -1;
 	private int nodeID = -1;

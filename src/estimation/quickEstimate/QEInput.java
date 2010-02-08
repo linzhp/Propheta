@@ -90,7 +90,7 @@ public class QEInput extends ParameterArea{
 	{
 		nbi = new NodeBasicInformation();
 		nbi_access = new NodeBasicInfoAccess();
-		nbi = nbi_access.getNodeByID(node.getId());
+		nbi = (NodeBasicInformation)nbi_access.getByID(node.getId());
 		
 		//生成参数输入区
 		GridData gd = new GridData();

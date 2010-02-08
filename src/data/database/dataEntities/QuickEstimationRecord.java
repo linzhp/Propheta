@@ -23,7 +23,7 @@ public class QuickEstimationRecord extends Entity{
 	 * @param nodeID
 	 */
 	public QuickEstimationRecord(int estimationID, int nodeID){
-		set("estimationID",estimationID);
+		set("id",estimationID);
 		set("nodeID",nodeID);
 	}
 	
@@ -41,7 +41,7 @@ public class QuickEstimationRecord extends Entity{
 		qer.set("meanProductivity",meanProductivity);
 		qer.set("stanDevProductivity",stanDevProductivity);
 
-		qer_access.updateQuickEstimation(qer);
+		qer_access.update(qer);
 	}
 
 }

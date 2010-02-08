@@ -38,7 +38,7 @@ public class QEOpen extends ShowParamTabAction {
 		super.run();
 		
 		QuickEstimationAccess qer_access = new QuickEstimationAccess();
-		String dataType = qer_access.getQuickEstimationByNodeID(getNode().getId()).getDataType();
+		String dataType = (String)qer_access.getQuickEstimationByNodeID(getNode().getId()).get("dataType");
 		if(dataType != null){
 			QEShowResult qeShowResult = new QEShowResult(qeInput, true);
 			qeShowResult.run();
