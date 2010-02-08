@@ -7,6 +7,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import data.database.dataEntities.CocomoEstimationRecord;
 import data.database.dataEntities.Entity;
@@ -22,22 +23,14 @@ import data.database.dataEntities.QuickEstimationRecord;
 public class DataBaseAccess {
 
 	protected Connection connection = null;
-	protected static Connection defaultConnection;
 	protected Statement statement = null;
+	private static HashMap<String, Connection> connectionPool = new HashMap<String, Connection>();
 
 	/**
 	 * 构造器
 	 */
 	public DataBaseAccess() {
-		try {
-			if (defaultConnection == null) {
-				defaultConnection = initConnection("jdbc:sqlite:./database/database.db3");
-			}
-			connection = defaultConnection;
-			statement = defaultConnection.createStatement();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		this("./database/database.db3");
 	}
 
 	/**
@@ -47,9 +40,13 @@ public class DataBaseAccess {
 	 *            数据库文件路径
 	 */
 	public DataBaseAccess(String dataBasePath) {
-		String connectionString = "jdbc:sqlite:" + dataBasePath;
+		connection = connectionPool.get(dataBasePath);
 		try {
-			connection = initConnection(connectionString);
+			if (connection == null|| connection.isClosed()) {
+				String connectionString = "jdbc:sqlite:" + dataBasePath;
+				connection = initConnection(connectionString);
+				connectionPool.put(dataBasePath, connection);
+			}
 			statement = connection.createStatement();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,10 +67,11 @@ public class DataBaseAccess {
 	/**
 	 * 关闭数据库连接，程序结束后将自动调用此方法
 	 */
-	public static void disposeConnection() {
+	public static void disposeConnections() {
 		try {
-			defaultConnection.close();
-			defaultConnection = null;
+			for(Connection conn:connectionPool.values()){
+				conn.close();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,20 +86,21 @@ public class DataBaseAccess {
 		}
 		return resultSet;
 	}
-	
-	protected String getTableName(){
+
+	protected String getTableName() {
 		String className = this.getClass().getSimpleName();
-		return className.substring(0,className.length()-6);
+		return className.substring(0, className.length() - 6);
 	}
-	
-	public ArrayList<Entity> findAllWhere(String condition) throws SQLException{
+
+	public ArrayList<Entity> findAllWhere(String condition) throws SQLException {
 		ArrayList<Entity> list = new ArrayList<Entity>();
-		String sqlString="select * from "+getTableName()+" where "+condition;
-		ResultSet rs=statement.executeQuery(sqlString);
+		String sqlString = "select * from " + getTableName() + " where "
+				+ condition;
+		ResultSet rs = statement.executeQuery(sqlString);
 		ResultSetMetaData metaData = rs.getMetaData();
-		while(rs.next()){
-			Entity node=getEntity(getTableName());
-			for(int i=1;i<=metaData.getColumnCount();i++){
+		while (rs.next()) {
+			Entity node = getEntity(getTableName());
+			for (int i = 1; i <= metaData.getColumnCount(); i++) {
 				String columnName = metaData.getColumnName(i);
 				node.set(columnName, rs.getObject(columnName));
 			}
@@ -109,53 +108,56 @@ public class DataBaseAccess {
 		}
 		return list;
 	}
-	
+
 	/**
 	 * 工厂方法
-	 * @param name 类名
+	 * 
+	 * @param name
+	 *            类名
 	 * @return 类的实例
 	 */
-	private static Entity getEntity(String name){
-		if(name.equals("NodeBasicInfo"))
+	private static Entity getEntity(String name) {
+		if (name.equals("NodeBasicInfo"))
 			return new NodeBasicInformation();
-		else if(name.equals("QuickEstimation"))
-			return new QuickEstimationRecord(); 
-		else if(name.equals("CocomoEstimation"))
-			return new CocomoEstimationRecord(); 
+		else if (name.equals("QuickEstimation"))
+			return new QuickEstimationRecord();
+		else if (name.equals("CocomoEstimation"))
+			return new CocomoEstimationRecord();
 		else
 			return null;
 	}
+
 	/**
 	 * 通过ID获取记录信息
-	 * @param id  记录ID
+	 * 
+	 * @param id
+	 *            记录ID
 	 * @return
 	 */
-	public Entity getByID(int id){
+	public Entity getByID(int id) {
 		try {
-			ArrayList<Entity> result = findAllWhere("[id]="+id);
-			if(result.size()>0){
+			ArrayList<Entity> result = findAllWhere("[id]=" + id);
+			if (result.size() > 0) {
 				return result.get(0);
-			}else{
+			} else {
 				return null;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();			
-		}	
+			e.printStackTrace();
+		}
 		return null;
 	}
-	
 
-	
 	/**
 	 * 插入记录
+	 * 
 	 * @return 插入记录的ID
 	 */
-	public int insert(Entity node){
-		try{
+	public int insert(Entity node) {
+		try {
 			StringBuilder attrList = new StringBuilder();
 			StringBuilder valueList = new StringBuilder();
-			for(String attr:node.attributes.keySet())
-			{
+			for (String attr : node.attributes.keySet()) {
 				attrList.append("[");
 				attrList.append(attr);
 				attrList.append("],");
@@ -163,52 +165,57 @@ public class DataBaseAccess {
 				valueList.append(node.attributes.get(attr));
 				valueList.append("',");
 			}
-			attrList.deleteCharAt(attrList.length()-1);//删除最后一个逗号
-			valueList.deleteCharAt(valueList.length()-1);//删除最后一个逗号
-			statement.executeUpdate("insert into "+getTableName()+" ("+attrList+") values ("+valueList+")");
-			ResultSet rs=statement.getGeneratedKeys();
+			attrList.deleteCharAt(attrList.length() - 1);// 删除最后一个逗号
+			valueList.deleteCharAt(valueList.length() - 1);// 删除最后一个逗号
+			statement.executeUpdate("insert into " + getTableName() + " ("
+					+ attrList + ") values (" + valueList + ")");
+			ResultSet rs = statement.getGeneratedKeys();
 			rs.next();
 			return rs.getInt(1);
 		} catch (SQLException e) {
-			e.printStackTrace();			
-		}	
+			e.printStackTrace();
+		}
 		return -1;
 	}
-	
+
 	/**
 	 * 更新节点信息(节点ID不可变)
+	 * 
 	 * @param node
 	 */
-	public void update(Entity node){
-		try{
-			StringBuilder sqlString= new StringBuilder("update "+getTableName()+" set ");
-			for(String attr:node.attributes.keySet()){
+	public void update(Entity node) {
+		try {
+			StringBuilder sqlString = new StringBuilder("update "
+					+ getTableName() + " set ");
+			for (String attr : node.attributes.keySet()) {
 				sqlString.append("[");
 				sqlString.append(attr);
 				sqlString.append("]='");
 				sqlString.append(node.attributes.get(attr));
 				sqlString.append("',");
 			}
-			sqlString.deleteCharAt(sqlString.length()-1);
-			sqlString.append(" where [id]="+node.attributes.get("id"));
+			sqlString.deleteCharAt(sqlString.length() - 1);
+			sqlString.append(" where [id]=" + node.attributes.get("id"));
 			statement.executeUpdate(sqlString.toString());
 		} catch (SQLException e) {
-			e.printStackTrace();			
-		}	
-	}
-	
-	/**
-	 * 删除节点（通过节点ID判断）
-	 * @param id 节点ID
-	 */
-	public void deleteByID(int id){
-		try{
-			String sqlString="delete from "+getTableName()+" where [id]="+id;
-			statement.execute(sqlString);
-		} catch (SQLException e) {
-			e.printStackTrace();			
-		}	
+			e.printStackTrace();
+		}
 	}
 
+	/**
+	 * 删除节点（通过节点ID判断）
+	 * 
+	 * @param id
+	 *            节点ID
+	 */
+	public void deleteByID(int id) {
+		try {
+			String sqlString = "delete from " + getTableName() + " where [id]="
+					+ id;
+			statement.execute(sqlString);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

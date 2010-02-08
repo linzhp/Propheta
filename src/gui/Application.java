@@ -39,7 +39,7 @@ public class Application extends ApplicationWindow {
 	}
 
 	private void dispose() {
-		DataBaseAccess.disposeConnection();
+		DataBaseAccess.disposeConnections();
 		GUI.getToolkit().dispose();
 		Display.getCurrent().dispose();
 	}

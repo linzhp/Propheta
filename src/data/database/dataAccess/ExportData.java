@@ -1,25 +1,32 @@
 package data.database.dataAccess;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 
-import estimation.entity.EstimateNode;
+import data.database.dataEntities.Entity;
 
-public class ExportData extends DataBaseAccess {
+public class ExportData {
+	private String path;
 	public ExportData(String path){
-		super(path);
+		this.path = path;
 	}
 	
 	public void createSchema() throws Exception{
 		DataBaseAccess mainDB = new DataBaseAccess();
+		DataBaseAccess toDB = new DataBaseAccess(path);
 		ResultSet rs = mainDB.statement.executeQuery("select sql from sqlite_master " +
-				"where name in ('nodeBasicInfo','cocomoEstimation', 'quickEstimation')");
+				"where name in ('nodeBasicInfo','cocomoestimation', 'quickEstimation')");
 		while(rs.next()){
-			this.statement.executeUpdate(rs.getString("sql"));
+			toDB.statement.executeUpdate(rs.getString("sql"));
 		}
 	}
 	
-	public void copyData(EstimateNode node) {
-		
+	public void copyData(int nodeID) throws SQLException {
+		NodeBasicInfoAccess mainNBIAccess = new NodeBasicInfoAccess();
+		NodeBasicInfoAccess toNBIAccess = new NodeBasicInfoAccess(path);
+		toNBIAccess.insert(mainNBIAccess.getByID(nodeID));
+		for(Entity node:mainNBIAccess.getNodesByParentID(nodeID)){
+			copyData((Integer)node.get("id"));
+		}
 	}
 }

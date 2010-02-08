@@ -29,6 +29,6 @@ public class MainClass {
 		
 		System.out.println("median= " + stats.getPercentile(50));
 		System.out.println("mean= " + stats.getMean());
-		DataBaseAccess.disposeConnection();
+		DataBaseAccess.disposeConnections();
 	}
 }
