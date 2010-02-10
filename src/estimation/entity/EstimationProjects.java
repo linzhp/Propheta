@@ -2,6 +2,7 @@ package estimation.entity;
 
 import gui.GUI;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import data.database.dataAccess.CocomoEstimationAccess;
@@ -43,8 +44,9 @@ public class EstimationProjects{
 	
 	/**
 	 * 初始化估算项目集合(从数据库中读取保存的估算项目信息)
+	 * @throws SQLException 
 	 */
-	public static void readEstimateProjects(){
+	public static void readEstimateProjects() throws SQLException{
 		estimateProjects=new ArrayList<EstimateNode>();
 		
 		//从数据库读取估算项目信息

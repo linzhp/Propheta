@@ -1,6 +1,12 @@
 package gui.widgets.tree.contextMenu;
 
+import data.database.ImportData;
+import estimation.entity.EstimateNode;
+import gui.GUI;
+import gui.widgets.tree.TreeArea;
+
 import java.io.File;
+import java.sql.SQLException;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
@@ -8,15 +14,9 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-import data.database.ExportData;
-
-import estimation.entity.EstimateNode;
-import gui.GUI;
-import gui.widgets.tree.TreeArea;
-
-public class ExportAction extends Action {
-	public ExportAction(){
-		super("导出");
+public class ImportAction extends Action {
+	public ImportAction(){
+		super("导入");
 	}
 	
 	@Override
@@ -31,21 +31,19 @@ public class ExportAction extends Action {
 			return;
 		File file = new File(filePath);
 		MessageBox messageBox = new MessageBox(shell, SWT.ICON_ERROR);
-		while(file.exists())
+		while(!file.exists())
 		{
-			messageBox.setMessage("文件已存在，请选择另一个文件名");
+			messageBox.setMessage("文件不存在，请重新选择");
 			messageBox.open();
 			filePath = fileDialog.open();
 			if(filePath == null)
 				return;
 			file = new File(filePath);
 		}
-		ExportData exportData = new ExportData(filePath);
+		ImportData importData = new ImportData(filePath);
 		try {
-			exportData.createSchema();
-			exportData.copyData(node.getId());
-			treeArea.getTreeViewer().refresh();
-		} catch (Exception e) {
+			importData.copyData(node.getId());
+		} catch (SQLException e) {
 			messageBox.setMessage(e.getMessage());
 			messageBox.open();
 			e.printStackTrace();

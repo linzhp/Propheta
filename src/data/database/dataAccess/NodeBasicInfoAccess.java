@@ -36,14 +36,11 @@ public class NodeBasicInfoAccess extends DataBaseAccess{
 	/**
 	 * 获取所有根节点
 	 * @return
+	 * @throws SQLException 
 	 */
-	public ArrayList<Entity> getAllRootNodes(){
+	public ArrayList<Entity> getAllRootNodes() throws SQLException{
 		ArrayList<Entity> rootNodes = null;
-		try {
-			rootNodes =findAllWhere("[parentID]=-1");
-		} catch (SQLException e) {
-			e.printStackTrace();			
-		}	
+		rootNodes =findAllWhere("[parentID]=-1");
 		return rootNodes;
 	}
 	

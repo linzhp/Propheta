@@ -25,12 +25,13 @@ public class DataBaseAccess {
 	protected Connection connection = null;
 	public Statement statement = null;
 	private static HashMap<String, Connection> connectionPool = new HashMap<String, Connection>();
+	public final static String MAIN_DB_PATH = "./database/database.db3";
 
 	/**
 	 * 构造器
 	 */
 	public DataBaseAccess() {
-		this("./database/database.db3");
+		this(MAIN_DB_PATH);
 	}
 
 	/**

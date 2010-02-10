@@ -1,5 +1,7 @@
 package gui;
 
+import java.sql.SQLException;
+
 import data.database.dataAccess.DataBaseAccess;
 import estimation.detailedEstimate.DEInput;
 import estimation.detailedEstimate.DEShowResult;
@@ -44,7 +46,7 @@ public class Application extends ApplicationWindow {
 		Display.getCurrent().dispose();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 
 		// 初始化估算项目集合(读取数据库中的估算项目信息)
 		EstimationProjects.readEstimateProjects();
