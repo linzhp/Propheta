@@ -23,7 +23,7 @@ import data.database.dataEntities.QuickEstimationRecord;
 public class DataBaseAccess {
 
 	protected Connection connection = null;
-	protected Statement statement = null;
+	public Statement statement = null;
 	private static HashMap<String, Connection> connectionPool = new HashMap<String, Connection>();
 
 	/**

@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-import data.database.dataAccess.ExportData;
+import data.database.ExportData;
 
 import estimation.entity.EstimateNode;
 import gui.GUI;
@@ -27,6 +27,8 @@ public class ExportAction extends Action {
 		FileDialog fileDialog = new FileDialog(shell,SWT.SAVE);
 		fileDialog.setFileName(node.getName()+".db3");
 		String filePath = fileDialog.open();
+		if(filePath == null)
+			return;
 		File file = new File(filePath);
 		MessageBox messageBox = new MessageBox(shell, SWT.ICON_ERROR);
 		while(file.exists())
@@ -34,6 +36,8 @@ public class ExportAction extends Action {
 			messageBox.setMessage("文件已存在，请选择另一个文件名");
 			messageBox.open();
 			filePath = fileDialog.open();
+			if(filePath == null)
+				return;
 			file = new File(filePath);
 		}
 		ExportData exportData = new ExportData(filePath);
