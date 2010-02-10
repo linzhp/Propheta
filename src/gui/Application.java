@@ -33,6 +33,7 @@ public class Application extends ApplicationWindow {
 	public Application() {
 		super(null);
 		addMenuBar();
+		addStatusLine();
 	}
 
 	public void run() {

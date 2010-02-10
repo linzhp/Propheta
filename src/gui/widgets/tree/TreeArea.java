@@ -90,7 +90,7 @@ public class TreeArea extends Composite{
 
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
-				
+				openBasicInformationPageAction.run();
 			}
 
 			@Override
