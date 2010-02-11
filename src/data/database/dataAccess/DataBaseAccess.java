@@ -189,10 +189,13 @@ public class DataBaseAccess {
 			StringBuilder sqlString = new StringBuilder("update "
 					+ getTableName() + " set ");
 			for (String attr : node.attributes.keySet()) {
+				Object value = node.attributes.get(attr);
+				if(value == null)
+					continue;
 				sqlString.append("[");
 				sqlString.append(attr);
 				sqlString.append("]='");
-				sqlString.append(node.attributes.get(attr));
+				sqlString.append(value);
 				sqlString.append("',");
 			}
 			sqlString.deleteCharAt(sqlString.length() - 1);

@@ -13,11 +13,10 @@ public class MainClass {
 	public static void main(String args[]){
 		ArrayList<Integer> array = new ArrayList<Integer>();
 		DataBaseAccess da= new DataBaseAccess();
-		ResultSet rs = da.query("select duration,count(*) from csbsg group by duration order by count(*) asc");
+		ResultSet rs = da.query("select RCPX from cocomoestimation where nodeID=6");
 		try {
 			while (rs.next()){
-				System.out.println("duration:"+rs.getInt("duration")+ " count:" + rs.getInt("count(*)"));
-				array.add(rs.getInt("duration"));
+				rs.getObject("RCPX");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

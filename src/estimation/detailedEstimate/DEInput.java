@@ -178,10 +178,11 @@ public class DEInput extends ParameterArea {
 			toolkit.createLabel(parent, d);
 			int index;
 			HashMap<String, Object> factors = cer.attributes;
-			if (factors.get(d) == null)
+			Object level = factors.get(d);
+			if (level == null || ((String)level).equals("null"))
 				index = 3;
 			else
-				index = levelIndex.get(factors.get(d));
+				index = levelIndex.get(level);
 			ParameterScale scale = new ParameterScale(parent, levels, index);
 			scale.addListener(new Listener() {
 				public void handleEvent(Event event) {
