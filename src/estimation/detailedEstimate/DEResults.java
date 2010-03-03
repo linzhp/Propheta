@@ -2,6 +2,7 @@ package estimation.detailedEstimate;
 
 import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.Set;
 
 import gui.Chart;
 import gui.tabs.TabContentArea;
@@ -33,6 +34,11 @@ public class DEResults extends TabContentArea {
 			"projectOffice", "CM/QA", "manuals" };
 	private final String[] activitiesTex = { "需求", "设计", "编码", "测试计划", "VV",
 			"管理活动", "CM/QA", "文档" };
+	private final String[] risksSym = { "totalProjectRisk", "scheduleRisk",
+			"productRisk", "platformRisk", "personnelRisk", "processRisk",
+			"reuseRisk" };
+	private final String[] risksTex = { "总项目风险", "进度风险", "产品风险", "平台风险",
+			"人员风险", "过程风险", "重用风险" };
 
 	public DEResults(Composite parent, DEInput param, boolean isOpen) {
 		super(parent, param.getNode());
@@ -40,12 +46,15 @@ public class DEResults extends TabContentArea {
 
 		int size = parameters.getNode().getSLOC();
 		Double PM, devTime, sumSF;
+		HashMap<String, Object> factors = new HashMap<String,Object>();//存储所有SF与EM因子等级值，用于风险估算
 
 		// 根据用户输入，处理详细估算数据
 		if (!isOpen) {
 			HashMap<String, String> factorsSF = parameters.getScaleFactors();
 			HashMap<String, String> factorsEM = parameters
 					.getEffortMultipliers();
+			factors.putAll(factorsSF);
+			factors.putAll(factorsEM);
 			sumSF = COCOMO.getSumSF(factorsSF);
 			Double productEM = COCOMO.getProductEM(factorsEM);
 			Double SCEDValue = COCOMO.getSCEDValue(factorsEM.get("SCED"));
@@ -57,9 +66,9 @@ public class DEResults extends TabContentArea {
 
 			// 更新基本信息表中的估算类型
 			NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-			NodeBasicInformation nbi = (NodeBasicInformation)nbi_access.getByID(parameters
-					.getnodeID());
-			nbi.set("estType","cocomoSimple");
+			NodeBasicInformation nbi = (NodeBasicInformation) nbi_access
+					.getByID(parameters.getnodeID());
+			nbi.set("estType", "cocomoSimple");
 			nbi_access.update(nbi);
 
 			// 更新cocomo估算结果
@@ -73,20 +82,19 @@ public class DEResults extends TabContentArea {
 			CocomoEstimationRecord cer = cer_access
 					.getCocomoEstimationByNodeID(this.getnodeID());
 
-			PM = (Double)cer.get("PM");
-			devTime = (Double)cer.get("devTime");
-			sumSF = (Double)cer.get("sumSF");
+			PM = (Double) cer.get("PM");
+			devTime = (Double) cer.get("devTime");
+			sumSF = (Double) cer.get("sumSF");
+			factors.putAll((cer.attributes));
 		}
 		// 显示详细估算结果，生成chart
-		createComResults(size, PM, devTime, sumSF, phasesSym, phasesTex,
-				activitiesSym, activitiesTex);
+		createComResults(size, PM, devTime, sumSF, factors);
 	}
 
 	// 参数：PM，devTime，size，sumSF，phasesSym,phasesTex,activitiesSym, activitiesTex
 	private void createComResults(int size, Double PM, Double devTime,
-			Double sumSF, String[] phasesSym, String[] phasesTex,
-			String[] activitiesSym, String[] activitiesTex) {
-		//详细估算值
+			Double sumSF, HashMap<String, Object> factors){
+		// 详细估算值
 		Double E = COCOMO.getE(sumSF);
 		Double[] phaseEfforts = COCOMO.getPhaseEfforts(phasesSym, COCOMO
 				.getSizeLevel(size), COCOMO.getELevel(E), PM);
@@ -94,7 +102,7 @@ public class DEResults extends TabContentArea {
 		Double[] persionDistribution = COCOMO.getPersonDistribution(
 				phaseEfforts, scheduleTimes);
 
-		//界面设置
+		// 界面设置
 		this.setLayout(new FillLayout());
 		ScrolledComposite resultScroll = new ScrolledComposite(this, SWT.BORDER
 				| SWT.H_SCROLL | SWT.V_SCROLL);
@@ -104,7 +112,7 @@ public class DEResults extends TabContentArea {
 		GridLayout resultLayout = new GridLayout(2, true);
 		resultLayout.verticalSpacing = 10;
 		resultView.setLayout(resultLayout);
-		
+
 		// 详细估算结果
 		Label result = new Label(resultView, SWT.NONE);
 		NumberFormat format = NumberFormat.getInstance();
@@ -145,8 +153,22 @@ public class DEResults extends TabContentArea {
 						persionDistribution));
 		createChartComposite(resultView, personDistributionChart);
 
+		// 风险估算值
+		Set<String> keys = factors.keySet();
+		for(String key: keys)
+		{
+			System.out.println(key +":"+factors.get(key));
+		}
+		Label riskResult = new Label(resultView, SWT.NONE);
+		Double[] riskValues = COCOMO.getRiskAccessment(risksSym, factors);
+		String text = new String();
+		for(int i=0; i<riskValues.length; i++)
+			text += risksTex[i]+": " + riskValues[i] + "\n";
+		riskResult.setText(text);
+
 		resultScroll.setContent(resultView);
 		resultScroll.setMinSize(500, 400);
+
 	}
 
 	private void createChartComposite(Composite parent, JFreeChart chart) {
