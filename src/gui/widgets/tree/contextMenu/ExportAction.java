@@ -29,14 +29,14 @@ public class ExportAction extends Action {
 	public void run() {
 		TreeArea treeArea = GUI.getTreeArea();
 		final EstimateNode node = treeArea.getSelectedNode();
-		final Shell shell = treeArea.getShell();
+		Shell shell = treeArea.getShell();
 		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
 		fileDialog.setFileName(node.getName() + ".db3");
 		filePath = fileDialog.open();
 		if (filePath == null)
 			return;
 		File file = new File(filePath);
-		MessageBox messageBox = new MessageBox(shell, SWT.ICON_ERROR);
+		final MessageBox messageBox = new MessageBox(shell, SWT.ICON_ERROR);
 		while (file.exists()) {
 			messageBox.setMessage("文件已存在，请选择另一个文件名");
 			messageBox.open();
@@ -59,15 +59,17 @@ public class ExportAction extends Action {
 					exportData.copyData(node.getId());
 					monitor.done();
 				} catch (Exception e) {
+					messageBox.setMessage(e.getMessage());
+					messageBox.open();
 					e.printStackTrace();
 				}
 			}
 		};
 		try {
 			progress.run(true, false, runnable);
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
+			messageBox.setMessage(e.getMessage());
+			messageBox.open();
 			e.printStackTrace();
 		}
 	}
