@@ -2,9 +2,6 @@ package estimation;
 
 import java.util.HashMap;
 import java.util.Set;
-
-import data.database.dataAccess.CocomoEstimationAccess;
-import data.database.dataEntities.CocomoEstimationRecord;
 import data.file.PropertyFile;
 
 public class COCOMO {
@@ -17,6 +14,17 @@ public class COCOMO {
 			"properties/COCOMO.properties", "C"));
 	static Double D = Double.valueOf(PropertyFile.readValue(
 			"properties/COCOMO.properties", "D"));
+
+	private final static HashMap<String, Double> relativeSCED = new HashMap<String, Double>();
+	static {
+		relativeSCED.put("XL", 0.75);
+		relativeSCED.put("VL", 0.75);
+		relativeSCED.put("L", 0.85);
+		relativeSCED.put("N", 1.0);
+		relativeSCED.put("H", 1.3);
+		relativeSCED.put("VH", 1.6);
+		relativeSCED.put("XH", 1.6);
+	}
 
 	// 重用代码量计算公式
 	public static int getReuseSize(Double SLOC, Double AT, Double DM,
@@ -220,7 +228,7 @@ public class COCOMO {
 		return resultLevel;
 	}
 
-	//获取阶段开发进度
+	// 获取阶段开发进度
 	public static Double[] getScheduleTime(String[] phases, Double devTime) {
 		Double[] scheduleTimes = new Double[phases.length];
 		String propertyKey;
@@ -232,12 +240,110 @@ public class COCOMO {
 		}
 		return scheduleTimes;
 	}
-	//获取阶段人员分布
-	public static Double[] getPersonDistribution(Double[] efforts, Double[] schedules)
-	{
-		Double [] persons = new Double[efforts.length];
-		for(int i =0; i< efforts.length; i++)
-			persons[i] = efforts[i]/schedules[i];
+
+	// 获取阶段人员分布
+	public static Double[] getPersonDistribution(Double[] efforts,
+			Double[] schedules) {
+		Double[] persons = new Double[efforts.length];
+		for (int i = 0; i < efforts.length; i++)
+			persons[i] = efforts[i] / schedules[i];
 		return persons;
+	}
+
+	// 获取项目风险估算值
+	public static Double[] getRiskAccessment(String[] risks,
+			HashMap<String, Object> drivers) {
+		Double[] riskValues = new Double[risks.length];
+		String factorList;
+		String[] factors;
+		String[] rules;
+		String[] attributes;
+		String[] attributesLevels;
+		int riskLevel;
+
+		riskValues[0] = 0.0; // 总项目风险值初始化
+		for (int i = 1; i < risks.length; i++) {
+			riskValues[i] = 0.0;
+			factorList = PropertyFile.readValue("properties/COCOMO.properties",
+					risks[i]);
+			factors = factorList.split(";");
+			for (String factor : factors) {
+				rules = PropertyFile.readValue("properties/COCOMO.properties",
+						risks[i] + "." + factor).split(";");
+				for (String rule : rules) {
+					attributes = rule.split("_");
+					attributesLevels = new String[attributes.length];
+					for(int j=0; j<attributes.length; j++)
+						attributesLevels[j]= getFactorLevel(attributes[j], drivers);
+					riskLevel = getRiskLevel(attributesLevels);
+					if (riskLevel != 0)
+						riskValues[i] += riskLevel
+								* getEffortMulProduct(attributes, attributesLevels);
+				}
+			}
+			riskValues[0] += riskValues[i];
+		}
+
+		return riskValues;
+	}
+
+	// 获取风险等级
+	private static int getRiskLevel(String[] levels) {
+		int level = 0;
+		// attribute的个数还有1和3的情况，暂不考虑
+		if (levels.length == 2) {
+			String level1 = levels[0];
+			String level2 = levels[1];
+			if ((level1.equals("XH") && level2.equals("VL"))
+					|| (level1.equals("XH") && level2.equals("XL")))
+				level = 4;
+			else if ((level1.equals("VH") && level2.equals("VL"))
+					|| (level1.equals("VH") && level2.equals("XL"))
+					|| (level1.equals("XH") && level2.equals("L")))
+				level = 2;
+			else if ((level1.equals("H") && level2.equals("VL"))
+					|| (level1.equals("H") && level2.equals("XL"))
+					|| (level1.equals("VH") && level2.equals("L"))
+					|| (level1.equals("XH") && level2.equals("N")))
+				level = 1;
+			else
+				level = 0;
+			System.out.println(level1 + "_"+level2 +"_"+"riskLevel:"+level);
+		}
+		
+		return level;
+	}
+
+	// 获取风险评估中每个rule的effort multiplier product值
+	private static Double getEffortMulProduct(String[] effortMultipliers,String[] levels) {
+		final String factorsSF = "PREC;FLEX;RESL;TEAM;PMAT";
+		Double product = 1.0;
+		String type;
+		String propertyKey;
+		//对于没有等级值的因子，一律按N处理
+		for (int i=0; i<effortMultipliers.length; i++){
+			if (factorsSF.contains(effortMultipliers[i]))
+				type = "SF";
+			else 
+				type = "EM";
+			propertyKey = type + "." + effortMultipliers[i] + "." + levels[i];
+			System.out.println(propertyKey);
+			product *= Double.valueOf(PropertyFile.readValue(
+					"properties/COCOMO.properties", propertyKey));
+			if (effortMultipliers[i].contains("SCED"))
+				product /= relativeSCED.get(levels[i]);
+		}
+		return product;
+	}
+	
+	//获取风险评估中各因子的对应的等级
+	private static String getFactorLevel(String factor, HashMap<String, Object> factors)
+	{
+		String level;
+		if((!factors.containsKey(factor))||factors.get(factor) == null)
+			level = "N";
+		else
+			level = factors.get(factor).toString();
+		return level;
 	}
 }

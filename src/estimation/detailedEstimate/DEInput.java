@@ -63,7 +63,7 @@ public class DEInput extends ParameterArea {
 	public HashMap<String, String> getScaleFactors() {
 		HashMap<String, String> result = new HashMap<String, String>();
 		for (String sf : scaleFactors) {
-			result.put(sf, scales.get(sf).getLevel());
+			result.put(sf, scales.get("SF" + sf).getLevel());
 		}
 		return result;
 	}
@@ -73,13 +73,13 @@ public class DEInput extends ParameterArea {
 		if (earlyDesignRadio.getSelection()) {
 			for (String[] section : earlyDesignDrivers) {
 				for (String s : section) {
-					result.put(s, scales.get(s).getLevel());
+					result.put(s, scales.get("early" + s).getLevel());
 				}
 			}
 		} else if (postArchRadio.getSelection()) {
 			for (String[] section : postArchDrivers) {
 				for (String s : section) {
-					result.put(s, scales.get(s).getLevel());
+					result.put(s, scales.get("post" + s).getLevel());
 				}
 			}
 		}
@@ -100,7 +100,7 @@ public class DEInput extends ParameterArea {
 		section.setText("比例因子");
 		Composite sectionClient = toolkit.createComposite(section);
 		scaleFactors = new String[] { "PREC", "FLEX", "RESL", "TEAM", "PMAT" };
-		buildSectionContent(scaleFactors, sectionClient);
+		buildSectionContent("SF", scaleFactors, sectionClient);
 
 		section.setClient(sectionClient);
 	}
@@ -152,8 +152,8 @@ public class DEInput extends ParameterArea {
 				{ "ACAP", "PCAP", "PCON", "APEX", "PLEX", "LTEX" },
 				{ "TOOL", "SITE", "SCED" } };
 
-		fillSections(postArchDrivers, postArchFactors);
-		fillSections(earlyDesignDrivers, earlyDesignFactors);
+		fillSections("post", postArchDrivers, postArchFactors);
+		fillSections("early", earlyDesignDrivers, earlyDesignFactors);
 	}
 
 	private void createButtonArea(Composite parent) {
@@ -165,13 +165,14 @@ public class DEInput extends ParameterArea {
 		postArchRadio = toolkit.createButton(buttonArea, "后体系结构", SWT.RADIO);
 	}
 
-	private void fillSections(String[][] drivers, Composite[] sections) {
+	private void fillSections(String type, String[][] drivers, Composite[] sections) {
 		for (int i = 0; i < sections.length; i++) {
-			buildSectionContent(drivers[i], sections[i]);
+			buildSectionContent(type, drivers[i], sections[i]);
 		}
 	}
 
-	private void buildSectionContent(String[] drivers, Composite parent) {
+	//type值为SF,post,early
+	private void buildSectionContent(String type, String[] drivers, Composite parent) {
 		parent.setLayout(new GridLayout(2, false));
 		for (String d : drivers) {
 			// 在此处添加因子的初始设置
@@ -190,7 +191,7 @@ public class DEInput extends ParameterArea {
 				}
 			});
 			toolkit.adapt(scale);
-			scales.put(d, scale);
+			scales.put(type + d, scale);
 		}
 	}
 
