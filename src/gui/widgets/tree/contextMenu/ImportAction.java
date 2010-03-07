@@ -43,6 +43,7 @@ public class ImportAction extends Action {
 		ImportData importData = new ImportData(filePath);
 		try {
 			importData.copyData(node.getId());
+			treeArea.getTreeViewer().refresh();
 		} catch (SQLException e) {
 			messageBox.setMessage(e.getMessage());
 			messageBox.open();
