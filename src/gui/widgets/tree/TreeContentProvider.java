@@ -5,7 +5,8 @@ import java.util.List;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import estimation.entity.EstimateNode;
+import data.database.dataEntities.EstimateNode;
+
 
 public class TreeContentProvider implements ITreeContentProvider{
 	

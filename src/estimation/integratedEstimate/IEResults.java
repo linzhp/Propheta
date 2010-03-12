@@ -11,14 +11,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import data.database.dataAccess.CocomoEstimationAccess;
+import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataAccess.QuickEstimationAccess;
 import data.database.dataEntities.CocomoEstimationRecord;
-import data.database.dataEntities.NodeBasicInformation;
+import data.database.dataEntities.EstimateNode;
 import data.database.dataEntities.QuickEstimationRecord;
 
 import estimation.COCOMO;
 import estimation.SimpleIntegratedEstimate;
-import estimation.entity.EstimateNode;
 
 public class IEResults extends TabContentArea {
 	private IEInput integratedEstimate;
@@ -60,7 +60,7 @@ public class IEResults extends TabContentArea {
 				saveCocomoEstimation(integratedEstimate.getnodeID(),
 						"multiple", PM, devTime);
 				// 更新基本信息表中的估算类型
-				NodeBasicInformation.updateEstType(integratedEstimate
+				new NodeBasicInfoAccess().updateEstType(integratedEstimate
 						.getnodeID(), "cocomoMultiple");
 			} else {
 				Double[] efforts = new Double[children.size()];
@@ -79,7 +79,7 @@ public class IEResults extends TabContentArea {
 				saveQuickEstimation(integratedEstimate.getnodeID(), "multiple",
 						effort);
 				// 更新基本信息表中的估算类型
-				NodeBasicInformation.updateEstType(integratedEstimate
+				new NodeBasicInfoAccess().updateEstType(integratedEstimate
 						.getnodeID(), "quickMultiple");
 			}
 		}

@@ -7,7 +7,8 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
-import estimation.entity.EstimateNode;
+import data.database.dataEntities.EstimateNode;
+
 
 public class TreeLabelProvider implements ILabelProvider {
 

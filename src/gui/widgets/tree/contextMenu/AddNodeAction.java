@@ -5,7 +5,8 @@ import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.window.Window;
 
-import estimation.entity.EstimateNode;
+import data.database.dataEntities.EstimateNode;
+
 import gui.GUI;
 import gui.widgets.tree.TreeArea;
 

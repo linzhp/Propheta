@@ -1,10 +1,11 @@
 package gui.tabs;
 
-import estimation.entity.EstimateNode;
 
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.forms.widgets.*;
+
+import data.database.dataEntities.EstimateNode;
 
 
 public abstract class ParameterArea extends TabContentArea{

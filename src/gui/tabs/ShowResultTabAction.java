@@ -1,9 +1,10 @@
 package gui.tabs;
 
-import estimation.entity.EstimateNode;
 import gui.GUI;
 
 import org.eclipse.swt.custom.CTabFolder;
+
+import data.database.dataEntities.EstimateNode;
 
 public abstract class ShowResultTabAction extends ShowTabAction {
 	private ParameterArea param;

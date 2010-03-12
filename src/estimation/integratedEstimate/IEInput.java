@@ -3,7 +3,7 @@ package estimation.integratedEstimate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import estimation.entity.EstimateNode;
+import data.database.dataEntities.EstimateNode;
 import estimation.entity.EstimationProjects;
 import gui.tabs.ParameterArea;
 import gui.widgets.ParameterScale;

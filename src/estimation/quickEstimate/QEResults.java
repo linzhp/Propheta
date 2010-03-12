@@ -12,8 +12,8 @@ import org.eclipse.swt.widgets.Label;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
+import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataAccess.QuickEstimationAccess;
-import data.database.dataEntities.NodeBasicInformation;
 import data.database.dataEntities.QuickEstimationRecord;
 
 import estimation.CSBSG;
@@ -78,7 +78,7 @@ public class QEResults extends TabContentArea {
 					historyEffort = 0.0;
 			}
 			// 存储数据
-			NodeBasicInformation.updateEstType(quickEstimate.getnodeID(),
+			new NodeBasicInfoAccess().updateEstType(quickEstimate.getnodeID(),
 					"quick");
 			QuickEstimationRecord.saveQuickEstimation(
 					quickEstimate.getnodeID(), quickEstimate.getDataType(),

@@ -3,7 +3,8 @@ package gui.tabs;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import estimation.entity.EstimateNode;
+import data.database.dataEntities.EstimateNode;
+
 
 public class TabContentArea extends Composite {
 

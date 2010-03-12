@@ -13,8 +13,8 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 import data.database.ExportData;
+import data.database.dataEntities.EstimateNode;
 
-import estimation.entity.EstimateNode;
 import gui.GUI;
 import gui.widgets.tree.TreeArea;
 

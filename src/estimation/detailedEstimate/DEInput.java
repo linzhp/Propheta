@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import data.database.dataAccess.CocomoEstimationAccess;
 import data.database.dataEntities.CocomoEstimationRecord;
-import estimation.entity.EstimateNode;
+import data.database.dataEntities.EstimateNode;
 import gui.tabs.ParameterArea;
 import gui.widgets.ParameterScale;
 

@@ -10,7 +10,7 @@ import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataAccess.QuickEstimationAccess;
 import data.database.dataEntities.CocomoEstimationRecord;
 import data.database.dataEntities.Entity;
-import data.database.dataEntities.NodeBasicInformation;
+import data.database.dataEntities.EstimateNode;
 import data.database.dataEntities.QuickEstimationRecord;
 
 
@@ -52,13 +52,9 @@ public class EstimationProjects{
 		//从数据库读取估算项目信息
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
 		ArrayList<Entity> rootNodes=nbi_access.getAllRootNodes(); //所有根节点
-		for(int i=0;i<rootNodes.size();i++){
-			NodeBasicInformation nbi=(NodeBasicInformation)rootNodes.get(i);
-			EstimateNode newEstimationProject=new EstimateNode(null);
-			newEstimationProject.setId((Integer)nbi.get("id"));
-			newEstimationProject.setName((String)nbi.get("name"));
-			newEstimationProject.setParent(null);  //根节点，parent为null
-			
+		for(int i=0;i<rootNodes.size();i++){		
+			EstimateNode newEstimationProject=(EstimateNode)rootNodes.get(i);			
+			newEstimationProject.setParent(null);  //根节点，parent为null			
 			initNodeChildren(newEstimationProject);
 			estimateProjects.add(newEstimationProject);			
 		}		
@@ -75,11 +71,8 @@ public class EstimationProjects{
 		if(childNodes.size()==0){
 			return;
 		}else{
-			for(int i=0;i<childNodes.size();i++){
-				NodeBasicInformation nbi=(NodeBasicInformation)childNodes.get(i);
-				EstimateNode newNode=new EstimateNode(null);
-				newNode.setId((Integer)nbi.get("id"));
-				newNode.setName((String)nbi.get("name"));
+			for(int i=0;i<childNodes.size();i++){				
+				EstimateNode newNode=(EstimateNode)childNodes.get(i);				
 				newNode.setParent(node);
 				node.getChildren().add(newNode);
 				
@@ -110,17 +103,9 @@ public class EstimationProjects{
 			System.out.println(node.getName()+"	"+node.getParent().getName());
 		}
 		
-		NodeBasicInformation nbi=new NodeBasicInformation();
-		nbi.set("id",node.getId());
-		nbi.set("name",node.getName());
-		if(node.isRoot()==true){
-			nbi.set("parentID",-1);
-		}else{
-			nbi.set("parentID",node.getParent().getId());
-		}		
 		if(node.getId()==-1){  //尚未编号，插入
 			NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-			int nodeID=nbi_access.insert(nbi);
+			int nodeID=nbi_access.insert(node);
 			for(int i=0;i<node.getChildren().size();i++){
 				EstimateNode childNode=node.getChildren().get(i);
 				childNode.getParent().setId(nodeID);
@@ -128,7 +113,7 @@ public class EstimationProjects{
 			}
 		}else{ //以编号，更新
 			NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-			nbi_access.update(nbi);
+			nbi_access.update(node);
 			for(int i=0;i<node.getChildren().size();i++){
 				EstimateNode childNode=node.getChildren().get(i);
 				storeNode(childNode);
@@ -145,15 +130,11 @@ public class EstimationProjects{
 		
 		/**这两个操作可以改成多线程**/
 		//更新数据库
-		NodeBasicInformation nbi=new NodeBasicInformation();
-		nbi.set("id",-1);
-		nbi.set("name",node.getName());
-		nbi.set("parentID",-1);
-		
+				
 		//将新建项目插入数据库并获取分配的节点ID
-		System.out.println("insert: "+nbi.get("name"));
+		System.out.println("insert: "+node.getName());
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		int nodeID=nbi_access.insert(nbi);
+		int nodeID=nbi_access.insert(node);
 		
 		//为新建项目设置估算输入输出的默认值并保存到数据库中
 		QuickEstimationRecord qer=new QuickEstimationRecord();

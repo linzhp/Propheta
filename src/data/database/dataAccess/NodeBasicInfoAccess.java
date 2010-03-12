@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import data.database.dataEntities.Entity;
+import data.database.dataEntities.EstimateNode;
 
 
 /**
@@ -77,5 +78,14 @@ public class NodeBasicInfoAccess extends DataBaseAccess{
 		} catch (SQLException e) {
 			e.printStackTrace();			
 		}	
+	}
+	
+	
+	public void updateEstType(int nodeID, String EstType) {
+		EstimateNode nb = new EstimateNode();
+		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
+		nb = (EstimateNode)nbi_access.getByID(nodeID);
+		nb.attributes.put("estType", EstType);
+		nbi_access.update(nb);
 	}
 }

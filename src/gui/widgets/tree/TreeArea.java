@@ -10,8 +10,9 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 
+import data.database.dataEntities.EstimateNode;
+
 import estimation.detailedEstimate.DEOpen;
-import estimation.entity.EstimateNode;
 import estimation.entity.EstimationProjects;
 import estimation.integratedEstimate.IEOpen;
 import estimation.quickEstimate.QEOpen;

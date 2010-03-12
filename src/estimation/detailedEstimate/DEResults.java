@@ -20,7 +20,7 @@ import org.jfree.experimental.chart.swt.ChartComposite;
 import data.database.dataAccess.CocomoEstimationAccess;
 import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataEntities.CocomoEstimationRecord;
-import data.database.dataEntities.NodeBasicInformation;
+import data.database.dataEntities.EstimateNode;
 
 import estimation.COCOMO;
 
@@ -66,7 +66,7 @@ public class DEResults extends TabContentArea {
 
 			// 更新基本信息表中的估算类型
 			NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-			NodeBasicInformation nbi = (NodeBasicInformation) nbi_access
+			EstimateNode nbi = (EstimateNode) nbi_access
 					.getByID(parameters.getnodeID());
 			nbi.set("estType", "cocomoSimple");
 			nbi_access.update(nbi);

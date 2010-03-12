@@ -16,8 +16,7 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 import data.database.dataAccess.NodeBasicInfoAccess;
-import data.database.dataEntities.NodeBasicInformation;
-import estimation.entity.EstimateNode;
+import data.database.dataEntities.EstimateNode;
 import estimation.sizeEstimation.SizeEstimationWizard;
 import gui.tabs.ParameterArea;
 
@@ -57,11 +56,8 @@ public class NodeBasicInformationPage extends ParameterArea{
 		createContents(this.form.getBody());
 		
 		//读取存储的节点信息并显示
-		NodeBasicInformation nbi=new NodeBasicInformation();
-		NodeBasicInfoAccess nia_access=new NodeBasicInfoAccess();
-		nbi=(NodeBasicInformation)nia_access.getByID(node.getId());
-		
-		bindNodeBaiscInformation(nbi);
+				
+		bindNodeBaiscInformation(node);
 	}
 	
 	
@@ -275,10 +271,10 @@ public class NodeBasicInformationPage extends ParameterArea{
 	 * 获取节点信息
 	 * @return
 	 */
-	public NodeBasicInformation getNodeBasicInformation(){
-		NodeBasicInformation nbi=new NodeBasicInformation();
+	public EstimateNode getNodeBasicInformation(){
+		EstimateNode nbi=new EstimateNode();
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi=(NodeBasicInformation)nbi_access.getByID(node.getId());
+		nbi=(EstimateNode)nbi_access.getByID(node.getId());
 		
 		nbi.set("teamSize",this.spnTeamSize.getSelection());
 		nbi.set("duration",this.spnDuration.getSelection());
@@ -299,7 +295,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 	 * 显示节点信息
 	 * @param nbi
 	 */
-	public void bindNodeBaiscInformation(NodeBasicInformation nbi){
+	public void bindNodeBaiscInformation(EstimateNode nbi){
 		if(nbi!=null){
 			this.texNodeName.setText((String)nbi.get("name"));
 			this.spnTeamSize.setSelection(((Double)nbi.get("teamSize")).intValue());
@@ -332,8 +328,8 @@ public class NodeBasicInformationPage extends ParameterArea{
 	 * 保存节点基本信息
 	 */
 	public void saveNodeBasicInformation(){
-		NodeBasicInformation nbi=getNodeBasicInformation();
+		this.node=getNodeBasicInformation();
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.update(nbi);
+		nbi_access.update(this.node);
 	}
 }

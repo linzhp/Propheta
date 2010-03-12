@@ -1,12 +1,13 @@
 package gui.tabs;
 
-import estimation.entity.EstimateNode;
 import gui.GUI;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
+
+import data.database.dataEntities.EstimateNode;
 
 public abstract class ShowTabAction extends Action {
 

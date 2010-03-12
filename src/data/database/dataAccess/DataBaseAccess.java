@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 import data.database.dataEntities.CocomoEstimationRecord;
 import data.database.dataEntities.Entity;
-import data.database.dataEntities.NodeBasicInformation;
+import data.database.dataEntities.EstimateNode;
 import data.database.dataEntities.QuickEstimationRecord;
 
 /**
@@ -90,7 +90,11 @@ public class DataBaseAccess {
 
 	protected String getTableName() {
 		String className = this.getClass().getSimpleName();
-		return className.substring(0, className.length() - 6);
+		if(className.equals("EstimateNode")){
+			return "nodeBasicInfo";
+		}else{
+			return className.substring(0, className.length() - 6);
+		}		
 	}
 
 	public ArrayList<Entity> findAllWhere(String condition) throws SQLException {
@@ -118,8 +122,8 @@ public class DataBaseAccess {
 	 * @return 类的实例
 	 */
 	private static Entity getEntity(String name) {
-		if (name.equals("NodeBasicInfo"))
-			return new NodeBasicInformation();
+		if (name.equals("EstimateNode")||name.equals("NodeBasicInfo"))
+			return new EstimateNode();
 		else if (name.equals("QuickEstimation"))
 			return new QuickEstimationRecord();
 		else if (name.equals("CocomoEstimation"))

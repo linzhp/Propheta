@@ -1,7 +1,7 @@
 package gui.widgets.tree.contextMenu;
 
 import data.database.ImportData;
-import estimation.entity.EstimateNode;
+import data.database.dataEntities.EstimateNode;
 import gui.GUI;
 import gui.widgets.tree.TreeArea;
 

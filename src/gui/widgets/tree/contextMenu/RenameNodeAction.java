@@ -1,6 +1,6 @@
 package gui.widgets.tree.contextMenu;
 
-import estimation.entity.EstimateNode;
+import data.database.dataEntities.EstimateNode;
 import estimation.entity.EstimationProjects;
 import gui.GUI;
 

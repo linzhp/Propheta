@@ -2,7 +2,8 @@ package gui.tabs;
 
 import org.eclipse.swt.custom.CTabFolder;
 
-import estimation.entity.EstimateNode;
+import data.database.dataEntities.EstimateNode;
+
 
 import gui.GUI;
 
