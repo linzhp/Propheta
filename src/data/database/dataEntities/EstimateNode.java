@@ -29,7 +29,6 @@ public class EstimateNode extends Entity{
 		attributes.put("duration", 180);
 		
 		parent=null;
-		children=new ArrayList<EstimateNode>();
 	}
 	
 	public EstimateNode(){
@@ -41,7 +40,29 @@ public class EstimateNode extends Entity{
 		init();
 		this.set("name", name);
 	}
+	/**
+	 *  从数据库中读取节点所有的子节点
+	 * @param node
+	 */
+	public void loadChildren(){
+		initNodeChildren(this);
+	}
 	
+	private static void initNodeChildren(EstimateNode node){
+		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
+		ArrayList<Entity> childNodes=nbi_access.getNodesByParentID(node.getId());
+		if(childNodes.size()==0){
+			return;
+		}else{
+			for(int i=0;i<childNodes.size();i++){				
+				EstimateNode newNode=(EstimateNode)childNodes.get(i);				
+				newNode.setParent(node);
+				node.getChildren().add(newNode);
+				
+				initNodeChildren(newNode);
+			}
+		}	
+	}
 		
 	public void setId(int id){
 		this.set("id", id);
@@ -65,10 +86,6 @@ public class EstimateNode extends Entity{
 		
 	public String getName(){
 		return this.get("name").toString();
-	}
-	
-	public void setChildren(ArrayList<EstimateNode> children){
-		this.children =children;
 	}
 	
 	public void setSLOC(int SLOC){
@@ -101,6 +118,8 @@ public class EstimateNode extends Entity{
 	}
 	
 	public ArrayList<EstimateNode> getChildren(){
+		if(children == null)
+			children=new ArrayList<EstimateNode>();			
 		return this.children;
 	}
 	
@@ -204,7 +223,7 @@ public class EstimateNode extends Entity{
 	
 	
 	public boolean hasChildren() {
-		if(this.children.size()>0){
+		if(this.getChildren().size()>0){
 			return true;
 		}else{
 			return false;

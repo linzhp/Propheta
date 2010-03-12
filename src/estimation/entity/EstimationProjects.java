@@ -55,31 +55,12 @@ public class EstimationProjects{
 		for(int i=0;i<rootNodes.size();i++){		
 			EstimateNode newEstimationProject=(EstimateNode)rootNodes.get(i);			
 			newEstimationProject.setParent(null);  //根节点，parent为null			
-			initNodeChildren(newEstimationProject);
+			newEstimationProject.loadChildren();
 			estimateProjects.add(newEstimationProject);			
 		}		
 	}
 	
 	
-	/**
-	 *  从数据库中读取节点所有的子节点
-	 * @param node
-	 */
-	private static void initNodeChildren(EstimateNode node){
-		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		ArrayList<Entity> childNodes=nbi_access.getNodesByParentID(node.getId());
-		if(childNodes.size()==0){
-			return;
-		}else{
-			for(int i=0;i<childNodes.size();i++){				
-				EstimateNode newNode=(EstimateNode)childNodes.get(i);				
-				newNode.setParent(node);
-				node.getChildren().add(newNode);
-				
-				initNodeChildren(newNode);
-			}
-		}	
-	}
 	
 	
 	/**

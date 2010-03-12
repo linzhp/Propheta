@@ -65,6 +65,7 @@ public class ImportAction extends Action {
 		};
 		try {
 			progress.run(true, false, runnable);
+			node.loadChildren();
 			treeArea.getTreeViewer().refresh();
 		} catch (Exception e) {
 			messageBox.setMessage(e.getMessage());
