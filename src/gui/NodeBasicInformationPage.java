@@ -2,6 +2,8 @@ package gui;
 
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -26,11 +28,38 @@ import gui.tabs.ParameterArea;
  */
 public class NodeBasicInformationPage extends ParameterArea{
 
+	private class TextChanged implements KeyListener {
+		@Override
+		public void keyReleased(KeyEvent e) {}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			setIsInformationChanged(true);
+			saveButton.setEnabled(true);
+		}
+	}
+
+
+	private class FieldChanged implements SelectionListener {
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {				
+		}
+
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			setIsInformationChanged(true);
+			saveButton.setEnabled(true);
+		}
+	}
+
+
 	private Text texNodeName, textSLOC;
 	private Spinner spnTeamSize,spnDuration,spnFP;
 	private Combo cmbBusinessArea,cmbDevelopType,cmbDevelopPlatform,cmbDevelopTechnique,cmbLanguageType,cmbLanguage;
 	private Composite SLOCComposite, buttonComposite;
 	private Button setSLOCButton,saveButton;
+	private Text realSLOCText;
+	private Text realEffortText;
 	
 	private Text getTextSLOC(){
 		return this.textSLOC;
@@ -153,7 +182,13 @@ public class NodeBasicInformationPage extends ParameterArea{
 		values =new String[]{"ASP", "C#", "VB", "Java", "C++", "C", "Cobol"};
 		cmbLanguage=createCombo(parent,texts,values,0);
 		
+		toolkit.createLabel(parent, "最终代码行数：");
+		realSLOCText = toolkit.createText(parent, (String)node.get("realSLOC"),SWT.BORDER);
+		realSLOCText.addKeyListener(new TextChanged());
 		
+		toolkit.createLabel(parent, "实际工作量：");
+		realEffortText = toolkit.createText(parent, (String)node.get("realEffort"),SWT.BORDER);
+		realEffortText.addKeyListener(new TextChanged());
 		//操作按钮面板
 		buttonComposite=new Composite(parent, SWT.NONE);
 		gd=new GridData();
@@ -197,18 +232,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		GridData gd=new GridData();
 		gd.horizontalAlignment=SWT.FILL;
 		spn.setLayoutData(gd);
-		spn.addSelectionListener(new SelectionListener(){
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				setIsInformationChanged(true);
-				saveButton.setEnabled(true);
-			}	
-		});
+		spn.addSelectionListener(new FieldChanged());
 		
 		return spn;
 	}
@@ -234,18 +258,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		gd.horizontalAlignment=SWT.FILL;
 		cb.setLayoutData(gd);
 		
-		cb.addSelectionListener(new SelectionListener(){
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {				
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				setIsInformationChanged(true);
-				saveButton.setEnabled(true);
-			}			
-		});
+		cb.addSelectionListener(new FieldChanged());
 		
 		return cb;
 	}
@@ -255,23 +268,25 @@ public class NodeBasicInformationPage extends ParameterArea{
 	 * 获取节点信息
 	 * @return
 	 */
-	public EstimateNode getNodeBasicInformation(){
-		EstimateNode nbi=new EstimateNode();
-		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi=(EstimateNode)nbi_access.getByID(node.getId());
+	public void setAttributes(){
+		node.set("teamSize",this.spnTeamSize.getSelection());
+		node.set("duration",this.spnDuration.getSelection());
+		node.set("functionPoints",this.spnFP.getSelection());				
+		node.set("businessArea",(String)this.cmbBusinessArea.getData(this.cmbBusinessArea.getText()));
+		node.set("developmentType",(String)this.cmbDevelopType.getData(this.cmbDevelopType.getText()));
+		node.set("developmentPlatform",(String)this.cmbDevelopPlatform.getData(this.cmbDevelopPlatform.getText()));
+		node.set("developmentTechniques",(String)this.cmbDevelopTechnique.getData(this.cmbDevelopTechnique.getText()));
+		node.set("languageType",this.cmbLanguageType.getData(this.cmbLanguageType.getText()));
+		node.set("language",this.cmbLanguage.getData(this.cmbLanguage.getText()));
+		node.set("estSLOC",this.textSLOC.getText());
 		
-		nbi.set("teamSize",this.spnTeamSize.getSelection());
-		nbi.set("duration",this.spnDuration.getSelection());
-		nbi.set("functionPoints",this.spnFP.getSelection());				
-		nbi.set("businessArea",(String)this.cmbBusinessArea.getData(this.cmbBusinessArea.getText()));
-		nbi.set("developmentType",(String)this.cmbDevelopType.getData(this.cmbDevelopType.getText()));
-		nbi.set("developmentPlatform",(String)this.cmbDevelopPlatform.getData(this.cmbDevelopPlatform.getText()));
-		nbi.set("developmentTechniques",(String)this.cmbDevelopTechnique.getData(this.cmbDevelopTechnique.getText()));
-		nbi.set("languageType",this.cmbLanguageType.getData(this.cmbLanguageType.getText()));
-		nbi.set("language",this.cmbLanguage.getData(this.cmbLanguage.getText()));
-		nbi.set("estSLOC",this.textSLOC.getText());
+		if(!realSLOCText.getText().equals("")){
+			node.set("realSLOC", realSLOCText.getText());
+		}
 		
-		return nbi;
+		if(!realEffortText.getText().equals("")){
+			node.set("realEffort", realEffortText.getText());
+		}
 	}
 	
 	
@@ -312,8 +327,8 @@ public class NodeBasicInformationPage extends ParameterArea{
 	 * 保存节点基本信息
 	 */
 	public void saveNodeBasicInformation(){
-		this.node=getNodeBasicInformation();
+		setAttributes();
 		NodeBasicInfoAccess nbi_access=new NodeBasicInfoAccess();
-		nbi_access.update(this.node);
+		nbi_access.update(node);
 	}
 }
