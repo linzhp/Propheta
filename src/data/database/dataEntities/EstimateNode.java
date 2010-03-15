@@ -263,7 +263,7 @@ public class EstimateNode extends Entity{
 
 	
 	public boolean isRoot() {
-		if(this.parent==null){
+		if((Integer)attributes.get("parentID") == -1){
 			return true;
 		}else{
 			return false;

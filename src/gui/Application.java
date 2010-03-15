@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import data.database.dataAccess.DataBaseAccess;
 import estimation.detailedEstimate.DEInput;
 import estimation.detailedEstimate.DEShowResult;
+import gui.actions.ImportAction;
 import gui.actions.NewProjectAction;
 import gui.tabs.ParameterArea;
 import gui.widgets.tree.TreeArea;
@@ -213,7 +214,7 @@ public class Application extends ApplicationWindow {
 		// File Menu
 		MenuManager fileMenuManager = new MenuManager("文件");
 		fileMenuManager.add(new NewProjectAction());
-
+		fileMenuManager.add(new ImportAction(true));
 		mainMenu.add(fileMenuManager);
 		return mainMenu;
 	}
