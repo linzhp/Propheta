@@ -67,7 +67,6 @@ public class TreeArea extends Composite{
 	//添加右键菜单
 	public void addMenu(){		
 		MenuManager mm = new MenuManager();	
-		mm.add(openBasicInformationPageAction);
 		mm.add(importAction);
 		mm.add(exportAction);
 		mm.add(addNodeAction);
@@ -121,7 +120,6 @@ public class TreeArea extends Composite{
 	
 	
 	private void setNoneMenu(){
-		openBasicInformationPageAction.setEnabled(false);
 		addNodeAction.setEnabled(false);
 		removeNodeAction.setEnabled(false);
 		renameNodeAction.setEnabled(false);
@@ -133,7 +131,6 @@ public class TreeArea extends Composite{
 	
 	
 	private void setRootMenu(){
-		openBasicInformationPageAction.setEnabled(false);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
 		renameNodeAction.setEnabled(true);
@@ -145,7 +142,6 @@ public class TreeArea extends Composite{
 	
 	
 	private void setNodeMenu(){
-		openBasicInformationPageAction.setEnabled(false);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
 		renameNodeAction.setEnabled(true);
@@ -157,7 +153,6 @@ public class TreeArea extends Composite{
 	
 	
 	private void setLeafMenu(){
-		openBasicInformationPageAction.setEnabled(true);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
 		renameNodeAction.setEnabled(true);
@@ -168,7 +163,6 @@ public class TreeArea extends Composite{
 	}
 	
 	private void setRootLeafMenu(){
-		openBasicInformationPageAction.setEnabled(true);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
 		renameNodeAction.setEnabled(true);

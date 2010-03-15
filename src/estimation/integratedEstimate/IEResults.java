@@ -47,7 +47,7 @@ public class IEResults extends TabContentArea {
 						.getScaleFactors();
 				String SCEDLevel = integratedEstimate.getSCED();
 				for (int i = 0; i < children.size(); i++) {
-					sizes[i] = (double) children.get(i).getSLOC();
+					sizes[i] = (Double) children.get(i).get("estSLOC");
 					productEMs[i] = (Double)cer_access.getCocomoEstimationByNodeID(
 							children.get(i).getId()).get("productEM");
 				}

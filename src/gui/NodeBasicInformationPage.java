@@ -98,7 +98,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		gd.grabExcessHorizontalSpace = true;
 		textSLOC.setLayoutData(gd);
 		
-		setSLOCButton=toolkit.createButton(SLOCComposite, "设置", SWT.NONE);
+		setSLOCButton=toolkit.createButton(SLOCComposite, "估算", SWT.NONE);
 		setSLOCButton.addSelectionListener(new SelectionListener(){
 
 			@Override
@@ -268,7 +268,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		nbi.set("developmentTechniques",(String)this.cmbDevelopTechnique.getData(this.cmbDevelopTechnique.getText()));
 		nbi.set("languageType",(String)this.cmbLanguageType.getData(this.cmbLanguageType.getText()));
 		nbi.set("language",(String)this.cmbLanguage.getData(this.cmbLanguage.getText()));
-		nbi.set("SLOC",Integer.parseInt(this.textSLOC.getText()));
+		nbi.set("estSLOC",Integer.parseInt(this.textSLOC.getText()));
 		
 		return nbi;
 	}

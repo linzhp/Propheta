@@ -50,7 +50,7 @@ public class QEResults extends TabContentArea {
 			if (dataType.contains("csbsg")) {
 				// 此处factors为指向quickEstimate.getFactors()的指针，factors的改变会影响
 				factors = quickEstimate.getCSBSGFactors();
-				projectSize = quickEstimate.getNode().getSLOC();
+				projectSize = (Integer)quickEstimate.getNode().get("estSLOC");
 				arrayPI = CSBSG.getProductivity(projectSize, factors);
 				formulaEffort = CSBSG.getEqnEffort((double) projectSize,
 						factors);
@@ -91,7 +91,7 @@ public class QEResults extends TabContentArea {
 			
 			dataType = (String)qer_access.getQuickEstimationByNodeID(this.getnodeID()).get("dataType");
 			if (dataType.contains("csbsg"))
-				projectSize = quickEstimate.getNode().getSLOC();
+				projectSize = (Integer)quickEstimate.getNode().get("estSLOC");
 			else
 				projectSize = quickEstimate.getNode().getFunctionPoints();
 

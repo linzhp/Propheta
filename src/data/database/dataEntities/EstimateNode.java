@@ -23,7 +23,7 @@ public class EstimateNode extends Entity{
 		attributes.put("id", -1);
 		attributes.put("parentID", -1);  //此处parentID和parent.id重复，但基于目前的数据插入模式，这种重复必须存在,在修改parent值时一定要注意parentID同步
 		attributes.put("name", null);
-		attributes.put("SLOC", 64000);
+		attributes.put("estSLOC", 64000);
 		attributes.put("functionPoints", 200);
 		attributes.put("teamSize", 5);
 		attributes.put("duration", 180);
@@ -88,13 +88,6 @@ public class EstimateNode extends Entity{
 		return this.get("name").toString();
 	}
 	
-	public void setSLOC(int SLOC){
-		this.set("SLOC", SLOC);
-	}
-	
-	public int getSLOC(){
-		return Integer.parseInt(this.get("SLOC").toString());
-	}
 	public void setFunctionPoints(int functionPoints){
 		this.set("functionPoints", functionPoints);
 	}
@@ -272,38 +265,6 @@ public class EstimateNode extends Entity{
 	
 	
 	
-	/*
-	public int getSLOC() {
-		int SLOC = 0;
-		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-		if (this.isLeaf())
-			SLOC = (Integer)nbi_access.getByID(this.getId()).get("SLOC");
-		else {
-			//子系统的规模计算为各模块规模之和，这样计算可能会有点问题
-			ArrayList<EstimateNode> children = this.getChildren();
-			for (EstimateNode child : children)
-				SLOC += child.getSLOC();
-		}
-
-		return SLOC;
-	}
-	
-	public int getFunctionPoints() {
-		int functionPoints = 0;
-		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
-		if (this.isLeaf())
-			functionPoints = (Integer)nbi_access.getByID(this.getId()).get("functionPoints");
-		else {
-			//子系统的规模计算为各模块规模之和，这样计算可能会有点问题
-			ArrayList<EstimateNode> children = this.getChildren();
-			for (EstimateNode child : children)
-				functionPoints += child.getFunctionPoints();
-		}
-
-		return functionPoints;
-	}
-	*/
-
 	public String getEstType(){
 		NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
 		String estType = (String)nbi_access.getByID(this.getId()).get("estType");

@@ -27,6 +27,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
+import calibration.CalibOpen;
+
 public class Application extends ApplicationWindow {
 
 	public Application() {
@@ -216,6 +218,10 @@ public class Application extends ApplicationWindow {
 		fileMenuManager.add(new NewProjectAction());
 		fileMenuManager.add(new ImportAction(true));
 		mainMenu.add(fileMenuManager);
+		// Calibrate Menu
+		MenuManager calibMenuManager = new MenuManager("校准");
+		calibMenuManager.add(new CalibOpen());
+		mainMenu.add(calibMenuManager);
 		return mainMenu;
 	}
 

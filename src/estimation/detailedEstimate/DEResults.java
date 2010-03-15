@@ -44,7 +44,7 @@ public class DEResults extends TabContentArea {
 		super(parent, param.getNode());
 		parameters = param;
 
-		int size = parameters.getNode().getSLOC();
+		int size = (Integer)parameters.getNode().get("estSLOC");
 		Double PM, devTime, sumSF;
 		HashMap<String, Object> factors = new HashMap<String,Object>();//存储所有SF与EM因子等级值，用于风险估算
 
