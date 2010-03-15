@@ -167,7 +167,7 @@ public class DEResults extends TabContentArea {
 		riskResult.setText(text);
 
 		resultScroll.setContent(resultView);
-		resultScroll.setMinSize(500, 400);
+		resultScroll.setMinSize(500, 800);
 
 	}
 
