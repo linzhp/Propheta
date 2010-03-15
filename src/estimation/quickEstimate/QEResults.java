@@ -24,7 +24,6 @@ import gui.tabs.TabContentArea;
 
 public class QEResults extends TabContentArea {
 
-
 	public QEResults(Composite parent, QEInput quickEstimate, boolean isOpen) {
 		super(parent, quickEstimate.getNode());
 
@@ -50,7 +49,7 @@ public class QEResults extends TabContentArea {
 			if (dataType.contains("csbsg")) {
 				// 此处factors为指向quickEstimate.getFactors()的指针，factors的改变会影响
 				factors = quickEstimate.getCSBSGFactors();
-				projectSize = (Integer)quickEstimate.getNode().get("estSLOC");
+				projectSize = (Integer) quickEstimate.getNode().get("estSLOC");
 				arrayPI = CSBSG.getProductivity(projectSize, factors);
 				formulaEffort = CSBSG.getEqnEffort((double) projectSize,
 						factors);
@@ -88,31 +87,34 @@ public class QEResults extends TabContentArea {
 		// 从数据库得到快速估算数据
 		else {
 			QuickEstimationAccess qer_access = new QuickEstimationAccess();
-			
-			dataType = (String)qer_access.getQuickEstimationByNodeID(this.getnodeID()).get("dataType");
+
+			dataType = (String) qer_access.getQuickEstimationByNodeID(
+					this.getnodeID()).get("dataType");
 			if (dataType.contains("csbsg"))
-				projectSize = (Integer)quickEstimate.getNode().get("estSLOC");
+				projectSize = (Integer) quickEstimate.getNode().get("estSLOC");
 			else
 				projectSize = quickEstimate.getNode().getFunctionPoints();
 
 			QuickEstimationRecord qer = qer_access
 					.getQuickEstimationByNodeID(node.getId());
 
-			formulaEffort = (Double)qer.get("formulaEffort");
-			historyEffort = (Double)qer.get("historyEffort");
-			meanProductivity = (Double)qer.get("meanProductivity");
-			stanDevProductivity = (Double)qer.get("stanDevProductivity");
+			formulaEffort = (Double) qer.get("formulaEffort");
+			historyEffort = (Double) qer.get("historyEffort");
+			meanProductivity = (Double) qer.get("meanProductivity");
+			stanDevProductivity = (Double) qer.get("stanDevProductivity");
 
 		}
 		// 快速估算结果显示
-		createComResults(projectSize, dataType, formulaEffort, historyEffort,
-				meanProductivity, stanDevProductivity);
+		if (formulaEffort != null && historyEffort != null
+				&& meanProductivity != null && stanDevProductivity != null)
+			createComResults(projectSize, dataType, formulaEffort,
+					historyEffort, meanProductivity, stanDevProductivity);
 	}
 
 	private void createComResults(int projectSize, String dataType,
 			Double formulaEffort, Double historyEffort,
 			Double meanProductivity, Double stanDevProductivity) {
-		
+
 		GridLayout layout = new GridLayout(1, false);
 		layout.verticalSpacing = 10;
 		this.setLayout(layout);
@@ -133,9 +135,10 @@ public class QEResults extends TabContentArea {
 				Label noResult = new Label(this, SWT.SINGLE);
 				noResult.setText("没有搜索到足够的相关历史数据，无法显示工作量的蒙特卡罗图”");
 			} else {
-				JFreeChart monteCarloChart = Chart.createXYLineChart("工作量蒙特卡罗图", "工时", null, Chart
-						.createQuickDataSet(dataType, projectSize,
-								meanProductivity, stanDevProductivity));
+				JFreeChart monteCarloChart = Chart.createXYLineChart(
+						"工作量蒙特卡罗图", "工时", null, Chart.createQuickDataSet(
+								dataType, projectSize, meanProductivity,
+								stanDevProductivity));
 				Composite monteCarloFrame = new ChartComposite(this,
 						SWT.BORDER, monteCarloChart, true);
 				// 页面布局

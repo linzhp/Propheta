@@ -13,7 +13,7 @@ public class DEShowResult extends ShowResultTabAction {
 		super(params);
 		this.params = params;
 		this.isOpen = isOpen;
-		
+		this.setText("估算");
 	}
 
 	@Override

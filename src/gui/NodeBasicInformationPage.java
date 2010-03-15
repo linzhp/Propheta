@@ -168,7 +168,8 @@ public class NodeBasicInformationPage extends ParameterArea{
 		saveButton.addSelectionListener(new SelectionListener(){
 			
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {				
+			public void widgetDefaultSelected(SelectionEvent e) {			
+				widgetSelected(e);
 			}
 
 			@Override
@@ -266,9 +267,9 @@ public class NodeBasicInformationPage extends ParameterArea{
 		nbi.set("developmentType",(String)this.cmbDevelopType.getData(this.cmbDevelopType.getText()));
 		nbi.set("developmentPlatform",(String)this.cmbDevelopPlatform.getData(this.cmbDevelopPlatform.getText()));
 		nbi.set("developmentTechniques",(String)this.cmbDevelopTechnique.getData(this.cmbDevelopTechnique.getText()));
-		nbi.set("languageType",(String)this.cmbLanguageType.getData(this.cmbLanguageType.getText()));
-		nbi.set("language",(String)this.cmbLanguage.getData(this.cmbLanguage.getText()));
-		nbi.set("estSLOC",Integer.parseInt(this.textSLOC.getText()));
+		nbi.set("languageType",this.cmbLanguageType.getData(this.cmbLanguageType.getText()));
+		nbi.set("language",this.cmbLanguage.getData(this.cmbLanguage.getText()));
+		nbi.set("estSLOC",this.textSLOC.getText());
 		
 		return nbi;
 	}
@@ -283,7 +284,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 			this.texNodeName.setText((String)nbi.get("name"));
 			this.spnTeamSize.setSelection(((Double)nbi.get("teamSize")).intValue());
 			this.spnDuration.setSelection((Integer)nbi.get("duration"));
-			this.textSLOC.setText(String.valueOf(nbi.get("SLOC")));			
+			this.textSLOC.setText(String.valueOf(nbi.get("estSLOC")));			
 			this.spnFP.setSelection((Integer)nbi.get("functionPoints"));
 			this.initCombo(this.cmbBusinessArea, (String)nbi.get("businessArea"));
 			this.initCombo(this.cmbDevelopType, (String)nbi.get("developmentType"));

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import data.database.dataAccess.CocomoEstimationAccess;
 import data.database.dataEntities.CocomoEstimationRecord;
 import data.database.dataEntities.EstimateNode;
+import gui.actions.PrintPDFAction;
 import gui.tabs.ParameterArea;
 import gui.widgets.ParameterScale;
 
@@ -31,7 +32,7 @@ public class DEInput extends ParameterArea {
 	private String[][] postArchDrivers;
 	private Button earlyDesignRadio;
 	private Button postArchRadio;
-	private DEShowResult ok;
+	private DEShowResult estimate;
 	private CocomoEstimationRecord cer;
 	private final static HashMap<String, Integer> levelIndex = new HashMap<String, Integer>();
 	static {
@@ -48,10 +49,11 @@ public class DEInput extends ParameterArea {
 
 		// 生成确定action,类似于按钮功能
 		IToolBarManager toolBarManager = form.getToolBarManager();
-		ok = new DEShowResult(this, false);
+		estimate = new DEShowResult(this, false);
 		if(cer.get("EMType") == null)
-			ok.setEnabled(false);
-		toolBarManager.add(ok);
+			estimate.setEnabled(false);
+		toolBarManager.add(estimate);
+		toolBarManager.add(new PrintPDFAction());
 		toolBarManager.update(true);
 
 		createButtonArea(form.getBody());
@@ -209,7 +211,7 @@ public class DEInput extends ParameterArea {
 			for (int i = 0; i < layouts.length; i++) {
 				layouts[i].topControl = factorsPane[i];
 				factorsPane[i].getParent().layout();
-				ok.setEnabled(true);
+				estimate.setEnabled(true);
 			}
 		}
 
