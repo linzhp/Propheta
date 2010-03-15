@@ -38,10 +38,6 @@ public class PropertyFile {
 			props.load(in);
 			en = props.propertyNames();
 			while (en.hasMoreElements()) {
-				String key = (String) en.nextElement();
-				String property = props.getProperty(key);
-				// for testing purpose
-				//System.out.println(key + property);
 				return en;
 			}
 			return en;

@@ -3,7 +3,6 @@ package estimation.quickEstimate;
 import java.util.HashMap;
 
 import gui.tabs.ParameterArea;
-import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataEntities.EstimateNode;
 
 import org.eclipse.jface.action.IToolBarManager;
@@ -20,8 +19,6 @@ public class QEInput extends ParameterArea{
 	//公共变量
 	private Composite comEstimation, factorDataArea;
 	private StackLayout factorStack;
-	private NodeBasicInfoAccess nbi_access;
-	
 	// CSBSG变量
 	private Button btnCSBSG;
 	private Composite comCSBSG;

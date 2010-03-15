@@ -1,8 +1,6 @@
 package gui;
 
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,7 +8,6 @@ import java.util.Random;
 
 import org.eclipse.swt.SWT;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
@@ -29,13 +26,10 @@ import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.time.SimpleTimePeriod;
-import org.jfree.data.time.TimePeriod;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
 
 public class Chart {
 	//设置XY类型图的显示风格

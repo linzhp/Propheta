@@ -1,7 +1,6 @@
-package gui.widgets.tree.contextMenu;
+package gui.actions;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.window.Window;
 
@@ -26,23 +25,6 @@ public class AddNodeAction extends Action{
 			treeArea.getTreeViewer().refresh();
 			if(treeArea.getTreeViewer().getExpandedState(node)==false){
 				treeArea.getTreeViewer().setExpandedState(node, true);
-			}
-		}
-	}
-	
-	//节点名称验证
-	class NodeNameValidator implements IInputValidator {
-		@Override
-		public String isValid(String text) {
-			String nodeName=text.trim();
-			if(nodeName.length()==0){
-				return "请输入节点名称";
-			}else{
-				if(GUI.getTreeArea().getSelectedNode().isChildExist(nodeName)==true){
-					return "已存在名称为 "+nodeName+"  的节点!";
-				}else{
-					return null;
-				}
 			}
 		}
 	}

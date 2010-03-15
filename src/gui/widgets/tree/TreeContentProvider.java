@@ -1,7 +1,5 @@
 package gui.widgets.tree;
 
-import java.util.List;
-
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
@@ -44,11 +42,7 @@ public class TreeContentProvider implements ITreeContentProvider{
 
 	@Override
 	public Object[] getElements(Object input) {
-		if(input instanceof List){
-			return ((List)input).toArray();
-		}else{
-			return new Object[0];
-		}
+		return getChildren(input);
 	}
 
 	@Override

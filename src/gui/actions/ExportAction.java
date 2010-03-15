@@ -1,4 +1,4 @@
-package gui.widgets.tree.contextMenu;
+package gui.actions;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;

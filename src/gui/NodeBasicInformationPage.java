@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
@@ -27,17 +26,11 @@ import gui.tabs.ParameterArea;
  */
 public class NodeBasicInformationPage extends ParameterArea{
 
-	//页面控件
-	private Label labelTeamSize,labelDuration,labelSLOC,labelFP,labelBusinessArea,
-	              labelDevelopType,labelDevelopPlatform,labelDevelopTechnique,labelLanguageType,labelLanguage;
 	private Text texNodeName, textSLOC;
 	private Spinner spnTeamSize,spnDuration,spnFP;
 	private Combo cmbBusinessArea,cmbDevelopType,cmbDevelopPlatform,cmbDevelopTechnique,cmbLanguageType,cmbLanguage;
 	private Composite SLOCComposite, buttonComposite;
 	private Button setSLOCButton,saveButton;
-	
-	
-	
 	
 	private Text getTextSLOC(){
 		return this.textSLOC;
@@ -78,17 +71,14 @@ public class NodeBasicInformationPage extends ParameterArea{
 		gd.horizontalAlignment=SWT.FILL;
 		texNodeName.setLayoutData(gd);
 		
-		//团队规模
-		labelTeamSize=toolkit.createLabel(parent, "团队规模:", SWT.NONE);	
+		toolkit.createLabel(parent, "团队规模:", SWT.NONE);	
 		spnTeamSize=createSpinner(parent,Spinner.LIMIT,5);
 			
 		
-		//项目周期
-		labelDuration=toolkit.createLabel(parent, "项目周期:", SWT.NONE);		
+		toolkit.createLabel(parent, "项目周期:", SWT.NONE);		
 		spnDuration=createSpinner(parent,Spinner.LIMIT,180);
 		
-		//代码行数
-		labelSLOC=toolkit.createLabel(parent, "代码行数:", SWT.NONE);		
+		toolkit.createLabel(parent, "代码行数:", SWT.NONE);		
 		
 		
 		
@@ -125,26 +115,22 @@ public class NodeBasicInformationPage extends ParameterArea{
 			    wdialog.open();
 			}});
 	
-		//FP
-		labelFP=toolkit.createLabel(parent, "功能点数目:", SWT.NONE);			
+		toolkit.createLabel(parent, "功能点数目:", SWT.NONE);			
 		spnFP=createSpinner(parent,Spinner.LIMIT,200);
 		
-		//业务领域
-		labelBusinessArea=toolkit.createLabel(parent, "业务领域:", SWT.NONE);	
+		toolkit.createLabel(parent, "业务领域:", SWT.NONE);	
 		String[] texts = new String[]{ "电信", "金融", "流通", "保险", "交通", "媒体", "卫生", "制造",
 				"政府", "能源" };
 		String[] values =new String[]{ "Telecom", "Finance", "Retail", "General","Transport", "Media",
 				"HealthCare", "Manufacturing","PublicAdmin", "Energy" };
 		cmbBusinessArea=createCombo(parent,texts,values,0);
 		
-		//开发类型
-		labelDevelopType=toolkit.createLabel(parent, "开发类型:", SWT.NONE);
+		toolkit.createLabel(parent, "开发类型:", SWT.NONE);
 		texts = new String[]{"新开发", "二次开发", "优化", "其它" };
 		values =new String[]{"NewDevelopment", "ReDevelopment", "Enhancement", "Other"};
 		cmbDevelopType=createCombo(parent,texts,values,0);
 		
-		//开发技术
-		labelDevelopTechnique=toolkit.createLabel(parent, "开发技术:", SWT.NONE);
+		toolkit.createLabel(parent, "开发技术:", SWT.NONE);
 		texts = new String[]{"面向对象分析设计", "事件建模", "业务领域建模", "回归测试", "面向对象与事件建模",
 				"回归测试与业务领域建模", "其它"};
 		values =new String[]{"Object Oriented Analysis;Object Oriented Design","Event Modelling",
@@ -152,20 +138,17 @@ public class NodeBasicInformationPage extends ParameterArea{
 				"Regression Testing;Business Area Modelling","Other"};
 		cmbDevelopTechnique=createCombo(parent,texts,values,0);
 		
-		//开发平台
-		labelDevelopPlatform=toolkit.createLabel(parent, "开发平台:", SWT.NONE);
+		toolkit.createLabel(parent, "开发平台:", SWT.NONE);
 		texts = new String[]{"大型机", "中型机", "个人计算机", "混合"};
 		values =new String[]{"MF", "MR", "PC", "Multi"};
 		cmbDevelopPlatform=createCombo(parent,texts,values,0);
 		
-		//语言类型
-		labelLanguageType=toolkit.createLabel(parent, "语言类型:", SWT.NONE);	
+		toolkit.createLabel(parent, "语言类型:", SWT.NONE);	
 		texts = new String[]{"第二代语言", "第三代语言", "第四代语言", "应用代"};
 		values =new String[]{"2GL", "3GL", "4GL", "ApG"};
 		cmbLanguageType=createCombo(parent,texts,values,0);
 		
-		//开发语言
-		labelLanguage=toolkit.createLabel(parent, "开发语言:", SWT.NONE);
+		toolkit.createLabel(parent, "开发语言:", SWT.NONE);
 		texts = new String[]{"ASP", "C#", "VB", "JAVA", "C++", "C", "COBOL"};
 		values =new String[]{"ASP", "C#", "VB", "Java", "C++", "C", "Cobol"};
 		cmbLanguage=createCombo(parent,texts,values,0);

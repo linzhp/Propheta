@@ -3,10 +3,12 @@ package estimation.integratedEstimate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import data.database.dataAccess.NodeBasicInfoAccess;
+import data.database.dataEntities.Entity;
 import data.database.dataEntities.EstimateNode;
-import estimation.entity.EstimationProjects;
 import gui.tabs.ParameterArea;
 import gui.widgets.ParameterScale;
+
 
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
@@ -80,15 +82,17 @@ public class IEInput extends ParameterArea{
 		comChildrenList = toolkit.createComposite(parent);
 		comChildrenList.setLayout(new GridLayout(2,false));
 		//应该通过nodeID得到tab，而不是树形结构里的被选节点
-		ArrayList<EstimateNode> children = EstimationProjects.getNodeByID(node.getId()).getChildren();
+		NodeBasicInfoAccess nbi = new NodeBasicInfoAccess();
+		ArrayList<Entity> children = nbi.getNodesByParentID(node.getId());
 		Button[] buttons = new Button[children.size()];
 		for(int i=0; i<children.size(); i++)
 		{
-			buttons[i] = toolkit.createButton(comChildrenList, children.get(i).getName(), SWT.CHECK);
-			buttons[i].addSelectionListener(new ButtonListener(selectedChildren, children.get(i), buttons[i]));
-			if(children.get(i).getEstType().contains("none"))
+			EstimateNode node = (EstimateNode)children.get(i);
+			buttons[i] = toolkit.createButton(comChildrenList, node.getName(), SWT.CHECK);
+			buttons[i].addSelectionListener(new ButtonListener(selectedChildren, node, buttons[i]));
+			if(node.getEstType().contains("none"))
 				buttons[i].setEnabled(false);
-			toolkit.createLabel(comChildrenList, children.get(i).getEstType());
+			toolkit.createLabel(comChildrenList, node.getEstType());
 		}
 	}
 		

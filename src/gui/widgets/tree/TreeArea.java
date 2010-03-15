@@ -1,5 +1,6 @@
 package gui.widgets.tree;
 
+
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -11,18 +12,17 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 
 import data.database.dataEntities.EstimateNode;
+import data.database.dataEntities.SuperRoot;
 
 import estimation.detailedEstimate.DEOpen;
-import estimation.entity.EstimationProjects;
 import estimation.integratedEstimate.IEOpen;
 import estimation.quickEstimate.QEOpen;
 import gui.OpenBasicInformationPageAction;
-import gui.widgets.tree.contextMenu.AddNodeAction;
-import gui.widgets.tree.contextMenu.ExportAction;
-import gui.widgets.tree.contextMenu.ImportAction;
-import gui.widgets.tree.contextMenu.NewProjectAction;
-import gui.widgets.tree.contextMenu.RemoveNodeAction;
-import gui.widgets.tree.contextMenu.RenameNodeAction;
+import gui.actions.AddNodeAction;
+import gui.actions.ExportAction;
+import gui.actions.ImportAction;
+import gui.actions.RemoveNodeAction;
+import gui.actions.RenameNodeAction;
 
 
 /**
@@ -38,7 +38,6 @@ public class TreeArea extends Composite{
 	
 	//menus
 	OpenBasicInformationPageAction openBasicInformationPageAction=new OpenBasicInformationPageAction();
-	NewProjectAction newProjectAction=new NewProjectAction();
 	AddNodeAction addNodeAction=new AddNodeAction();
 	RemoveNodeAction removeNodeAction=new RemoveNodeAction();
 	RenameNodeAction renameNodeAction=new RenameNodeAction();
@@ -71,7 +70,6 @@ public class TreeArea extends Composite{
 		mm.add(openBasicInformationPageAction);
 		mm.add(importAction);
 		mm.add(exportAction);
-		mm.add(newProjectAction);	
 		mm.add(addNodeAction);
 		mm.add(removeNodeAction);
 		mm.add(renameNodeAction);
@@ -124,7 +122,6 @@ public class TreeArea extends Composite{
 	
 	private void setNoneMenu(){
 		openBasicInformationPageAction.setEnabled(false);
-		newProjectAction.setEnabled(true);
 		addNodeAction.setEnabled(false);
 		removeNodeAction.setEnabled(false);
 		renameNodeAction.setEnabled(false);
@@ -137,7 +134,6 @@ public class TreeArea extends Composite{
 	
 	private void setRootMenu(){
 		openBasicInformationPageAction.setEnabled(false);
-		newProjectAction.setEnabled(true);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
 		renameNodeAction.setEnabled(true);
@@ -150,7 +146,6 @@ public class TreeArea extends Composite{
 	
 	private void setNodeMenu(){
 		openBasicInformationPageAction.setEnabled(false);
-		newProjectAction.setEnabled(false);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
 		renameNodeAction.setEnabled(true);
@@ -163,7 +158,6 @@ public class TreeArea extends Composite{
 	
 	private void setLeafMenu(){
 		openBasicInformationPageAction.setEnabled(true);
-		newProjectAction.setEnabled(false);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
 		renameNodeAction.setEnabled(true);
@@ -175,7 +169,6 @@ public class TreeArea extends Composite{
 	
 	private void setRootLeafMenu(){
 		openBasicInformationPageAction.setEnabled(true);
-		newProjectAction.setEnabled(true);
 		addNodeAction.setEnabled(true);
 		removeNodeAction.setEnabled(true);
 		renameNodeAction.setEnabled(true);
@@ -192,7 +185,7 @@ public class TreeArea extends Composite{
 	public void dispalyTree(){		
 		this.treeViewer.setContentProvider(treeContentProvider);
 		this.treeViewer.setLabelProvider(treeLabelProvider);
-		this.treeViewer.setInput(EstimationProjects.getEstimateProjects());		
+		this.treeViewer.setInput(SuperRoot.getInstance());		
 	}
 	
 	

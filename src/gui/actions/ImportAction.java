@@ -1,4 +1,4 @@
-package gui.widgets.tree.contextMenu;
+package gui.actions;
 
 import data.database.ImportData;
 import data.database.dataEntities.EstimateNode;

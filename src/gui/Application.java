@@ -5,11 +5,9 @@ import java.sql.SQLException;
 import data.database.dataAccess.DataBaseAccess;
 import estimation.detailedEstimate.DEInput;
 import estimation.detailedEstimate.DEShowResult;
-import estimation.entity.EstimationProjects;
+import gui.actions.NewProjectAction;
 import gui.tabs.ParameterArea;
 import gui.widgets.tree.TreeArea;
-import gui.widgets.tree.contextMenu.NewProjectAction;
-import gui.widgets.tree.contextMenu.SaveEstimationProjectsAction;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.window.ApplicationWindow;
@@ -49,8 +47,6 @@ public class Application extends ApplicationWindow {
 
 	public static void main(String[] args) throws SQLException {
 
-		// 初始化估算项目集合(读取数据库中的估算项目信息)
-		EstimationProjects.readEstimateProjects();
 		/** 我们可以做个类似Eclipse的启动界面，显示读取的进度 **/
 
 		instance = new Application();
@@ -217,8 +213,6 @@ public class Application extends ApplicationWindow {
 		// File Menu
 		MenuManager fileMenuManager = new MenuManager("文件");
 		fileMenuManager.add(new NewProjectAction());
-		fileMenuManager.add(new SaveEstimationProjectsAction());
-		fileMenuManager.add(new Test());
 
 		mainMenu.add(fileMenuManager);
 		return mainMenu;
