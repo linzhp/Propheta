@@ -183,7 +183,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		cmbLanguage=createCombo(parent,texts,values,0);
 		
 		toolkit.createLabel(parent, "最终代码行数：");
-		realSLOCText = toolkit.createText(parent, (String)node.get("realSLOC"),SWT.BORDER);
+		realSLOCText = toolkit.createText(parent, String.valueOf(node.get("realSLOC")),SWT.BORDER);
 		realSLOCText.addKeyListener(new TextChanged());
 		
 		toolkit.createLabel(parent, "实际工作量：");
