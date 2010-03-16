@@ -4,7 +4,6 @@ import org.eclipse.swt.custom.CTabFolder;
 
 import data.database.dataEntities.EstimateNode;
 
-
 import gui.GUI;
 
 public abstract class ShowParamTabAction extends ShowTabAction {
@@ -20,6 +19,10 @@ public abstract class ShowParamTabAction extends ShowTabAction {
 	}
 	
 	@Override
+	protected int getTabID(){
+		return getNode().getId();
+	}
+	
 	protected EstimateNode getNode(){
 		return GUI.getTreeArea().getSelectedNode();
 	}

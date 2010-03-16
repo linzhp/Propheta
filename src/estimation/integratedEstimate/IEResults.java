@@ -57,11 +57,11 @@ public class IEResults extends TabContentArea {
 				Double devTime = efforts[1];
 				createComCocomoResults(PM, devTime);
 				// 存储集成估算结果
-				saveCocomoEstimation(integratedEstimate.getnodeID(),
+				saveCocomoEstimation(integratedEstimate.getTabID(),
 						"multiple", PM, devTime);
 				// 更新基本信息表中的估算类型
 				new NodeBasicInfoAccess().updateEstType(integratedEstimate
-						.getnodeID(), "cocomoMultiple");
+						.getTabID(), "cocomoMultiple");
 			} else {
 				Double[] efforts = new Double[children.size()];
 				QuickEstimationAccess qer_access = new QuickEstimationAccess();
@@ -76,11 +76,11 @@ public class IEResults extends TabContentArea {
 				//显示集成估算结果
 				createComQuickResults(effort);
 				// 存储集成估算结果
-				saveQuickEstimation(integratedEstimate.getnodeID(), "multiple",
+				saveQuickEstimation(integratedEstimate.getTabID(), "multiple",
 						effort);
 				// 更新基本信息表中的估算类型
 				new NodeBasicInfoAccess().updateEstType(integratedEstimate
-						.getnodeID(), "quickMultiple");
+						.getTabID(), "quickMultiple");
 			}
 		}
 		// 从数据库得到集成估算数据
@@ -90,7 +90,7 @@ public class IEResults extends TabContentArea {
 			
 			if(estType.contains("cocomoMultiple")){
 				CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
-				CocomoEstimationRecord cer = cer_access.getCocomoEstimationByNodeID(this.getnodeID());
+				CocomoEstimationRecord cer = cer_access.getCocomoEstimationByNodeID(this.getTabID());
 				Double PM = (Double)cer.get("PM");
 				Double devTime = (Double)cer.get("devTime");
 				//显示集成估算结果
@@ -99,7 +99,7 @@ public class IEResults extends TabContentArea {
 			else if(estType.contains("quickMultiple"))
 			{
 				QuickEstimationAccess qer_access = new QuickEstimationAccess();
-				QuickEstimationRecord cer = qer_access.getQuickEstimationByNodeID(this.getnodeID());
+				QuickEstimationRecord cer = qer_access.getQuickEstimationByNodeID(this.getTabID());
 				Double effort = (Double)cer.get("formulaEffort");
 				//显示集成估算结果
 				createComQuickResults(effort);

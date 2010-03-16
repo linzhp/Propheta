@@ -14,7 +14,7 @@ public class TabContentArea extends Composite {
 		this.node = node;
 	}
 
-	public int getnodeID(){
+	public int getTabID(){
 		return node.getId();
 	}
 	

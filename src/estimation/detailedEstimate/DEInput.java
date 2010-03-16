@@ -45,7 +45,7 @@ public class DEInput extends ParameterArea {
 		super(parent, node);
 		scales = new HashMap<String, ParameterScale>();
 		CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
-		cer = cer_access.getCocomoEstimationByNodeID(getnodeID());
+		cer = cer_access.getCocomoEstimationByNodeID(getTabID());
 
 		// 生成确定action,类似于按钮功能
 		IToolBarManager toolBarManager = form.getToolBarManager();

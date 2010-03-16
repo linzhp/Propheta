@@ -20,7 +20,11 @@ public abstract class ShowResultTabAction extends ShowTabAction {
 	}
 
 	@Override 
-	public EstimateNode getNode() {
+	public int getTabID() {
+		return getNode().getId();
+	}
+	
+	public EstimateNode getNode(){
 		return param.getNode();
 	}
 	

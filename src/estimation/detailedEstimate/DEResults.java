@@ -67,12 +67,12 @@ public class DEResults extends TabContentArea {
 			// 更新基本信息表中的估算类型
 			NodeBasicInfoAccess nbi_access = new NodeBasicInfoAccess();
 			EstimateNode nbi = (EstimateNode) nbi_access
-					.getByID(parameters.getnodeID());
+					.getByID(parameters.getTabID());
 			nbi.set("estType", "cocomoSimple");
 			nbi_access.update(nbi);
 
 			// 更新cocomo估算结果
-			CocomoEstimationRecord.saveCocomoEstimation(parameters.getnodeID(),
+			CocomoEstimationRecord.saveCocomoEstimation(parameters.getTabID(),
 					parameters.getEMtype(), sumSF, productEM, SCEDValue, PM,
 					devTime, factorsSF, factorsEM);
 		}
@@ -80,7 +80,7 @@ public class DEResults extends TabContentArea {
 		else {
 			CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
 			CocomoEstimationRecord cer = cer_access
-					.getCocomoEstimationByNodeID(this.getnodeID());
+					.getCocomoEstimationByNodeID(this.getTabID());
 
 			PM = (Double) cer.get("PM");
 			devTime = (Double) cer.get("devTime");

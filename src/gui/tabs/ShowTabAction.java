@@ -7,8 +7,6 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
-import data.database.dataEntities.EstimateNode;
-
 public abstract class ShowTabAction extends Action {
 
 	public ShowTabAction(String text)
@@ -20,13 +18,13 @@ public abstract class ShowTabAction extends Action {
 	public void run()
 	{
 		CTabFolder parent = getTabFolder();
-		EstimateNode node = getNode();
+		int id = getTabID();
 		Composite newContents = createContents(parent);
 		boolean opened = false;
 		for(CTabItem tab:parent.getItems())
 		{
 			TabContentArea tabContent = (TabContentArea)tab.getControl();
-			if(tabContent.getnodeID() == node.getId() && tabContent.getClass() == pageClass())
+			if(tabContent.getTabID() == id && tabContent.getClass() == pageClass())
 			{
 				parent.setSelection(tab);
 				tab.setControl(newContents);
@@ -46,5 +44,5 @@ public abstract class ShowTabAction extends Action {
 	protected abstract Composite createContents(Composite parent);
 	protected abstract Class<? extends TabContentArea> pageClass();
 	protected abstract String getTabTitle();
-	protected abstract EstimateNode getNode();
+	protected abstract int getTabID();
 }

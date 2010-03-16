@@ -77,10 +77,10 @@ public class QEResults extends TabContentArea {
 					historyEffort = 0.0;
 			}
 			// 存储数据
-			new NodeBasicInfoAccess().updateEstType(quickEstimate.getnodeID(),
+			new NodeBasicInfoAccess().updateEstType(quickEstimate.getTabID(),
 					"quick");
 			QuickEstimationRecord.saveQuickEstimation(
-					quickEstimate.getnodeID(), quickEstimate.getDataType(),
+					quickEstimate.getTabID(), quickEstimate.getDataType(),
 					formulaEffort, historyEffort, meanProductivity,
 					stanDevProductivity);
 		}
@@ -89,7 +89,7 @@ public class QEResults extends TabContentArea {
 			QuickEstimationAccess qer_access = new QuickEstimationAccess();
 
 			dataType = (String) qer_access.getQuickEstimationByNodeID(
-					this.getnodeID()).get("dataType");
+					this.getTabID()).get("dataType");
 			if (dataType.contains("csbsg"))
 				projectSize = (Integer) quickEstimate.getNode().get("estSLOC");
 			else
