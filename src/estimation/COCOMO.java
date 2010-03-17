@@ -2,18 +2,15 @@ package estimation;
 
 import java.util.HashMap;
 import java.util.Set;
-import data.file.PropertyFile;
+
+import data.file.COCOMOProperties;
 
 public class COCOMO {
 
-	static Double A = Double.valueOf(PropertyFile.readValue(
-			"properties/COCOMO.properties", "A"));
-	static Double B = Double.valueOf(PropertyFile.readValue(
-			"properties/COCOMO.properties", "B"));
-	static Double C = Double.valueOf(PropertyFile.readValue(
-			"properties/COCOMO.properties", "C"));
-	static Double D = Double.valueOf(PropertyFile.readValue(
-			"properties/COCOMO.properties", "D"));
+	static Double A = Double.valueOf(COCOMOProperties.readValue("A"));
+	static Double B = Double.valueOf(COCOMOProperties.readValue("B"));
+	static Double C = Double.valueOf(COCOMOProperties.readValue("C"));
+	static Double D = Double.valueOf(COCOMOProperties.readValue("D"));
 
 	private final static HashMap<String, Double> relativeSCED = new HashMap<String, Double>();
 	static {
@@ -123,8 +120,7 @@ public class COCOMO {
 
 			propertyKey = "SF." + factor + "." + factorsSF.get(factor);
 			System.out.println(propertyKey);
-			sumSF += Double.valueOf(PropertyFile.readValue(
-					"properties/COCOMO.properties", propertyKey));
+			sumSF += Double.valueOf(COCOMOProperties.readValue(propertyKey));
 		}
 		return sumSF;
 	}
@@ -137,8 +133,7 @@ public class COCOMO {
 		for (Object factor : factors) {
 			propertyKey = "EM." + factor.toString() + "."
 					+ factorsEM.get(factor);
-			productEM *= Double.valueOf(PropertyFile.readValue(
-					"properties/COCOMO.properties", propertyKey));
+			productEM *= Double.valueOf(COCOMOProperties.readValue(propertyKey));
 		}
 		Double SCED = getSCEDValue(factorsEM.get("SCED"));
 		return productEM / SCED;
@@ -146,8 +141,7 @@ public class COCOMO {
 
 	public static Double getSCEDValue(String SCEDLevel) {
 		String propertyKey = "EM.SCED." + SCEDLevel;
-		Double SCED = Double.valueOf(PropertyFile.readValue(
-				"properties/COCOMO.properties", propertyKey));
+		Double SCED = Double.valueOf(COCOMOProperties.readValue(propertyKey));
 		return SCED;
 	}
 
@@ -165,8 +159,7 @@ public class COCOMO {
 					+ sizeLevel;
 			System.out.println(propertyKey);
 			efforts[i] = PM
-					* Double.valueOf(PropertyFile.readValue(
-							"properties/COCOMO.properties", propertyKey)) / 100;
+					* Double.valueOf(COCOMOProperties.readValue(propertyKey)) / 100;
 		}
 		return efforts;
 	}
@@ -182,8 +175,7 @@ public class COCOMO {
 					+ activities[i] + "." + sizeLevel;
 			System.out.println(propertyKey);
 			efforts[i] = phaseEffort
-					* Double.valueOf(PropertyFile.readValue(
-							"properties/COCOMO.properties", propertyKey)) / 100;
+					* Double.valueOf(COCOMOProperties.readValue(propertyKey)) / 100;
 		}
 		return efforts;
 	}
@@ -195,13 +187,10 @@ public class COCOMO {
 		int abs;
 		int absMin = Math
 				.abs(size
-						- Integer.valueOf(PropertyFile.readValue(
-								"properties/COCOMO.properties",
-								("size." + levels[0]))));
+						- Integer.valueOf(COCOMOProperties.readValue("size." + levels[0])));
 		String resultLevel = levels[0];
 		for (String level : levels) {
-			sizeLevel = Integer.valueOf(PropertyFile.readValue(
-					"properties/COCOMO.properties", ("size." + level)));
+			sizeLevel = Integer.valueOf(COCOMOProperties.readValue("size." + level));
 			abs = Math.abs(size - sizeLevel);
 			resultLevel = (absMin < abs) ? resultLevel : level;
 			absMin = Math.min(abs, absMin);
@@ -215,12 +204,10 @@ public class COCOMO {
 		Double ELevel;
 		Double abs;
 		Double absMin = Math.abs(E
-				- Double.valueOf(PropertyFile.readValue(
-						"properties/COCOMO.properties", ("E." + levels[0]))));
+				- Double.valueOf(COCOMOProperties.readValue("E." + levels[0])));
 		String resultLevel = levels[0];
 		for (String level : levels) {
-			ELevel = Double.valueOf(PropertyFile.readValue(
-					"properties/COCOMO.properties", ("E." + level)));
+			ELevel = Double.valueOf(COCOMOProperties.readValue("E." + level));
 			abs = Math.abs(E - ELevel);
 			resultLevel = (absMin < abs) ? resultLevel : level;
 			absMin = Math.min(abs, absMin);
@@ -235,8 +222,7 @@ public class COCOMO {
 		for (int i = 0; i < phases.length; i++) {
 			propertyKey = "phase." + phases[i] + ".schedule.min";
 			scheduleTimes[i] = devTime
-					* Double.valueOf(PropertyFile.readValue(
-							"properties/COCOMO.properties", propertyKey)) / 100;
+					* Double.valueOf(COCOMOProperties.readValue(propertyKey)) / 100;
 		}
 		return scheduleTimes;
 	}
@@ -264,12 +250,10 @@ public class COCOMO {
 		riskValues[0] = 0.0; // 总项目风险值初始化
 		for (int i = 1; i < risks.length; i++) {
 			riskValues[i] = 0.0;
-			factorList = PropertyFile.readValue("properties/COCOMO.properties",
-					risks[i]);
+			factorList = COCOMOProperties.readValue(risks[i]);
 			factors = factorList.split(";");
 			for (String factor : factors) {
-				rules = PropertyFile.readValue("properties/COCOMO.properties",
-						risks[i] + "." + factor).split(";");
+				rules = COCOMOProperties.readValue(risks[i] + "." + factor).split(";");
 				for (String rule : rules) {
 					attributes = rule.split("_");
 					attributesLevels = new String[attributes.length];
@@ -328,8 +312,7 @@ public class COCOMO {
 				type = "EM";
 			propertyKey = type + "." + effortMultipliers[i] + "." + levels[i];
 			System.out.println(propertyKey);
-			product *= Double.valueOf(PropertyFile.readValue(
-					"properties/COCOMO.properties", propertyKey));
+			product *= Double.valueOf(COCOMOProperties.readValue(propertyKey));
 			if (effortMultipliers[i].contains("SCED"))
 				product /= relativeSCED.get(levels[i]);
 		}

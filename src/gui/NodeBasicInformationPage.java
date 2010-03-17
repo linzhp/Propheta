@@ -54,12 +54,10 @@ public class NodeBasicInformationPage extends ParameterArea{
 
 
 	private Text texNodeName, textSLOC;
-	private Spinner spnTeamSize,spnDuration,spnFP;
+	private Spinner spnTeamSize,spnDuration,spnFP, spnRealSLOC,spnRealEffort;
 	private Combo cmbBusinessArea,cmbDevelopType,cmbDevelopPlatform,cmbDevelopTechnique,cmbLanguageType,cmbLanguage;
 	private Composite SLOCComposite, buttonComposite;
 	private Button setSLOCButton,saveButton;
-	private Text realSLOCText;
-	private Text realEffortText;
 	
 	private Text getTextSLOC(){
 		return this.textSLOC;
@@ -182,13 +180,13 @@ public class NodeBasicInformationPage extends ParameterArea{
 		values =new String[]{"ASP", "C#", "VB", "Java", "C++", "C", "Cobol"};
 		cmbLanguage=createCombo(parent,texts,values,0);
 		
-		toolkit.createLabel(parent, "最终代码行数：");
-		realSLOCText = toolkit.createText(parent, String.valueOf(node.get("realSLOC")),SWT.BORDER);
-		realSLOCText.addKeyListener(new TextChanged());
+		toolkit.createLabel(parent, "实际代码行数：");
+		spnRealSLOC = createSpinner(parent, Spinner.LIMIT, (Integer)node.get("realSLOC"));
+		spnRealSLOC.addKeyListener(new TextChanged());
 		
 		toolkit.createLabel(parent, "实际工作量：");
-		realEffortText = toolkit.createText(parent, (String)node.get("realEffort"),SWT.BORDER);
-		realEffortText.addKeyListener(new TextChanged());
+		spnRealEffort = createSpinner(parent, Spinner.LIMIT, (Integer)node.get("realEffort"));
+		spnRealEffort.addKeyListener(new TextChanged());
 		//操作按钮面板
 		buttonComposite=new Composite(parent, SWT.NONE);
 		gd=new GridData();
@@ -280,13 +278,8 @@ public class NodeBasicInformationPage extends ParameterArea{
 		node.set("language",this.cmbLanguage.getData(this.cmbLanguage.getText()));
 		node.set("estSLOC",this.textSLOC.getText());
 		
-		if(!realSLOCText.getText().equals("")){
-			node.set("realSLOC", realSLOCText.getText());
-		}
-		
-		if(!realEffortText.getText().equals("")){
-			node.set("realEffort", realEffortText.getText());
-		}
+		node.set("realSLOC", spnRealSLOC.getText());
+		node.set("realEffort", spnRealEffort.getText());
 	}
 	
 	
