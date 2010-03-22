@@ -276,10 +276,10 @@ public class NodeBasicInformationPage extends ParameterArea{
 		node.set("developmentTechniques",(String)this.cmbDevelopTechnique.getData(this.cmbDevelopTechnique.getText()));
 		node.set("languageType",this.cmbLanguageType.getData(this.cmbLanguageType.getText()));
 		node.set("language",this.cmbLanguage.getData(this.cmbLanguage.getText()));
-		node.set("estSLOC",this.textSLOC.getText());
+		node.set("estSLOC",Integer.valueOf(textSLOC.getText()));
 		
-		node.set("realSLOC", spnRealSLOC.getText());
-		node.set("realEffort", spnRealEffort.getText());
+		node.set("realSLOC", Integer.valueOf(spnRealSLOC.getText()));
+		node.set("realEffort", Integer.valueOf(spnRealEffort.getText()));
 	}
 	
 	
@@ -290,7 +290,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 	public void bindNodeBaiscInformation(EstimateNode nbi){
 		if(nbi!=null){
 			this.texNodeName.setText((String)nbi.get("name"));
-			this.spnTeamSize.setSelection(((Double)nbi.get("teamSize")).intValue());
+			this.spnTeamSize.setSelection(((Integer)nbi.get("teamSize")));
 			this.spnDuration.setSelection((Integer)nbi.get("duration"));
 			this.textSLOC.setText(String.valueOf(nbi.get("estSLOC")));			
 			this.spnFP.setSelection((Integer)nbi.get("functionPoints"));
