@@ -7,7 +7,4 @@ public class COCOMOProperties{
 		return PropertyFile.readValue(PATH, key);
 	}
 	
-	public static void updateProperty(String key, String value){
-		PropertyFile.updateProperty(PATH, key, value);
-	}
 }

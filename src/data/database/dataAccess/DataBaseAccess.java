@@ -107,7 +107,7 @@ public class DataBaseAccess {
 			Entity node = getEntity(getTableName());
 			for (int i = 1; i <= metaData.getColumnCount(); i++) {
 				String columnName = metaData.getColumnName(i);
-				node.set(columnName, rs.getObject(columnName));
+				node.set(columnName, rs.getObject(i));
 			}
 			list.add(node);
 		}
@@ -128,8 +128,8 @@ public class DataBaseAccess {
 			return new QuickEstimationRecord();
 		else if (name.equals("CocomoEstimation"))
 			return new CocomoEstimationRecord();
-		else
-			return null;
+		else 
+			return new Entity();
 	}
 
 	/**

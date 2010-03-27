@@ -16,18 +16,8 @@ public class CocomoEstimationRecord extends Entity{
 	 * 构造器
 	 */
 	public CocomoEstimationRecord() {
-
-	}
-
-	/**
-	 * 构造器
-	 * 
-	 * @param estimationID
-	 * @param nodeID
-	 */
-	public CocomoEstimationRecord(int estimationID, int nodeID) {
-		this.set("estimationID",estimationID);
-		this.set("nodeID", nodeID);
+		this.set("sumSF", 18.97);
+		this.set("productEM", 1);
 	}
 
 	// 更新某条cocomoEstimation数据

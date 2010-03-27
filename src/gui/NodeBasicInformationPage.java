@@ -185,7 +185,9 @@ public class NodeBasicInformationPage extends ParameterArea{
 		spnRealSLOC.addKeyListener(new TextChanged());
 		
 		toolkit.createLabel(parent, "实际工作量：");
-		spnRealEffort = createSpinner(parent, Spinner.LIMIT, (Integer)node.get("realEffort"));
+		int selection = (int) (((Double)node.get("realEffort"))*100);
+		spnRealEffort = createSpinner(parent, Spinner.LIMIT, selection);
+		spnRealEffort.setDigits(2);
 		spnRealEffort.addKeyListener(new TextChanged());
 		//操作按钮面板
 		buttonComposite=new Composite(parent, SWT.NONE);
@@ -279,7 +281,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		node.set("estSLOC",Integer.valueOf(textSLOC.getText()));
 		
 		node.set("realSLOC", Integer.valueOf(spnRealSLOC.getText()));
-		node.set("realEffort", Integer.valueOf(spnRealEffort.getText()));
+		node.set("realEffort", Double.valueOf(spnRealEffort.getText()));
 	}
 	
 	

@@ -20,16 +20,14 @@ public class EstimateNode extends Entity{
 	
 	
 	private void init(){
-		attributes.put("id", -1);
 		attributes.put("parentID", -1);  //此处parentID和parent.id重复，但基于目前的数据插入模式，这种重复必须存在,在修改parent值时一定要注意parentID同步
-		attributes.put("name", null);
 		attributes.put("estSLOC", 64000);
 		attributes.put("functionPoints", 200);
 		attributes.put("teamSize", 5);
 		attributes.put("duration", 180);
 		//由以下两个值是不是>0来判断是否已完成项目
 		attributes.put("realSLOC", 0);
-		attributes.put("realEffort", 0);
+		attributes.put("realEffort", 0d);
 		
 		
 		parent=null;
