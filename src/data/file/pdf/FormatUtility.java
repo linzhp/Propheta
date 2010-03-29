@@ -1,8 +1,4 @@
-package data.database.dataEntities.pdf;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+package data.file.pdf;
 
 public class FormatUtility {
 	public String ConvertKeyToShow(int i, Object key) {
@@ -68,22 +64,5 @@ public class FormatUtility {
 		}
 		return value;
 	}
-	
-	public static String splitString(String str){
-		
-		String  xx="";
-		if(str.contains("Documents and Settings"))
-	    {xx = str.replace("Documents and Settings", "DOCUME~1");}
-		   String[] s=xx.split("\\\\");
-		   StringBuffer sb=new StringBuffer();
-		   for(int i=0;i<s.length-1;i++)
-		    {			  
-		    sb.append(s[i]);
-		    sb.append("/");
-		    }
-		    sb.append(s[s.length-1]);	    
-		   return sb.toString();
-		}
-
 }
 

@@ -1,4 +1,4 @@
-package data.database.dataEntities.pdf;
+package data.file.pdf;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
