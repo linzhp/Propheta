@@ -214,7 +214,7 @@ public class QEInput extends ParameterArea{
 				}
 			}
 		});
-		if(node.get("developmentType") == null)
+		if(node.get("developmentType") == null || node.get("developmentType").equals("null"))
 			btnCSBSGDevType.setEnabled(false);
 		String[] texts = { "新开发", "二次开发", "优化", "其它" };
 		String[] values = { "NewDevelopment", "ReDevelopment", "Enhancement", "Other" };
@@ -237,7 +237,7 @@ public class QEInput extends ParameterArea{
 				}
 			}
 		});
-		if(node.get("language") == null)
+		if(node.get("language") == null || node.get("language").equals("null"))
 			btnCSBSGLanguage.setEnabled(false);
 		String[] texts = { "ASP", "C#", "VB", "JAVA", "C++", "C", "COBOL" };
 		String[] values = { "ASP", "C#", "VB", "Java", "C++", "C", "Cobol" };
@@ -259,7 +259,7 @@ public class QEInput extends ParameterArea{
 				}
 			}
 		});
-		if(node.get("businessArea") == null)
+		if(node.get("businessArea") == null || node.get("businessArea").equals("null"))
 			btnCSBSGBusArea.setEnabled(false);
 		String[] texts = new String[]{ "电信", "金融", "流通", "保险", "交通", "媒体", "卫生", "制造",
 				"政府", "能源" };
@@ -302,7 +302,7 @@ public class QEInput extends ParameterArea{
 				}
 			}
 		});
-		if(node.get("developmentType") == null)
+		if(node.get("developmentType") == null || node.get("developmentType").equals("null"))
 			btnISBSGDevType.setEnabled(false);
 		String[] texts = { "新开发", "二次开发", "优化", "其它" };
 		String[] values = { "NewDevelopment", "ReDevelopment", "Enhancement", "Other" };
@@ -324,7 +324,7 @@ public class QEInput extends ParameterArea{
 				}
 			}
 		});
-		if(node.get("developmentTechniques") == null)
+		if(node.get("developmentTechniques") == null || node.get("developmentTechniques").equals("null"))
 			btnISBSGDevTech.setEnabled(false);
 		String[] texts = { "面向对象分析设计", "事件建模", "业务领域建模", "回归测试", "面向对象与事件建模",
 				"回归测试与业务领域建模", "其它"};
@@ -353,7 +353,7 @@ public class QEInput extends ParameterArea{
 				}
 			}
 		});
-		if(node.get("developmentPlatform") == null)
+		if(node.get("developmentPlatform") == null || node.get("developmentPlatform").equals("null"))
 			btnISBSGDevPlat.setEnabled(false);
 		String[] texts = { "大型机", "中型机", "个人计算机", "混合" };
 		String[] values = { "MF", "MR", "PC", "Multi" };
@@ -374,7 +374,7 @@ public class QEInput extends ParameterArea{
 				}
 			}
 		});
-		if(node.get("languageType") == null)
+		if(node.get("languageType") == null || node.get("languageType").equals("null"))
 			btnISBSGLanType.setEnabled(false);
 		String[] texts = { "第二代语言", "第三代语言", "第四代语言", "应用代" };
 		String[] values = { "2GL", "3GL", "4GL", "ApG" };

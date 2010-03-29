@@ -32,9 +32,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 public class Chart {
-	//设置XY类型图的显示风格
-	private static void setXYChartFont(JFreeChart chart)
-	{
+	// 设置XY类型图的显示风格
+	private static void setXYChartFont(JFreeChart chart) {
 		// 设置了字体，才能显示中文
 		Font font = new Font("黑体", SWT.Paint, 14);
 		// 图片标题
@@ -53,10 +52,9 @@ public class Chart {
 
 		xyplot.setForegroundAlpha(0.85F);
 	}
-	
-	//设置Category类型图的显示风格
-	private static void setCategoryChartFont(JFreeChart chart)
-	{
+
+	// 设置Category类型图的显示风格
+	private static void setCategoryChartFont(JFreeChart chart) {
 		// 设置了字体，才能显示中文
 		Font font = new Font("黑体", SWT.Paint, 12);
 		// 图片标题
@@ -76,17 +74,19 @@ public class Chart {
 
 		categoryPlot.setForegroundAlpha(0.85F);
 	}
-	
+
 	// 生成快速估算中，工作量的蒙特卡罗图
-	public static JFreeChart createXYLineChart(String titile, String XAxis, String YAxis, IntervalXYDataset dataSet) {
-		JFreeChart chart = ChartFactory.createXYLineChart(titile,
-				XAxis, YAxis, dataSet, PlotOrientation.VERTICAL, false,
-				false, false);
+	public static JFreeChart createXYLineChart(String titile, String XAxis,
+			String YAxis, IntervalXYDataset dataSet) {
+		JFreeChart chart = ChartFactory.createXYLineChart(titile, XAxis, YAxis,
+				dataSet, PlotOrientation.VERTICAL, false, false, false);
 		setXYChartFont(chart);
 		return chart;
 	}
+
 	// 生成详细估算中工作量的条形图
-	public static JFreeChart createBarChart(String titile, String XAxis, String YAxis, CategoryDataset dataset) {
+	public static JFreeChart createBarChart(String titile, String XAxis,
+			String YAxis, CategoryDataset dataset) {
 		JFreeChart chart = ChartFactory.createBarChart(titile, // chart title
 				XAxis, // domain axis label
 				YAxis, // range axis label
@@ -101,8 +101,8 @@ public class Chart {
 	}
 
 	// 生成详细估算中的进度的甘特图
-	public static JFreeChart createGanttChart(String titile, String XAxis, String YAxis, 
-			IntervalCategoryDataset dataset) {
+	public static JFreeChart createGanttChart(String titile, String XAxis,
+			String YAxis, IntervalCategoryDataset dataset) {
 		JFreeChart chart = ChartFactory.createGanttChart(titile, // chart title
 				XAxis, // domain axis label
 				YAxis, // range axis label
@@ -115,38 +115,41 @@ public class Chart {
 		return chart;
 	}
 
-	//生成详细估算中的人员分布图
-	public static JFreeChart createStepLineChart(String titile, String XAxis, String YAxis, CategoryDataset dataset) {
-        CategoryItemRenderer renderer = new CategoryStepRenderer(true);
-        CategoryAxis domainAxis = new CategoryAxis(XAxis);
-        ValueAxis rangeAxis = new NumberAxis(YAxis);
-        CategoryPlot plot = new CategoryPlot(dataset, domainAxis, rangeAxis, renderer);
-        JFreeChart chart = new JFreeChart(titile, plot);
-        chart.removeLegend();
-        
-        setCategoryChartFont(chart);
+	// 生成详细估算中的人员分布图
+	public static JFreeChart createStepLineChart(String titile, String XAxis,
+			String YAxis, CategoryDataset dataset) {
+		CategoryItemRenderer renderer = new CategoryStepRenderer(true);
+		CategoryAxis domainAxis = new CategoryAxis(XAxis);
+		ValueAxis rangeAxis = new NumberAxis(YAxis);
+		CategoryPlot plot = new CategoryPlot(dataset, domainAxis, rangeAxis,
+				renderer);
+		JFreeChart chart = new JFreeChart(titile, plot);
+		chart.removeLegend();
+
+		setCategoryChartFont(chart);
 		return chart;
-    }
-	
+	}
 
 	// 生成快速估算中蒙特卡罗图的数据集
 	public static IntervalXYDataset createQuickDataSet(String dataType,
 			double size, double piE, double piD) {
 		HistogramDataset histogramdataset = new HistogramDataset();
-		// 此处为输入的1万个点。
+		// 此处为输入的5000000万个点。
 		Random generator = new Random();
 		final int NUM_SAMPLES = 5000000;
 		double[] efforts = new double[NUM_SAMPLES];
+		System.out.println(size + ":" + piD + ":" + piE);
 		if (dataType.contains("csbsg"))
 			for (int i = 0; i < efforts.length; i++) {
-				// 工作量＝规模/生产率
-				// efforts[i] = generator.nextGaussian();
-				efforts[i] = size / ((generator.nextGaussian() + piE) * piD);
+				// 工作量＝规模/生产率 
+				// 因为是相除，用monte carlo方法行不通
+				//efforts[i] = (generator.nextGaussian() * piD)+ piE;
+				efforts[i] = size / ((generator.nextGaussian() * piD) + piE);
 			}
 		else
 			for (int i = 0; i < efforts.length; i++) {
 				// 工作量＝规模*生产率
-				efforts[i] = size * ((generator.nextGaussian() + piE) * piD);
+				efforts[i] = size * ((generator.nextGaussian() * piD) + piE);
 			}
 		// 100表示bins（即条形柱的个数）
 		histogramdataset.addSeries("", efforts, 100);
@@ -166,10 +169,9 @@ public class Chart {
 		return xySeriesCollection;
 	}
 
-	
 	// 生成详细估算中工作量条形图与人员分布图的数据集
-	public static CategoryDataset createCategoryDataset(
-			String[] categories, Double[] values) {
+	public static CategoryDataset createCategoryDataset(String[] categories,
+			Double[] values) {
 		String series = "value";
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < categories.length; i++)
@@ -212,8 +214,6 @@ public class Chart {
 				.setTime((long) (startDate.getTime() + (schedule * 30 * 86400000)));
 		return scheduleDate;
 	}
-
-	
 
 	// public Chart(String title) {
 	// super(title);

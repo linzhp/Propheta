@@ -125,7 +125,7 @@ public class QEResults extends TabContentArea {
 			Label noResult = new Label(this, SWT.SINGLE);
 			noResult.setText("没有搜索到任何相关历史数据，无法显示“历史工作量数值”与“工作量的蒙特卡罗图”");
 		} else {
-			System.out.println("PI median: " + historyEffort);
+			System.out.println("historyEffort: " + historyEffort);
 			Label PImedian = new Label(this, SWT.NONE);
 			PImedian.setText("根据历史项目数据的生产率中位数值计算出的工作量："
 					+ historyEffort.intValue() + " 小时");
