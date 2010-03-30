@@ -16,8 +16,10 @@ public class CocomoEstimationRecord extends Entity{
 	 * 构造器
 	 */
 	public CocomoEstimationRecord() {
+		//这三个值在校准时作为默认值使用
 		this.set("sumSF", 18.97);
 		this.set("productEM", 1);
+		this.set("SCED", "N");
 	}
 
 	// 更新某条cocomoEstimation数据

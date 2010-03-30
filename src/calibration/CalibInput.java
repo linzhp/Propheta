@@ -22,6 +22,7 @@ import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataEntities.CocomoEstimationRecord;
 import data.database.dataEntities.Entity;
 import data.file.COCOMOProperties;
+import estimation.COCOMO;
 
 import gui.tabs.ParameterArea;
 
@@ -161,7 +162,9 @@ public class CalibInput extends ParameterArea {
 				CocomoEstimationRecord cocomo = cAccess.getCocomoEstimationByNodeID((Integer)node.get("id"));
 				if(cocomo!=null){
 					item.setText(3, String.valueOf(cocomo.get("sumSF")));
-					item.setText(4, String.valueOf(cocomo.get("productEM")));
+					Double productEM = (Double)cocomo.get("productEM");
+					Double sced = COCOMO.getSCEDValue((String)cocomo.get("SCED"));
+					item.setText(4, String.valueOf(productEM*sced));
 				}
 			}
 		} catch (SQLException e) {
