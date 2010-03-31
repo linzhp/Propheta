@@ -24,7 +24,8 @@ public class FunctionPointPage extends BaseWizardPage {
 	@Override
 	public void createControl(Composite parent) {
 		parent.setLayout(new GridLayout(4, false));
-		new Label(parent, SWT.NONE);
+		Label label = new Label(parent, SWT.NONE);
+		
 	}
 
 }
