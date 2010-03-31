@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Text;
 
 import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataEntities.EstimateNode;
+import data.file.Languages;
 import estimation.sizeEstimation.SizeEstimationWizard;
 import gui.tabs.ParameterArea;
 
@@ -176,8 +177,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		cmbLanguageType=createCombo(parent,texts,values,0);
 		
 		toolkit.createLabel(parent, "开发语言:", SWT.NONE);
-		texts = new String[]{"ASP", "C#", "VB", "JAVA", "C++", "C", "COBOL"};
-		values =new String[]{"ASP", "C#", "VB", "Java", "C++", "C", "Cobol"};
+		texts = values = Languages.getLanguages();
 		cmbLanguage=createCombo(parent,texts,values,0);
 		
 		toolkit.createLabel(parent, "实际代码行数：");
