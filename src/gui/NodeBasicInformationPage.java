@@ -56,7 +56,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 
 	private Text texNodeName, textSLOC;
 	private Spinner spnTeamSize,spnDuration,spnFP, spnRealSLOC,spnRealEffort;
-	private Combo cmbBusinessArea,cmbDevelopType,cmbDevelopPlatform,cmbDevelopTechnique,cmbLanguageType,cmbLanguage;
+	private Combo cmbBusinessArea,cmbDevelopType,cmbDevelopPlatform,cmbLanguageType,cmbLanguage;
 	private Composite SLOCComposite, buttonComposite;
 	private Button setSLOCButton,saveButton;
 	
@@ -157,14 +157,6 @@ public class NodeBasicInformationPage extends ParameterArea{
 		texts = new String[]{"新开发", "二次开发", "优化", "其它" };
 		values =new String[]{"NewDevelopment", "ReDevelopment", "Enhancement", "Other"};
 		cmbDevelopType=createCombo(parent,texts,values,0);
-		
-		toolkit.createLabel(parent, "开发技术:", SWT.NONE);
-		texts = new String[]{"面向对象分析设计", "事件建模", "业务领域建模", "回归测试", "面向对象与事件建模",
-				"回归测试与业务领域建模", "其它"};
-		values =new String[]{"Object Oriented Analysis;Object Oriented Design","Event Modelling",
-				"Business Area Modelling","Regression Testing","Object Oriented Analysis;Object Oriented Design;Event Modelling",
-				"Regression Testing;Business Area Modelling","Other"};
-		cmbDevelopTechnique=createCombo(parent,texts,values,0);
 		
 		toolkit.createLabel(parent, "开发平台:", SWT.NONE);
 		texts = new String[]{"大型机", "中型机", "个人计算机", "混合"};
@@ -275,7 +267,6 @@ public class NodeBasicInformationPage extends ParameterArea{
 		node.set("businessArea",(String)this.cmbBusinessArea.getData(this.cmbBusinessArea.getText()));
 		node.set("developmentType",(String)this.cmbDevelopType.getData(this.cmbDevelopType.getText()));
 		node.set("developmentPlatform",(String)this.cmbDevelopPlatform.getData(this.cmbDevelopPlatform.getText()));
-		node.set("developmentTechniques",(String)this.cmbDevelopTechnique.getData(this.cmbDevelopTechnique.getText()));
 		node.set("languageType",this.cmbLanguageType.getData(this.cmbLanguageType.getText()));
 		node.set("language",this.cmbLanguage.getData(this.cmbLanguage.getText()));
 		node.set("estSLOC",Integer.valueOf(textSLOC.getText()));
@@ -299,9 +290,8 @@ public class NodeBasicInformationPage extends ParameterArea{
 			this.initCombo(this.cmbBusinessArea, (String)nbi.get("businessArea"));
 			this.initCombo(this.cmbDevelopType, (String)nbi.get("developmentType"));
 			this.initCombo(this.cmbDevelopPlatform, (String)nbi.get("developmentPlatform"));
-			this.initCombo(this.cmbDevelopTechnique, (String)nbi.get("developmentTechniques"));
-			this.initCombo(this.cmbLanguageType, (String)nbi.get("LanguageType"));
-			this.initCombo(this.cmbLanguage, (String)nbi.get("Language"));
+			this.initCombo(this.cmbLanguageType, (String)nbi.get("languageType"));
+			this.initCombo(this.cmbLanguage, (String)nbi.get("language"));
 		}
 	}	
 	
