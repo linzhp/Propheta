@@ -22,8 +22,6 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
-
-
 public class PDFUtility {
 
 	static Document document = null;

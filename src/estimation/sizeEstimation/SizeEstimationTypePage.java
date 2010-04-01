@@ -8,15 +8,20 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-public class SizeEstimationTypePage extends BaseWizardPage{
+public class SizeEstimationTypePage extends BaseWizardPage {
 
-	private Button manualSLOCButton,historicalSLOCButton,cocomoSLOCButton;
-	private int estimationType=1;
-	
-	public void setEstimationType(int estimationType){
-		this.estimationType=estimationType;
+	private Button manualSLOCButton, historicalSLOCButton, cocomoSLOCButton;
+	public final static int USER_INPUT = 1;
+	public final static int HISTORY = 2;
+	public final static int COCOMO = 3;
+	public final static int FUNCTION_POINT = 4;
+
+	private int estimationType = USER_INPUT;
+
+	public void setEstimationType(int estimationType) {
+		this.estimationType = estimationType;
 	}
-	
+
 	protected SizeEstimationTypePage(String pageName) {
 		super(pageName);
 		this.setTitle("估算方式");
@@ -25,67 +30,70 @@ public class SizeEstimationTypePage extends BaseWizardPage{
 
 	@Override
 	public void createControl(Composite parent) {
-		Composite composite=new Composite(parent,SWT.NONE);
-		GridLayout gd=new GridLayout(1,false);
-		gd.marginLeft=20;
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout gd = new GridLayout(1, false);
+		gd.marginLeft = 20;
 		composite.setLayout(gd);
-		
-		manualSLOCButton=new Button(composite,SWT.RADIO);
+
+		manualSLOCButton = new Button(composite, SWT.RADIO);
 		manualSLOCButton.setText("用户输入");
 		manualSLOCButton.setSelection(true);
-		manualSLOCButton.addSelectionListener(new SelectionListener(){
+		manualSLOCButton.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				
+
 			}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				setEstimationType(1);
-			}});
-		
-		historicalSLOCButton=new Button(composite,SWT.RADIO);
+				setEstimationType(USER_INPUT);
+			}
+		});
+
+		historicalSLOCButton = new Button(composite, SWT.RADIO);
 		historicalSLOCButton.setText("参考历史数据");
-		historicalSLOCButton.addSelectionListener(new SelectionListener(){
+		historicalSLOCButton.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				
+
 			}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				setEstimationType(2);
-			}});
-		
-		cocomoSLOCButton=new Button(composite,SWT.RADIO);
+				setEstimationType(HISTORY);
+			}
+		});
+
+		cocomoSLOCButton = new Button(composite, SWT.RADIO);
 		cocomoSLOCButton.setText("cocomo规模估算");
-		cocomoSLOCButton.addSelectionListener(new SelectionListener(){
+		cocomoSLOCButton.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				
+
 			}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				setEstimationType(3);
-			}});
-		
+				setEstimationType(COCOMO);
+			}
+		});
+
 		this.setControl(composite);
 	}
 
-	
-	public IWizardPage getNextPage(){
-		SizeEstimationWizard seWizard=(SizeEstimationWizard)this.getWizard();
-		if(this.estimationType==1){
+	public IWizardPage getNextPage() {
+		SizeEstimationWizard seWizard = (SizeEstimationWizard) this.getWizard();
+		switch (this.estimationType) {
+		case USER_INPUT:
 			return seWizard.getManualSizeEstimationPage();
-		}else if(this.estimationType==2){
+		case HISTORY:
 			return seWizard.getHistoricalDataBaseSizeEstimationPage();
-		}else if(this.estimationType==3){
+		case COCOMO:
 			return seWizard.getCocomoSizeEstimation_newDeveloped_Page();
-		}else{
+		default:
 			return null;
 		}
 	}
