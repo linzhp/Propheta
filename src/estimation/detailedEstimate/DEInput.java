@@ -25,7 +25,7 @@ import org.eclipse.ui.forms.widgets.Section;
 
 public class DEInput extends ParameterArea {
 
-	private static String[] levels = { "XL", "VL", "L", "N", "H", "VH", "XH" };
+	private static String[] levels = { "XL", "VL", "L", "N", "H", "VH", "XH" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
 	private HashMap<String, ParameterScale> scales;
 	private String[] scaleFactors;
 	private String[][] earlyDesignDrivers;
@@ -50,7 +50,7 @@ public class DEInput extends ParameterArea {
 		// 生成确定action,类似于按钮功能
 		IToolBarManager toolBarManager = form.getToolBarManager();
 		estimate = new DEShowResult(this, false);
-		if(cer.get("EMType") == null)
+		if(cer.get("EMType") == null) //$NON-NLS-1$
 			estimate.setEnabled(false);
 		toolBarManager.add(estimate);
 		toolBarManager.add(new PrintPDFAction());
@@ -65,7 +65,7 @@ public class DEInput extends ParameterArea {
 	public HashMap<String, String> getScaleFactors() {
 		HashMap<String, String> result = new HashMap<String, String>();
 		for (String sf : scaleFactors) {
-			result.put(sf, scales.get("SF" + sf).getLevel());
+			result.put(sf, scales.get("SF" + sf).getLevel()); //$NON-NLS-1$
 		}
 		return result;
 	}
@@ -75,13 +75,13 @@ public class DEInput extends ParameterArea {
 		if (earlyDesignRadio.getSelection()) {
 			for (String[] section : earlyDesignDrivers) {
 				for (String s : section) {
-					result.put(s, scales.get("early" + s).getLevel());
+					result.put(s, scales.get("early" + s).getLevel()); //$NON-NLS-1$
 				}
 			}
 		} else if (postArchRadio.getSelection()) {
 			for (String[] section : postArchDrivers) {
 				for (String s : section) {
-					result.put(s, scales.get("post" + s).getLevel());
+					result.put(s, scales.get("post" + s).getLevel()); //$NON-NLS-1$
 				}
 			}
 		}
@@ -90,27 +90,27 @@ public class DEInput extends ParameterArea {
 
 	public String getEMtype() {
 		if (earlyDesignRadio.getSelection())
-			return "Early";
+			return "Early"; //$NON-NLS-1$
 		else
-			return "Post";
+			return "Post"; //$NON-NLS-1$
 	}
 
 	private void createScaleFactors(Composite parent) {
 		Section section = toolkit.createSection(parent,
 				ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR
 						| ExpandableComposite.EXPANDED);
-		section.setText("比例因子");
+		section.setText(Messages.DEInput_SF);
 		Composite sectionClient = toolkit.createComposite(section);
-		scaleFactors = new String[] { "PREC", "FLEX", "RESL", "TEAM", "PMAT" };
-		buildSectionContent("SF", scaleFactors, sectionClient);
+		scaleFactors = new String[] { "PREC", "FLEX", "RESL", "TEAM", "PMAT" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		buildSectionContent("SF", scaleFactors, sectionClient); //$NON-NLS-1$
 
 		section.setClient(sectionClient);
 	}
 
 	private void createEffortMultipliers(Composite parent) {
 
-		String[] sectionNames = { "工作量乘数：产品因素", "工作量乘数：平台因素", "工作量乘数：人员因素",
-				"工作量乘数：项目因素" };
+		String[] sectionNames = { "工作量乘数：产品因素", "工作量乘数：平台因素", "工作量乘数：人员因素", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				"工作量乘数：项目因素" }; //$NON-NLS-1$
 		int numSections = sectionNames.length;
 		StackLayout[] layouts = new StackLayout[numSections];
 		Composite[] earlyDesignFactors = new Composite[numSections];
@@ -135,27 +135,27 @@ public class DEInput extends ParameterArea {
 		postArchRadio.addSelectionListener(postListener);
 
 		// 根据EMType的类型来设置界面,只用考虑early与post的两种情况
-		String emType = (String)cer.get("EMType");
+		String emType = (String)cer.get("EMType"); //$NON-NLS-1$
 		if (emType != null) {
-			if (emType.contains("Early")) {
+			if (emType.contains("Early")) { //$NON-NLS-1$
 				earlyDesignRadio.setSelection(true);
 				earlyListener.widgetDefaultSelected(null);
-			} else if (emType.contains("Post")) {
+			} else if (emType.contains("Post")) { //$NON-NLS-1$
 				postArchRadio.setSelection(true);
 				postListener.widgetDefaultSelected(null);
 			}
 		}
 
-		earlyDesignDrivers = new String[][] { { "RCPX", "RUSE" }, { "PDIF" },
-				{ "PERS", "PREX" }, { "FCIL", "SCED" } };
+		earlyDesignDrivers = new String[][] { { "RCPX", "RUSE" }, { "PDIF" }, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				{ "PERS", "PREX" }, { "FCIL", "SCED" } }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		postArchDrivers = new String[][] {
-				{ "RELY", "DATA", "CPLX", "RUSE", "DOCU" },
-				{ "TIME", "STOR", "PVOL" },
-				{ "ACAP", "PCAP", "PCON", "APEX", "PLEX", "LTEX" },
-				{ "TOOL", "SITE", "SCED" } };
+				{ "RELY", "DATA", "CPLX", "RUSE", "DOCU" }, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				{ "TIME", "STOR", "PVOL" }, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				{ "ACAP", "PCAP", "PCON", "APEX", "PLEX", "LTEX" }, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+				{ "TOOL", "SITE", "SCED" } }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-		fillSections("post", postArchDrivers, postArchFactors);
-		fillSections("early", earlyDesignDrivers, earlyDesignFactors);
+		fillSections("post", postArchDrivers, postArchFactors); //$NON-NLS-1$
+		fillSections("early", earlyDesignDrivers, earlyDesignFactors); //$NON-NLS-1$
 	}
 
 	private void createButtonArea(Composite parent) {
@@ -163,8 +163,8 @@ public class DEInput extends ParameterArea {
 		RowLayout layout = new RowLayout(SWT.HORIZONTAL);
 		layout.spacing = 20;
 		buttonArea.setLayout(layout);
-		earlyDesignRadio = toolkit.createButton(buttonArea, "前期设计", SWT.RADIO);
-		postArchRadio = toolkit.createButton(buttonArea, "后体系结构", SWT.RADIO);
+		earlyDesignRadio = toolkit.createButton(buttonArea, "前期设计", SWT.RADIO); //$NON-NLS-1$
+		postArchRadio = toolkit.createButton(buttonArea, "后体系结构", SWT.RADIO); //$NON-NLS-1$
 	}
 
 	private void fillSections(String type, String[][] drivers, Composite[] sections) {
@@ -182,7 +182,7 @@ public class DEInput extends ParameterArea {
 			int index;
 			HashMap<String, Object> factors = cer.attributes;
 			Object level = factors.get(d);
-			if (level == null || ((String)level).equals("null"))
+			if (level == null || ((String)level).equals("null")) //$NON-NLS-1$
 				index = 3;
 			else
 				index = levelIndex.get(level);

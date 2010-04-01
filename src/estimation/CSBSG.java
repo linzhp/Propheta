@@ -12,7 +12,7 @@ import data.database.dataAccess.DataBaseAccess;
 public class CSBSG {
 	private final static HashMap<String, Double> constData = new HashMap<String, Double>();
 	static{
-		constData.put("developmentType.ReDevelopment", -0.16);
+		constData.put("developmentType.development", -0.16);
 		constData.put("developmentType.NewDevelopment", -0.46);
 		constData.put("developmentType.Enhancement", 0.0);
 		constData.put("developmentType.Other", 0.0);

@@ -110,8 +110,7 @@ public class OutputResultPDF {
 			// 显示图
 			// 假设数据库没有存储图，这里直接调用JfreeChaer再次生成图
 			JFreeChart monteCarloChart = Chart.createXYLineChart("工作量蒙特卡罗图",
-					"工时", null, Chart.createQuickDataSet(nb.get("dataType")
-							.toString(), projectSize, (Double) nb
+					"工时", null, Chart.createQuickDataSet(projectSize, (Double) nb
 							.get("meanProductivity"), (Double) nb
 							.get("stanDevProductivity")));
 			pdf.addChart(monteCarloChart, 400, 300, 0.6);

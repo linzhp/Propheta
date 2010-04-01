@@ -131,26 +131,15 @@ public class Chart {
 	}
 
 	// 生成快速估算中蒙特卡罗图的数据集
-	public static IntervalXYDataset createQuickDataSet(String dataType,
-			double size, double piE, double piD) {
+	public static IntervalXYDataset createQuickDataSet(double size, double piE, double piD) {
 		HistogramDataset histogramdataset = new HistogramDataset();
 		// 此处为输入的5000000万个点。
 		Random generator = new Random();
 		final int NUM_SAMPLES = 5000000;
 		double[] efforts = new double[NUM_SAMPLES];
-		System.out.println(size + ":" + piD + ":" + piE);
-		if (dataType.contains("csbsg"))
-			for (int i = 0; i < efforts.length; i++) {
-				// 工作量＝规模/生产率 
-				// 因为是相除，用monte carlo方法行不通
-				//efforts[i] = (generator.nextGaussian() * piD)+ piE;
-				efforts[i] = size / ((generator.nextGaussian() * piD) + piE);
-			}
-		else
-			for (int i = 0; i < efforts.length; i++) {
-				// 工作量＝规模*生产率
-				efforts[i] = size * ((generator.nextGaussian() * piD) + piE);
-			}
+		for (int i = 0; i < efforts.length; i++) 
+			// 工作量＝规模*生产率
+			efforts[i] = size * ((generator.nextGaussian() * piD) + piE);
 		// 100表示bins（即条形柱的个数）
 		histogramdataset.addSeries("", efforts, 100);
 		return histogramdataset;

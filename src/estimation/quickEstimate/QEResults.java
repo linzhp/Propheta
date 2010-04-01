@@ -54,8 +54,7 @@ public class QEResults extends TabContentArea {
 				formulaEffort = CSBSG.getEqnEffort((double) projectSize,
 						factors);
 				for (double PI : arrayPI)
-					stats.addValue(PI);
-				historyEffort = projectSize / stats.getPercentile(50);
+					stats.addValue(1.0/PI);
 			} else {
 				// 此处factors为指向quickEstimate.getFactors()的指针，factors的改变会影响
 				factors = quickEstimate.getISBSGFactors();
@@ -64,9 +63,8 @@ public class QEResults extends TabContentArea {
 				formulaEffort = ISBSG.getEqnPDR(factors) * projectSize;
 				for (double PI : arrayPI)
 					stats.addValue(PI);
-				historyEffort = stats.getPercentile(50) * projectSize;
 			}
-
+			historyEffort = stats.getPercentile(50) * projectSize;
 			if (arrayPI.size() > 1) {
 				meanProductivity = stats.getMean();
 				stanDevProductivity = stats.getStandardDeviation();
@@ -137,7 +135,7 @@ public class QEResults extends TabContentArea {
 			} else {
 				JFreeChart monteCarloChart = Chart.createXYLineChart(
 						"工作量蒙特卡罗图", "工时", null, Chart.createQuickDataSet(
-								dataType, projectSize, meanProductivity,
+								projectSize, meanProductivity,
 								stanDevProductivity));
 				Composite monteCarloFrame = new ChartComposite(this,
 						SWT.BORDER, monteCarloChart, true);
