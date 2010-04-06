@@ -86,7 +86,7 @@ public class CalibInput extends ParameterArea {
 				aLabel.setText(a);
 				String b = COCOMOProperties.readValue("B");
 				constants.set("B", Double.valueOf(b));
-				aLabel.setText(b);
+				bLabel.setText(b);
 			} catch (Exception e) {
 				msg.setMessage(e.getMessage());
 				msg.open();

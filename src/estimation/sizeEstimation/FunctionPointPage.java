@@ -25,6 +25,7 @@ public class FunctionPointPage extends BaseWizardPage {
 	public void createControl(Composite parent) {
 		parent.setLayout(new GridLayout(4, false));
 		Label label = new Label(parent, SWT.NONE);
+		label.setText("External Files");
 		
 	}
 
