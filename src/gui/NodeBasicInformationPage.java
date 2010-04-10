@@ -2,8 +2,6 @@ package gui;
 
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -28,18 +26,6 @@ import gui.tabs.ParameterArea;
  *
  */
 public class NodeBasicInformationPage extends ParameterArea{
-
-	private class TextChanged implements KeyListener {
-		@Override
-		public void keyReleased(KeyEvent e) {}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			setIsInformationChanged(true);
-			saveButton.setEnabled(true);
-		}
-	}
-
 
 	private class FieldChanged implements SelectionListener {
 		@Override
@@ -100,11 +86,11 @@ public class NodeBasicInformationPage extends ParameterArea{
 		texNodeName.setLayoutData(gd);
 		
 		toolkit.createLabel(parent, "团队规模:", SWT.NONE);	
-		spnTeamSize=createSpinner(parent,Spinner.LIMIT,5);
+		spnTeamSize=createSpinner(parent,5,0);
 			
 		
 		toolkit.createLabel(parent, "项目周期:", SWT.NONE);		
-		spnDuration=createSpinner(parent,Spinner.LIMIT,180);
+		spnDuration=createSpinner(parent,180,0);
 		
 		toolkit.createLabel(parent, "代码行数:", SWT.NONE);		
 		
@@ -144,7 +130,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 			}});
 	
 		toolkit.createLabel(parent, "功能点数目:", SWT.NONE);			
-		spnFP=createSpinner(parent,Spinner.LIMIT,200);
+		spnFP=createSpinner(parent,200,0);
 		
 		toolkit.createLabel(parent, "业务领域:", SWT.NONE);	
 		String[] texts = new String[]{ "电信", "金融", "流通", "保险", "交通", "媒体", "卫生", "制造",
@@ -173,14 +159,11 @@ public class NodeBasicInformationPage extends ParameterArea{
 		cmbLanguage=createCombo(parent,texts,values,0);
 		
 		toolkit.createLabel(parent, "实际代码行数：");
-		spnRealSLOC = createSpinner(parent, Spinner.LIMIT, (Integer)node.get("realSLOC"));
-		spnRealSLOC.addKeyListener(new TextChanged());
+		spnRealSLOC = createSpinner(parent, (Integer)node.get("realSLOC"),0);
 		
 		toolkit.createLabel(parent, "实际工作量：");
 		int selection = (int) (((Double)node.get("realEffort"))*100);
-		spnRealEffort = createSpinner(parent, Spinner.LIMIT, selection);
-		spnRealEffort.setDigits(2);
-		spnRealEffort.addKeyListener(new TextChanged());
+		spnRealEffort = createSpinner(parent, selection,2);
 		//操作按钮面板
 		buttonComposite=new Composite(parent, SWT.NONE);
 		gd=new GridData();
@@ -217,10 +200,10 @@ public class NodeBasicInformationPage extends ParameterArea{
 	 * @param selectedValue
 	 * @return
 	 */
-	private  Spinner createSpinner(Composite parent, int maxValue, int selectedValue){
+	private  Spinner createSpinner(Composite parent, int selectedValue, int decimal){
 		Spinner spn=new Spinner(parent, SWT.BORDER);
-		spn.setMaximum(maxValue);
 		spn.setSelection(selectedValue);
+		spn.setDigits(decimal);
 		GridData gd=new GridData();
 		gd.horizontalAlignment=SWT.FILL;
 		spn.setLayoutData(gd);
