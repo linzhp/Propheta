@@ -8,7 +8,6 @@ public abstract class BaseWizardPage extends WizardPage{
 		super(pageName);
 	}
 
-	protected abstract boolean isEndPage();
 	protected abstract int getSize();
 	
 }

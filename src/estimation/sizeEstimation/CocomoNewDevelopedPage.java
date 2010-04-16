@@ -1,5 +1,6 @@
 package estimation.sizeEstimation;
 
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -10,14 +11,15 @@ public class CocomoNewDevelopedPage extends BaseWizardPage{
 
 	private Label labelSLOC;
 	private Spinner spnSLOC;
+	public static final String NAME="cocomo规模估算:新开发的代码";
 	
 		
 	public Spinner getSpnSLOC() {
 		return spnSLOC;
 	}
 
-	protected CocomoNewDevelopedPage(String pageName) {
-		super(pageName);
+	protected CocomoNewDevelopedPage() {
+		super(NAME);
 		this.setTitle("cocomo规模估算");
 		this.setMessage("新开发的代码");
 	}
@@ -37,17 +39,16 @@ public class CocomoNewDevelopedPage extends BaseWizardPage{
 		
 		this.setControl(composite);
 	}
+	
+	@Override
+	public IWizardPage getNextPage() {
+		return this.getWizard().getPage(CocomoReusedPage.NAME);
+	}
 
 	@Override
 	protected int getSize() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	protected boolean isEndPage() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

@@ -15,6 +15,7 @@ public class SizeEstimationTypePage extends BaseWizardPage {
 	public final static int HISTORY = 2;
 	public final static int COCOMO = 3;
 	public final static int FUNCTION_POINT = 4;
+	public static final String NAME="请选择代码规模估算方式";
 
 	private int estimationType = USER_INPUT;
 
@@ -22,8 +23,8 @@ public class SizeEstimationTypePage extends BaseWizardPage {
 		this.estimationType = estimationType;
 	}
 
-	protected SizeEstimationTypePage(String pageName) {
-		super(pageName);
+	protected SizeEstimationTypePage() {
+		super(NAME);
 		this.setTitle("估算方式");
 		this.setMessage("请选择代码规模估算方式");
 	}
@@ -92,7 +93,7 @@ public class SizeEstimationTypePage extends BaseWizardPage {
 		case HISTORY:
 			return seWizard.getHistoricalDataBaseSizeEstimationPage();
 		case COCOMO:
-			return seWizard.getCocomoSizeEstimation_newDeveloped_Page();
+			return seWizard.getCocomoNewDevelopedPage();
 		default:
 			return null;
 		}
@@ -102,12 +103,6 @@ public class SizeEstimationTypePage extends BaseWizardPage {
 	protected int getSize() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	protected boolean isEndPage() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

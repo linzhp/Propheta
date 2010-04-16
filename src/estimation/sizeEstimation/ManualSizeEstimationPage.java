@@ -1,5 +1,6 @@
 package estimation.sizeEstimation;
 
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -10,9 +11,10 @@ public class ManualSizeEstimationPage extends BaseWizardPage{
 
 	private Label labelSLOC;
 	private Spinner spnSLOC;
+	public static final String NAME="请直接输入代码规模";
 	
-	protected ManualSizeEstimationPage(String pageName) {
-		super(pageName);
+	protected ManualSizeEstimationPage() {
+		super(NAME);
 		this.setTitle("用户输入");
 		this.setMessage("请直接输入代码规模");
 	}
@@ -34,15 +36,14 @@ public class ManualSizeEstimationPage extends BaseWizardPage{
 	}
 
 	@Override
-	protected int getSize() {
-		// TODO Auto-generated method stub
-		return this.spnSLOC.getSelection();
+	public IWizardPage getNextPage() {
+		return null;
 	}
 
 	@Override
-	protected boolean isEndPage() {
+	protected int getSize() {
 		// TODO Auto-generated method stub
-		return true;
+		return this.spnSLOC.getSelection();
 	}
 
 	@Override

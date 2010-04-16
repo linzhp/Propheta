@@ -6,19 +6,16 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 public class FunctionPointPage extends BaseWizardPage {
+	public static final String NAME="功能点估算";
 	public FunctionPointPage(){
-		super("功能点估算");
+		super(NAME);
+		setTitle(NAME);
 	}
 
 	@Override
 	protected int getSize() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	protected boolean isEndPage() {
-		return true;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package estimation.sizeEstimation;
 
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -10,6 +11,7 @@ import org.eclipse.swt.widgets.Spinner;
 public class CocomoReusedPage extends BaseWizardPage{
 
 	private Spinner textReuseSize,textReuseAT,textReuseDM,textReuseCM,textReuseIM,textReuseAA,textReuseSU,textReuseUNFM;
+	public static final String NAME="cocomo规模估算:重用的代码";
 	
 	
 	public Spinner getTextReuseSize() {
@@ -77,8 +79,8 @@ public class CocomoReusedPage extends BaseWizardPage{
 	}
 
 	
-	protected CocomoReusedPage(String pageName) {
-		super(pageName);
+	protected CocomoReusedPage() {
+		super(NAME);
 		this.setTitle("cocomo规模估算");
 		this.setMessage("重用的代码");
 	}
@@ -118,14 +120,14 @@ public class CocomoReusedPage extends BaseWizardPage{
 	
 	
 	@Override
+	public IWizardPage getNextPage() {
+		return this.getWizard().getPage(CocomoMaintainedPage.NAME);
+	}
+
+	@Override
 	protected int getSize() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
-	protected boolean isEndPage() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

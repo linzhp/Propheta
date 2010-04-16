@@ -1,5 +1,6 @@
 package estimation.sizeEstimation;
 
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -12,6 +13,7 @@ import estimation.COCOMO;
 public class CocomoMaintainedPage extends BaseWizardPage{
 
 	private Spinner textModifySize,textAddSize,textMaintSU,textMaintUNFM;
+	public static final String NAME="cocomo规模估算:维护的代码";
 		
 	public Spinner getTextModifySize() {
 		return textModifySize;
@@ -45,8 +47,8 @@ public class CocomoMaintainedPage extends BaseWizardPage{
 		this.textMaintUNFM = textMaintUNFM;
 	}
 
-	protected CocomoMaintainedPage(String pageName) {
-		super(pageName);
+	protected CocomoMaintainedPage() {
+		super(NAME);
 		this.setTitle("cocomo规模估算");
 		this.setMessage("维护的代码");
 	}
@@ -88,10 +90,10 @@ public class CocomoMaintainedPage extends BaseWizardPage{
 		SizeEstimationWizard seWizard=(SizeEstimationWizard)this.getWizard();
 		
 		// new code
-		CocomoNewDevelopedPage new_Page=seWizard.getCocomoSizeEstimation_newDeveloped_Page();
+		CocomoNewDevelopedPage new_Page=seWizard.getCocomoNewDevelopedPage();
 		estimatedSize += new_Page.getSpnSLOC().getSelection();
 		// reuse code
-		CocomoReusedPage resused_Page=seWizard.getCocomoSizeEstimation_reused_Page();
+		CocomoReusedPage resused_Page=seWizard.getCocomoReusedPage();
 		Double SLOC = Double.parseDouble(resused_Page.getTextReuseSize().getText());
 		Double AT = Double.parseDouble(resused_Page.getTextReuseAT().getText());
 		Double DM = Double.parseDouble(resused_Page.getTextReuseDM().getText());
@@ -112,11 +114,10 @@ public class CocomoMaintainedPage extends BaseWizardPage{
 	}
 
 	@Override
-	protected boolean isEndPage() {
-		// TODO Auto-generated method stub
-		return true;
+	public IWizardPage getNextPage() {
+		return null;
 	}
-	
+
 	@Override
 	public boolean canFlipToNextPage() {
 		// TODO Auto-generated method stub
