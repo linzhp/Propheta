@@ -1,16 +1,31 @@
 package estimation;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Set;
 
+import data.database.dataAccess.ConstantsAccess;
 import data.file.COCOMOProperties;
 
 public class COCOMO {
 
-	static Double A = Double.valueOf(COCOMOProperties.readValue("A"));
-	static Double B = Double.valueOf(COCOMOProperties.readValue("B"));
-	static Double C = Double.valueOf(COCOMOProperties.readValue("C"));
-	static Double D = Double.valueOf(COCOMOProperties.readValue("D"));
+	private static ConstantsAccess constants = new ConstantsAccess();
+	
+	public static Double getA() throws SQLException{
+		return (Double)constants.get("A");
+	}
+
+	public static Double getB() throws SQLException{
+		return (Double)constants.get("B");
+	}
+
+	public static Double getC() throws SQLException{
+		return (Double)constants.get("C");
+	}
+
+	public static Double getD() throws SQLException{
+		return (Double)constants.get("D");
+	}
 
 	private final static HashMap<String, Double> relativeSCED = new HashMap<String, Double>();
 	static {
@@ -45,7 +60,7 @@ public class COCOMO {
 
 	// 模块工作量计算公式，输入参数为cocomo原始输入值
 	public static Double[] getModuleEffortTime(Double size,
-			HashMap<String, String> factorsSF, HashMap<String, String> factorsEM) {
+			HashMap<String, String> factorsSF, HashMap<String, String> factorsEM) throws SQLException {
 		// 求各SF因子的和
 		Double sumSF = getSumSF(factorsSF);
 		// 求各EM因子的乘积
@@ -57,12 +72,12 @@ public class COCOMO {
 
 	// 模块工作量计算公式,输入参数为cocomo运算的中间值
 	public static Double[] getModuleEffortTime(Double size, Double sumSF,
-			Double productEM, Double SCED) {
+			Double productEM, Double SCED) throws SQLException {
 		// 求effort
 		Double E = getE(sumSF);
-		Double PM = A * Math.pow((size / 1000), E) * productEM * SCED;
+		Double PM = getA() * Math.pow((size / 1000), E) * productEM * SCED;
 		// 求TDEV: Time to development
-		Double TDEV = C * Math.pow((PM / SCED), (D + 0.2 * (E - B))) * SCED;
+		Double TDEV = getC() * Math.pow((PM / SCED), (getD() + 0.2 * (E - getB()))) * SCED;
 		Double[] effort = { PM, TDEV };
 
 		System.out.println("sumSF = " + sumSF);
@@ -78,7 +93,7 @@ public class COCOMO {
 	// 一级集成工作量计算公式，输入参数为cocomo原始输入值
 	public static Double[] getIntegratedEffortTime(Double[] sizes,
 			Double[] productEMs, HashMap<String, String> factorsSF,
-			String SCEDLevel) {
+			String SCEDLevel) throws SQLException {
 		// 求各SF因子的和
 		Double sumSF = getSumSF(factorsSF);
 		// 求effort
@@ -88,18 +103,18 @@ public class COCOMO {
 
 	// 一级集成工作量计算公式，输入参数为cocomo中间值
 	public static Double[] getIntegratedEffortTime(Double[] sizes,
-			Double[] productEMs, Double sumSF, Double SCED) {
+			Double[] productEMs, Double sumSF, Double SCED) throws SQLException {
 		// 求effort
 		Double E = getE(sumSF);
 		Double sumSize = 0.0;
 		for (Double size : sizes)
 			sumSize += size;
-		Double PMBasic = A * Math.pow((sumSize / 1000), E) * SCED;
+		Double PMBasic = getA() * Math.pow((sumSize / 1000), E) * SCED;
 		Double PM = 0.0;
 		for (int i = 0; i < sizes.length; i++)
 			PM += PMBasic * (sizes[i] / sumSize) * productEMs[i];
 		// 求TDEV: Time to development
-		Double TDEV = C * Math.pow((PM / SCED), (D + 0.2 * (E - B))) * SCED;
+		Double TDEV = getC() * Math.pow((PM / SCED), (getD() + 0.2 * (E - getB()))) * SCED;
 
 		Double[] effort = { PM, TDEV };
 
@@ -145,8 +160,8 @@ public class COCOMO {
 		return SCED;
 	}
 
-	public static Double getE(Double sumSF) {
-		return B + 0.01 * sumSF;
+	public static Double getE(Double sumSF) throws SQLException {
+		return getB() + 0.01 * sumSF;
 	}
 
 	// 求阶段工作量分布

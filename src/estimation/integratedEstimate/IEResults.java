@@ -1,5 +1,6 @@
 package estimation.integratedEstimate;
 
+import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
 
 import data.database.dataAccess.CocomoEstimationAccess;
 import data.database.dataAccess.NodeBasicInfoAccess;
@@ -22,12 +24,14 @@ import estimation.SimpleIntegratedEstimate;
 
 public class IEResults extends TabContentArea {
 	private IEInput integratedEstimate;
+	private MessageBox msg;
 
 	public IEResults(Composite parent, IEInput integratedEstimate,
 			boolean isOpen) {
 		super(parent, integratedEstimate.getNode());
 		this.integratedEstimate = integratedEstimate;
-		
+		msg = new MessageBox(getShell());
+
 		// 根据用户输入，处理集成估算数据
 		if (!isOpen) {
 			CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
@@ -48,32 +52,44 @@ public class IEResults extends TabContentArea {
 				String SCEDLevel = integratedEstimate.getSCED();
 				for (int i = 0; i < children.size(); i++) {
 					sizes[i] = (Double) children.get(i).get("estSLOC");
-					productEMs[i] = (Double)cer_access.getCocomoEstimationByNodeID(
-							children.get(i).getId()).get("productEM");
+					productEMs[i] = (Double) cer_access
+							.getCocomoEstimationByNodeID(
+									children.get(i).getId()).get("productEM");
 				}
-				Double[] efforts = COCOMO.getIntegratedEffortTime(sizes,
-						productEMs, factorsSF, SCEDLevel);
-				Double PM = efforts[0];
-				Double devTime = efforts[1];
-				createComCocomoResults(PM, devTime);
-				// 存储集成估算结果
-				saveCocomoEstimation(integratedEstimate.getTabID(),
-						"multiple", PM, devTime);
-				// 更新基本信息表中的估算类型
-				new NodeBasicInfoAccess().updateEstType(integratedEstimate
-						.getTabID(), "cocomoMultiple");
+				Double[] efforts;
+				try {
+					efforts = COCOMO.getIntegratedEffortTime(sizes, productEMs,
+							factorsSF, SCEDLevel);
+					Double PM = efforts[0];
+					Double devTime = efforts[1];
+					createComCocomoResults(PM, devTime);
+					// 存储集成估算结果
+					saveCocomoEstimation(integratedEstimate.getTabID(),
+							"multiple", PM, devTime);
+					// 更新基本信息表中的估算类型
+					new NodeBasicInfoAccess().updateEstType(integratedEstimate
+							.getTabID(), "cocomoMultiple");
+				} catch (SQLException e) {
+					msg.setMessage(e.getMessage());
+					msg.open();
+					e.printStackTrace();
+				}
 			} else {
 				Double[] efforts = new Double[children.size()];
 				QuickEstimationAccess qer_access = new QuickEstimationAccess();
 				for (int i = 0; i < children.size(); i++)
 					if (children.get(i).getEstType().contains("quick"))
-						efforts[i] = (Double)qer_access.getQuickEstimationByNodeID(
-								children.get(i).getId()).get("formulaEffort");
+						efforts[i] = (Double) qer_access
+								.getQuickEstimationByNodeID(
+										children.get(i).getId()).get(
+										"formulaEffort");
 					else
-						efforts[i] = (Double)cer_access.getCocomoEstimationByNodeID(
-								children.get(i).getId()).get("devTime") * 152;
-				Double effort = SimpleIntegratedEstimate.getIntegratedEffort(efforts);
-				//显示集成估算结果
+						efforts[i] = (Double) cer_access
+								.getCocomoEstimationByNodeID(
+										children.get(i).getId()).get("devTime") * 152;
+				Double effort = SimpleIntegratedEstimate
+						.getIntegratedEffort(efforts);
+				// 显示集成估算结果
 				createComQuickResults(effort);
 				// 存储集成估算结果
 				saveQuickEstimation(integratedEstimate.getTabID(), "multiple",
@@ -84,28 +100,27 @@ public class IEResults extends TabContentArea {
 			}
 		}
 		// 从数据库得到集成估算数据
-		else
-		{
+		else {
 			String estType = this.integratedEstimate.getNode().getEstType();
-			
-			if(estType.contains("cocomoMultiple")){
+
+			if (estType.contains("cocomoMultiple")) {
 				CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
-				CocomoEstimationRecord cer = cer_access.getCocomoEstimationByNodeID(this.getTabID());
-				Double PM = (Double)cer.get("PM");
-				Double devTime = (Double)cer.get("devTime");
-				//显示集成估算结果
+				CocomoEstimationRecord cer = cer_access
+						.getCocomoEstimationByNodeID(this.getTabID());
+				Double PM = (Double) cer.get("PM");
+				Double devTime = (Double) cer.get("devTime");
+				// 显示集成估算结果
 				createComCocomoResults(PM, devTime);
-			}
-			else if(estType.contains("quickMultiple"))
-			{
+			} else if (estType.contains("quickMultiple")) {
 				QuickEstimationAccess qer_access = new QuickEstimationAccess();
-				QuickEstimationRecord cer = qer_access.getQuickEstimationByNodeID(this.getTabID());
-				Double effort = (Double)cer.get("formulaEffort");
-				//显示集成估算结果
+				QuickEstimationRecord cer = qer_access
+						.getQuickEstimationByNodeID(this.getTabID());
+				Double effort = (Double) cer.get("formulaEffort");
+				// 显示集成估算结果
 				createComQuickResults(effort);
 			}
 		}
-			
+
 	}
 
 	private void saveCocomoEstimation(int nodeID, String EMType, Double PM,
@@ -113,9 +128,9 @@ public class IEResults extends TabContentArea {
 		CocomoEstimationRecord cer = new CocomoEstimationRecord();
 		CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
 		cer = cer_access.getCocomoEstimationByNodeID(nodeID);
-		cer.set("EMType",EMType);
-		cer.set("PM",PM);
-		cer.set("devTime",devTime);
+		cer.set("EMType", EMType);
+		cer.set("PM", PM);
+		cer.set("devTime", devTime);
 		cer_access.update(cer);
 	}
 
@@ -126,8 +141,8 @@ public class IEResults extends TabContentArea {
 		QuickEstimationAccess qer_access = new QuickEstimationAccess();
 		qer = qer_access.getQuickEstimationByNodeID(nodeID);
 
-		qer.set("dataType",dataType);
-		qer.set("formulaEffort",formula_Effort);
+		qer.set("dataType", dataType);
+		qer.set("formulaEffort", formula_Effort);
 
 		qer_access.update(qer);
 	}

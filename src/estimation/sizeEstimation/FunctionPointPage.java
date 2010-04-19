@@ -20,10 +20,11 @@ public class FunctionPointPage extends BaseWizardPage {
 
 	@Override
 	public void createControl(Composite parent) {
-		parent.setLayout(new GridLayout(4, false));
-		Label label = new Label(parent, SWT.NONE);
+		Composite pane = new Composite(parent, SWT.NONE);
+		pane.setLayout(new GridLayout(4, false));
+		Label label = new Label(pane, SWT.NONE);
 		label.setText("External Files");
-		
+		this.setControl(pane);
 	}
 
 }

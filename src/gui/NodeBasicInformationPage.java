@@ -29,7 +29,8 @@ public class NodeBasicInformationPage extends ParameterArea{
 
 	private class FieldChanged implements SelectionListener {
 		@Override
-		public void widgetDefaultSelected(SelectionEvent e) {				
+		public void widgetDefaultSelected(SelectionEvent e) {	
+			widgetSelected(e);
 		}
 
 		@Override
@@ -195,13 +196,10 @@ public class NodeBasicInformationPage extends ParameterArea{
 	
 	/**
 	 * 构建Spinner控件
-	 * @param text
-	 * @param maxValue
-	 * @param selectedValue
-	 * @return
 	 */
 	private  Spinner createSpinner(Composite parent, int selectedValue, int decimal){
 		Spinner spn=new Spinner(parent, SWT.BORDER);
+		spn.setMaximum(Spinner.LIMIT);
 		spn.setSelection(selectedValue);
 		spn.setDigits(decimal);
 		GridData gd=new GridData();
