@@ -25,6 +25,8 @@ import estimation.SimpleIntegratedEstimate;
 public class IEResults extends TabContentArea {
 	private IEInput integratedEstimate;
 	private MessageBox msg;
+	public static final String QUICK_MULTIPLE = "quickMultiple";
+	public static final String COCOMO_MULTIPLE = "cocomoMultiple";
 
 	public IEResults(Composite parent, IEInput integratedEstimate,
 			boolean isOpen) {
@@ -68,7 +70,7 @@ public class IEResults extends TabContentArea {
 							"multiple", PM, devTime);
 					// 更新基本信息表中的估算类型
 					new NodeBasicInfoAccess().updateEstType(integratedEstimate
-							.getTabID(), "cocomoMultiple");
+							.getTabID(), COCOMO_MULTIPLE);
 				} catch (SQLException e) {
 					msg.setMessage(e.getMessage());
 					msg.open();
@@ -96,14 +98,14 @@ public class IEResults extends TabContentArea {
 						effort);
 				// 更新基本信息表中的估算类型
 				new NodeBasicInfoAccess().updateEstType(integratedEstimate
-						.getTabID(), "quickMultiple");
+						.getTabID(), QUICK_MULTIPLE);
 			}
 		}
 		// 从数据库得到集成估算数据
 		else {
 			String estType = this.integratedEstimate.getNode().getEstType();
 
-			if (estType.contains("cocomoMultiple")) {
+			if (COCOMO_MULTIPLE.equals(estType)) { //estType 有可能是null
 				CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
 				CocomoEstimationRecord cer = cer_access
 						.getCocomoEstimationByNodeID(this.getTabID());
@@ -111,7 +113,7 @@ public class IEResults extends TabContentArea {
 				Double devTime = (Double) cer.get("devTime");
 				// 显示集成估算结果
 				createComCocomoResults(PM, devTime);
-			} else if (estType.contains("quickMultiple")) {
+			} else if (QUICK_MULTIPLE.equals(estType)) {
 				QuickEstimationAccess qer_access = new QuickEstimationAccess();
 				QuickEstimationRecord cer = qer_access
 						.getQuickEstimationByNodeID(this.getTabID());
