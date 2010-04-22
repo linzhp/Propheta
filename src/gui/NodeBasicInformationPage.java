@@ -216,15 +216,8 @@ public class NodeBasicInformationPage extends ParameterArea{
 	 * 构建Spinner控件
 	 */
 	private  Spinner createSpinner(Composite parent, int selectedValue, int decimal){
-		Spinner spn=new Spinner(parent, SWT.BORDER);
-		spn.setMaximum(Spinner.LIMIT);
-		spn.setSelection(selectedValue);
-		spn.setDigits(decimal);
-		GridData gd=new GridData();
-		gd.horizontalAlignment=SWT.FILL;
-		spn.setLayoutData(gd);
+		Spinner spn=Helper.createSpinner(parent, selectedValue, decimal);
 		spn.addSelectionListener(new FieldChanged());
-		
 		return spn;
 	}
 	
