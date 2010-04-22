@@ -41,16 +41,11 @@ public class NodeBasicInformationPage extends ParameterArea{
 	}
 
 
-	private Text texNodeName, textSLOC;
-	private Spinner spnTeamSize,spnDuration,spnFP, spnRealSLOC,spnRealEffort;
+	private Text texNodeName;
+	private Spinner spnTeamSize,spnDuration,spnFP, spnEstSLOC, spnRealSLOC,spnRealEffort;
 	private Combo cmbBusinessArea,cmbDevelopType,cmbDevelopPlatform,cmbLanguageType,cmbLanguage;
 	private Composite SLOCComposite, buttonComposite;
 	private Button setSLOCButton,saveButton;
-	
-	private Text getTextSLOC(){
-		return this.textSLOC;
-	}
-	
 	
 	/**
 	 * 构造器
@@ -100,18 +95,15 @@ public class NodeBasicInformationPage extends ParameterArea{
 		//代码行输入面板
 		SLOCComposite=toolkit.createComposite(parent,SWT.NONE);
 		gd=new GridData();
-		gd.horizontalSpan=1;
 		gd.horizontalAlignment=SWT.FILL;
 		SLOCComposite.setLayoutData(gd);
 		SLOCComposite.setLayout(new GridLayout(2,false));
 		
-		textSLOC=toolkit.createText(SLOCComposite, "1000",SWT.BORDER);
-		textSLOC.setSize(300, textSLOC.getSize().y);
-		textSLOC.setEditable(false);
+		spnEstSLOC = createSpinner(SLOCComposite, 0, 0);
 		gd=new GridData();
 		gd.horizontalAlignment=SWT.FILL;
 		gd.grabExcessHorizontalSpace = true;
-		textSLOC.setLayoutData(gd);
+		spnEstSLOC.setLayoutData(gd);
 		
 		setSLOCButton=toolkit.createButton(SLOCComposite, "估算", SWT.NONE);
 		setSLOCButton.addSelectionListener(new SelectionListener(){
@@ -126,8 +118,10 @@ public class NodeBasicInformationPage extends ParameterArea{
 				saveButton.setEnabled(true);
 				
 				//设置SLOC wizard
-				WizardDialog wdialog=new WizardDialog(Display.getCurrent().getActiveShell(),new SizeEstimationWizard(getTextSLOC()));
+				SizeEstimationWizard slocWizard = new SizeEstimationWizard();
+				WizardDialog wdialog=new WizardDialog(Display.getCurrent().getActiveShell(),slocWizard);
 			    wdialog.open();
+			    spnEstSLOC.setSelection(slocWizard.getSize());
 			}});
 	
 		toolkit.createLabel(parent, "功能点数目:", SWT.NONE);			
@@ -250,7 +244,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		node.set("developmentPlatform",(String)this.cmbDevelopPlatform.getData(this.cmbDevelopPlatform.getText()));
 		node.set("languageType",this.cmbLanguageType.getData(this.cmbLanguageType.getText()));
 		node.set("language",this.cmbLanguage.getData(this.cmbLanguage.getText()));
-		node.set("estSLOC",Integer.valueOf(textSLOC.getText()));
+		node.set("estSLOC",this.spnEstSLOC.getSelection());
 		
 		node.set("realSLOC", Integer.valueOf(spnRealSLOC.getText()));
 		node.set("realEffort", Double.valueOf(spnRealEffort.getText()));
@@ -266,7 +260,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 			this.texNodeName.setText((String)nbi.get("name"));
 			this.spnTeamSize.setSelection(((Integer)nbi.get("teamSize")));
 			this.spnDuration.setSelection((Integer)nbi.get("duration"));
-			this.textSLOC.setText(String.valueOf(nbi.get("estSLOC")));			
+			this.spnEstSLOC.setSelection((Integer)nbi.get("estSLOC"));			
 			this.spnFP.setSelection((Integer)nbi.get("functionPoints"));
 			this.initCombo(this.cmbBusinessArea, (String)nbi.get("businessArea"));
 			this.initCombo(this.cmbDevelopType, (String)nbi.get("developmentType"));

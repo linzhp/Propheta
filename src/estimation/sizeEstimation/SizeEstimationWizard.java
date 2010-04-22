@@ -1,13 +1,11 @@
 package estimation.sizeEstimation;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.swt.widgets.Text;
 
 public class SizeEstimationWizard extends Wizard {
 
 	// wizardPage
 	private SizeEstimationTypePage sizeEstimationTypePage;
-	private ManualSizeEstimationPage manualSizeEstimationPage;
 	private HistoricalDataBaseSizeEstimationPage historicalDataBaseSizeEstimationPage;
 	private CocomoNewDevelopedPage cocomoNewDevelopedPage;
 	private CocomoReusedPage cocomoReusedPage;
@@ -17,15 +15,14 @@ public class SizeEstimationWizard extends Wizard {
 	// 用户输入
 
 	// 关联的Text
-	private Text textSLOC;
+	private int size;
 
-	public ManualSizeEstimationPage getManualSizeEstimationPage() {
-		return manualSizeEstimationPage;
+	public int getSize() {
+		return size;
 	}
 
-	public void setManualSizeEstimationPage(
-			ManualSizeEstimationPage manualSizeEstimationPage) {
-		this.manualSizeEstimationPage = manualSizeEstimationPage;
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 	public HistoricalDataBaseSizeEstimationPage getHistoricalDataBaseSizeEstimationPage() {
@@ -44,19 +41,8 @@ public class SizeEstimationWizard extends Wizard {
 		return cocomoMaintainedPage;
 	}
 
-	public Text getTextSLOC() {
-		return textSLOC;
-	}
-
-	public void setTextSLOC(Text textSLOC) {
-		this.textSLOC = textSLOC;
-	}
-
-	public SizeEstimationWizard(Text text) {
-		setTextSLOC(text);
-
+	public SizeEstimationWizard() {
 		sizeEstimationTypePage = new SizeEstimationTypePage();
-		manualSizeEstimationPage = new ManualSizeEstimationPage();
 		historicalDataBaseSizeEstimationPage = new HistoricalDataBaseSizeEstimationPage();
 		cocomoNewDevelopedPage = new CocomoNewDevelopedPage();
 		cocomoReusedPage = new CocomoReusedPage();
@@ -69,7 +55,6 @@ public class SizeEstimationWizard extends Wizard {
 	@Override
 	public void addPages() {
 		this.addPage(sizeEstimationTypePage);
-		this.addPage(manualSizeEstimationPage);
 		this.addPage(historicalDataBaseSizeEstimationPage);
 		this.addPage(cocomoNewDevelopedPage);
 		this.addPage(cocomoReusedPage);
@@ -81,8 +66,7 @@ public class SizeEstimationWizard extends Wizard {
 	public boolean performFinish() {
 		BaseWizardPage currentPage = (BaseWizardPage) this.getContainer()
 				.getCurrentPage();
-		int size = currentPage.getSize();
-		this.textSLOC.setText(String.valueOf(size));
+		size = currentPage.getSize();
 		return true;
 	}
 

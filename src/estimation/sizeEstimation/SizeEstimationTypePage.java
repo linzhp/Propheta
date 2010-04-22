@@ -10,14 +10,12 @@ import org.eclipse.swt.widgets.Composite;
 
 public class SizeEstimationTypePage extends BaseWizardPage {
 
-	private Button manualSLOCButton, historicalSLOCButton, cocomoSLOCButton;
-	public final static int USER_INPUT = 1;
+	private Button historicalSLOCButton, cocomoSLOCButton;
 	public final static int HISTORY = 2;
 	public final static int COCOMO = 3;
-	public final static int FUNCTION_POINT = 4;
 	public static final String NAME="请选择代码规模估算方式";
 
-	private int estimationType = USER_INPUT;
+	private int estimationType = COCOMO;
 
 	public void setEstimationType(int estimationType) {
 		this.estimationType = estimationType;
@@ -35,22 +33,6 @@ public class SizeEstimationTypePage extends BaseWizardPage {
 		GridLayout gd = new GridLayout(1, false);
 		gd.marginLeft = 20;
 		composite.setLayout(gd);
-
-		manualSLOCButton = new Button(composite, SWT.RADIO);
-		manualSLOCButton.setText("用户输入");
-		manualSLOCButton.setSelection(true);
-		manualSLOCButton.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				setEstimationType(USER_INPUT);
-			}
-		});
 
 		historicalSLOCButton = new Button(composite, SWT.RADIO);
 		historicalSLOCButton.setText("参考历史数据");
@@ -88,8 +70,6 @@ public class SizeEstimationTypePage extends BaseWizardPage {
 	public IWizardPage getNextPage() {
 		SizeEstimationWizard seWizard = (SizeEstimationWizard) this.getWizard();
 		switch (this.estimationType) {
-		case USER_INPUT:
-			return seWizard.getManualSizeEstimationPage();
 		case HISTORY:
 			return seWizard.getHistoricalDataBaseSizeEstimationPage();
 		case COCOMO:
