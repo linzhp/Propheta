@@ -10,13 +10,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataEntities.EstimateNode;
 import data.file.Languages;
+import estimation.sizeEstimation.FPWizard;
+import estimation.sizeEstimation.SLOCWizard;
 import estimation.sizeEstimation.SizeEstimationWizard;
 import gui.tabs.ParameterArea;
 
@@ -26,6 +27,30 @@ import gui.tabs.ParameterArea;
  *
  */
 public class NodeBasicInformationPage extends ParameterArea{
+
+	private class SizeEstimatioinListener implements SelectionListener {
+		private SizeEstimationWizard wizard;
+		private Spinner spinner;
+		
+		public SizeEstimatioinListener(SizeEstimationWizard w, Spinner s){
+			wizard = w;
+			spinner = s;
+		}
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+		}
+
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			setIsInformationChanged(true);
+			saveButton.setEnabled(true);
+			
+			WizardDialog wdialog=new WizardDialog(getShell(),wizard);
+		    wdialog.open();
+		    spinner.setSelection(wizard.getSize());
+		}
+	}
+
 
 	private class FieldChanged implements SelectionListener {
 		@Override
@@ -89,43 +114,19 @@ public class NodeBasicInformationPage extends ParameterArea{
 		spnDuration=createSpinner(parent,180,0);
 		
 		toolkit.createLabel(parent, "代码行数:", SWT.NONE);		
-		
-		
-		
-		//代码行输入面板
-		SLOCComposite=toolkit.createComposite(parent,SWT.NONE);
-		gd=new GridData();
-		gd.horizontalAlignment=SWT.FILL;
-		SLOCComposite.setLayoutData(gd);
-		SLOCComposite.setLayout(new GridLayout(2,false));
-		
-		spnEstSLOC = createSpinner(SLOCComposite, 0, 0);
-		gd=new GridData();
-		gd.horizontalAlignment=SWT.FILL;
-		gd.grabExcessHorizontalSpace = true;
-		spnEstSLOC.setLayoutData(gd);
-		
+		SLOCComposite=createSizePane(parent);
+		spnEstSLOC = createSizeSpinner(SLOCComposite);		
 		setSLOCButton=toolkit.createButton(SLOCComposite, "估算", SWT.NONE);
-		setSLOCButton.addSelectionListener(new SelectionListener(){
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				setIsInformationChanged(true);
-				saveButton.setEnabled(true);
-				
-				//设置SLOC wizard
-				SizeEstimationWizard slocWizard = new SizeEstimationWizard();
-				WizardDialog wdialog=new WizardDialog(Display.getCurrent().getActiveShell(),slocWizard);
-			    wdialog.open();
-			    spnEstSLOC.setSelection(slocWizard.getSize());
-			}});
+		//设置SLOC wizard
+		SLOCWizard slocWizard = new SLOCWizard();
+		setSLOCButton.addSelectionListener(new SizeEstimatioinListener(slocWizard,spnEstSLOC));
 	
-		toolkit.createLabel(parent, "功能点数目:", SWT.NONE);			
-		spnFP=createSpinner(parent,200,0);
+		toolkit.createLabel(parent, "功能点数目:", SWT.NONE);
+		Composite fpComposite=createSizePane(parent);
+		spnFP=createSizeSpinner(fpComposite);
+		Button setFPButton = toolkit.createButton(fpComposite, "估算", SWT.NONE);
+		FPWizard fpWizard = new FPWizard();
+		setFPButton.addSelectionListener(new SizeEstimatioinListener(fpWizard, spnFP));
 		
 		toolkit.createLabel(parent, "业务领域:", SWT.NONE);	
 		String[] texts = new String[]{ "电信", "金融", "流通", "保险", "交通", "媒体", "卫生", "制造",
@@ -187,6 +188,29 @@ public class NodeBasicInformationPage extends ParameterArea{
 		
 	}
 	
+	/**
+	 * 构建规模输入面板
+	 * @param parent
+	 * @return
+	 */
+	private Composite createSizePane(Composite parent){
+		
+		Composite sizePane =toolkit.createComposite(parent,SWT.NONE);
+		GridData gd=new GridData();
+		gd.horizontalAlignment=SWT.FILL;
+		sizePane.setLayoutData(gd);
+		sizePane.setLayout(new GridLayout(2,false));
+		return sizePane;
+	}
+	
+	private Spinner createSizeSpinner(Composite parent){
+		Spinner spnEstSize = createSpinner(parent, 0, 0);
+		GridData gd=new GridData();
+		gd.horizontalAlignment=SWT.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		spnEstSize.setLayoutData(gd);
+		return spnEstSize;
+	}
 	
 	/**
 	 * 构建Spinner控件

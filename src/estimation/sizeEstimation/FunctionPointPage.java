@@ -5,7 +5,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-public class FunctionPointPage extends BaseWizardPage {
+public class FunctionPointPage extends BaseSizePage {
 	public static final String NAME="功能点估算";
 	public FunctionPointPage(){
 		super(NAME);

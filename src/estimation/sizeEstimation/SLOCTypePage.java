@@ -8,7 +8,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-public class SizeEstimationTypePage extends BaseWizardPage {
+public class SLOCTypePage extends BaseSizePage {
 
 	private Button historicalSLOCButton, cocomoSLOCButton;
 	public final static int HISTORY = 2;
@@ -21,7 +21,7 @@ public class SizeEstimationTypePage extends BaseWizardPage {
 		this.estimationType = estimationType;
 	}
 
-	protected SizeEstimationTypePage() {
+	protected SLOCTypePage() {
 		super(NAME);
 		this.setTitle("估算方式");
 		this.setMessage("请选择代码规模估算方式");
@@ -68,7 +68,7 @@ public class SizeEstimationTypePage extends BaseWizardPage {
 	}
 
 	public IWizardPage getNextPage() {
-		SizeEstimationWizard seWizard = (SizeEstimationWizard) this.getWizard();
+		SLOCWizard seWizard = (SLOCWizard) this.getWizard();
 		switch (this.estimationType) {
 		case HISTORY:
 			return seWizard.getHistoricalDataBaseSizeEstimationPage();

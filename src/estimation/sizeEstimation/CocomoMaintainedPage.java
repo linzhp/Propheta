@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Spinner;
 
 import estimation.COCOMO;
 
-public class CocomoMaintainedPage extends BaseWizardPage{
+public class CocomoMaintainedPage extends BaseSizePage{
 
 	private Spinner textModifySize,textAddSize,textMaintSU,textMaintUNFM;
 	public static final String NAME="cocomo规模估算:维护的代码";
@@ -87,7 +87,7 @@ public class CocomoMaintainedPage extends BaseWizardPage{
 	protected int getSize() {
 
 		int estimatedSize = 0;
-		SizeEstimationWizard seWizard=(SizeEstimationWizard)this.getWizard();
+		SLOCWizard seWizard=(SLOCWizard)this.getWizard();
 		
 		// new code
 		CocomoNewDevelopedPage new_Page=seWizard.getCocomoNewDevelopedPage();

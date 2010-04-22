@@ -2,9 +2,9 @@ package estimation.sizeEstimation;
 
 import org.eclipse.jface.wizard.WizardPage;
 
-public abstract class BaseWizardPage extends WizardPage{
+public abstract class BaseSizePage extends WizardPage{
 
-	protected BaseWizardPage(String pageName) {
+	protected BaseSizePage(String pageName) {
 		super(pageName);
 	}
 

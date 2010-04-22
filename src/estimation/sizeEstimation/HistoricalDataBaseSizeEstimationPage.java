@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Text;
 
 import gui.widgets.ParameterScale;
 
-public class HistoricalDataBaseSizeEstimationPage extends BaseWizardPage{
+public class HistoricalDataBaseSizeEstimationPage extends BaseSizePage{
 
 	private Label labelSLOC;
 	private Text textSLOC;

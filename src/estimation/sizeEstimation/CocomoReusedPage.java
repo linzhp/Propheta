@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
-public class CocomoReusedPage extends BaseWizardPage{
+public class CocomoReusedPage extends BaseSizePage{
 
 	private Spinner textReuseSize,textReuseAT,textReuseDM,textReuseCM,textReuseIM,textReuseAA,textReuseSU,textReuseUNFM;
 	public static final String NAME="cocomo规模估算:重用的代码";

@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
-public class CocomoNewDevelopedPage extends BaseWizardPage{
+public class CocomoNewDevelopedPage extends BaseSizePage{
 
 	private Label labelSLOC;
 	private Spinner spnSLOC;
