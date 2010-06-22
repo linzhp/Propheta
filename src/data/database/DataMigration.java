@@ -13,7 +13,7 @@ public class DataMigration {
 	protected String fromPath;
 	protected String toPath;
 	
-	public void copyData(int fromNodeID, int newParentID) throws SQLException {
+	public int copyData(int fromNodeID, int newParentID) throws SQLException {
 		NodeBasicInfoAccess fromNBIAccess = new NodeBasicInfoAccess(fromPath);
 		NodeBasicInfoAccess toNBIAccess = new NodeBasicInfoAccess(toPath);
 		Entity NBI = fromNBIAccess.getByID(fromNodeID);
@@ -38,5 +38,6 @@ public class DataMigration {
 		for(Entity node:fromNBIAccess.getNodesByParentID(fromNodeID)){
 			copyData((Integer)node.get("id"), newNodeID);
 		}
+		return newNodeID;
 	}
 }

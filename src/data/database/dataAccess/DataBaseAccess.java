@@ -90,11 +90,7 @@ public class DataBaseAccess {
 
 	protected String getTableName() {
 		String className = this.getClass().getSimpleName();
-		if(className.equals("EstimateNode")){
-			return "nodeBasicInfo";
-		}else{
-			return className.substring(0, className.length() - 6);
-		}		
+		return className.substring(0, className.length() - 6);
 	}
 
 	public ArrayList<Entity> findAllWhere(String condition) throws SQLException {
@@ -172,8 +168,9 @@ public class DataBaseAccess {
 			}
 			attrList.deleteCharAt(attrList.length() - 1);// 删除最后一个逗号
 			valueList.deleteCharAt(valueList.length() - 1);// 删除最后一个逗号
-			statement.executeUpdate("insert into " + getTableName() + " ("
-					+ attrList + ") values (" + valueList + ")");
+			String sql = "insert into " + getTableName() + " ("
+					+ attrList + ") values (" + valueList + ")";
+			statement.executeUpdate(sql);
 			ResultSet rs = statement.getGeneratedKeys();
 			rs.next();
 			return rs.getInt(1);
