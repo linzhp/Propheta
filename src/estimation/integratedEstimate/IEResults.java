@@ -89,16 +89,22 @@ public class IEResults extends TabContentArea {
 						efforts[i] = (Double) cer_access
 								.getCocomoEstimationByNodeID(
 										children.get(i).getId()).get("devTime") * 152;
-				Double effort = SimpleIntegratedEstimate
-						.getIntegratedEffort(efforts);
-				// 显示集成估算结果
-				createComQuickResults(effort);
-				// 存储集成估算结果
-				saveQuickEstimation(integratedEstimate.getTabID(), "multiple",
-						effort);
-				// 更新基本信息表中的估算类型
-				new NodeBasicInfoAccess().updateEstType(integratedEstimate
-						.getTabID(), QUICK_MULTIPLE);
+				Double effort;
+				try {
+					effort = SimpleIntegratedEstimate
+							.getIntegratedEffort(efforts);
+					// 显示集成估算结果
+					createComQuickResults(effort);
+					// 存储集成估算结果
+					saveQuickEstimation(integratedEstimate.getTabID(), "multiple",
+							effort);
+					// 更新基本信息表中的估算类型
+					new NodeBasicInfoAccess().updateEstType(integratedEstimate
+							.getTabID(), QUICK_MULTIPLE);
+				} catch (SQLException e) {
+					msg.setMessage(e.getMessage());
+					msg.open();
+				}
 			}
 		}
 		// 从数据库得到集成估算数据
