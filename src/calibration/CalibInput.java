@@ -10,11 +10,11 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 
 import data.database.dataAccess.CocomoEstimationAccess;
 import data.database.dataAccess.ConstantsAccess;
@@ -27,6 +27,26 @@ import estimation.COCOMO;
 import gui.tabs.ParameterArea;
 
 public class CalibInput extends ParameterArea {
+	private class SaveAction extends Action{
+		public SaveAction(){
+			super("保存");
+		}
+		
+		@Override
+		public void run(){
+			try {
+				constants.set("A", Double.valueOf(aText.getText()));
+				constants.set("B", Double.valueOf(bText.getText()));
+				constants.set("集成因子", Double.valueOf(itgText.getText()));
+			} catch (NumberFormatException e) {
+				msg.setMessage("数字格式错误，请重新输入");
+				msg.open();
+			} catch (SQLException e) {
+				msg.setMessage(e.getMessage());
+				msg.open();
+			}
+		}
+	}
 	private class CalibAction extends Action {
 		public CalibAction(){
 			super("校准");
@@ -60,10 +80,10 @@ public class CalibInput extends ParameterArea {
 					double a = Math.exp(intercept);
 					String aString = df.format(a);
 					constants.set("A", a);
-					aLabel.setText(aString);
+					aText.setText(aString);
 					String bString = df.format(regression.getSlope());
 					constants.set("B", slope);
-					bLabel.setText(bString);				
+					bText.setText(bString);				
 				} catch (SQLException e) {
 					msg.setMessage(e.getMessage());
 					msg.open();
@@ -83,10 +103,10 @@ public class CalibInput extends ParameterArea {
 			try {
 				String a = COCOMOProperties.readValue("A");
 				constants.set("A", Double.valueOf(a));
-				aLabel.setText(a);
+				aText.setText(a);
 				String b = COCOMOProperties.readValue("B");
 				constants.set("B", Double.valueOf(b));
-				bLabel.setText(b);
+				bText.setText(b);
 			} catch (Exception e) {
 				msg.setMessage(e.getMessage());
 				msg.open();
@@ -96,7 +116,7 @@ public class CalibInput extends ParameterArea {
 	}
 
 	public static final int ID = -2;
-	private Label aLabel, bLabel;
+	private Text aText, bText, itgText;
 	private Table table;
 	private ResetAction resetAction;
 	private ConstantsAccess constants;
@@ -105,8 +125,9 @@ public class CalibInput extends ParameterArea {
 		super(parent, null);
 		constants = new ConstantsAccess();
 		msg = new MessageBox(getShell());
-		form.setText("参数校准");
+		form.setText("参数调整");
 		IToolBarManager toolBarManager = form.getToolBarManager();
+		toolBarManager.add(new SaveAction());
 		toolBarManager.add(new CalibAction());
 		resetAction = new ResetAction();
 		toolBarManager.add(resetAction);
@@ -120,9 +141,11 @@ public class CalibInput extends ParameterArea {
 		panel.setLayout(new GridLayout(2, false));
 		try {
 			toolkit.createLabel(panel, "A =");
-			aLabel = toolkit.createLabel(panel, String.valueOf(constants.get("A")));
+			aText = toolkit.createText(panel, String.valueOf(constants.get("A")),SWT.BORDER);
 			toolkit.createLabel(panel, "B =");
-			bLabel = toolkit.createLabel(panel, String.valueOf(constants.get("B")));
+			bText = toolkit.createText(panel, String.valueOf(constants.get("B")),SWT.BORDER);
+			toolkit.createLabel(panel, "集成因子=");
+			itgText = toolkit.createText(panel, String.valueOf(constants.get("集成因子")),SWT.BORDER);
 		} catch (SQLException e) {
 			msg.setMessage(e.getMessage());
 			msg.open();
