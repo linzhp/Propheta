@@ -99,7 +99,7 @@ public class DEInput extends ParameterArea {
 		Section section = toolkit.createSection(parent,
 				ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR
 						| ExpandableComposite.EXPANDED);
-		section.setText(Messages.DEInput_SF);
+		section.setText("比例因子");
 		Composite sectionClient = toolkit.createComposite(section);
 		scaleFactors = new String[] { "PREC", "FLEX", "RESL", "TEAM", "PMAT" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		buildSectionContent("SF", scaleFactors, sectionClient); //$NON-NLS-1$
