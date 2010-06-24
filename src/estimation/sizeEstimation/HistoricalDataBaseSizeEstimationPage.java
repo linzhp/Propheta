@@ -1,5 +1,6 @@
 package estimation.sizeEstimation;
 
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -11,14 +12,15 @@ import org.eclipse.swt.widgets.Text;
 
 import gui.widgets.ParameterScale;
 
-public class HistoricalDataBaseSizeEstimationPage extends BaseWizardPage{
+public class HistoricalDataBaseSizeEstimationPage extends BaseSizePage{
 
 	private Label labelSLOC;
 	private Text textSLOC;
 	private ParameterScale SLOCScale;
+	public static final String NAME="参考历史数据";
 	
-	protected HistoricalDataBaseSizeEstimationPage(String pageName) {
-		super(pageName);
+	protected HistoricalDataBaseSizeEstimationPage() {
+		super(NAME);
 		this.setTitle("参考历史数据");
 		this.setMessage("根据历史数据选择代码规模");
 	}
@@ -54,20 +56,13 @@ public class HistoricalDataBaseSizeEstimationPage extends BaseWizardPage{
 	}
 
 	@Override
-	protected int getSize() {
-		return Integer.parseInt(this.textSLOC.getText());
+	public IWizardPage getNextPage() {
+		return null;
 	}
 
 	@Override
-	protected boolean isEndPage() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-	
-	@Override
-	public boolean canFlipToNextPage() {
-		// TODO Auto-generated method stub
-		return false;
+	protected int getSize() {
+		return Integer.parseInt(this.textSLOC.getText());
 	}
 
 }

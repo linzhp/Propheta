@@ -1,5 +1,6 @@
 package data.file.pdf;
 
+import java.sql.SQLException;
 import java.text.NumberFormat;
 
 import org.jfree.chart.JFreeChart;
@@ -144,45 +145,50 @@ public class OutputResultPDF {
 				"manuals" };
 		String[] activitiesTex = { "需求", "设计", "编码", "测试计划", "VV", "管理活动",
 				"CM/QA", "文档" };
-		Double E = COCOMO.getE(sumSF);
-		Double[] phaseEfforts = COCOMO.getPhaseEfforts(phasesSym, COCOMO
-				.getSizeLevel(psize), COCOMO.getELevel(E), PM);
-		Double[] scheduleTimes = COCOMO.getScheduleTime(phasesSym, devTime);
-		Double[] persionDistribution = COCOMO.getPersonDistribution(
-				phaseEfforts, scheduleTimes);
-		// 阶段工作量分布图
-		JFreeChart phaseEffortBarChart = Chart.createBarChart("阶段工作量分布", "阶段",
-				"工作量(人.月)", Chart
-						.createCategoryDataset(phasesTex, phaseEfforts));
-		pdf.addChart(phaseEffortBarChart, 400, 300, 0.8);
+		Double E;
+		try {
+			E = COCOMO.getE(sumSF);
+			Double[] phaseEfforts = COCOMO.getPhaseEfforts(phasesSym, COCOMO
+					.getSizeLevel(psize), COCOMO.getELevel(E), PM);
+			Double[] scheduleTimes = COCOMO.getScheduleTime(phasesSym, devTime);
+			Double[] persionDistribution = COCOMO.getPersonDistribution(
+					phaseEfforts, scheduleTimes);
+			// 阶段工作量分布图
+			JFreeChart phaseEffortBarChart = Chart.createBarChart("阶段工作量分布",
+					"阶段", "工作量(人.月)", Chart.createCategoryDataset(phasesTex,
+							phaseEfforts));
+			pdf.addChart(phaseEffortBarChart, 400, 300, 0.8);
 
-		// 阶段的活动工作量图
-		JFreeChart[] activityEffortBarCharts = new JFreeChart[phasesSym.length];
-		Double[] activityEfforts;
-		String title;
-		for (int i = 0; i < phasesSym.length; i++) {
-			activityEfforts = COCOMO.getActivityEfforts(phasesSym[i],
-					activitiesSym, COCOMO.getSizeLevel(psize), COCOMO
-							.getELevel(E), PM, phaseEfforts[i]);
-			title = phasesTex[i] + "阶段的活动工作量分布";
-			activityEffortBarCharts[i] = Chart.createBarChart(title, null,
-					"工作量(人.月)", Chart.createCategoryDataset(activitiesTex,
-							activityEfforts));
-			pdf.addChart(activityEffortBarCharts[i], 400, 300, 0.8);
+			// 阶段的活动工作量图
+			JFreeChart[] activityEffortBarCharts = new JFreeChart[phasesSym.length];
+			Double[] activityEfforts;
+			String title;
+			for (int i = 0; i < phasesSym.length; i++) {
+				activityEfforts = COCOMO.getActivityEfforts(phasesSym[i],
+						activitiesSym, COCOMO.getSizeLevel(psize), COCOMO
+								.getELevel(E), PM, phaseEfforts[i]);
+				title = phasesTex[i] + "阶段的活动工作量分布";
+				activityEffortBarCharts[i] = Chart.createBarChart(title, null,
+						"工作量(人.月)", Chart.createCategoryDataset(activitiesTex,
+								activityEfforts));
+				pdf.addChart(activityEffortBarCharts[i], 400, 300, 0.8);
+			}
+
+			// 阶段进度分布图
+			JFreeChart phaseScheduleGanttChart = Chart.createGanttChart(
+					"项目进度甘特图", "阶段", null, Chart.createScheduleCategoryDataset(
+							phasesTex, scheduleTimes));
+			pdf.addChart(phaseScheduleGanttChart, 400, 300, 0.8);
+
+			// 阶段人员分布图
+			JFreeChart personDistributionChart = Chart.createStepLineChart(
+					"人员分布图", "阶段", "人员量(人)", Chart.createCategoryDataset(
+							phasesTex, persionDistribution));
+
+			pdf.addChart(personDistributionChart, 400, 300, 0.8);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-
-		// 阶段进度分布图
-		JFreeChart phaseScheduleGanttChart = Chart.createGanttChart("项目进度甘特图",
-				"阶段", null, Chart.createScheduleCategoryDataset(phasesTex,
-						scheduleTimes));
-		pdf.addChart(phaseScheduleGanttChart, 400, 300, 0.8);
-
-		// 阶段人员分布图
-		JFreeChart personDistributionChart = Chart.createStepLineChart("人员分布图",
-				"阶段", "人员量(人)", Chart.createCategoryDataset(phasesTex,
-						persionDistribution));
-
-		pdf.addChart(personDistributionChart, 400, 300, 0.8);
 
 	}
 

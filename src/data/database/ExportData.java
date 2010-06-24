@@ -16,7 +16,7 @@ public class ExportData extends DataMigration{
 		DataBaseAccess mainDB = new DataBaseAccess(fromPath);
 		DataBaseAccess toDB = new DataBaseAccess(toPath);
 		ResultSet rs = mainDB.statement.executeQuery("select sql from sqlite_master " +
-				"where name in ('nodeBasicInfo','cocomoestimation', 'quickEstimation')");
+				"where name in ('nodebasicinfo','cocomoestimation', 'quickEstimation')");
 		while(rs.next()){
 			toDB.statement.executeUpdate(rs.getString("sql"));
 		}

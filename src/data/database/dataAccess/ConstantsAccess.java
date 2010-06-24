@@ -29,6 +29,5 @@ public class ConstantsAccess extends DataBaseAccess {
 		} else {
 			return (Double)records.get(0).get("value");
 		}
-
 	}
 }

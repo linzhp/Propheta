@@ -219,7 +219,7 @@ public class Application extends ApplicationWindow {
 		fileMenuManager.add(new ImportAction(true));
 		mainMenu.add(fileMenuManager);
 		// Calibrate Menu
-		MenuManager calibMenuManager = new MenuManager("校准");
+		MenuManager calibMenuManager = new MenuManager("参数");
 		calibMenuManager.add(new CalibOpen());
 		mainMenu.add(calibMenuManager);
 		return mainMenu;

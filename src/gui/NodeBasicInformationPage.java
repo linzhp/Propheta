@@ -2,8 +2,6 @@ package gui;
 
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -12,13 +10,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataEntities.EstimateNode;
 import data.file.Languages;
+import estimation.sizeEstimation.FPWizard;
+import estimation.sizeEstimation.SLOCWizard;
 import estimation.sizeEstimation.SizeEstimationWizard;
 import gui.tabs.ParameterArea;
 
@@ -29,21 +28,34 @@ import gui.tabs.ParameterArea;
  */
 public class NodeBasicInformationPage extends ParameterArea{
 
-	private class TextChanged implements KeyListener {
+	private class SizeEstimatioinListener implements SelectionListener {
+		private SizeEstimationWizard wizard;
+		private Spinner spinner;
+		
+		public SizeEstimatioinListener(SizeEstimationWizard w, Spinner s){
+			wizard = w;
+			spinner = s;
+		}
 		@Override
-		public void keyReleased(KeyEvent e) {}
+		public void widgetDefaultSelected(SelectionEvent e) {
+		}
 
 		@Override
-		public void keyPressed(KeyEvent e) {
+		public void widgetSelected(SelectionEvent e) {
 			setIsInformationChanged(true);
 			saveButton.setEnabled(true);
+			
+			WizardDialog wdialog=new WizardDialog(getShell(),wizard);
+		    wdialog.open();
+		    spinner.setSelection(wizard.getSize());
 		}
 	}
 
 
 	private class FieldChanged implements SelectionListener {
 		@Override
-		public void widgetDefaultSelected(SelectionEvent e) {				
+		public void widgetDefaultSelected(SelectionEvent e) {	
+			widgetSelected(e);
 		}
 
 		@Override
@@ -54,16 +66,11 @@ public class NodeBasicInformationPage extends ParameterArea{
 	}
 
 
-	private Text texNodeName, textSLOC;
-	private Spinner spnTeamSize,spnDuration,spnFP, spnRealSLOC,spnRealEffort;
+	private Text texNodeName;
+	private Spinner spnTeamSize,spnDuration,spnFP, spnEstSLOC, spnRealSLOC,spnRealEffort;
 	private Combo cmbBusinessArea,cmbDevelopType,cmbDevelopPlatform,cmbLanguageType,cmbLanguage;
 	private Composite SLOCComposite, buttonComposite;
 	private Button setSLOCButton,saveButton;
-	
-	private Text getTextSLOC(){
-		return this.textSLOC;
-	}
-	
 	
 	/**
 	 * 构造器
@@ -100,51 +107,26 @@ public class NodeBasicInformationPage extends ParameterArea{
 		texNodeName.setLayoutData(gd);
 		
 		toolkit.createLabel(parent, "团队规模:", SWT.NONE);	
-		spnTeamSize=createSpinner(parent,Spinner.LIMIT,5);
+		spnTeamSize=createSpinner(parent,5,0);
 			
 		
 		toolkit.createLabel(parent, "项目周期:", SWT.NONE);		
-		spnDuration=createSpinner(parent,Spinner.LIMIT,180);
+		spnDuration=createSpinner(parent,180,0);
 		
 		toolkit.createLabel(parent, "代码行数:", SWT.NONE);		
-		
-		
-		
-		//代码行输入面板
-		SLOCComposite=toolkit.createComposite(parent,SWT.NONE);
-		gd=new GridData();
-		gd.horizontalSpan=1;
-		gd.horizontalAlignment=SWT.FILL;
-		SLOCComposite.setLayoutData(gd);
-		SLOCComposite.setLayout(new GridLayout(2,false));
-		
-		textSLOC=toolkit.createText(SLOCComposite, "1000",SWT.BORDER);
-		textSLOC.setSize(300, textSLOC.getSize().y);
-		textSLOC.setEditable(false);
-		gd=new GridData();
-		gd.horizontalAlignment=SWT.FILL;
-		gd.grabExcessHorizontalSpace = true;
-		textSLOC.setLayoutData(gd);
-		
+		SLOCComposite=createSizePane(parent);
+		spnEstSLOC = createSizeSpinner(SLOCComposite);		
 		setSLOCButton=toolkit.createButton(SLOCComposite, "估算", SWT.NONE);
-		setSLOCButton.addSelectionListener(new SelectionListener(){
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				setIsInformationChanged(true);
-				saveButton.setEnabled(true);
-				
-				//设置SLOC wizard
-				WizardDialog wdialog=new WizardDialog(Display.getCurrent().getActiveShell(),new SizeEstimationWizard(getTextSLOC()));
-			    wdialog.open();
-			}});
+		//设置SLOC wizard
+		SLOCWizard slocWizard = new SLOCWizard();
+		setSLOCButton.addSelectionListener(new SizeEstimatioinListener(slocWizard,spnEstSLOC));
 	
-		toolkit.createLabel(parent, "功能点数目:", SWT.NONE);			
-		spnFP=createSpinner(parent,Spinner.LIMIT,200);
+		toolkit.createLabel(parent, "功能点数目:", SWT.NONE);
+		Composite fpComposite=createSizePane(parent);
+		spnFP=createSizeSpinner(fpComposite);
+		Button setFPButton = toolkit.createButton(fpComposite, "估算", SWT.NONE);
+		FPWizard fpWizard = new FPWizard();
+		setFPButton.addSelectionListener(new SizeEstimatioinListener(fpWizard, spnFP));
 		
 		toolkit.createLabel(parent, "业务领域:", SWT.NONE);	
 		String[] texts = new String[]{ "电信", "金融", "流通", "保险", "交通", "媒体", "卫生", "制造",
@@ -173,14 +155,11 @@ public class NodeBasicInformationPage extends ParameterArea{
 		cmbLanguage=createCombo(parent,texts,values,0);
 		
 		toolkit.createLabel(parent, "实际代码行数：");
-		spnRealSLOC = createSpinner(parent, Spinner.LIMIT, (Integer)node.get("realSLOC"));
-		spnRealSLOC.addKeyListener(new TextChanged());
+		spnRealSLOC = createSpinner(parent, (Integer)node.get("realSLOC"),0);
 		
 		toolkit.createLabel(parent, "实际工作量：");
 		int selection = (int) (((Double)node.get("realEffort"))*100);
-		spnRealEffort = createSpinner(parent, Spinner.LIMIT, selection);
-		spnRealEffort.setDigits(2);
-		spnRealEffort.addKeyListener(new TextChanged());
+		spnRealEffort = createSpinner(parent, selection,2);
 		//操作按钮面板
 		buttonComposite=new Composite(parent, SWT.NONE);
 		gd=new GridData();
@@ -209,23 +188,36 @@ public class NodeBasicInformationPage extends ParameterArea{
 		
 	}
 	
+	/**
+	 * 构建规模输入面板
+	 * @param parent
+	 * @return
+	 */
+	private Composite createSizePane(Composite parent){
+		
+		Composite sizePane =toolkit.createComposite(parent,SWT.NONE);
+		GridData gd=new GridData();
+		gd.horizontalAlignment=SWT.FILL;
+		sizePane.setLayoutData(gd);
+		sizePane.setLayout(new GridLayout(2,false));
+		return sizePane;
+	}
+	
+	private Spinner createSizeSpinner(Composite parent){
+		Spinner spnEstSize = createSpinner(parent, 0, 0);
+		GridData gd=new GridData();
+		gd.horizontalAlignment=SWT.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		spnEstSize.setLayoutData(gd);
+		return spnEstSize;
+	}
 	
 	/**
 	 * 构建Spinner控件
-	 * @param text
-	 * @param maxValue
-	 * @param selectedValue
-	 * @return
 	 */
-	private  Spinner createSpinner(Composite parent, int maxValue, int selectedValue){
-		Spinner spn=new Spinner(parent, SWT.BORDER);
-		spn.setMaximum(maxValue);
-		spn.setSelection(selectedValue);
-		GridData gd=new GridData();
-		gd.horizontalAlignment=SWT.FILL;
-		spn.setLayoutData(gd);
+	private  Spinner createSpinner(Composite parent, int selectedValue, int decimal){
+		Spinner spn=Helper.createSpinner(parent, selectedValue, decimal);
 		spn.addSelectionListener(new FieldChanged());
-		
 		return spn;
 	}
 	
@@ -269,7 +261,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 		node.set("developmentPlatform",(String)this.cmbDevelopPlatform.getData(this.cmbDevelopPlatform.getText()));
 		node.set("languageType",this.cmbLanguageType.getData(this.cmbLanguageType.getText()));
 		node.set("language",this.cmbLanguage.getData(this.cmbLanguage.getText()));
-		node.set("estSLOC",Integer.valueOf(textSLOC.getText()));
+		node.set("estSLOC",this.spnEstSLOC.getSelection());
 		
 		node.set("realSLOC", Integer.valueOf(spnRealSLOC.getText()));
 		node.set("realEffort", Double.valueOf(spnRealEffort.getText()));
@@ -285,7 +277,7 @@ public class NodeBasicInformationPage extends ParameterArea{
 			this.texNodeName.setText((String)nbi.get("name"));
 			this.spnTeamSize.setSelection(((Integer)nbi.get("teamSize")));
 			this.spnDuration.setSelection((Integer)nbi.get("duration"));
-			this.textSLOC.setText(String.valueOf(nbi.get("estSLOC")));			
+			this.spnEstSLOC.setSelection((Integer)nbi.get("estSLOC"));			
 			this.spnFP.setSelection((Integer)nbi.get("functionPoints"));
 			this.initCombo(this.cmbBusinessArea, (String)nbi.get("businessArea"));
 			this.initCombo(this.cmbDevelopType, (String)nbi.get("developmentType"));

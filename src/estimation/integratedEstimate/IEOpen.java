@@ -10,14 +10,14 @@ import org.eclipse.swt.widgets.Composite;
 public class IEOpen extends ShowParamTabAction implements
 		ISelectionChangedListener {
 	private IEInput ieInput;
-	public IEOpen()
-	{
+
+	public IEOpen() {
 		super("集成估算");
 	}
 
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
-		
+
 	}
 
 	@Override
@@ -28,23 +28,19 @@ public class IEOpen extends ShowParamTabAction implements
 
 	@Override
 	protected String getTabTitle() {
-		return getNode().getName()+"集成估算";
+		return getNode().getName() + "集成估算";
 	}
 
 	@Override
 	protected Class<? extends ParameterArea> pageClass() {
 		return IEInput.class;
 	}
-	
-	public void run()
-	{
-		//生成标签
+
+	public void run() {
+		// 生成标签
 		super.run();
 		
-		String estType = getNode().getEstType();
-		if(estType.contains("Multiple")){
-			IEShowResult ieShowResult = new IEShowResult(ieInput, true);
-			ieShowResult.run();
-		}		
+		IEShowResult ieShowResult = new IEShowResult(ieInput, true);
+		ieShowResult.run();
 	}
 }

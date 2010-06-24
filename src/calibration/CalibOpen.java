@@ -17,7 +17,7 @@ public class CalibOpen extends ShowParamTabAction {
 
 	@Override
 	protected String getTabTitle() {
-		return "全局参数校准";
+		return "全局参数调整";
 	}
 
 	@Override
