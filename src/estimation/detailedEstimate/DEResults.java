@@ -92,9 +92,9 @@ public class DEResults extends TabContentArea {
 			CocomoEstimationRecord cer = cer_access
 					.getCocomoEstimationByNodeID(this.getTabID());
 
-			PM = (Double) cer.get("PM");
-			devTime = (Double) cer.get("devTime");
-			sumSF = (Double) cer.get("sumSF");
+			PM = Double.parseDouble(cer.get("PM").toString());
+			devTime = Double.parseDouble(cer.get("devTime").toString());
+			sumSF = Double.parseDouble(cer.get("sumSF").toString());
 			factors.putAll((cer.attributes));
 		}
 		// 显示详细估算结果，生成chart

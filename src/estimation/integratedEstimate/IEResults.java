@@ -53,7 +53,7 @@ public class IEResults extends TabContentArea {
 						.getScaleFactors();
 				String SCEDLevel = integratedEstimate.getSCED();
 				for (int i = 0; i < children.size(); i++) {
-					sizes[i] = (Double) children.get(i).get("estSLOC");
+					sizes[i] = Double.valueOf(children.get(i).get("estSLOC").toString());
 					productEMs[i] = (Double) cer_access
 							.getCocomoEstimationByNodeID(
 									children.get(i).getId()).get("productEM");
@@ -115,8 +115,8 @@ public class IEResults extends TabContentArea {
 				CocomoEstimationAccess cer_access = new CocomoEstimationAccess();
 				CocomoEstimationRecord cer = cer_access
 						.getCocomoEstimationByNodeID(this.getTabID());
-				Double PM = (Double) cer.get("PM");
-				Double devTime = (Double) cer.get("devTime");
+				Double PM = Double.valueOf(cer.get("PM").toString());
+				Double devTime = Double.valueOf(cer.get("devTime").toString());
 				// 显示集成估算结果
 				createComCocomoResults(PM, devTime);
 			} else if (QUICK_MULTIPLE.equals(estType)) {

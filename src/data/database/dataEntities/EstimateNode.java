@@ -25,6 +25,7 @@ public class EstimateNode extends Entity{
 		attributes.put("functionPoints", 200);
 		attributes.put("teamSize", 5);
 		attributes.put("duration", 180);
+		attributes.put("estType", "none");
 		//由以下两个值是不是>0来判断是否已完成项目
 		attributes.put("realSLOC", 0);
 		attributes.put("realEffort", 0d);
