@@ -46,6 +46,7 @@ public class IEResults extends TabContentArea {
 					tag = 1;
 					break;
 				}
+			//如果子模块都是COCOMO详细估算，则进行COCOMO集成估算
 			if (tag == 0) {
 				Double[] sizes = new Double[children.size()];
 				Double[] productEMs = new Double[children.size()];
@@ -76,19 +77,23 @@ public class IEResults extends TabContentArea {
 					msg.open();
 					e.printStackTrace();
 				}
-			} else {
+			} 
+			//如果子模块含快速估算，则进行简单集成估算
+			else {
 				Double[] efforts = new Double[children.size()];
 				QuickEstimationAccess qer_access = new QuickEstimationAccess();
 				for (int i = 0; i < children.size(); i++)
+					//子模块为快速估算
 					if (children.get(i).getEstType().contains("quick"))
 						efforts[i] = (Double) qer_access
 								.getQuickEstimationByNodeID(
 										children.get(i).getId()).get(
 										"formulaEffort");
+					//子模块为COCOMO详细估算
 					else
 						efforts[i] = (Double) cer_access
 								.getCocomoEstimationByNodeID(
-										children.get(i).getId()).get("devTime") * 152;
+										children.get(i).getId()).get("PM") * 152;
 				Double effort;
 				try {
 					effort = SimpleIntegratedEstimate

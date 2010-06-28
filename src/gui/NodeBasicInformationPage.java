@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
+import data.database.dataAccess.BusinessAreaAccess;
 import data.database.dataAccess.NodeBasicInfoAccess;
 import data.database.dataEntities.EstimateNode;
 import data.file.Languages;
@@ -20,6 +21,7 @@ import estimation.sizeEstimation.FPWizard;
 import estimation.sizeEstimation.SLOCWizard;
 import estimation.sizeEstimation.SizeEstimationWizard;
 import gui.tabs.ParameterArea;
+import gui.widgets.ParameterCombo;
 
 /**
  * 节点基本信息页面
@@ -130,9 +132,9 @@ public class NodeBasicInformationPage extends ParameterArea{
 		
 		toolkit.createLabel(parent, "业务领域:", SWT.NONE);	
 		String[] texts = new String[]{ "电信", "金融", "流通", "保险", "交通", "媒体", "卫生", "制造",
-				"政府", "能源" };
+				"政府", "能源"};
 		String[] values =new String[]{ "Telecom", "Finance", "Retail", "General","Transport", "Media",
-				"HealthCare", "Manufacturing","PublicAdmin", "Energy" };
+				"HealthCare", "Manufacturing","PublicAdmin", "Energy"};
 		cmbBusinessArea=createCombo(parent,texts,values,0);
 		
 		toolkit.createLabel(parent, "开发类型:", SWT.NONE);
@@ -279,25 +281,13 @@ public class NodeBasicInformationPage extends ParameterArea{
 			this.spnDuration.setSelection((Integer)nbi.get("duration"));
 			this.spnEstSLOC.setSelection((Integer)nbi.get("estSLOC"));			
 			this.spnFP.setSelection((Integer)nbi.get("functionPoints"));
-			this.initCombo(this.cmbBusinessArea, (String)nbi.get("businessArea"));
-			this.initCombo(this.cmbDevelopType, (String)nbi.get("developmentType"));
-			this.initCombo(this.cmbDevelopPlatform, (String)nbi.get("developmentPlatform"));
-			this.initCombo(this.cmbLanguageType, (String)nbi.get("languageType"));
-			this.initCombo(this.cmbLanguage, (String)nbi.get("language"));
+			ParameterCombo.initCombo(this.cmbBusinessArea, (String)nbi.get("businessArea"));
+			ParameterCombo.initCombo(this.cmbDevelopType, (String)nbi.get("developmentType"));
+			ParameterCombo.initCombo(this.cmbDevelopPlatform, (String)nbi.get("developmentPlatform"));
+			ParameterCombo.initCombo(this.cmbLanguageType, (String)nbi.get("languageType"));
+			ParameterCombo.initCombo(this.cmbLanguage, (String)nbi.get("language"));
 		}
 	}	
-	
-	private void initCombo(Combo cmb, String value){
-		if(value!=null){
-			int itemNum=cmb.getItemCount();
-			for(int i=0;i<itemNum;i++){
-				if(value.equals(cmb.getData(cmb.getItem(i)))){
-					cmb.select(i);
-					break;
-				}
-			}
-		}
-	}
 	
 	
 	/**

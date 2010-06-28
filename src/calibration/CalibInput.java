@@ -8,7 +8,10 @@ import org.apache.commons.math.stat.regression.SimpleRegression;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Table;
@@ -16,6 +19,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import data.database.dataAccess.BusinessAreaAccess;
 import data.database.dataAccess.CocomoEstimationAccess;
 import data.database.dataAccess.ConstantsAccess;
 import data.database.dataAccess.NodeBasicInfoAccess;
@@ -25,6 +29,7 @@ import data.file.COCOMOProperties;
 import estimation.COCOMO;
 
 import gui.tabs.ParameterArea;
+import gui.widgets.ParameterCombo;
 
 public class CalibInput extends ParameterArea {
 	private class SaveAction extends Action{
@@ -114,12 +119,34 @@ public class CalibInput extends ParameterArea {
 			}
 		}
 	}
+	
+	private class ComboChanged implements SelectionListener {
+		Double A, B;
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {	
+			widgetSelected(e);
+		}
+
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			try {
+				A = busiAccess.get(busiCombo.getText(), "A");
+				B = busiAccess.get(busiCombo.getText(), "B");
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			aText.setText(A.toString());
+			bText.setText(B.toString());
+		}
+	}
 
 	public static final int ID = -2;
 	private Text aText, bText, itgText;
+	private Combo busiCombo;
 	private Table table;
 	private ResetAction resetAction;
 	private ConstantsAccess constants;
+	private BusinessAreaAccess busiAccess;
 	private MessageBox msg;
 	public CalibInput(Composite parent){
 		super(parent, null);
@@ -140,10 +167,27 @@ public class CalibInput extends ParameterArea {
 		Composite panel = toolkit.createComposite(form.getBody());
 		panel.setLayout(new GridLayout(2, false));
 		try {
+			toolkit.createLabel(panel, "业务领域:");
+			busiAccess = new BusinessAreaAccess();
+			Object[] textsObject = busiAccess.getAllName().toArray();
+			String[] textsString = new String[textsObject.length];
+			for(int i = 0; i < textsObject.length; i++)
+				textsString[i] = (String) textsObject[i];
+//			busiCombo = new ParameterCombo(panel, textsString, textsString, 0);
+//			busiCombo.addSelectionListener(new ComboChanged());
+			busiCombo = new Combo(panel, SWT.READ_ONLY);
+			busiCombo.setItems(textsString);
+			for(int i=0;i<textsString.length;i++){
+				busiCombo.setData(textsString[i], textsString[i]);
+			}
+			busiCombo.addSelectionListener(new ComboChanged());
+			
 			toolkit.createLabel(panel, "A =");
 			aText = toolkit.createText(panel, String.valueOf(constants.get("A")),SWT.BORDER);
+			
 			toolkit.createLabel(panel, "B =");
 			bText = toolkit.createText(panel, String.valueOf(constants.get("B")),SWT.BORDER);
+			
 			toolkit.createLabel(panel, "集成因子=");
 			itgText = toolkit.createText(panel, String.valueOf(constants.get("集成因子")),SWT.BORDER);
 		} catch (SQLException e) {
